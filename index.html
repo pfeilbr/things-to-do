@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Willow Grove Local Guide — Attractions, Events & Fishing</title>
+<meta name="description" content="Sortable, searchable guide to attractions, weekend events, and fishing spots near Willow Grove, PA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pine:#1d3a2f;      /* deep pine green */
+  --creek:#2f6f8f;     /* creek blue */
+  --paper:#f6f4ec;     /* warm paper */
+  --bark:#4a3f35;      /* dark bark text */
+  --moss:#7a9a6d;      /* moss accent */
+  --clay:#b5542d;      /* trail-blaze orange */
+  --line:#d9d4c5;
+  --card:#ffffff;
+  --radius:10px;
+  --shadow:0 1px 3px rgba(29,58,47,.08),0 4px 14px rgba(29,58,47,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--bark);
+  line-height:1.5;
+  font-size:15px;
+}
+header{
+  background:var(--pine);
+  color:var(--paper);
+  padding:28px 20px 20px;
+  border-bottom:4px solid var(--clay);
+}
+.hwrap{max-width:1200px;margin:0 auto}
+h1{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:clamp(30px,5vw,46px);
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  line-height:1.05;
+}
+h1 .pin{color:var(--moss)}
+.sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;
+  opacity:.85;
+  margin-top:6px;
+}
+/* tabs */
+.tabs{
+  display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;
+}
+.tab{
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:600;font-size:17px;letter-spacing:.5px;text-transform:uppercase;
+  background:transparent;color:var(--paper);
+  border:1.5px solid rgba(246,244,236,.4);
+  border-radius:999px;padding:7px 18px;cursor:pointer;
+  transition:background .15s,color .15s;
+}
+.tab:hover{border-color:var(--paper)}
+.tab.active{background:var(--paper);color:var(--pine);border-color:var(--paper)}
+.tab .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.7;margin-left:5px}
+.tab:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+/* controls */
+.controls{
+  max-width:1200px;margin:18px auto 0;padding:0 20px;
+  display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+}
+.search{
+  flex:1;min-width:220px;position:relative;
+}
+.search input{
+  width:100%;padding:10px 14px 10px 36px;
+  border:1.5px solid var(--line);border-radius:var(--radius);
+  background:var(--card);font-family:'Inter',sans-serif;font-size:14px;color:var(--bark);
+}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.45}
+select{
+  padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--radius);
+  background:var(--card);font-family:'Inter',sans-serif;font-size:14px;color:var(--bark);cursor:pointer;
+}
+.meta-line{
+  max-width:1200px;margin:10px auto 0;padding:0 20px;
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8a8171;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;
+}
+/* table */
+.twrap{max-width:1200px;margin:12px auto 60px;padding:0 20px}
+table{
+  width:100%;border-collapse:separate;border-spacing:0;
+  background:var(--card);border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);
+}
+thead th{
+  font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14.5px;
+  letter-spacing:.8px;text-transform:uppercase;
+  text-align:left;padding:12px 14px;
+  background:var(--pine);color:var(--paper);
+  cursor:pointer;user-select:none;white-space:nowrap;
+  position:sticky;top:0;z-index:2;
+}
+thead th .arrow{font-size:11px;opacity:.6;margin-left:4px}
+thead th.sorted .arrow{opacity:1;color:var(--moss)}
+tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:hover{background:#faf8f1}
+.name{font-weight:600;color:var(--pine)}
+.name a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--moss)}
+.name a:hover{color:var(--clay);border-color:var(--clay)}
+.summary{font-size:13.5px;color:#6d6353;max-width:420px}
+.cat{
+  display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  background:#eef1e6;color:var(--pine);border:1px solid #d7ddc8;
+  border-radius:4px;padding:2px 7px;white-space:nowrap;
+}
+.when{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--clay);white-space:nowrap}
+.dist{font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap}
+/* signature: drive band — proportional bar under distance */
+.band{height:4px;border-radius:2px;background:var(--line);margin-top:5px;width:88px;overflow:hidden}
+.band i{display:block;height:100%;background:linear-gradient(90deg,var(--moss),var(--creek))}
+.pop{font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap}
+.pop .star{color:var(--clay)}
+.rc{color:#8a8171;font-size:11px}
+.empty{
+  text-align:center;padding:48px 20px;color:#8a8171;font-size:14px;
+}
+/* mobile cards */
+.cards{display:none}
+@media (max-width:760px){
+  table{display:none}
+  .cards{display:grid;gap:10px}
+  .card{
+    background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
+    padding:14px 16px;border-left:4px solid var(--moss);
+  }
+  .card .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+  .card .name{font-size:15.5px}
+  .card .dist{font-size:12px}
+  .card .summary{margin-top:6px;max-width:none}
+  .card .row2{margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .controls{flex-direction:column;align-items:stretch}
+  .controls select{width:100%}
+}
+footer{
+  background:var(--pine);color:rgba(246,244,236,.75);
+  padding:20px;text-align:center;font-size:12.5px;
+  font-family:'JetBrains Mono',monospace;
+}
+footer a{color:var(--moss)}
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <h1>Willow Grove <span class="pin">Local Guide</span></h1>
+    <div class="sub">40.1436°N 75.1216°W · attractions / weekend events (Jul 17–19 2026) / fishing spots · distances estimated from Willow Grove, PA</div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" data-tab="attractions">Attractions <span class="cnt" id="cnt-attractions"></span></button>
+      <button class="tab" role="tab" data-tab="events">Weekend Events <span class="cnt" id="cnt-events"></span></button>
+      <button class="tab" role="tab" data-tab="fishing">Fishing <span class="cnt" id="cnt-fishing"></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="q" type="search" placeholder="Search name, summary, category…" autocomplete="off">
+  </div>
+  <select id="catFilter" aria-label="Filter by category"><option value="">All categories</option></select>
+  <select id="distFilter" aria-label="Filter by drive time">
+    <option value="">Any drive</option>
+    <option value="10">≤ 10 min</option>
+    <option value="20">≤ 20 min</option>
+    <option value="30">≤ 30 min</option>
+    <option value="45">≤ 45 min</option>
+    <option value="60">≤ 60 min</option>
+  </select>
+</div>
+<div class="meta-line"><span id="showing"></span><span>click a column header to sort</span></div>
+
+<div class="twrap">
+  <table id="tbl" aria-live="polite">
+    <thead><tr id="theadRow"></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <div class="cards" id="cards"></div>
+  <div class="empty" id="empty" hidden>No matches. Clear the search or filters to see everything.</div>
+</div>
+
+<footer>
+  Data gathered Jul 2026 from Google Places, VisitPhilly, Metro Philadelphia, Visit Bucks County, PA DCNR, PFBC stream guides & local calendars.<br>
+  Drive times are straight-line ×1.3 at ~32 mph — verify before you go. Fishing requires a PA license (+ trout stamp on stocked water).
+</footer>
+
+<script>
+const DATA = {
+attractions: [
+{n:"Willow Grove Park Mall",c:"Shopping",d:0.3,t:1,r:4.4,rc:5000,s:"3-level mall with arcade, food court, carousel.",u:"https://willowgroveparkmall.com/"},
+{n:"Hilltop Haven Wine and Farm Market",c:"Winery/Farm",d:0.3,t:1,r:5.0,rc:3,s:"Local wine & farm market, live piano, cheese and soaps.",u:null},
+{n:"Tilted 10",c:"Entertainment",d:0.4,t:1,r:4.0,rc:2000,s:"Bowling, mini golf, arcade, laser tag under one roof.",u:"https://tilted10.com/willow-grove/"},
+{n:"Ship To Fun",c:"Kids",d:0.4,t:1,r:4.5,rc:200,s:"Indoor playground; private parties.",u:null},
+{n:"Veteran's Memorial Park",c:"Park",d:0.6,t:1,r:4.5,rc:600,s:"Walking trails, picnic areas, gazebo.",u:"https://www.uppermoreland.org/"},
+{n:"Buehler Park Nature Study Area",c:"Park/Nature",d:1.2,t:2,r:4.2,rc:45,s:"Short wooded loop trail tucked between neighborhoods.",u:null},
+{n:"Urban Air Trampoline & Adventure Park",c:"Entertainment",d:1.4,t:3,r:4.4,rc:1500,s:"Indoor trampoline & adventure park.",u:"https://www.urbanair.com/pennsylvania-willow-grove/"},
+{n:"Huntingdon Valley Country Club",c:"Golf",d:2.1,t:4,r:4.6,rc:206,s:"Top-ranked private club (members/events).",u:null},
+{n:"Sprouts Farmers Market",c:"Market",d:2.3,t:4,r:4.5,rc:750,s:"Fresh produce, deli, butcher, bulk goods.",u:null},
+{n:"Farmstead Park",c:"Historic Park",d:3.0,t:6,r:4.5,rc:39,s:"Historic farmstead site, soccer field, walking trail.",u:null},
+{n:"Crooked Eye Brewery",c:"Brewery",d:3.4,t:6,r:4.7,rc:277,s:"Craft brewery in Hatboro, live music, dive-bar charm.",u:null},
+{n:"Rose Bridge Farm",c:"Farm/Animals",d:4.1,t:8,r:4.7,rc:400,s:"Animal sanctuary with workshops and farm tours.",u:"https://rosebridgefarmsanctuary.com/"},
+{n:"Glenside Farmers Market",c:"Market",d:4.4,t:8,r:4.4,rc:25,s:"Saturday-morning market: meats, produce, baked goods, honey (Apr–Nov).",u:"https://montgomerycountyalive.com/events/"},
+{n:"The Abington Club",c:"Golf/Fitness",d:4.9,t:9,r:3.8,rc:143,s:"9-hole course, gym, indoor + outdoor pools.",u:null},
+{n:"Lorimer Park",c:"Park",d:5.3,t:10,r:4.8,rc:1617,s:"Hiking trails, cave, rock climbing, picnic pavilions along the Pennypack.",u:null},
+{n:"Commonwealth National Golf Club",c:"Golf",d:6.1,t:11,r:4.8,rc:98,s:"Well-maintained private course, scenic wooded holes.",u:null},
+{n:"Cheshire Brewing Co.",c:"Brewery",d:6.4,t:12,r:4.6,rc:92,s:"Alice-in-Wonderland-themed brewery; board games, karaoke, open mic.",u:null},
+{n:"Naked Brewing Company",c:"Brewery",d:6.5,t:12,r:4.7,rc:179,s:"Creative small-batch beer in Huntingdon Valley; darts, live music.",u:null},
+{n:"Regal Warrington Crossing",c:"Movies",d:6.7,t:13,r:4.3,rc:3909,s:"4DX & IMAX screens, modern amenities.",u:null},
+{n:"Historic Hope Lodge",c:"Historic Site",d:6.7,t:12,r:4.6,rc:63,s:"Colonial mansion; self-guided tours Sundays 1–4.",u:null},
+{n:"Five Ponds Golf Club",c:"Golf",d:6.8,t:13,r:4.4,rc:272,s:"Public course with banquet venue & bar/grill.",u:null},
+{n:"Four Mills Nature Reserve",c:"Nature",d:7.2,t:13,r:4.6,rc:217,s:"Creek-side trails, stone crossings, old-growth trees; links to Green Ribbon Trail.",u:null},
+{n:"Fort Washington State Park",c:"State Park",d:7.3,t:14,r:4.6,rc:1314,s:"Hiking, picnic areas, hawk-watch observation deck.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/fort-washington-state-park.html"},
+{n:"Chestnut Hill Brewing Company",c:"Brewery",d:8.4,t:16,r:4.7,rc:499,s:"Vegan-friendly brewpub with wood-fired pizza, beer garden, live music.",u:null},
+{n:"Moland House",c:"Historic Site",d:8.6,t:16,r:4.8,rc:87,s:"Rev-War site where Washington first met Lafayette; monthly colonial cooking demos.",u:null},
+{n:"Woodmere Maguire Hall",c:"Art Museum",d:8.6,t:16,r:5.0,rc:12,s:"Philadelphia-area art collection in a restored mansion; sculpture garden.",u:null},
+{n:"Karamoor Estate Vineyard & Winery",c:"Winery",d:8.8,t:17,r:4.4,rc:90,s:"Elegant estate winery in Blue Bell; Fri–Sun tastings.",u:null},
+{n:"Kohler Farms",c:"Farm",d:9.1,t:17,r:4.6,rc:158,s:"Farm market, flowers, hayrides, black-cherry ice cream.",u:null},
+{n:"AMC 309 Cinema 9",c:"Movies",d:9.1,t:17,r:4.4,rc:2336,s:"Reclining seats, multiple screens.",u:null},
+{n:"Maple Acres Farm Market",c:"Farm",d:10.7,t:20,r:4.7,rc:685,s:"Farm animals, pick-your-own flowers, produce, ice cream. Free to visit.",u:null},
+{n:"AMC Plymouth Meeting Mall 12",c:"Movies",d:11.1,t:21,r:4.0,rc:2767,s:"12-screen theater inside Plymouth Meeting Mall.",u:null},
+{n:"Tyler State Park",c:"State Park",d:12.7,t:24,r:4.8,rc:3499,s:"Covered bridge, Neshaminy Creek, horse trails, sledding hills.",u:null},
+{n:"Amazing Escape Room Montgomeryville",c:"Escape Room",d:13.3,t:25,r:5.0,rc:5948,s:"Highly rated themed escape rooms.",u:null},
+{n:"Escapopolis Escape Rooms",c:"Escape Room",d:14.5,t:27,r:5.0,rc:760,s:"Themed rooms in Lansdale; friendly game masters.",u:null},
+{n:"Elmwood Park Zoo",c:"Zoo",d:14.9,t:28,r:4.5,rc:5000,s:"Mid-size conservation-focused zoo in Norristown.",u:"http://www.elmwoodparkzoo.org/"},
+{n:"Peter Wentz Farmstead",c:"Historic Site",d:15.7,t:29,r:4.7,rc:169,s:"1744 Pennsylvania-German farmstead; free tours, craft demos.",u:null},
+{n:"Philadelphia Museum of Art",c:"Museum",d:16.5,t:31,r:4.8,rc:23317,s:"World-class collection across 2,000 years; the Rocky Steps.",u:"https://www.philamuseum.org/"},
+{n:"The Franklin Institute",c:"Museum",d:17.0,t:32,r:4.6,rc:13864,s:"Science museum: planetarium, giant walk-through heart, Baldwin locomotive.",u:"https://www.fi.edu/"},
+{n:"Museum of Illusions Philadelphia",c:"Museum",d:17.4,t:33,r:4.5,rc:3969,s:"60+ interactive optical-illusion exhibits in Old City.",u:"https://museumofillusions.us/philadelphia/"},
+{n:"Mütter Museum",c:"Museum",d:17.5,t:33,r:4.6,rc:6596,s:"Famed medical-history museum: anatomical specimens & oddities.",u:"https://muttermuseum.org/"},
+{n:"The Escape Game King of Prussia",c:"Escape Room",d:18.5,t:35,r:5.0,rc:10199,s:"Polished multi-room escape games at the KOP mall.",u:null},
+{n:"Expedition Escape! King of Prussia",c:"Escape Room",d:18.8,t:35,r:5.0,rc:14119,s:"Top-reviewed escape rooms; private bookings.",u:null},
+{n:"Bishop Estate Vineyard and Winery",c:"Winery",d:19.6,t:37,r:4.7,rc:521,s:"Multiple tasting rooms; weekend food trucks & live music.",u:null},
+{n:"Evansburg State Park",c:"State Park",d:20.1,t:38,r:4.6,rc:1393,s:"8 miles of Skippack Creek; wooded loop trails, horse trails.",u:null},
+{n:"Stoneleigh: A Natural Garden",c:"Garden",d:20.5,t:38,r:4.8,rc:800,s:"Free 42-acre public garden on a Villanova estate.",u:"https://natlands.org/stoneleigh/"},
+{n:"Valley Forge National Historical Park",c:"Historic Site",d:23.5,t:44,r:4.8,rc:8748,s:"Revolutionary War encampment; visitor center, drive/bike loop, free entry.",u:"https://www.nps.gov/vafo/"},
+{n:"Ridley Creek State Park",c:"State Park",d:28.1,t:53,r:4.7,rc:3445,s:"Expansive hiking trails, historic buildings, creek access.",u:null},
+{n:"Green Lane Park",c:"Park",d:29.5,t:55,r:4.7,rc:2500,s:"Montco's biggest park: 814-ac reservoir, trails, boat rentals.",u:"https://montgomerycountypa.gov/"},
+{n:"Longwood Gardens",c:"Garden",d:45.0,t:84,r:4.8,rc:40000,s:"World-famous horticultural display; illuminated fountain shows.",u:"https://longwoodgardens.org/"},
+{n:"French Creek State Park",c:"State Park",d:46.3,t:87,r:4.7,rc:3054,s:"Camping, glamping, two lakes, extensive wooded trails.",u:null}
+],
+events: [
+{n:"Glenside Farmers Market",c:"Market",d:4.4,t:8,w:"Sat 7/18 · 9:30a–1p",s:"Weekly Saturday market: meats, farm eggs, produce, baked goods, honey, jams.",u:"https://montgomerycountyalive.com/events/"},
+{n:"NT Live: The Audience — Ambler Theater",c:"Film/Theater",d:6.9,t:13,w:"Sun 7/19 · 12p",s:"National Theatre Live screening at the nonprofit Ambler Theater.",u:"https://allevents.in/ambler-pa/all"},
+{n:"Ambler Farmers Market Grand Opening",c:"Market",d:7.0,t:13,w:"Sat 7/18 · 9a",s:"Grand opening at La Provence: farmers, artisans, food creators, bakers.",u:"https://allevents.in/ambler-pa/all"},
+{n:"Ambler Food Truck Fridays: Cousins Maine Lobster",c:"Food",d:7.1,t:13,w:"Fri 7/17 · 5p",s:"Food-truck night at Well Crafted Ambler.",u:"https://allevents.in/ambler-pa/all"},
+{n:"High Point Philly Friday Market",c:"Market",d:10.2,t:19,w:"Fri 7/17 (weekly)",s:"Local artists, makers & musicians at Allen Lane Station, Mt. Airy. Free.",u:"https://www.chestnuthilllocal.com/stories/untitled,40027"},
+{n:"Andalusia Garden Tours",c:"Tour",d:10.7,t:20,w:"Fri 7/17 · 1p (weekly)",s:"Guided garden walk at the historic Andalusia estate on the Delaware.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
+{n:"Doylestown at Dusk Car Show",c:"Car Show",d:15.0,t:28,w:"Sat 7/18 · 5–10p",s:"500+ classic & antique vehicles fill downtown Doylestown; live music, food.",u:"https://buckscountyparent.com/events/"},
+{n:"Under the El Bazaar: Christmas in July",c:"Street Fair",d:15.6,t:29,w:"Sat 7/18 · 12–6p",s:"Free Fishtown block party: artisans, vintage vendors, live music, Santa photos 1–3.",u:"https://www.metrophiladelphia.com/stories/fun-things-to-do-philly-this-weekend,147863"},
+{n:"Summer Ale Fest at Philadelphia Zoo",c:"Festival",d:16.0,t:30,w:"Sat 7/18 · 7–10p",s:"Adults-only after-hours zoo: 100+ beers/ciders/seltzers, food trucks, live bands. Online tickets only.",u:"https://www.phillymag.com/things-to-do/weekend-philadelphia/"},
+{n:"Philadelphia Chinese Lantern Festival",c:"Festival",d:16.7,t:31,w:"Nightly 6–11p thru 8/16",s:"200-ft dragon and massive light displays in Franklin Square; food & performances. $16–29.",u:"https://thephiladelphiacitizen.org/things-to-do-philly-weekend/"},
+{n:"Lancaster Avenue Jazz & Arts Festival",c:"Music",d:16.9,t:32,w:"Sat 7/18 · 12–7p",s:"Free West Powelton jazz festival at Saunders Park Greene — this year honoring John Coltrane.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Franklin Fountain: Ice Cream Soda Anniversary",c:"Food/History",d:17.5,t:33,w:"Sat 7/18 · 11a–1p",s:"Philly's 52 Weeks of Firsts marks the ice cream soda's local origin.",u:"https://www.visitphilly.com/articles/philadelphia/top-things-to-do-in-philadelphia-in-july/"},
+{n:"RiverRink Summerfest & Spruce St Harbor Park",c:"Festival",d:17.9,t:34,w:"Daily; live ent. Thu–Sat",s:"Roller skating, rides, mini-golf, hammocks & boardwalk food on the Delaware. Free entry.",u:"https://www.delawareriverwaterfront.com/where-to-go/independence-blue-cross-riverrink-summerfest"},
+{n:"Philly Youth Music Fest",c:"Music",d:17.9,t:34,w:"This weekend",s:"Young musicians take the stage at Spruce Street Harbor Park.",u:"https://thephiladelphiacitizen.org/things-to-do-philly-weekend/"},
+{n:"Tai Chi & Meditation on the Barge",c:"Wellness",d:17.9,t:34,w:"Sat 7/18 · 11a",s:"Free guided tai chi + meditation on the double-decker barge at Spruce St Harbor Park.",u:"https://news.ibx.com/riverrink-summerfest-2026/"},
+{n:"Summer unWINEd Concert Series — Shady Brook Farm",c:"Music",d:18.9,t:35,w:"Fri night + Sat",s:"Live music, food & drink at the Yardley farm; themed Saturday nights.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
+{n:"Christmas in July — Blank Space, Yardley",c:"Street Fair",d:20.9,t:39,w:"Sat 7/18 · 11a–4p",s:"Holiday-themed vendor & craft fair at Blank Space Community Center.",u:"https://buckscountyparent.com/events/"},
+{n:"Peddler's Village: An American Road Trip",c:"Festival",d:21.2,t:40,w:"Daily thru 8/31",s:"Giant sand sculptures of US landmarks (Statue of Liberty, Rushmore, Golden Gate) across the village.",u:"https://peddlersvillage.com/festivals/"},
+{n:"Dublin Vol. Fire Co. Fireman's Fair",c:"Fair",d:21.5,t:40,w:"Thru Sat 7/18",s:"100+ year tradition: rides, games, food, raffles, fireworks.",u:"https://buckscountyparent.com/events/"},
+{n:"Phillies vs. Mets",c:"Sports",d:21.6,t:40,w:"Sat–Sun 7/18–19",s:"Home series at Citizens Bank Park the week after the All-Star Game.",u:"https://www.visitphilly.com/articles/philadelphia/top-things-to-do-in-philadelphia-in-july/"},
+{n:"Diplo's Run Club Philadelphia 5K",c:"Sports",d:22.0,t:41,w:"Sat 7/18 · 7a",s:"5K starting/finishing at the Linc with a post-race Diplo concert.",u:"https://thephiladelphiacitizen.org/things-to-do-philly-weekend/"},
+{n:"FDR Park Summer Market & Vendor Fair",c:"Market",d:22.2,t:42,w:"Fri–Sun 7/17–19 · 10a–5p",s:"3-day market: local makers, fashion, home décor, specialty foods. Free admission.",u:"https://975thefanatic.com/2026/07/15/things-to-do-in-philadelphia-this-weekend-july-17-july-19/"},
+{n:"Wicked Gluten Free Expo & Food Festival",c:"Food",d:23.6,t:44,w:"Sat 7/18 · 10a–5p",s:"110+ celiac-safe vendors at the Greater Philadelphia Expo Center, Oaks; demos, free parking.",u:"https://www.metrophiladelphia.com/stories/fun-things-to-do-philly-this-weekend,147863"},
+{n:"Hellerick's Family Farm Summer Concert",c:"Music",d:23.7,t:44,w:"Fri 7/17 evening",s:"Friday-evening farm concert: food trucks, soft ice cream, mini donuts.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
+{n:"Green Lane Park Summer Concert Series",c:"Music",d:29.7,t:56,w:"Sat 7/18",s:"Free outdoor county-park concert (monthly series May–Oct).",u:"https://montgomerycountypa.gov/3474/Events"},
+{n:"Harrah's Philly Foodie & Fireworks Festival",c:"Food",d:32.0,t:60,w:"Sat 7/18 · 2–10p",s:"250+ menu items from 100+ vendors in Chester; 250th-anniversary theme, fireworks.",u:"https://www.metrophiladelphia.com/stories/fun-things-to-do-philly-this-weekend,147863"},
+{n:"Penns Woods Winery Cars & Coffee",c:"Car Show",d:39.8,t:75,w:"Sat 7/18 · 12–4p",s:"Vintage cars at the Chadds Ford winery; live music, artisan market, Federal Donuts.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Longwood Gardens Illuminated Fountains",c:"Festival",d:45.0,t:84,w:"Weekend evenings",s:"Dazzling music-synced fountain performances after dark.",u:"https://mainlinetoday.com/things-to-do/main-line-weekend/"},
+{n:"Pineapple Cup Polo",c:"Sports",d:50.2,t:94,w:"Sun 7/19 · 1:30–5p",s:"Hawaiian-attire polo afternoon in Toughkenamon; wine, beer & cocktails at the Polo Bar. BYO chair.",u:"https://mainlinetoday.com/things-to-do/main-line-weekend/"}
+],
+fishing: [
+{n:"Masons Mill Park Pond",c:"Pond",d:3.2,t:6,r:4.7,rc:1721,s:"Small pond in a big Upper Moreland park; panfish, easy family fishing.",u:"https://www.uppermoreland.org/"},
+{n:"Pennypack Creek @ Lorimer Park",c:"Creek/Trout",d:5.3,t:10,r:4.8,rc:1617,s:"Stocked rainbow/brown/palomino trout (spring + Oct); put-and-take; sunfish & rock bass in summer.",u:"https://www.physics.upenn.edu/~wk/local-streams.html"},
+{n:"Loch Alsh Reservoir (Ambler)",c:"Reservoir",d:5.7,t:11,r:4.0,rc:71,s:"Stocked trout + carp; quiet suburban sleeper, bank fishing, line-recycling bins.",u:"https://www.yelp.com/search?cflt=fishing&find_loc=Montgomery+County%2C+PA"},
+{n:"Wissahickon Creek @ Fort Washington SP",c:"Creek/Trout",d:7.3,t:14,r:4.6,rc:1314,s:"Stocked trout section through the state park; deep pools; October extended-season stocking.",u:"https://www.physics.upenn.edu/~wk/local-streams.html"},
+{n:"Churchville Reservoir",c:"Reservoir",d:8.1,t:15,r:4.7,rc:900,s:"Shoreline fishing at the nature center; bass & panfish.",u:"https://churchvillenaturecenter.org/"},
+{n:"Wissahickon Creek @ Valley Green",c:"Creek/Trout",d:10.2,t:19,r:4.8,rc:6926,s:"8 miles of stocked trout water through the Wissahickon gorge — the classic Philly fly water.",u:"https://www.visitpa.com/blog/post/best-pennsylvania-trout-fishing-spots/"},
+{n:"Neshaminy Creek @ Tyler State Park",c:"Creek/Bass",d:12.7,t:24,r:4.8,rc:3499,s:"Smallmouth, largemouth, crappie, carp; bank + canoe; special-reg trout water below the causeway dam.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
+{n:"Schuylkill River @ Flat Rock Dam",c:"River",d:12.8,t:24,r:4.6,rc:500,s:"Manayunk access; smallmouth, channel cats, muskie in an urban setting.",u:"https://fishbrain.com/cities/us/pa/willow-grove"},
+{n:"Stony Creek Park (Lansdale)",c:"Pond",d:14.9,t:28,r:4.6,rc:700,s:"Small lake with fountain; bass & panfish; family-friendly.",u:"https://www.yelp.com/search?find_desc=fishing+spots&find_loc=Montgomery+County,+PA"},
+{n:"Neshaminy State Park (Delaware R.)",c:"River",d:15.1,t:28,r:4.5,rc:3000,s:"Tidal Delaware: stripers, catfish, bass, muskie; boat launch.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
+{n:"Lake Luxembourg @ Core Creek Park",c:"Lake",d:15.3,t:29,r:4.7,rc:2983,s:"165-ac lake; bass, crappie, cats; 24-hr fishing dock, launch, paddle rentals.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
+{n:"Norristown Farm Park (Stony Creek)",c:"Creek/Trout",d:15.9,t:30,r:4.7,rc:2000,s:"Stocked trout in Stony Creek; meadows and paved-trail access.",u:"https://www.yelp.com/search?find_desc=fishing+spots&find_loc=Montgomery+County,+PA"},
+{n:"Lake Galena @ Peace Valley Park",c:"Lake",d:16.4,t:31,r:4.8,rc:71,s:"365-ac lake: walleye, bass, panfish; rentals + full loop trail. Top Bucks fishery.",u:"https://www.yelp.com/search?find_desc=fishing+spots&find_loc=Montgomery+County,+PA"},
+{n:"Fischer's Park (Towamencin Creek)",c:"Creek",d:17.8,t:33,r:4.8,rc:1184,s:"Fishing pier + creek; very family-friendly Harleysville park.",u:"https://www.yelp.com/search?cflt=fishing&find_loc=Montgomery+County%2C+PA"},
+{n:"Silver Lake (Bristol)",c:"Lake",d:18.2,t:34,r:4.4,rc:23,s:"Warm-water bass/panfish; lily-pad channels; kayak-friendly, nature center on shore.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
+{n:"Evansburg State Park (Skippack Creek)",c:"Creek/Trout",d:20.1,t:38,r:4.6,rc:1393,s:"8 miles of Skippack Creek: stocked trout, smallmouth, sunnies.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/evansburg-state-park.html"},
+{n:"Levittown Lake",c:"Lake",d:20.8,t:39,r:4.2,rc:47,s:"Stocked trout spring + fall; holds big bass; electric/unpowered boats only.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
+{n:"Delaware Canal SP (towpath)",c:"Canal/River",d:20.9,t:39,r:4.7,rc:1500,s:"Canal + Delaware River access along the towpath; 50-ac pond, 11 river islands.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
+{n:"Green Lane Reservoir",c:"Reservoir",d:29.5,t:55,r:4.7,rc:2500,s:"814-ac, up to 45 ft deep: walleye, hybrid stripers, big bass, crappie; boat rentals.",u:"https://www.aquamarinepower.com/best-fishing-spots-montgomery-county-pa/"},
+{n:"Lake Nockamixon",c:"Lake",d:29.9,t:56,r:4.7,rc:6000,s:"1,450-ac premier lake: muskie, hybrid stripers, walleye, bass; marinas & launches.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/nockamixon-state-park.html"}
+]
+};
+
+const COLS = {
+  attractions: [
+    {k:"n",label:"Name",type:"str"},
+    {k:"c",label:"Category",type:"str"},
+    {k:"s",label:"Summary",type:"str",nosort:true},
+    {k:"d",label:"Distance",type:"num"},
+    {k:"t",label:"Drive",type:"num"},
+    {k:"pop",label:"Popularity",type:"num"}
+  ],
+  events: [
+    {k:"n",label:"Event",type:"str"},
+    {k:"c",label:"Type",type:"str"},
+    {k:"w",label:"When",type:"str"},
+    {k:"s",label:"Summary",type:"str",nosort:true},
+    {k:"d",label:"Distance",type:"num"},
+    {k:"t",label:"Drive",type:"num"}
+  ],
+  fishing: [
+    {k:"n",label:"Spot",type:"str"},
+    {k:"c",label:"Water",type:"str"},
+    {k:"s",label:"What you'll catch",type:"str",nosort:true},
+    {k:"d",label:"Distance",type:"num"},
+    {k:"t",label:"Drive",type:"num"},
+    {k:"pop",label:"Popularity",type:"num"}
+  ]
+};
+
+let state = { tab:"attractions", q:"", cat:"", maxT:"", sortKey:"d", sortDir:1 };
+const MAXDRIVE = 94;
+const $ = id => document.getElementById(id);
+
+function pop(row){ return (row.rc||0) * (row.r||0); }
+
+function rows(){
+  let list = DATA[state.tab].slice();
+  const q = state.q.trim().toLowerCase();
+  if(q) list = list.filter(r => (r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")).toLowerCase().includes(q));
+  if(state.cat) list = list.filter(r => r.c === state.cat);
+  if(state.maxT) list = list.filter(r => r.t <= +state.maxT);
+  const k = state.sortKey, dir = state.sortDir;
+  list.sort((a,b)=>{
+    let av,bv;
+    if(k==="pop"){av=pop(a);bv=pop(b);}
+    else {av=a[k];bv=b[k];}
+    if(typeof av==="string") return av.localeCompare(bv)*dir;
+    return (av-bv)*dir;
+  });
+  return list;
+}
+
+function fmtPop(r){
+  if(r.r==null) return "—";
+  const rc = r.rc>=1000 ? (r.rc/1000).toFixed(1).replace(/\.0$/,"")+"k" : r.rc;
+  return `<span class="pop"><span class="star">★</span> ${r.r.toFixed(1)} <span class="rc">(${rc})</span></span>`;
+}
+function nameCell(r){
+  return r.u ? `<span class="name"><a href="${r.u}" target="_blank" rel="noopener">${r.n}</a></span>` : `<span class="name">${r.n}</span>`;
+}
+function distCell(r){
+  const w = Math.max(4, Math.round(r.t / MAXDRIVE * 100));
+  return `<span class="dist">${r.d.toFixed(1)} mi</span><div class="band" title="~${r.t} min drive"><i style="width:${w}%"></i></div>`;
+}
+
+function render(){
+  const cols = COLS[state.tab];
+  // header
+  $("theadRow").innerHTML = cols.map(c=>{
+    const sorted = state.sortKey===c.k;
+    const arrow = sorted ? (state.sortDir===1?"▲":"▼") : "↕";
+    return `<th data-k="${c.k}" class="${sorted?'sorted':''}" ${c.nosort?'data-nosort="1" style="cursor:default"':''}>${c.label}${c.nosort?'':` <span class="arrow">${arrow}</span>`}</th>`;
+  }).join("");
+  // rows
+  const list = rows();
+  $("tbody").innerHTML = list.map(r=>{
+    return "<tr>"+cols.map(c=>{
+      if(c.k==="n") return `<td>${nameCell(r)}</td>`;
+      if(c.k==="c") return `<td><span class="cat">${r.c}</span></td>`;
+      if(c.k==="s") return `<td><span class="summary">${r.s}</span></td>`;
+      if(c.k==="w") return `<td><span class="when">${r.w}</span></td>`;
+      if(c.k==="d") return `<td>${distCell(r)}</td>`;
+      if(c.k==="t") return `<td><span class="dist">~${r.t} min</span></td>`;
+      if(c.k==="pop") return `<td>${fmtPop(r)}</td>`;
+      return "<td></td>";
+    }).join("")+"</tr>";
+  }).join("");
+  // cards (mobile)
+  $("cards").innerHTML = list.map(r=>`
+    <div class="card">
+      <div class="top">${nameCell(r)}<span class="dist">${r.d.toFixed(1)} mi · ~${r.t}m</span></div>
+      <div class="row2">
+        <span class="cat">${r.c}</span>
+        ${r.w?`<span class="when">${r.w}</span>`:""}
+        ${r.r!=null?fmtPop(r):""}
+      </div>
+      <div class="summary">${r.s}</div>
+    </div>`).join("");
+  $("empty").hidden = list.length>0;
+  $("showing").textContent = `showing ${list.length} of ${DATA[state.tab].length}`;
+  // header sort listeners
+  document.querySelectorAll("#theadRow th").forEach(th=>{
+    if(th.dataset.nosort) return;
+    th.addEventListener("click",()=>{
+      const k = th.dataset.k;
+      if(state.sortKey===k) state.sortDir*=-1;
+      else { state.sortKey=k; state.sortDir = (k==="pop") ? -1 : 1; }
+      render();
+    });
+  });
+}
+
+function fillCats(){
+  const cats = [...new Set(DATA[state.tab].map(r=>r.c))].sort();
+  $("catFilter").innerHTML = `<option value="">All categories</option>`+cats.map(c=>`<option>${c}</option>`).join("");
+  state.cat="";
+}
+
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    state.tab = t.dataset.tab;
+    state.q=""; $("q").value="";
+    state.maxT=""; $("distFilter").value="";
+    if(state.tab==="fishing"){ state.sortKey="pop"; state.sortDir=-1; }
+    else { state.sortKey="d"; state.sortDir=1; }
+    fillCats(); render();
+  });
+});
+$("q").addEventListener("input",e=>{state.q=e.target.value;render();});
+$("catFilter").addEventListener("change",e=>{state.cat=e.target.value;render();});
+$("distFilter").addEventListener("change",e=>{state.maxT=e.target.value;render();});
+
+// tab counts
+for(const k of Object.keys(DATA)) $("cnt-"+k).textContent = DATA[k].length;
+fillCats();
+render();
+</script>
+</body>
+</html>
