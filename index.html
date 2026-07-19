@@ -8,6 +8,14 @@
 <meta http-equiv="Expires" content="0">
 <title>Willow Grove Local Guide — Attractions, Events & Fishing</title>
 <meta name="description" content="Sortable, searchable guide to attractions, weekend events, and fishing spots near Willow Grove, PA.">
+<meta name="theme-color" content="#1d3a2f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WG Guide">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -177,11 +185,47 @@ footer{
   font-family:'JetBrains Mono',monospace;
 }
 footer a{color:var(--moss)}
+/* hamburger menu */
+.hwrap{position:relative}
+.burger{
+  position:absolute;top:0;right:0;
+  background:transparent;border:1.5px solid rgba(246,244,236,.4);border-radius:8px;
+  color:var(--paper);cursor:pointer;padding:8px 10px;line-height:0;
+}
+.burger:hover{border-color:var(--paper)}
+.menu{
+  position:absolute;top:44px;right:0;z-index:50;min-width:230px;
+  background:var(--card);border-radius:var(--radius);box-shadow:0 6px 24px rgba(29,58,47,.25);
+  padding:6px;display:none;
+}
+.menu.open{display:block}
+.menu button,.menu a{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  background:none;border:none;border-radius:7px;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:14px;color:var(--bark);
+  padding:10px 12px;text-decoration:none;
+}
+.menu button:hover,.menu a:hover{background:#eef1e6}
+.menu .mico{width:20px;text-align:center}
+.toast{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;
+  background:var(--pine);color:var(--paper);border-radius:10px;box-shadow:var(--shadow);
+  padding:14px 18px;font-size:13.5px;max-width:min(92vw,420px);text-align:center;
+}
+.toast[hidden]{display:none}
 </style>
 </head>
 <body>
 <header>
   <div class="hwrap">
+    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <div class="menu" id="menu">
+      <button id="installBtn"><span class="mico">📲</span> Install app</button>
+      <button id="refreshBtn"><span class="mico">↻</span> Check for updates</button>
+      <a href="https://github.com/pfeilbr/things-to-do" target="_blank" rel="noopener"><span class="mico">★</span> View on GitHub</a>
+    </div>
     <h1>Willow Grove <span class="pin">Local Guide</span></h1>
     <div class="sub">Willow Grove, PA · everything within a ~2-hr drive / weekend events (Jul 17–19 2026) / fishing spots · distances estimated from central Willow Grove</div>
     <div class="tabs" role="tablist">
@@ -228,7 +272,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-07-19T09:40Z";
+const BUILD = "2026-07-19T11:45Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -680,6 +724,45 @@ $("tbody").addEventListener("click",clickToggle);
 $("cards").addEventListener("click",clickToggle);
 $("tbody").addEventListener("keydown",keyToggle);
 $("cards").addEventListener("keydown",keyToggle);
+
+// hamburger menu
+const burger = $("burger"), menu = $("menu");
+function closeMenu(){ menu.classList.remove("open"); burger.setAttribute("aria-expanded","false"); }
+burger.addEventListener("click",e=>{
+  e.stopPropagation();
+  const open = menu.classList.toggle("open");
+  burger.setAttribute("aria-expanded", open);
+});
+document.addEventListener("click",e=>{ if(!menu.contains(e.target)) closeMenu(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeMenu(); });
+
+// install (PWA)
+let deferredPrompt = null;
+window.addEventListener("beforeinstallprompt",e=>{ e.preventDefault(); deferredPrompt = e; });
+function toast(msg){
+  let t = $("toast");
+  if(!t){ t = document.createElement("div"); t.id="toast"; t.className="toast"; document.body.appendChild(t); }
+  t.textContent = msg; t.hidden = false;
+  clearTimeout(t._tm); t._tm = setTimeout(()=>{ t.hidden = true; }, 6000);
+}
+$("installBtn").addEventListener("click",async ()=>{
+  closeMenu();
+  if(window.matchMedia("(display-mode: standalone)").matches || navigator.standalone){
+    toast("Already installed — you're running the app now."); return;
+  }
+  if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt = null; return; }
+  if(/iphone|ipad|ipod/i.test(navigator.userAgent)){
+    toast("On iPhone/iPad: tap the Share button, then \"Add to Home Screen\".");
+  } else {
+    toast("In Chrome/Edge: open the browser ⋮ menu and choose \"Install app\" (or look for the install icon in the address bar).");
+  }
+});
+$("refreshBtn").addEventListener("click",()=>{ closeMenu(); location.reload(); });
+
+// service worker (offline + installability)
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+  navigator.serviceWorker.register("./sw.js").catch(()=>{});
+}
 
 document.querySelectorAll(".tab").forEach(t=>{
   t.addEventListener("click",()=>{

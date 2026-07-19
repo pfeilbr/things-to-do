@@ -15,7 +15,8 @@ A single-page, fully client-side "field guide" web app for the Willow Grove, PA 
 - **Filters** — category dropdown and max-drive-time dropdown (≤10/20/30/45/60 min)
 - **Expandable rows** — tap any row to reveal a detail panel with an embedded Google Map, directions, and website links
 - **Responsive** — full table on desktop, stacked cards below 760px; visible keyboard focus; respects `prefers-reduced-motion`
-- No build step, no dependencies, no backend — just `index.html`
+- **Installable PWA** — add it to your phone's home screen via the ☰ menu → "Install app" (manifest + service worker; works offline with last-fetched data)
+- No build step, no dependencies, no backend — `index.html` plus a manifest, service worker, and icons
 
 ## How distances work
 

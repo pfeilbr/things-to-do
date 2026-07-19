@@ -4,7 +4,9 @@ Guidance for Claude Code when working in this repo.
 
 ## What this is
 
-A single-file, client-side local guide for Willow Grove, PA published via GitHub Pages from `main` branch root. Everything lives in `index.html` — no build step, no dependencies, no backend. Keep it that way.
+A client-side local guide for Willow Grove, PA published via GitHub Pages from `main` branch root. The app lives in `index.html` — no build step, no dependencies, no backend. Keep it that way.
+
+It's an installable PWA: `manifest.webmanifest`, `sw.js` (network-first, cache fallback — deploys still land immediately), and `icons/` (all rasterized from `icon.svg`; regenerate with `qlmanage -t -s <size>` + `sips`, using a full-bleed variant for maskable/apple-touch). The ☰ menu in the header holds the Install action and is the place to hang future navigation/features.
 
 ## Privacy
 
