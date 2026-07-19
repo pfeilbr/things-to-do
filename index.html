@@ -131,6 +131,22 @@ tbody tr:hover{background:#faf8f1}
 .empty{
   text-align:center;padding:48px 20px;color:#8a8171;font-size:14px;
 }
+/* expandable rows */
+tr.rowmain{cursor:pointer}
+.chev{display:inline-block;font-size:10px;color:var(--moss);margin-right:6px;transition:transform .15s}
+[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.maplink{text-decoration:none;font-size:12px;margin-left:6px;opacity:.75}
+.maplink:hover{opacity:1}
+tr.detail td{background:#f2efe4;padding:0 14px}
+.detailbox{display:flex;gap:18px;flex-wrap:wrap;padding:14px 4px 16px;align-items:flex-start}
+.detailbox .info{flex:1;min-width:240px}
+.dmeta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.dlinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.dlink{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--paper);background:var(--creek);border-radius:6px;padding:5px 10px;text-decoration:none}
+.dlink:hover{background:var(--pine)}
+.dlink.alt{background:var(--moss)}
+.mapembed{width:300px;max-width:100%;height:190px;border:0;border-radius:8px;box-shadow:var(--shadow)}
+.mobile-sort{display:none}
 /* mobile cards */
 .cards{display:none}
 @media (max-width:760px){
@@ -145,8 +161,12 @@ tbody tr:hover{background:#faf8f1}
   .card .dist{font-size:12px}
   .card .summary{margin-top:6px;max-width:none}
   .card .row2{margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .card{cursor:pointer}
+  .card .detailbox{padding:12px 0 0}
+  .card .mapembed{width:100%}
   .controls{flex-direction:column;align-items:stretch}
   .controls select{width:100%}
+  .mobile-sort{display:block}
 }
 footer{
   background:var(--pine);color:rgba(246,244,236,.75);
@@ -160,7 +180,7 @@ footer a{color:var(--moss)}
 <header>
   <div class="hwrap">
     <h1>Willow Grove <span class="pin">Local Guide</span></h1>
-    <div class="sub">40.1436°N 75.1216°W · attractions / weekend events (Jul 17–19 2026) / fishing spots · distances estimated from Willow Grove, PA</div>
+    <div class="sub">Willow Grove, PA · attractions / weekend events (Jul 17–19 2026) / fishing spots · distances estimated from central Willow Grove</div>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" data-tab="attractions">Attractions <span class="cnt" id="cnt-attractions"></span></button>
       <button class="tab" role="tab" data-tab="events">Weekend Events <span class="cnt" id="cnt-events"></span></button>
@@ -183,8 +203,9 @@ footer a{color:var(--moss)}
     <option value="45">≤ 45 min</option>
     <option value="60">≤ 60 min</option>
   </select>
+  <select id="sortSelect" class="mobile-sort" aria-label="Sort by"></select>
 </div>
-<div class="meta-line"><span id="showing"></span><span>click a column header to sort</span></div>
+<div class="meta-line"><span id="showing"></span><span>tap a row for map & links · click a column header to sort</span></div>
 
 <div class="twrap">
   <table id="tbl" aria-live="polite">
@@ -342,6 +363,35 @@ const $ = id => document.getElementById(id);
 
 function pop(row){ return (row.rc||0) * (row.r||0); }
 
+const ORIGIN = encodeURIComponent("Willow Grove, PA");
+const expanded = new Set();
+const rkey = r => state.tab+"|"+r.n;
+const mapsQ = r => encodeURIComponent(r.n+", PA");
+const mapUrl = r => `https://www.google.com/maps/search/?api=1&query=${mapsQ(r)}`;
+const dirUrl = r => `https://www.google.com/maps/dir/?api=1&origin=${ORIGIN}&destination=${mapsQ(r)}`;
+const embedUrl = r => `https://maps.google.com/maps?q=${mapsQ(r)}&z=12&output=embed`;
+
+function detailHTML(r){
+  const meta = [
+    `<span class="cat">${r.c}</span>`,
+    r.w?`<span class="when">${r.w}</span>`:"",
+    `<span class="dist">${r.d.toFixed(1)} mi · ~${r.t} min drive</span>`,
+    r.r!=null?fmtPop(r):""
+  ].filter(Boolean).join("");
+  return `<div class="detailbox">
+    <div class="info">
+      <div class="dmeta">${meta}</div>
+      <div class="summary" style="max-width:none;margin-top:8px">${r.s}</div>
+      <div class="dlinks">
+        ${r.u?`<a class="dlink" href="${r.u}" target="_blank" rel="noopener">Website ↗</a>`:""}
+        <a class="dlink alt" href="${mapUrl(r)}" target="_blank" rel="noopener">Google Maps ↗</a>
+        <a class="dlink alt" href="${dirUrl(r)}" target="_blank" rel="noopener">Directions ↗</a>
+      </div>
+    </div>
+    <iframe class="mapembed" loading="lazy" title="Map of ${r.n}" src="${embedUrl(r)}"></iframe>
+  </div>`;
+}
+
 function rows(){
   let list = DATA[state.tab].slice();
   const q = state.q.trim().toLowerCase();
@@ -383,8 +433,9 @@ function render(){
   // rows
   const list = rows();
   $("tbody").innerHTML = list.map(r=>{
-    return "<tr>"+cols.map(c=>{
-      if(c.k==="n") return `<td>${nameCell(r)}</td>`;
+    const key = rkey(r), open = expanded.has(key);
+    const main = `<tr class="rowmain" data-key="${key}" tabindex="0" role="button" aria-expanded="${open}">`+cols.map(c=>{
+      if(c.k==="n") return `<td><span class="chev">▶</span>${nameCell(r)}<a class="maplink" href="${mapUrl(r)}" target="_blank" rel="noopener" title="Open in Google Maps" aria-label="Open ${r.n} in Google Maps">📍</a></td>`;
       if(c.k==="c") return `<td><span class="cat">${r.c}</span></td>`;
       if(c.k==="s") return `<td><span class="summary">${r.s}</span></td>`;
       if(c.k==="w") return `<td><span class="when">${r.w}</span></td>`;
@@ -393,18 +444,24 @@ function render(){
       if(c.k==="pop") return `<td>${fmtPop(r)}</td>`;
       return "<td></td>";
     }).join("")+"</tr>";
+    const det = open ? `<tr class="detail"><td colspan="${cols.length}">${detailHTML(r)}</td></tr>` : "";
+    return main+det;
   }).join("");
   // cards (mobile)
-  $("cards").innerHTML = list.map(r=>`
-    <div class="card">
-      <div class="top">${nameCell(r)}<span class="dist">${r.d.toFixed(1)} mi · ~${r.t}m</span></div>
+  $("cards").innerHTML = list.map(r=>{
+    const key = rkey(r), open = expanded.has(key);
+    return `
+    <div class="card" data-key="${key}" tabindex="0" role="button" aria-expanded="${open}">
+      <div class="top"><span><span class="chev">▶</span>${nameCell(r)}<a class="maplink" href="${mapUrl(r)}" target="_blank" rel="noopener" title="Open in Google Maps" aria-label="Open ${r.n} in Google Maps">📍</a></span><span class="dist">${r.d.toFixed(1)} mi · ~${r.t}m</span></div>
       <div class="row2">
         <span class="cat">${r.c}</span>
         ${r.w?`<span class="when">${r.w}</span>`:""}
         ${r.r!=null?fmtPop(r):""}
       </div>
       <div class="summary">${r.s}</div>
-    </div>`).join("");
+      ${open?detailHTML(r):""}
+    </div>`;
+  }).join("");
   $("empty").hidden = list.length>0;
   $("showing").textContent = `showing ${list.length} of ${DATA[state.tab].length}`;
   // header sort listeners
@@ -414,7 +471,7 @@ function render(){
       const k = th.dataset.k;
       if(state.sortKey===k) state.sortDir*=-1;
       else { state.sortKey=k; state.sortDir = (k==="pop") ? -1 : 1; }
-      render();
+      syncSort(); render();
     });
   });
 }
@@ -425,6 +482,42 @@ function fillCats(){
   state.cat="";
 }
 
+function fillSort(){
+  const cols = COLS[state.tab].filter(c=>!c.nosort);
+  $("sortSelect").innerHTML = cols.map(c=>{
+    const lbls = c.type==="num" ? ["low → high","high → low"] : ["A → Z","Z → A"];
+    return `<option value="${c.k}:1">Sort: ${c.label} (${lbls[0]})</option><option value="${c.k}:-1">Sort: ${c.label} (${lbls[1]})</option>`;
+  }).join("");
+  syncSort();
+}
+function syncSort(){ $("sortSelect").value = state.sortKey+":"+state.sortDir; }
+$("sortSelect").addEventListener("change",e=>{
+  const [k,d] = e.target.value.split(":");
+  state.sortKey = k; state.sortDir = +d;
+  render();
+});
+
+function toggleRow(el){
+  const key = el.dataset.key;
+  if(expanded.has(key)) expanded.delete(key); else expanded.add(key);
+  render();
+}
+function clickToggle(e){
+  if(e.target.closest("a")||e.target.closest("iframe")) return;
+  const el = e.target.closest("[data-key]");
+  if(el) toggleRow(el);
+}
+function keyToggle(e){
+  if(e.key!=="Enter" && e.key!==" ") return;
+  if(e.target.closest("a")) return;
+  const el = e.target.closest("[data-key]");
+  if(el){ e.preventDefault(); toggleRow(el); }
+}
+$("tbody").addEventListener("click",clickToggle);
+$("cards").addEventListener("click",clickToggle);
+$("tbody").addEventListener("keydown",keyToggle);
+$("cards").addEventListener("keydown",keyToggle);
+
 document.querySelectorAll(".tab").forEach(t=>{
   t.addEventListener("click",()=>{
     document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
@@ -434,7 +527,7 @@ document.querySelectorAll(".tab").forEach(t=>{
     state.maxT=""; $("distFilter").value="";
     if(state.tab==="fishing"){ state.sortKey="pop"; state.sortDir=-1; }
     else { state.sortKey="d"; state.sortDir=1; }
-    fillCats(); render();
+    fillCats(); fillSort(); render();
   });
 });
 $("q").addEventListener("input",e=>{state.q=e.target.value;render();});
@@ -444,6 +537,7 @@ $("distFilter").addEventListener("change",e=>{state.maxT=e.target.value;render()
 // tab counts
 for(const k of Object.keys(DATA)) $("cnt-"+k).textContent = DATA[k].length;
 fillCats();
+fillSort();
 render();
 </script>
 </body>
