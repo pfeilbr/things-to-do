@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Willow Grove Local Guide — Attractions, Events & Fishing</title>
 <meta name="description" content="Sortable, searchable guide to attractions, weekend events, and fishing spots near Willow Grove, PA.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -222,6 +225,18 @@ footer a{color:var(--moss)}
 </footer>
 
 <script>
+// bump on every deploy; the check below auto-reloads visitors on stale copies
+const BUILD = "2026-07-19T09:05Z";
+if(location.protocol !== "file:"){
+  fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
+    const m = html.match(/const BUILD = "([^"]+)"/);
+    if(m && m[1] !== BUILD && !sessionStorage.getItem("reloaded-"+m[1])){
+      sessionStorage.setItem("reloaded-"+m[1], "1");
+      location.reload();
+    }
+  }).catch(()=>{});
+}
+
 const DATA = {
 attractions: [
 {n:"Willow Grove Park Mall",c:"Shopping",d:0.3,t:1,r:4.4,rc:5000,s:"3-level mall with arcade, food court, carousel.",u:"https://willowgroveparkmall.com/"},
