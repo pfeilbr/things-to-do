@@ -15,6 +15,7 @@ A single-page, fully client-side "field guide" web app for the Willow Grove, PA 
 - **Near me** — recompute all distances from your current location (computed entirely in-browser)
 - **Map view** — see the current filtered list as pins on an OpenStreetMap map
 - **Shareable links** — tab, search, filters, and sort are encoded in the URL hash
+- **Per-item permalinks** — every row's detail panel has a Share button (native share sheet on phones, copy-link elsewhere); the link opens the app with that item expanded and scrolled into view
 - **Sortable columns** — click any header to sort, click again to reverse; a sort dropdown appears on mobile
 - **Live search** across name, category, summary, and event times
 - **Filters** — category dropdown and max-drive-time dropdown (≤10/20/30/45/60 min)

@@ -153,9 +153,10 @@ tr.detail td{background:#f2efe4;padding:0 14px}
 .detailbox .info{flex:1;min-width:240px}
 .dmeta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .dlinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.dlink{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--paper);background:var(--creek);border-radius:6px;padding:5px 10px;text-decoration:none}
+.dlink{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--paper);background:var(--creek);border-radius:6px;padding:5px 10px;text-decoration:none;border:none;cursor:pointer}
 .dlink:hover{background:var(--pine)}
 .dlink.alt{background:var(--moss)}
+.dlink.share{background:var(--clay)}
 .mapembed{width:300px;max-width:100%;height:190px;border:0;border-radius:8px;box-shadow:var(--shadow)}
 .mobile-sort{display:none}
 .ctlbtn{
@@ -287,7 +288,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-07-20T05:20Z";
+const BUILD = "2026-07-20T05:50Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -671,6 +672,7 @@ function detailHTML(r){
         ${r.u?`<a class="dlink" href="${r.u}" target="_blank" rel="noopener">Website ↗</a>`:""}
         <a class="dlink alt" href="${mapUrl(r)}" target="_blank" rel="noopener">Google Maps ↗</a>
         <a class="dlink alt" href="${dirUrl(r)}" target="_blank" rel="noopener">Directions ↗</a>
+        <button class="dlink share" data-share="${rkey(r)}">Share ⤴</button>
       </div>
     </div>
     <iframe class="mapembed" loading="lazy" title="Map of ${r.n}" src="${embedUrl(r)}"></iframe>
@@ -802,10 +804,34 @@ function toggleRow(el){
   render();
 }
 function clickToggle(e){
-  if(e.target.closest("a")||e.target.closest("iframe")||e.target.closest(".favbtn")) return;
+  if(e.target.closest("a")||e.target.closest("iframe")||e.target.closest(".favbtn")||e.target.closest("[data-share]")) return;
   const el = e.target.closest("[data-key]");
   if(el) toggleRow(el);
 }
+function permalink(key){
+  const [tab,name] = key.split("|");
+  const p = new URLSearchParams();
+  if(tab!=="attractions") p.set("tab",tab);
+  p.set("item",name);
+  return location.origin + location.pathname + "#" + p.toString();
+}
+async function shareItem(key){
+  const [tab,name] = key.split("|");
+  const r = DATA[tab]?.find(x=>x.n===name);
+  const url = permalink(key);
+  if(navigator.share){
+    try{ await navigator.share({title:r?r.n:name, text:r?`${r.n} — ${r.s}`:name, url}); return; }
+    catch(err){ if(err.name==="AbortError") return; }
+  }
+  try{ await navigator.clipboard.writeText(url); toast("Link copied — send it to anyone."); }
+  catch{ prompt("Copy this link:", url); }
+}
+function shareClick(e){
+  const b = e.target.closest("[data-share]");
+  if(b) shareItem(b.dataset.share);
+}
+$("tbody").addEventListener("click",shareClick);
+$("cards").addEventListener("click",shareClick);
 function favClick(e){
   const b = e.target.closest(".favbtn");
   if(!b) return;
@@ -952,6 +978,11 @@ function readHash(){
   if(p.get("fav")) state.fav = true;
   if(p.get("view")==="map") state.view = "map";
   if(state.tab==="fishing" && !p.get("s")){ state.sortKey="pop"; state.sortDir=-1; }
+  const item = p.get("item");
+  if(item && DATA[state.tab].some(r=>r.n===item)){
+    pendingScroll = state.tab+"|"+item;
+    expanded.add(pendingScroll);
+  }
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.tab===state.tab));
   $("q").value = state.q;
   $("distFilter").value = state.maxT;
@@ -983,11 +1014,17 @@ $("distFilter").addEventListener("change",e=>{state.maxT=e.target.value;render()
 
 // tab counts
 for(const k of Object.keys(DATA)) $("cnt-"+k).textContent = DATA[k].length;
+let pendingScroll = null;
 const initCat = readHash();
 fillCats();
 if(initCat){ state.cat = initCat; $("catFilter").value = initCat; }
 fillSort();
 render();
+if(pendingScroll){
+  const el = document.querySelector(`tr[data-key="${CSS.escape(pendingScroll)}"], .card[data-key="${CSS.escape(pendingScroll)}"]`);
+  if(el) setTimeout(()=>el.scrollIntoView({block:"center"}), 80);
+  pendingScroll = null;
+}
 </script>
 </body>
 </html>
