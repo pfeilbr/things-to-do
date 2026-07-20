@@ -15,10 +15,12 @@ This is a public repo. Never add personal information: no precise coordinates, n
 ## Structure of index.html
 
 - `<style>` — field-guide palette (CSS vars: `--pine`, `--creek`, `--paper`, `--moss`, `--clay`); Barlow Condensed display, Inter body, JetBrains Mono data; mobile card layout below 760px.
-- `const DATA = { attractions: [...], events: [...], fishing: [...] }` — the three datasets. Row fields:
+- `const DATA = { attractions: [...], events: [...], fishing: [...], chinese: [...] }` — the four datasets. Row fields:
   - `n` name, `c` category, `s` summary, `d` distance (mi), `t` drive time (min), `u` source URL or `null`
-  - `r` Google rating + `rc` review count (attractions/fishing; popularity = `r × rc`)
+  - `r` Google rating + `rc` review count (popularity = `r × rc`); `r:null` for rows without ratings
   - `w` when string (events only, e.g. `"Sat 7/18 · 9:30a–1p"`)
+  - `ll:[lat,lon]` — venue coordinates (NOT the origin; these are public places). Powers the map view and "near me" mode. ALWAYS include `ll` on new rows, and NEVER drop existing `ll` fields when regenerating data.
+- The `chinese` tab is a curated guide to authentic Chinese life for a Sichuan family: Sichuan restaurants, dim sum, hot pot, bakeries/tea, Asian groceries, Chinatown culture, annual Chinese festivals. Names include Chinese characters where apt. Keep the bar high: authentic spots only, no Americanized takeout. Refresh its annual-event dates when they're announced (Mid-Autumn Festival, Lunar New Year).
 - `COLS` — per-tab column definitions; `render()` builds the table, mobile cards, and expandable detail panels (Google Maps embed + directions + website links).
 - Default sorts: attractions/events by distance asc, fishing by popularity desc.
 

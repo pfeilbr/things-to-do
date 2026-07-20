@@ -158,6 +158,16 @@ tr.detail td{background:#f2efe4;padding:0 14px}
 .dlink.alt{background:var(--moss)}
 .mapembed{width:300px;max-width:100%;height:190px;border:0;border-radius:8px;box-shadow:var(--shadow)}
 .mobile-sort{display:none}
+.ctlbtn{
+  padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--radius);
+  background:var(--card);font-family:'Inter',sans-serif;font-size:14px;color:var(--bark);cursor:pointer;
+}
+.ctlbtn[aria-pressed="true"]{background:var(--pine);color:var(--paper);border-color:var(--pine)}
+.favbtn{background:none;border:none;cursor:pointer;font-size:15px;line-height:1;color:#c9c2b0;padding:0 4px;vertical-align:baseline}
+.favbtn.on{color:var(--clay)}
+#mapview{height:520px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
+#mapview .leaflet-popup-content{font-family:'Inter',sans-serif;font-size:13px}
+@media (max-width:760px){#mapview{height:70vh}}
 /* mobile cards */
 .cards{display:none}
 @media (max-width:760px){
@@ -227,11 +237,12 @@ footer a{color:var(--moss)}
       <a href="https://github.com/pfeilbr/things-to-do" target="_blank" rel="noopener"><span class="mico">★</span> View on GitHub</a>
     </div>
     <h1>Willow Grove <span class="pin">Local Guide</span></h1>
-    <div class="sub">Willow Grove, PA · everything within a ~2-hr drive / weekend events (Jul 24 – Aug 16 2026) / fishing spots · distances estimated from central Willow Grove</div>
+    <div class="sub">Willow Grove, PA · everything within a ~2-hr drive / weekend events (Jul 24 – Aug 16 2026) / fishing / Chinese guide 中华 · distances estimated from central Willow Grove</div>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" data-tab="attractions">Attractions <span class="cnt" id="cnt-attractions"></span></button>
       <button class="tab" role="tab" data-tab="events">Weekend Events <span class="cnt" id="cnt-events"></span></button>
       <button class="tab" role="tab" data-tab="fishing">Fishing <span class="cnt" id="cnt-fishing"></span></button>
+      <button class="tab" role="tab" data-tab="chinese">Chinese 中华 <span class="cnt" id="cnt-chinese"></span></button>
     </div>
   </div>
 </header>
@@ -253,10 +264,14 @@ footer a{color:var(--moss)}
     <option value="120">≤ 2 hr</option>
   </select>
   <select id="sortSelect" class="mobile-sort" aria-label="Sort by"></select>
+  <button id="favToggle" class="ctlbtn" aria-pressed="false" title="Show favorites only">★ Favs</button>
+  <button id="geoToggle" class="ctlbtn" aria-pressed="false" title="Recompute distances from your current location (stays on your device)">📍 Near me</button>
+  <button id="mapToggle" class="ctlbtn" aria-pressed="false" title="Map view">🗺 Map</button>
 </div>
 <div class="meta-line"><span id="showing"></span><span>tap a row for map & links · click a column header to sort</span></div>
 
 <div class="twrap">
+  <div id="mapview" hidden></div>
   <table id="tbl" aria-live="polite">
     <thead><tr id="theadRow"></tr></thead>
     <tbody id="tbody"></tbody>
@@ -266,13 +281,13 @@ footer a{color:var(--moss)}
 </div>
 
 <footer>
-  Data gathered Jul 2026 from Google Places, VisitPhilly, Visit Bucks County, LevittownNow, PA DCNR, PFBC stream guides & local calendars.<br>
+  Data gathered Jul 2026 from Google Places, VisitPhilly, Visit Bucks County, LevittownNow, PA DCNR, PFBC stream guides & local calendars; Chinese guide via Yelp, Philly Mag, The Infatuation & PCDC. Map © OpenStreetMap contributors.<br>
   Drive times are straight-line ×1.3 road factor at 24–55 mph (average speed scales with trip length) — verify before you go. Fishing requires a PA license (+ trout stamp on stocked water).
 </footer>
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-07-20T04:30Z";
+const BUILD = "2026-07-20T05:20Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -285,259 +300,291 @@ if(location.protocol !== "file:"){
 
 const DATA = {
 attractions: [
-{n:"Willow Grove Park Mall",c:"Shopping",d:0.3,t:1,r:4.4,rc:5000,s:"3-level mall with arcade, food court, carousel.",u:"https://willowgroveparkmall.com/"},
+{n:"Willow Grove Park Mall",c:"Shopping",d:0.3,t:1,r:4.4,rc:5000,s:"3-level mall with arcade, food court, carousel.",u:"https://willowgroveparkmall.com/",ll:[40.1437,-75.12]},
 {n:"Hilltop Haven Wine and Farm Market",c:"Winery/Farm",d:0.3,t:1,r:5,rc:3,s:"Local wine & farm market, live piano, cheese and soaps.",u:null},
-{n:"Tilted 10",c:"Entertainment",d:0.4,t:1,r:4,rc:2000,s:"Bowling, mini golf, arcade, laser tag under one roof.",u:"https://tilted10.com/willow-grove/"},
+{n:"Tilted 10",c:"Entertainment",d:0.4,t:1,r:4,rc:2000,s:"Bowling, mini golf, arcade, laser tag under one roof.",u:"https://tilted10.com/willow-grove/",ll:[40.14,-75.121]},
 {n:"Ship To Fun",c:"Kids",d:0.4,t:1,r:4.5,rc:200,s:"Indoor playground; private parties.",u:null},
 {n:"Veteran's Memorial Park",c:"Park",d:0.6,t:1,r:4.5,rc:600,s:"Walking trails, picnic areas, gazebo.",u:"https://www.uppermoreland.org/"},
 {n:"Buehler Park Nature Study Area",c:"Park/Nature",d:1.2,t:3,r:4.2,rc:45,s:"Short wooded loop trail tucked between neighborhoods.",u:null},
-{n:"Urban Air Trampoline & Adventure Park",c:"Entertainment",d:1.4,t:3,r:4.4,rc:1500,s:"Indoor trampoline & adventure park.",u:"https://www.urbanair.com/pennsylvania-willow-grove/"},
-{n:"Huntingdon Valley Country Club",c:"Golf",d:2.1,t:5,r:4.6,rc:206,s:"Top-ranked private club (members/events).",u:null},
+{n:"Urban Air Trampoline & Adventure Park",c:"Entertainment",d:1.4,t:3,r:4.4,rc:1500,s:"Indoor trampoline & adventure park.",u:"https://www.urbanair.com/pennsylvania-willow-grove/",ll:[40.131,-75.119]},
+{n:"Huntingdon Valley Country Club",c:"Golf",d:2.1,t:5,r:4.6,rc:206,s:"Top-ranked private club (members/events).",u:null,ll:[40.118,-75.066]},
 {n:"Sprouts Farmers Market",c:"Market",d:2.3,t:6,r:4.5,rc:750,s:"Fresh produce, deli, butcher, bulk goods.",u:null},
 {n:"Farmstead Park",c:"Historic Park",d:3,t:7,r:4.5,rc:39,s:"Historic farmstead site, soccer field, walking trail.",u:null},
-{n:"Crooked Eye Brewery",c:"Brewery",d:3.4,t:8,r:4.7,rc:277,s:"Craft brewery in Hatboro, live music, dive-bar charm.",u:null},
-{n:"Bryn Athyn Cathedral",c:"Historic Site",d:3.8,t:9,r:4.8,rc:900,s:"Hand-crafted Gothic-Romanesque cathedral; free tours.",u:"https://brynathyncathedral.org/"},
-{n:"Glencairn Museum",c:"Museum",d:3.9,t:9,r:4.7,rc:500,s:"Medieval art & religious history in a 1930s Romanesque castle home.",u:"https://glencairnmuseum.org/"},
+{n:"Crooked Eye Brewery",c:"Brewery",d:3.4,t:8,r:4.7,rc:277,s:"Craft brewery in Hatboro, live music, dive-bar charm.",u:null,ll:[40.174,-75.107]},
+{n:"Bryn Athyn Cathedral",c:"Historic Site",d:3.8,t:9,r:4.8,rc:900,s:"Hand-crafted Gothic-Romanesque cathedral; free tours.",u:"https://brynathyncathedral.org/",ll:[40.135,-75.068]},
+{n:"Glencairn Museum",c:"Museum",d:3.9,t:9,r:4.7,rc:500,s:"Medieval art & religious history in a 1930s Romanesque castle home.",u:"https://glencairnmuseum.org/",ll:[40.138,-75.065]},
 {n:"Rose Bridge Farm",c:"Farm/Animals",d:4.1,t:10,r:4.7,rc:400,s:"Animal sanctuary with workshops and farm tours.",u:"https://rosebridgefarmsanctuary.com/"},
-{n:"Keswick Theatre",c:"Music Venue",d:4.3,t:10,r:4.7,rc:2300,s:"1928 Glenside gem hosting national touring acts.",u:"https://keswicktheatre.com/"},
-{n:"Glenside Farmers Market",c:"Market",d:4.4,t:10,r:4.4,rc:25,s:"Saturday-morning market: meats, produce, baked goods, honey (Apr–Nov).",u:"https://montgomerycountyalive.com/events/"},
-{n:"Graeme Park",c:"Historic Site",d:4.6,t:11,r:4.6,rc:400,s:"Horsham's 1722 Keith House — the only surviving colonial PA governor's residence.",u:null},
-{n:"Alverthorpe Park",c:"Park",d:4.7,t:11,r:4.7,rc:800,s:"Abington's 250-acre gem: pond, mini golf & trails.",u:null},
-{n:"The Abington Club",c:"Golf/Fitness",d:4.9,t:11,r:3.8,rc:143,s:"9-hole course, gym, indoor + outdoor pools.",u:null},
-{n:"Lorimer Park",c:"Park",d:5.3,t:12,r:4.8,rc:1617,s:"Hiking trails, cave, rock climbing, picnic pavilions along the Pennypack.",u:null},
-{n:"Wings of Freedom Aviation Museum",c:"Museum",d:5.5,t:12,r:4.6,rc:300,s:"Historic aircraft at the former NAS-JRB Willow Grove.",u:"https://dvhaa.org/"},
+{n:"Keswick Theatre",c:"Music Venue",d:4.3,t:10,r:4.7,rc:2300,s:"1928 Glenside gem hosting national touring acts.",u:"https://keswicktheatre.com/",ll:[40.102,-75.152]},
+{n:"Glenside Farmers Market",c:"Market",d:4.4,t:10,r:4.4,rc:25,s:"Saturday-morning market: meats, produce, baked goods, honey (Apr–Nov).",u:"https://montgomerycountyalive.com/events/",ll:[40.102,-75.152]},
+{n:"Graeme Park",c:"Historic Site",d:4.6,t:11,r:4.6,rc:400,s:"Horsham's 1722 Keith House — the only surviving colonial PA governor's residence.",u:null,ll:[40.19,-75.15]},
+{n:"Alverthorpe Park",c:"Park",d:4.7,t:11,r:4.7,rc:800,s:"Abington's 250-acre gem: pond, mini golf & trails.",u:null,ll:[40.094,-75.1]},
+{n:"The Abington Club",c:"Golf/Fitness",d:4.9,t:11,r:3.8,rc:143,s:"9-hole course, gym, indoor + outdoor pools.",u:null,ll:[40.109,-75.099]},
+{n:"Lorimer Park",c:"Park",d:5.3,t:12,r:4.8,rc:1617,s:"Hiking trails, cave, rock climbing, picnic pavilions along the Pennypack.",u:null,ll:[40.083,-75.033]},
+{n:"Wings of Freedom Aviation Museum",c:"Museum",d:5.5,t:12,r:4.6,rc:300,s:"Historic aircraft at the former NAS-JRB Willow Grove.",u:"https://dvhaa.org/",ll:[40.201,-75.15]},
 {n:"Commonwealth National Golf Club",c:"Golf",d:6.1,t:14,r:4.8,rc:98,s:"Well-maintained private course, scenic wooded holes.",u:null},
 {n:"Cheshire Brewing Co.",c:"Brewery",d:6.4,t:14,r:4.6,rc:92,s:"Alice-in-Wonderland-themed brewery; board games, karaoke, open mic.",u:null},
 {n:"Naked Brewing Company",c:"Brewery",d:6.5,t:14,r:4.7,rc:179,s:"Creative small-batch beer in Huntingdon Valley; darts, live music.",u:null},
-{n:"Regal Warrington Crossing",c:"Movies",d:6.7,t:15,r:4.3,rc:3909,s:"4DX & IMAX screens, modern amenities.",u:null},
-{n:"Historic Hope Lodge",c:"Historic Site",d:6.7,t:15,r:4.6,rc:63,s:"Colonial mansion; self-guided tours Sundays 1–4.",u:null},
+{n:"Regal Warrington Crossing",c:"Movies",d:6.7,t:15,r:4.3,rc:3909,s:"4DX & IMAX screens, modern amenities.",u:null,ll:[40.245,-75.131]},
+{n:"Historic Hope Lodge",c:"Historic Site",d:6.7,t:15,r:4.6,rc:63,s:"Colonial mansion; self-guided tours Sundays 1–4.",u:null,ll:[40.133,-75.211]},
 {n:"Five Ponds Golf Club",c:"Golf",d:6.8,t:15,r:4.4,rc:272,s:"Public course with banquet venue & bar/grill.",u:null},
-{n:"Ambler Theater",c:"Movies",d:7,t:15,r:4.8,rc:1300,s:"Nonprofit 1928 art-house triplex anchoring walkable Ambler.",u:"https://amblertheater.org/"},
-{n:"Four Mills Nature Reserve",c:"Nature",d:7.2,t:16,r:4.6,rc:217,s:"Creek-side trails, stone crossings, old-growth trees; links to Green Ribbon Trail.",u:null},
-{n:"Fort Washington State Park",c:"State Park",d:7.3,t:16,r:4.6,rc:1314,s:"Hiking, picnic areas, hawk-watch observation deck.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/fort-washington-state-park.html"},
-{n:"Chestnut Hill",c:"Shopping",d:8.2,t:18,r:4.7,rc:3000,s:"Cobblestoned Germantown Ave: galleries, gardens & cafés.",u:"https://chestnuthillpa.com/"},
-{n:"Chestnut Hill Brewing Company",c:"Brewery",d:8.4,t:18,r:4.7,rc:499,s:"Vegan-friendly brewpub with wood-fired pizza, beer garden, live music.",u:null},
-{n:"Morris Arboretum & Gardens",c:"Garden",d:8.5,t:18,r:4.7,rc:3200,s:"Penn's 92-acre Victorian arboretum: fernery, canopy walk, garden railway.",u:"https://www.morrisarboretum.org/"},
+{n:"Ambler Theater",c:"Movies",d:7,t:15,r:4.8,rc:1300,s:"Nonprofit 1928 art-house triplex anchoring walkable Ambler.",u:"https://amblertheater.org/",ll:[40.155,-75.222]},
+{n:"Four Mills Nature Reserve",c:"Nature",d:7.2,t:16,r:4.6,rc:217,s:"Creek-side trails, stone crossings, old-growth trees; links to Green Ribbon Trail.",u:null,ll:[40.156,-75.221]},
+{n:"Fort Washington State Park",c:"State Park",d:7.3,t:16,r:4.6,rc:1314,s:"Hiking, picnic areas, hawk-watch observation deck.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/fort-washington-state-park.html",ll:[40.135,-75.209]},
+{n:"Chestnut Hill",c:"Shopping",d:8.2,t:18,r:4.7,rc:3000,s:"Cobblestoned Germantown Ave: galleries, gardens & cafés.",u:"https://chestnuthillpa.com/",ll:[40.0793,-75.2069]},
+{n:"Chestnut Hill Brewing Company",c:"Brewery",d:8.4,t:18,r:4.7,rc:499,s:"Vegan-friendly brewpub with wood-fired pizza, beer garden, live music.",u:null,ll:[40.086,-75.21]},
+{n:"Morris Arboretum & Gardens",c:"Garden",d:8.5,t:18,r:4.7,rc:3200,s:"Penn's 92-acre Victorian arboretum: fernery, canopy walk, garden railway.",u:"https://www.morrisarboretum.org/",ll:[40.0894,-75.2224]},
 {n:"Moland House",c:"Historic Site",d:8.6,t:19,r:4.8,rc:87,s:"Rev-War site where Washington first met Lafayette; monthly colonial cooking demos.",u:null},
-{n:"Woodmere Maguire Hall",c:"Art Museum",d:8.6,t:19,r:5,rc:12,s:"Philadelphia-area art collection in a restored mansion; sculpture garden.",u:null},
+{n:"Woodmere Maguire Hall",c:"Art Museum",d:8.6,t:19,r:5,rc:12,s:"Philadelphia-area art collection in a restored mansion; sculpture garden.",u:null,ll:[40.087,-75.192]},
 {n:"Karamoor Estate Vineyard & Winery",c:"Winery",d:8.8,t:19,r:4.4,rc:90,s:"Elegant estate winery in Blue Bell; Fri–Sun tastings.",u:null},
-{n:"Awbury Arboretum",c:"Garden",d:8.9,t:19,r:4.6,rc:700,s:"55 free acres of English-landscape grounds in Germantown.",u:"https://awbury.org/"},
+{n:"Awbury Arboretum",c:"Garden",d:8.9,t:19,r:4.6,rc:700,s:"55 free acres of English-landscape grounds in Germantown.",u:"https://awbury.org/",ll:[40.049,-75.16]},
 {n:"Kohler Farms",c:"Farm",d:9.1,t:19,r:4.6,rc:158,s:"Farm market, flowers, hayrides, black-cherry ice cream.",u:null},
 {n:"AMC 309 Cinema 9",c:"Movies",d:9.1,t:19,r:4.4,rc:2336,s:"Reclining seats, multiple screens.",u:null},
-{n:"Cliveden",c:"Historic Site",d:9.2,t:20,r:4.7,rc:700,s:"1767 mansion at the center of the Battle of Germantown.",u:"https://www.cliveden.org/"},
-{n:"Maple Acres Farm Market",c:"Farm",d:10.7,t:22,r:4.7,rc:685,s:"Farm animals, pick-your-own flowers, produce, ice cream. Free to visit.",u:null},
-{n:"AMC Plymouth Meeting Mall 12",c:"Movies",d:11.1,t:23,r:4,rc:2767,s:"12-screen theater inside Plymouth Meeting Mall.",u:null},
-{n:"Wissahickon Valley Park",c:"Park/Nature",d:11.1,t:23,r:4.8,rc:5000,s:"1,800 acres of gorge trails, Forbidden Drive & a covered bridge in city limits.",u:"https://fow.org/"},
-{n:"Parx Casino",c:"Entertainment",d:11.6,t:24,r:4.3,rc:16000,s:"PA's biggest casino floor, racing & concerts in Bensalem.",u:"https://www.parxcasino.com/"},
-{n:"LEGOLAND Discovery Center Philadelphia",c:"Kids",d:12.4,t:25,r:4.4,rc:4500,s:"Rides, 4D cinema & a mini-Philly built from a million bricks.",u:"https://www.legolanddiscoverycenter.com/philadelphia/"},
-{n:"Tyler State Park",c:"State Park",d:12.7,t:26,r:4.8,rc:3499,s:"Covered bridge, Neshaminy Creek, horse trails, sledding hills.",u:null},
-{n:"Manayunk Main Street",c:"Shopping",d:12.7,t:26,r:4.6,rc:3000,s:"Canal-side strip of indie shops, restaurants & the towpath.",u:"https://manayunk.com/"},
+{n:"Cliveden",c:"Historic Site",d:9.2,t:20,r:4.7,rc:700,s:"1767 mansion at the center of the Battle of Germantown.",u:"https://www.cliveden.org/",ll:[40.0482,-75.1707]},
+{n:"Maple Acres Farm Market",c:"Farm",d:10.7,t:22,r:4.7,rc:685,s:"Farm animals, pick-your-own flowers, produce, ice cream. Free to visit.",u:null,ll:[40.121,-75.279]},
+{n:"AMC Plymouth Meeting Mall 12",c:"Movies",d:11.1,t:23,r:4,rc:2767,s:"12-screen theater inside Plymouth Meeting Mall.",u:null,ll:[40.109,-75.279]},
+{n:"Wissahickon Valley Park",c:"Park/Nature",d:11.1,t:23,r:4.8,rc:5000,s:"1,800 acres of gorge trails, Forbidden Drive & a covered bridge in city limits.",u:"https://fow.org/",ll:[40.0417,-75.213]},
+{n:"Parx Casino",c:"Entertainment",d:11.6,t:24,r:4.3,rc:16000,s:"PA's biggest casino floor, racing & concerts in Bensalem.",u:"https://www.parxcasino.com/",ll:[40.105,-74.96]},
+{n:"LEGOLAND Discovery Center Philadelphia",c:"Kids",d:12.4,t:25,r:4.4,rc:4500,s:"Rides, 4D cinema & a mini-Philly built from a million bricks.",u:"https://www.legolanddiscoverycenter.com/philadelphia/",ll:[40.083,-75.284]},
+{n:"Tyler State Park",c:"State Park",d:12.7,t:26,r:4.8,rc:3499,s:"Covered bridge, Neshaminy Creek, horse trails, sledding hills.",u:null,ll:[40.221,-74.954]},
+{n:"Manayunk Main Street",c:"Shopping",d:12.7,t:26,r:4.6,rc:3000,s:"Canal-side strip of indie shops, restaurants & the towpath.",u:"https://manayunk.com/",ll:[40.027,-75.225]},
 {n:"Amazing Escape Room Montgomeryville",c:"Escape Room",d:13.3,t:27,r:5,rc:5948,s:"Highly rated themed escape rooms.",u:null},
-{n:"Laurel Hill Cemetery",c:"Historic Site",d:13.6,t:27,r:4.8,rc:1500,s:"Grand Victorian garden cemetery with skyline views and history tours.",u:"https://laurelhillphl.com/"},
-{n:"Escapopolis Escape Rooms",c:"Escape Room",d:14.5,t:29,r:5,rc:760,s:"Themed rooms in Lansdale; friendly game masters.",u:null},
-{n:"Mercer Museum",c:"Museum",d:14.8,t:29,r:4.7,rc:2300,s:"Six-story concrete castle stuffed with 50,000 early-American tools.",u:"https://www.mercermuseum.org/"},
-{n:"Elmwood Park Zoo",c:"Zoo",d:14.9,t:29,r:4.5,rc:5000,s:"Mid-size conservation-focused zoo in Norristown.",u:"http://www.elmwoodparkzoo.org/"},
-{n:"Smith Memorial Playground",c:"Kids",d:15,t:29,r:4.8,rc:3000,s:"Free 6.5-acre playground with the famous 1905 giant wooden slide.",u:"https://smithplayground.org/"},
-{n:"Michener Art Museum",c:"Art Museum",d:15,t:29,r:4.7,rc:1500,s:"Bucks County impressionists in a repurposed 1884 prison.",u:"https://michenerartmuseum.org/"},
-{n:"Byers' Choice Christmas Museum",c:"Attraction",d:15.1,t:29,r:4.7,rc:1300,s:"Free caroler-figurine museum & Christmas emporium in Chalfont.",u:"https://byerschoice.com/"},
-{n:"Moravian Pottery & Tile Works",c:"Historic Site",d:15.4,t:30,r:4.6,rc:700,s:"Working 1912 tile factory; watch handmade Mercer tiles being made.",u:null},
-{n:"Peter Wentz Farmstead",c:"Historic Site",d:15.7,t:30,r:4.7,rc:169,s:"1744 Pennsylvania-German farmstead; free tours, craft demos.",u:null},
-{n:"Fonthill Castle",c:"Historic Site",d:15.7,t:30,r:4.7,rc:2600,s:"Henry Mercer's 44-room hand-built concrete castle, tile-covered ceilings.",u:"https://www.mercermuseum.org/visit/fonthill-castle/"},
-{n:"Please Touch Museum",c:"Kids",d:15.9,t:31,r:4.6,rc:7500,s:"Hands-on children's museum in Memorial Hall with a 1908 carousel.",u:"https://www.pleasetouchmuseum.org/"},
-{n:"Shofuso Japanese House and Garden",c:"Garden",d:16,t:31,r:4.6,rc:1600,s:"Japanese house, koi pond & tea ceremonies in Fairmount Park.",u:"https://japanphilly.org/shofuso/"},
-{n:"Eastern State Penitentiary",c:"Historic Site",d:16.1,t:31,r:4.7,rc:16000,s:"Hauntingly preserved 1829 prison; Al Capone's cell; Halloween Nights.",u:"https://www.easternstate.org/"},
-{n:"Philadelphia Zoo",c:"Zoo",d:16.3,t:31,r:4.5,rc:21000,s:"America's first zoo: 1,300 animals and Zoo360 overhead animal trails.",u:"https://www.philadelphiazoo.org/"},
-{n:"Boathouse Row & Kelly Drive",c:"Attraction",d:16.3,t:31,r:4.8,rc:3000,s:"Iconic lit boathouses; riverside biking and rowing regattas.",u:null},
-{n:"Philadelphia Museum of Art",c:"Museum",d:16.5,t:32,r:4.8,rc:23317,s:"World-class collection across 2,000 years; the Rocky Steps.",u:"https://www.philamuseum.org/"},
-{n:"Rodin Museum",c:"Art Museum",d:16.7,t:32,r:4.7,rc:3000,s:"Largest Rodin collection outside Paris, The Thinker out front.",u:"https://rodinmuseum.org/"},
-{n:"Barnes Foundation",c:"Art Museum",d:16.8,t:32,r:4.8,rc:7000,s:"Staggering wall-to-wall Renoirs, Cézannes & Matisses hung salon-style.",u:"https://www.barnesfoundation.org/"},
-{n:"The Franklin Institute",c:"Museum",d:17,t:32,r:4.6,rc:13864,s:"Science museum: planetarium, giant walk-through heart, Baldwin locomotive.",u:"https://www.fi.edu/"},
-{n:"Franklin Square",c:"Park/Kids",d:17,t:32,r:4.6,rc:12000,s:"Mini golf, carousel & playground on one of Penn's original five squares.",u:"https://historicphiladelphia.org/franklin-square/"},
-{n:"Academy of Natural Sciences",c:"Museum",d:17.1,t:32,r:4.5,rc:6000,s:"Dinosaur hall, classic dioramas & live butterflies since 1812.",u:"https://ansp.org/"},
-{n:"National Constitution Center",c:"Museum",d:17.2,t:33,r:4.7,rc:6500,s:"Interactive constitutional history; Signers' Hall bronze statues.",u:"https://constitutioncenter.org/"},
-{n:"Elfreth's Alley",c:"Historic Site",d:17.2,t:33,r:4.7,rc:4500,s:"America's oldest continuously inhabited street (1703).",u:"https://www.elfrethsalley.org/"},
-{n:"Cherry Street Pier",c:"Art",d:17.2,t:33,r:4.6,rc:3000,s:"Artist studios, markets & garden hangout on a Delaware River pier.",u:"https://www.cherrystreetpier.com/"},
-{n:"National Shrine of Our Lady of Czestochowa",c:"Historic Site",d:17.2,t:33,r:4.8,rc:3200,s:"Hilltop Polish-American shrine with sweeping stained glass.",u:"https://czestochowa.us/"},
-{n:"Reading Terminal Market",c:"Market",d:17.3,t:33,r:4.7,rc:68000,s:"Legendary 1893 indoor market: Amish bakers, roast pork sandwiches, 80+ vendors.",u:"https://readingterminalmarket.org/"},
-{n:"Betsy Ross House",c:"Historic Site",d:17.3,t:33,r:4.5,rc:5500,s:"The upholsterer's home where the first-flag story began.",u:"https://historicphiladelphia.org/betsy-ross-house/"},
-{n:"Museum of Illusions Philadelphia",c:"Museum",d:17.4,t:33,r:4.5,rc:3969,s:"60+ interactive optical-illusion exhibits in Old City.",u:"https://museumofillusions.us/philadelphia/"},
-{n:"Mütter Museum",c:"Museum",d:17.5,t:33,r:4.6,rc:6596,s:"Famed medical-history museum: anatomical specimens & oddities.",u:"https://muttermuseum.org/"},
-{n:"Liberty Bell Center",c:"Historic Site",d:17.5,t:33,r:4.7,rc:30000,s:"The cracked icon of American independence; free, no tickets needed.",u:"https://www.nps.gov/inde/planyourvisit/libertybellcenter.htm"},
-{n:"Sesame Place Philadelphia",c:"Theme Park",d:17.5,t:33,r:4.3,rc:13000,s:"Sesame Street rides, water park & character parades in Langhorne.",u:"https://sesameplace.com/philadelphia/"},
-{n:"Independence Hall",c:"Historic Site",d:17.6,t:33,r:4.8,rc:16000,s:"Birthplace of the Declaration and Constitution; free timed tours.",u:"https://www.nps.gov/inde/"},
-{n:"Museum of the American Revolution",c:"Museum",d:17.7,t:33,r:4.8,rc:6500,s:"Washington's actual war tent headlines this immersive Rev-War museum.",u:"https://www.amrevmuseum.org/"},
-{n:"Adventure Aquarium",c:"Aquarium",d:17.8,t:33,r:4.5,rc:18000,s:"Hippos, sharks & touch tanks on the Camden waterfront.",u:"https://www.adventureaquarium.com/"},
-{n:"Penn Museum",c:"Museum",d:18.1,t:34,r:4.7,rc:5000,s:"World-class archaeology: 15-ton Egyptian sphinx, Maya, Mesopotamia.",u:"https://www.penn.museum/"},
-{n:"Philadelphia's Magic Gardens",c:"Art",d:18.2,t:34,r:4.7,rc:10000,s:"Isaiah Zagar's dazzling mosaic labyrinth on South Street.",u:"https://www.phillymagicgardens.org/"},
-{n:"Battleship New Jersey",c:"Museum",d:18.4,t:34,r:4.7,rc:5500,s:"Tour the most decorated US battleship, bow to engine room.",u:"https://www.battleshipnewjersey.org/"},
-{n:"The Escape Game King of Prussia",c:"Escape Room",d:18.5,t:34,r:5,rc:10199,s:"Polished multi-room escape games at the KOP mall.",u:null},
-{n:"Shady Brook Farm",c:"Farm",d:18.7,t:35,r:4.5,rc:5000,s:"Year-round farm fun: pick-your-own, fall fest, holiday light show.",u:"https://www.shadybrookfarm.com/"},
-{n:"Expedition Escape! King of Prussia",c:"Escape Room",d:18.8,t:35,r:5,rc:14119,s:"Top-reviewed escape rooms; private bookings.",u:null},
-{n:"Peddler's Village",c:"Shopping",d:19.1,t:35,r:4.6,rc:13000,s:"70 shops & seasonal festivals in a colonial-style village.",u:"https://peddlersvillage.com/"},
-{n:"King of Prussia Mall",c:"Shopping",d:19.4,t:36,r:4.6,rc:32000,s:"One of America's largest malls: 450 stores under linked roofs.",u:"https://www.simon.com/mall/king-of-prussia"},
-{n:"iFLY Indoor Skydiving King of Prussia",c:"Entertainment",d:19.5,t:36,r:4.7,rc:2600,s:"Bodyflight wind tunnel — skydiving without the plane.",u:"https://www.iflyworld.com/king-of-prussia/"},
+{n:"Laurel Hill Cemetery",c:"Historic Site",d:13.6,t:27,r:4.8,rc:1500,s:"Grand Victorian garden cemetery with skyline views and history tours.",u:"https://laurelhillphl.com/",ll:[40.0011,-75.187]},
+{n:"Escapopolis Escape Rooms",c:"Escape Room",d:14.5,t:29,r:5,rc:760,s:"Themed rooms in Lansdale; friendly game masters.",u:null,ll:[40.241,-75.284]},
+{n:"Mercer Museum",c:"Museum",d:14.8,t:29,r:4.7,rc:2300,s:"Six-story concrete castle stuffed with 50,000 early-American tools.",u:"https://www.mercermuseum.org/",ll:[40.3086,-75.128]},
+{n:"Elmwood Park Zoo",c:"Zoo",d:14.9,t:29,r:4.5,rc:5000,s:"Mid-size conservation-focused zoo in Norristown.",u:"http://www.elmwoodparkzoo.org/",ll:[40.123,-75.344]},
+{n:"Smith Memorial Playground",c:"Kids",d:15,t:29,r:4.8,rc:3000,s:"Free 6.5-acre playground with the famous 1905 giant wooden slide.",u:"https://smithplayground.org/",ll:[39.9846,-75.1885]},
+{n:"Michener Art Museum",c:"Art Museum",d:15,t:29,r:4.7,rc:1500,s:"Bucks County impressionists in a repurposed 1884 prison.",u:"https://michenerartmuseum.org/",ll:[40.3103,-75.1305]},
+{n:"Byers' Choice Christmas Museum",c:"Attraction",d:15.1,t:29,r:4.7,rc:1300,s:"Free caroler-figurine museum & Christmas emporium in Chalfont.",u:"https://byerschoice.com/",ll:[40.298,-75.208]},
+{n:"Moravian Pottery & Tile Works",c:"Historic Site",d:15.4,t:30,r:4.6,rc:700,s:"Working 1912 tile factory; watch handmade Mercer tiles being made.",u:null,ll:[40.3155,-75.119]},
+{n:"Peter Wentz Farmstead",c:"Historic Site",d:15.7,t:30,r:4.7,rc:169,s:"1744 Pennsylvania-German farmstead; free tours, craft demos.",u:null,ll:[40.244,-75.349]},
+{n:"Fonthill Castle",c:"Historic Site",d:15.7,t:30,r:4.7,rc:2600,s:"Henry Mercer's 44-room hand-built concrete castle, tile-covered ceilings.",u:"https://www.mercermuseum.org/visit/fonthill-castle/",ll:[40.3187,-75.1173]},
+{n:"Please Touch Museum",c:"Kids",d:15.9,t:31,r:4.6,rc:7500,s:"Hands-on children's museum in Memorial Hall with a 1908 carousel.",u:"https://www.pleasetouchmuseum.org/",ll:[39.9788,-75.208]},
+{n:"Shofuso Japanese House and Garden",c:"Garden",d:16,t:31,r:4.6,rc:1600,s:"Japanese house, koi pond & tea ceremonies in Fairmount Park.",u:"https://japanphilly.org/shofuso/",ll:[39.9808,-75.217]},
+{n:"Eastern State Penitentiary",c:"Historic Site",d:16.1,t:31,r:4.7,rc:16000,s:"Hauntingly preserved 1829 prison; Al Capone's cell; Halloween Nights.",u:"https://www.easternstate.org/",ll:[39.9683,-75.1727]},
+{n:"Philadelphia Zoo",c:"Zoo",d:16.3,t:31,r:4.5,rc:21000,s:"America's first zoo: 1,300 animals and Zoo360 overhead animal trails.",u:"https://www.philadelphiazoo.org/",ll:[39.9714,-75.1953]},
+{n:"Boathouse Row & Kelly Drive",c:"Attraction",d:16.3,t:31,r:4.8,rc:3000,s:"Iconic lit boathouses; riverside biking and rowing regattas.",u:null,ll:[39.9689,-75.1883]},
+{n:"Philadelphia Museum of Art",c:"Museum",d:16.5,t:32,r:4.8,rc:23317,s:"World-class collection across 2,000 years; the Rocky Steps.",u:"https://www.philamuseum.org/",ll:[39.9656,-75.181]},
+{n:"Rodin Museum",c:"Art Museum",d:16.7,t:32,r:4.7,rc:3000,s:"Largest Rodin collection outside Paris, The Thinker out front.",u:"https://rodinmuseum.org/",ll:[39.9619,-75.174]},
+{n:"Barnes Foundation",c:"Art Museum",d:16.8,t:32,r:4.8,rc:7000,s:"Staggering wall-to-wall Renoirs, Cézannes & Matisses hung salon-style.",u:"https://www.barnesfoundation.org/",ll:[39.9607,-75.1728]},
+{n:"The Franklin Institute",c:"Museum",d:17,t:32,r:4.6,rc:13864,s:"Science museum: planetarium, giant walk-through heart, Baldwin locomotive.",u:"https://www.fi.edu/",ll:[39.9582,-75.173]},
+{n:"Franklin Square",c:"Park/Kids",d:17,t:32,r:4.6,rc:12000,s:"Mini golf, carousel & playground on one of Penn's original five squares.",u:"https://historicphiladelphia.org/franklin-square/",ll:[39.9557,-75.1503]},
+{n:"Academy of Natural Sciences",c:"Museum",d:17.1,t:32,r:4.5,rc:6000,s:"Dinosaur hall, classic dioramas & live butterflies since 1812.",u:"https://ansp.org/",ll:[39.9573,-75.171]},
+{n:"National Constitution Center",c:"Museum",d:17.2,t:33,r:4.7,rc:6500,s:"Interactive constitutional history; Signers' Hall bronze statues.",u:"https://constitutioncenter.org/",ll:[39.9532,-75.1489]},
+{n:"Elfreth's Alley",c:"Historic Site",d:17.2,t:33,r:4.7,rc:4500,s:"America's oldest continuously inhabited street (1703).",u:"https://www.elfrethsalley.org/",ll:[39.9527,-75.1424]},
+{n:"Cherry Street Pier",c:"Art",d:17.2,t:33,r:4.6,rc:3000,s:"Artist studios, markets & garden hangout on a Delaware River pier.",u:"https://www.cherrystreetpier.com/",ll:[39.9531,-75.1396]},
+{n:"National Shrine of Our Lady of Czestochowa",c:"Historic Site",d:17.2,t:33,r:4.8,rc:3200,s:"Hilltop Polish-American shrine with sweeping stained glass.",u:"https://czestochowa.us/",ll:[40.334,-75.146]},
+{n:"Reading Terminal Market",c:"Market",d:17.3,t:33,r:4.7,rc:68000,s:"Legendary 1893 indoor market: Amish bakers, roast pork sandwiches, 80+ vendors.",u:"https://readingterminalmarket.org/",ll:[39.9533,-75.1593]},
+{n:"Betsy Ross House",c:"Historic Site",d:17.3,t:33,r:4.5,rc:5500,s:"The upholsterer's home where the first-flag story began.",u:"https://historicphiladelphia.org/betsy-ross-house/",ll:[39.9522,-75.1447]},
+{n:"Museum of Illusions Philadelphia",c:"Museum",d:17.4,t:33,r:4.5,rc:3969,s:"60+ interactive optical-illusion exhibits in Old City.",u:"https://museumofillusions.us/philadelphia/",ll:[39.95,-75.144]},
+{n:"Mütter Museum",c:"Museum",d:17.5,t:33,r:4.6,rc:6596,s:"Famed medical-history museum: anatomical specimens & oddities.",u:"https://muttermuseum.org/",ll:[39.953,-75.177]},
+{n:"Liberty Bell Center",c:"Historic Site",d:17.5,t:33,r:4.7,rc:30000,s:"The cracked icon of American independence; free, no tickets needed.",u:"https://www.nps.gov/inde/planyourvisit/libertybellcenter.htm",ll:[39.9496,-75.1503]},
+{n:"Sesame Place Philadelphia",c:"Theme Park",d:17.5,t:33,r:4.3,rc:13000,s:"Sesame Street rides, water park & character parades in Langhorne.",u:"https://sesameplace.com/philadelphia/",ll:[40.186,-74.873]},
+{n:"Independence Hall",c:"Historic Site",d:17.6,t:33,r:4.8,rc:16000,s:"Birthplace of the Declaration and Constitution; free timed tours.",u:"https://www.nps.gov/inde/",ll:[39.9489,-75.15]},
+{n:"Museum of the American Revolution",c:"Museum",d:17.7,t:33,r:4.8,rc:6500,s:"Washington's actual war tent headlines this immersive Rev-War museum.",u:"https://www.amrevmuseum.org/",ll:[39.9469,-75.1447]},
+{n:"Adventure Aquarium",c:"Aquarium",d:17.8,t:33,r:4.5,rc:18000,s:"Hippos, sharks & touch tanks on the Camden waterfront.",u:"https://www.adventureaquarium.com/",ll:[39.9454,-75.131]},
+{n:"Penn Museum",c:"Museum",d:18.1,t:34,r:4.7,rc:5000,s:"World-class archaeology: 15-ton Egyptian sphinx, Maya, Mesopotamia.",u:"https://www.penn.museum/",ll:[39.9492,-75.1911]},
+{n:"Philadelphia's Magic Gardens",c:"Art",d:18.2,t:34,r:4.7,rc:10000,s:"Isaiah Zagar's dazzling mosaic labyrinth on South Street.",u:"https://www.phillymagicgardens.org/",ll:[39.9427,-75.1594]},
+{n:"Battleship New Jersey",c:"Museum",d:18.4,t:34,r:4.7,rc:5500,s:"Tour the most decorated US battleship, bow to engine room.",u:"https://www.battleshipnewjersey.org/",ll:[39.939,-75.133]},
+{n:"The Escape Game King of Prussia",c:"Escape Room",d:18.5,t:34,r:5,rc:10199,s:"Polished multi-room escape games at the KOP mall.",u:null,ll:[40.088,-75.394]},
+{n:"Shady Brook Farm",c:"Farm",d:18.7,t:35,r:4.5,rc:5000,s:"Year-round farm fun: pick-your-own, fall fest, holiday light show.",u:"https://www.shadybrookfarm.com/",ll:[40.2,-74.86]},
+{n:"Expedition Escape! King of Prussia",c:"Escape Room",d:18.8,t:35,r:5,rc:14119,s:"Top-reviewed escape rooms; private bookings.",u:null,ll:[40.09,-75.396]},
+{n:"Peddler's Village",c:"Shopping",d:19.1,t:35,r:4.6,rc:13000,s:"70 shops & seasonal festivals in a colonial-style village.",u:"https://peddlersvillage.com/",ll:[40.351,-75.061]},
+{n:"King of Prussia Mall",c:"Shopping",d:19.4,t:36,r:4.6,rc:32000,s:"One of America's largest malls: 450 stores under linked roofs.",u:"https://www.simon.com/mall/king-of-prussia",ll:[40.088,-75.394]},
+{n:"iFLY Indoor Skydiving King of Prussia",c:"Entertainment",d:19.5,t:36,r:4.7,rc:2600,s:"Bodyflight wind tunnel — skydiving without the plane.",u:"https://www.iflyworld.com/king-of-prussia/",ll:[40.089,-75.397]},
 {n:"Bishop Estate Vineyard and Winery",c:"Winery",d:19.6,t:36,r:4.7,rc:521,s:"Multiple tasting rooms; weekend food trucks & live music.",u:null},
-{n:"Bartram's Garden",c:"Garden",d:19.9,t:36,r:4.7,rc:2500,s:"Oldest surviving botanic garden in North America; free, on the Schuylkill.",u:"https://www.bartramsgarden.org/"},
-{n:"Evansburg State Park",c:"State Park",d:20.1,t:36,r:4.6,rc:1393,s:"8 miles of Skippack Creek; wooded loop trails, horse trails.",u:null},
-{n:"Topgolf King of Prussia",c:"Entertainment",d:20.1,t:36,r:4.4,rc:4000,s:"Three-story driving-range bays with food & games.",u:"https://topgolf.com/us/king-of-prussia/"},
-{n:"Skippack Village",c:"Shopping",d:20.3,t:37,r:4.6,rc:2000,s:"Walkable strip of boutiques, galleries & BYOBs.",u:"https://skippackvillage.com/"},
-{n:"Bowman's Hill Wildflower Preserve",c:"Nature",d:20.4,t:37,r:4.8,rc:1400,s:"134 acres of native PA wildflowers near Washington Crossing.",u:"https://bhwp.org/"},
-{n:"Stoneleigh: A Natural Garden",c:"Garden",d:20.5,t:37,r:4.8,rc:800,s:"Free 42-acre public garden on a Villanova estate.",u:"https://natlands.org/stoneleigh/"},
+{n:"Bartram's Garden",c:"Garden",d:19.9,t:36,r:4.7,rc:2500,s:"Oldest surviving botanic garden in North America; free, on the Schuylkill.",u:"https://www.bartramsgarden.org/",ll:[39.9331,-75.2119]},
+{n:"Evansburg State Park",c:"State Park",d:20.1,t:36,r:4.6,rc:1393,s:"8 miles of Skippack Creek; wooded loop trails, horse trails.",u:null,ll:[40.184,-75.428]},
+{n:"Topgolf King of Prussia",c:"Entertainment",d:20.1,t:36,r:4.4,rc:4000,s:"Three-story driving-range bays with food & games.",u:"https://topgolf.com/us/king-of-prussia/",ll:[40.097,-75.408]},
+{n:"Skippack Village",c:"Shopping",d:20.3,t:37,r:4.6,rc:2000,s:"Walkable strip of boutiques, galleries & BYOBs.",u:"https://skippackvillage.com/",ll:[40.2228,-75.399]},
+{n:"Bowman's Hill Wildflower Preserve",c:"Nature",d:20.4,t:37,r:4.8,rc:1400,s:"134 acres of native PA wildflowers near Washington Crossing.",u:"https://bhwp.org/",ll:[40.325,-74.943]},
+{n:"Stoneleigh: A Natural Garden",c:"Garden",d:20.5,t:37,r:4.8,rc:800,s:"Free 42-acre public garden on a Villanova estate.",u:"https://natlands.org/stoneleigh/",ll:[40.044,-75.354]},
 {n:"Little Explorers Adventure Park",c:"Kids",d:21.2,t:38,r:null,rc:null,s:"New 2026 indoor play space in Dublin Town Center: open play and imaginative zones for ages 0–6.",u:"https://www.visitbuckscounty.com/articles/post/whats-ahead-in-bucks-county-pa-in-2026/"},
-{n:"Citizens Bank Park",c:"Sports",d:21.6,t:38,r:4.8,rc:26000,s:"Home of the Phillies; ballpark tours on non-game days.",u:"https://www.mlb.com/phillies/ballpark"},
-{n:"Washington Crossing Historic Park",c:"Historic Site",d:21.9,t:39,r:4.7,rc:3200,s:"Where Washington crossed the Delaware, Christmas 1776; annual reenactment.",u:"https://www.washingtoncrossingpark.org/"},
-{n:"Wells Fargo Center",c:"Sports",d:22,t:39,r:4.7,rc:20000,s:"Flyers & Sixers arena plus major touring concerts.",u:"https://www.wellsfargocenterphilly.com/"},
-{n:"Simeone Foundation Automotive Museum",c:"Museum",d:22.1,t:39,r:4.8,rc:1700,s:"75 legendary racing sports cars; monthly demo days.",u:"https://www.simeonemuseum.org/"},
-{n:"John James Audubon Center at Mill Grove",c:"Nature",d:22.1,t:39,r:4.7,rc:900,s:"Audubon's first American home; bird museum & trails.",u:"https://johnjames.audubon.org/"},
+{n:"Citizens Bank Park",c:"Sports",d:21.6,t:38,r:4.8,rc:26000,s:"Home of the Phillies; ballpark tours on non-game days.",u:"https://www.mlb.com/phillies/ballpark",ll:[39.9061,-75.1665]},
+{n:"Washington Crossing Historic Park",c:"Historic Site",d:21.9,t:39,r:4.7,rc:3200,s:"Where Washington crossed the Delaware, Christmas 1776; annual reenactment.",u:"https://www.washingtoncrossingpark.org/",ll:[40.296,-74.873]},
+{n:"Wells Fargo Center",c:"Sports",d:22,t:39,r:4.7,rc:20000,s:"Flyers & Sixers arena plus major touring concerts.",u:"https://www.wellsfargocenterphilly.com/",ll:[39.9012,-75.172]},
+{n:"Simeone Foundation Automotive Museum",c:"Museum",d:22.1,t:39,r:4.8,rc:1700,s:"75 legendary racing sports cars; monthly demo days.",u:"https://www.simeonemuseum.org/",ll:[39.9155,-75.2405]},
+{n:"John James Audubon Center at Mill Grove",c:"Nature",d:22.1,t:39,r:4.7,rc:900,s:"Audubon's first American home; bird museum & trails.",u:"https://johnjames.audubon.org/",ll:[40.123,-75.443]},
 {n:"Bucks County Children's Museum",c:"Kids",d:22.5,t:40,r:null,rc:null,s:"Hands-on New Hope museum reopened after a 2026 sensory-friendly renovation: six new exhibits incl. a covered bridge and village square.",u:"https://buckskids.org/"},
-{n:"Chanticleer Garden",c:"Garden",d:22.6,t:40,r:4.9,rc:2600,s:"A 'pleasure garden' many rank among America's most beautiful; Wed–Sun.",u:"https://www.chanticleergarden.org/"},
-{n:"Arnold's Family Fun Center",c:"Entertainment",d:22.7,t:40,r:4.2,rc:3000,s:"Go-karts, bowling, laser tag & arcade in Oaks.",u:"https://arnoldsffc.com/"},
-{n:"New Hope & Ivyland Railroad",c:"Attraction",d:22.9,t:40,r:4.6,rc:2700,s:"Vintage steam & diesel excursions through Bucks countryside.",u:"https://www.newhoperailroad.com/"},
-{n:"Bucks County Playhouse",c:"Theater",d:22.9,t:40,r:4.7,rc:1300,s:"Storied 1939 gristmill theater on the Delaware.",u:"https://bcptheater.org/"},
-{n:"American Treasure Tour Museum",c:"Museum",d:22.9,t:40,r:4.8,rc:1000,s:"Tram ride through a warehouse of nickelodeons, classic cars & pop-culture oddities.",u:"https://www.americantreasuretour.com/"},
-{n:"New Hope & Lambertville",c:"Historic Town",d:23,t:40,r:4.7,rc:6000,s:"Twin river towns: galleries, antiques, canal walks, a footbridge between states.",u:"https://visitnewhope.com/"},
-{n:"Valley Forge National Historical Park",c:"Historic Site",d:23.5,t:41,r:4.8,rc:8748,s:"Revolutionary War encampment; visitor center, drive/bike loop, free entry.",u:"https://www.nps.gov/vafo/"},
-{n:"Jenkins Arboretum & Gardens",c:"Garden",d:23.9,t:41,r:4.8,rc:900,s:"Free woodland garden ablaze with azaleas & rhododendrons.",u:"https://jenkinsarboretum.org/"},
+{n:"Chanticleer Garden",c:"Garden",d:22.6,t:40,r:4.9,rc:2600,s:"A 'pleasure garden' many rank among America's most beautiful; Wed–Sun.",u:"https://www.chanticleergarden.org/",ll:[40.028,-75.414]},
+{n:"Arnold's Family Fun Center",c:"Entertainment",d:22.7,t:40,r:4.2,rc:3000,s:"Go-karts, bowling, laser tag & arcade in Oaks.",u:"https://arnoldsffc.com/",ll:[40.132,-75.452]},
+{n:"New Hope & Ivyland Railroad",c:"Attraction",d:22.9,t:40,r:4.6,rc:2700,s:"Vintage steam & diesel excursions through Bucks countryside.",u:"https://www.newhoperailroad.com/",ll:[40.364,-74.953]},
+{n:"Bucks County Playhouse",c:"Theater",d:22.9,t:40,r:4.7,rc:1300,s:"Storied 1939 gristmill theater on the Delaware.",u:"https://bcptheater.org/",ll:[40.3633,-74.9515]},
+{n:"American Treasure Tour Museum",c:"Museum",d:22.9,t:40,r:4.8,rc:1000,s:"Tram ride through a warehouse of nickelodeons, classic cars & pop-culture oddities.",u:"https://www.americantreasuretour.com/",ll:[40.135,-75.455]},
+{n:"New Hope & Lambertville",c:"Historic Town",d:23,t:40,r:4.7,rc:6000,s:"Twin river towns: galleries, antiques, canal walks, a footbridge between states.",u:"https://visitnewhope.com/",ll:[40.3642,-74.951]},
+{n:"Valley Forge National Historical Park",c:"Historic Site",d:23.5,t:41,r:4.8,rc:8748,s:"Revolutionary War encampment; visitor center, drive/bike loop, free entry.",u:"https://www.nps.gov/vafo/",ll:[40.097,-75.423]},
+{n:"Jenkins Arboretum & Gardens",c:"Garden",d:23.9,t:41,r:4.8,rc:900,s:"Free woodland garden ablaze with azaleas & rhododendrons.",u:"https://jenkinsarboretum.org/",ll:[40.043,-75.444]},
 {n:"Boo's Firehouse Tavern & Brewery",c:"Brewery",d:24.7,t:42,r:null,rc:null,s:"New for 2026: a brewery-tavern in the old Point Pleasant firehouse along the Delaware.",u:"https://www.visitbuckscounty.com/articles/post/whats-ahead-in-bucks-county-pa-in-2026/"},
-{n:"John Heinz National Wildlife Refuge",c:"Nature",d:24.8,t:42,r:4.7,rc:2600,s:"Tidal-marsh boardwalks & bald eagles minutes from the airport; free.",u:"https://www.fws.gov/refuge/john-heinz-at-tinicum"},
-{n:"Fort Mifflin",c:"Historic Site",d:24.9,t:42,r:4.6,rc:1600,s:"1777 siege fort still intact; casemates, cannons & ghost lore.",u:"https://www.fortmifflin.us/"},
-{n:"Spring Mountain Adventures",c:"Ski",d:26.2,t:44,r:4.3,rc:1500,s:"Closest ski hill to Philly; summer zip-line canopy tours.",u:"https://springmountainadventures.com/"},
-{n:"Ridley Creek State Park",c:"State Park",d:28.1,t:46,r:4.7,rc:3445,s:"Expansive hiking trails, historic buildings, creek access.",u:null},
-{n:"Grounds For Sculpture",c:"Art/Garden",d:28.9,t:47,r:4.8,rc:13000,s:"42 surreal acres of monumental sculpture & roaming peacocks in Hamilton.",u:"https://www.groundsforsculpture.org/"},
-{n:"Tyler Arboretum",c:"Garden",d:29,t:47,r:4.7,rc:1700,s:"650 acres: champion trees, treehouses & 17 miles of trails.",u:"https://tylerarboretum.org/"},
-{n:"Green Lane Park",c:"Park",d:29.5,t:47,r:4.7,rc:2500,s:"Montco's biggest park: 814-ac reservoir, trails, boat rentals.",u:"https://montgomerycountypa.gov/"},
-{n:"Nockamixon State Park",c:"State Park",d:29.9,t:48,r:4.7,rc:6000,s:"1,450-acre lake for boating & biking below Haycock Mountain.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/nockamixon-state-park.html"},
+{n:"John Heinz National Wildlife Refuge",c:"Nature",d:24.8,t:42,r:4.7,rc:2600,s:"Tidal-marsh boardwalks & bald eagles minutes from the airport; free.",u:"https://www.fws.gov/refuge/john-heinz-at-tinicum",ll:[39.889,-75.26]},
+{n:"Fort Mifflin",c:"Historic Site",d:24.9,t:42,r:4.6,rc:1600,s:"1777 siege fort still intact; casemates, cannons & ghost lore.",u:"https://www.fortmifflin.us/",ll:[39.8753,-75.213]},
+{n:"Spring Mountain Adventures",c:"Ski",d:26.2,t:44,r:4.3,rc:1500,s:"Closest ski hill to Philly; summer zip-line canopy tours.",u:"https://springmountainadventures.com/",ll:[40.274,-75.464]},
+{n:"Ridley Creek State Park",c:"State Park",d:28.1,t:46,r:4.7,rc:3445,s:"Expansive hiking trails, historic buildings, creek access.",u:null,ll:[39.954,-75.445]},
+{n:"Grounds For Sculpture",c:"Art/Garden",d:28.9,t:47,r:4.8,rc:13000,s:"42 surreal acres of monumental sculpture & roaming peacocks in Hamilton.",u:"https://www.groundsforsculpture.org/",ll:[40.238,-74.719]},
+{n:"Tyler Arboretum",c:"Garden",d:29,t:47,r:4.7,rc:1700,s:"650 acres: champion trees, treehouses & 17 miles of trails.",u:"https://tylerarboretum.org/",ll:[39.933,-75.442]},
+{n:"Green Lane Park",c:"Park",d:29.5,t:47,r:4.7,rc:2500,s:"Montco's biggest park: 814-ac reservoir, trails, boat rentals.",u:"https://montgomerycountypa.gov/",ll:[40.337,-75.47]},
+{n:"Nockamixon State Park",c:"State Park",d:29.9,t:48,r:4.7,rc:6000,s:"1,450-acre lake for boating & biking below Haycock Mountain.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/nockamixon-state-park.html",ll:[40.466,-75.229]},
 {n:"Trolley Barn Public Market",c:"Market",d:30.7,t:49,r:null,rc:null,s:"Quakertown food hall in a restored trolley barn: vendors, craft-beverage bar, fire pits, indoor/outdoor events Thu–Sun.",u:"https://trolleybarnpublicmarket.com/"},
-{n:"Wharton Esherick Museum",c:"Art",d:30.8,t:49,r:4.8,rc:500,s:"The wildly sculptural hilltop studio of the 'dean of American craftsmen.'",u:"https://whartonesherickmuseum.org/"},
-{n:"Linvilla Orchards",c:"Farm",d:31.7,t:50,r:4.6,rc:6500,s:"300-acre family farm: pick-your-own, hayrides, big farm market.",u:"https://www.linvilla.com/"},
-{n:"Subaru Park",c:"Sports",d:33.1,t:51,r:4.8,rc:5000,s:"Philadelphia Union MLS soccer on the Chester riverfront.",u:"https://www.philadelphiaunion.com/subarupark"},
-{n:"American Helicopter Museum",c:"Museum",d:34.8,t:53,r:4.6,rc:900,s:"35+ helicopters; climb aboard several. Kid heaven.",u:"https://americanhelicopter.museum/"},
-{n:"Princeton University & Art Museum",c:"Historic Site",d:36.5,t:54,r:4.8,rc:3200,s:"Gothic campus strolls; landmark new art museum opened 2025.",u:"https://www.princeton.edu/"},
-{n:"Ringing Rocks Park",c:"Park/Nature",d:37.5,t:55,r:4.7,rc:2100,s:"Boulder field that chimes like bells when tapped — bring a hammer.",u:null},
-{n:"Brandywine Museum of Art",c:"Art Museum",d:40.7,t:58,r:4.7,rc:2300,s:"Three generations of Wyeths in a riverside gristmill.",u:"https://www.brandywine.org/museum"},
-{n:"Lost River Caverns",c:"Cave",d:40.9,t:58,r:4.6,rc:1900,s:"Family-run crystal cavern tours since 1930 in Hellertown.",u:"https://lostcave.com/"},
-{n:"Cowtown Rodeo",c:"Attraction",d:41,t:58,r:4.6,rc:3200,s:"Saturday-night pro rodeo running since 1929 — the East's oldest.",u:"https://www.cowtownrodeo.com/"},
-{n:"Marsh Creek State Park",c:"State Park",d:41.6,t:58,r:4.7,rc:3300,s:"535-acre lake: sailing, kayaking, sunsets over the hills.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/marsh-creek-state-park.html"},
-{n:"St. Peters Village",c:"Historic Town",d:41.8,t:59,r:4.7,rc:900,s:"Quirky 1800s ironworks village above French Creek boulders; bakery & inn.",u:null},
-{n:"Victory Brewing Company",c:"Brewery",d:42.3,t:59,r:4.5,rc:3000,s:"Flagship Downingtown brewpub of the HopDevil makers.",u:"https://victorybeer.com/"},
-{n:"Bear Creek Mountain Resort",c:"Ski",d:44.1,t:60,r:4.5,rc:4000,s:"Skiing & snow tubing plus year-round resort dining and spa.",u:"https://www.bcmountainresort.com/"},
-{n:"Nemours Estate",c:"Historic Site",d:44.4,t:61,r:4.8,rc:3200,s:"A Versailles-style château & gardens in Wilmington.",u:"https://nemoursestate.org/"},
-{n:"Winterthur Museum, Garden & Library",c:"Museum",d:44.8,t:61,r:4.7,rc:4200,s:"du Pont's 175-room house of American antiques + storybook garden.",u:"https://www.winterthur.org/"},
-{n:"Hopewell Furnace National Historic Site",c:"Historic Site",d:44.9,t:61,r:4.6,rc:1500,s:"Restored 1771–1883 iron plantation; orchard & casting demos.",u:"https://www.nps.gov/hofu/"},
-{n:"Longwood Gardens",c:"Garden",d:45,t:61,r:4.8,rc:40000,s:"World-famous horticultural display; illuminated fountain shows.",u:"https://longwoodgardens.org/"},
-{n:"Wind Creek Bethlehem",c:"Entertainment",d:45.4,t:61,r:4.4,rc:21000,s:"Casino, shops & shows inside the old steel mill.",u:"https://windcreek.com/bethlehem"},
-{n:"SteelStacks",c:"Attraction",d:45.5,t:61,r:4.7,rc:5000,s:"Arts campus beneath Bethlehem Steel's monumental blast furnaces.",u:"https://www.steelstacks.org/"},
-{n:"National Museum of Industrial History",c:"Museum",d:45.5,t:61,r:4.7,rc:1200,s:"Smithsonian-affiliated machines-and-steel story next to the stacks.",u:"https://www.nmih.org/"},
-{n:"Delaware Art Museum",c:"Art Museum",d:45.5,t:61,r:4.7,rc:1600,s:"Howard Pyle illustrations & Pre-Raphaelite treasures.",u:"https://delart.org/"},
-{n:"French Creek State Park",c:"State Park",d:46.3,t:62,r:4.7,rc:3054,s:"Camping, glamping, two lakes, extensive wooded trails.",u:null},
-{n:"Historic Moravian Bethlehem",c:"Historic Site",d:46.3,t:62,r:4.7,rc:2000,s:"UNESCO-listed 1741 Moravian quarter; Christmas City charm.",u:"https://historicbethlehem.org/"},
-{n:"Hagley Museum and Library",c:"Museum",d:46.3,t:62,r:4.7,rc:2600,s:"Original du Pont gunpowder works along the Brandywine.",u:"https://www.hagley.org/"},
-{n:"Six Flags Great Adventure",c:"Theme Park",d:46.7,t:62,r:4.4,rc:42000,s:"Major coasters plus a drive-through safari in Jackson.",u:"https://www.sixflags.com/greatadventure"},
-{n:"Da Vinci Science Center",c:"Museum",d:47.7,t:63,r:4.5,rc:2600,s:"Hands-on science in downtown Allentown's new 2024 building.",u:"https://www.davincisciencecenter.org/"},
-{n:"Daniel Boone Homestead",c:"Historic Site",d:47.9,t:63,r:4.6,rc:900,s:"Birthplace of the frontiersman; 579 bucolic acres.",u:null},
-{n:"Dorney Park & Wildwater Kingdom",c:"Theme Park",d:48.2,t:63,r:4.4,rc:15000,s:"Coasters plus a huge included water park in Allentown.",u:"https://www.dorneypark.com/"},
-{n:"Mt Cuba Center",c:"Garden",d:48.2,t:63,r:4.9,rc:1600,s:"Ravishing native-plant garden; famous spring wildflower slopes.",u:"https://mtcubacenter.org/"},
-{n:"America On Wheels Museum",c:"Museum",d:48.4,t:63,r:4.7,rc:1400,s:"75+ vehicles from horseless carriages to hot rods.",u:"https://www.americaonwheels.org/"},
-{n:"Crayola Experience",c:"Kids",d:49.6,t:64,r:4.5,rc:7500,s:"Four floors of crayon-themed creativity in Easton.",u:"https://www.crayolaexperience.com/easton"},
-{n:"Duke Farms",c:"Nature",d:50.4,t:65,r:4.8,rc:5000,s:"2,700-acre free eco-estate: orchid range, eagle cam, bike loops.",u:"https://www.dukefarms.org/"},
-{n:"Reading Pagoda",c:"Attraction",d:56.5,t:69,r:4.6,rc:1700,s:"1908 Japanese-style pagoda with 30-mile views over Reading.",u:null},
-{n:"Lehigh Valley Zoo",c:"Zoo",d:58.6,t:70,r:4.4,rc:3200,s:"Compact zoo inside a game preserve; giraffe feedings.",u:"https://www.lvzoo.org/"},
-{n:"Crystal Cave",c:"Cave",d:58.7,t:70,r:4.6,rc:2300,s:"PA's most-visited show cave — crystal formations toured since 1871.",u:"https://crystalcavepa.com/"},
-{n:"Reading Public Museum",c:"Museum",d:58.8,t:70,r:4.6,rc:1900,s:"Art, science & a planetarium in a 25-acre arboretum.",u:"https://www.readingpublicmuseum.org/"},
-{n:"Mid-Atlantic Air Museum",c:"Museum",d:61.3,t:71,r:4.7,rc:700,s:"Flying WWII warbirds incl. a rare P-61 Black Widow restoration.",u:"https://maam.org/"},
-{n:"Blue Mountain Resort",c:"Ski",d:66.5,t:74,r:4.4,rc:4200,s:"PA's biggest vertical; summer biking & aerial ropes courses.",u:"https://www.skibluemt.com/"},
-{n:"Allaire Village",c:"Historic Site",d:68.1,t:75,r:4.6,rc:3200,s:"Living-history 1830s ironmaking village + Pine Creek Railroad.",u:"https://allairevillage.org/"},
-{n:"Kitchen Kettle Village",c:"Shopping",d:68.3,t:75,r:4.6,rc:9500,s:"40 shops around a jam & relish kitchen in Intercourse.",u:"https://www.kitchenkettle.com/"},
-{n:"Cabela's Hamburg",c:"Shopping",d:69.5,t:76,r:4.6,rc:10000,s:"Destination outdoor megastore: mountain of taxidermy, big aquarium.",u:null},
-{n:"Sight & Sound Theatres",c:"Theater",d:70.2,t:77,r:4.9,rc:21000,s:"Broadway-scale biblical spectaculars with live animals.",u:"https://www.sight-sound.com/"},
-{n:"Cherry Crest Adventure Farm",c:"Farm",d:71.5,t:78,r:4.7,rc:3600,s:"Famous 5-acre corn maze & 50 farm activities.",u:"https://www.cherrycrestfarm.com/"},
-{n:"Railroad Museum of Pennsylvania",c:"Museum",d:72.7,t:79,r:4.8,rc:4600,s:"100+ historic locomotives under one colossal roof.",u:"https://rrmuseumpa.org/"},
-{n:"Strasburg Rail Road",c:"Attraction",d:72.8,t:79,r:4.8,rc:7500,s:"America's oldest operating railroad; steam through Amish farms.",u:"https://www.strasburgrailroad.com/"},
-{n:"Jenkinson's Boardwalk",c:"Beach",d:73.9,t:81,r:4.6,rc:13000,s:"Point Pleasant classic: rides, aquarium, funnel cake.",u:"https://jenkinsons.com/"},
-{n:"Storybook Land",c:"Kids",d:74,t:81,r:4.7,rc:5000,s:"Beloved fairy-tale park for little kids since 1955.",u:"https://www.storybookland.com/"},
-{n:"Hawk Mountain Sanctuary",c:"Nature",d:74.1,t:81,r:4.8,rc:2700,s:"World-famous raptor lookout; 18,000 hawks & eagles pass each fall.",u:"https://www.hawkmountain.org/"},
-{n:"Delaware Water Gap NRA",c:"Nature",d:74.4,t:81,r:4.8,rc:3200,s:"Cliff-framed river gap: Mt. Tammany hike, beaches, waterfalls.",u:"https://www.nps.gov/dewa/"},
-{n:"Seaside Heights Boardwalk",c:"Beach",d:74.4,t:81,r:4.5,rc:9500,s:"Rides & pier games of Jersey Shore fame.",u:null},
-{n:"Island Beach State Park",c:"Beach",d:74.8,t:82,r:4.8,rc:4200,s:"Ten untouched miles of dunes — NJ's wildest ocean beach.",u:"https://www.nj.gov/dep/parksandforests/parks/islandbeachstatepark.html"},
-{n:"Amish Farm and House",c:"Attraction",d:76.8,t:84,r:4.6,rc:3600,s:"Guided farmhouse tours & countryside bus rides since 1955.",u:"https://www.amishfarmandhouse.com/"},
-{n:"Asbury Park Boardwalk",c:"Beach",d:77.1,t:84,r:4.6,rc:8500,s:"Music-city beach town: Stone Pony, Silverball arcade, murals.",u:"https://www.apboardwalk.com/"},
-{n:"Lehigh Gorge Scenic Railway",c:"Attraction",d:77.2,t:84,r:4.7,rc:3200,s:"Open-window vintage train up the whitewater gorge.",u:"https://www.lgsry.com/"},
-{n:"Dutch Wonderland",c:"Theme Park",d:77.2,t:84,r:4.6,rc:9500,s:"A 'kingdom for kids' — gentle coasters & Duke the Dragon.",u:"https://www.dutchwonderland.com/"},
-{n:"Jim Thorpe",c:"Historic Town",d:77.5,t:85,r:4.7,rc:5000,s:"'Switzerland of America': Victorian streets in the Lehigh Gorge.",u:"https://www.jimthorpe.org/"},
-{n:"Barnegat Lighthouse State Park",c:"Beach",d:77.8,t:85,r:4.8,rc:3600,s:"Climb 'Old Barney' for Long Beach Island panoramas.",u:"https://www.nj.gov/dep/parksandforests/parks/barnlig.html"},
-{n:"Lancaster Central Market",c:"Market",d:82,t:89,r:4.7,rc:6500,s:"Oldest continuously operating public market in America (1730).",u:"https://www.centralmarketlancaster.com/"},
-{n:"Sandy Hook (Gateway NRA)",c:"Beach",d:82.1,t:90,r:4.6,rc:6000,s:"Beaches, bike path & Fort Hancock at the shore's northern tip.",u:"https://www.nps.gov/gate/"},
-{n:"Camelback Resort & Aquatopia",c:"Waterpark/Ski",d:83.1,t:91,r:4.4,rc:10000,s:"Ski slopes, alpine coaster & a giant indoor waterpark.",u:"https://www.camelbackresort.com/"},
-{n:"Kalahari Resorts Poconos",c:"Waterpark",d:83.6,t:91,r:4.4,rc:15000,s:"Africa-themed indoor waterpark with day passes.",u:"https://www.kalahariresorts.com/pennsylvania/"},
-{n:"Atlantic City Boardwalk",c:"Beach",d:85.7,t:93,r:4.5,rc:21000,s:"The original boardwalk: casinos, Steel Pier, salt water taffy.",u:"https://www.atlanticcitynj.com/"},
-{n:"Ocean City NJ Boardwalk",c:"Beach",d:86.6,t:94,r:4.7,rc:11000,s:"America's Greatest Family Resort — 2.5 dry-town miles of rides & fudge.",u:"https://www.ocnj.us/"},
-{n:"Bushkill Falls",c:"Nature",d:87.3,t:95,r:4.6,rc:6500,s:"'Niagara of Pennsylvania' — eight falls linked by boardwalks.",u:"https://www.visitbushkillfalls.com/"},
-{n:"Yuengling Brewery",c:"Brewery",d:88.2,t:96,r:4.7,rc:3200,s:"Free tours of America's oldest brewery (1829), aging caves included.",u:"https://www.yuengling.com/"},
-{n:"Liberty State Park & Statue of Liberty Ferry",c:"Attraction",d:88.6,t:97,r:4.7,rc:30000,s:"Skyline lawns; ferries to Lady Liberty & Ellis Island.",u:"https://www.nps.gov/stli/"},
-{n:"9/11 Memorial & Museum",c:"Museum",d:91.3,t:100,r:4.8,rc:60000,s:"Twin reflecting pools & the moving story beneath.",u:"https://www.911memorial.org/"},
-{n:"The High Line",c:"Park",d:93.7,t:102,r:4.8,rc:80000,s:"Elevated rail-trail park through Chelsea.",u:"https://www.thehighline.org/"},
-{n:"Empire State Building",c:"Attraction",d:94.8,t:103,r:4.7,rc:100000,s:"Art-deco icon with the 86th-floor open-air deck.",u:"https://www.esbnyc.com/"},
-{n:"Times Square",c:"Attraction",d:95.3,t:104,r:4.7,rc:220000,s:"The neon crossroads of the world.",u:null},
-{n:"Turkey Hill Experience",c:"Attraction",d:95.5,t:104,r:4.5,rc:3600,s:"Make-your-own-flavor ice cream lab in Columbia.",u:"https://www.turkeyhillexperience.com/"},
-{n:"American Museum of Natural History",c:"Museum",d:97.1,t:106,r:4.8,rc:100000,s:"Dinos, the blue whale & the dazzling Gilder Center.",u:"https://www.amnh.org/"},
-{n:"The Metropolitan Museum of Art",c:"Art Museum",d:97.6,t:106,r:4.8,rc:100000,s:"Two million works — America's greatest museum.",u:"https://www.metmuseum.org/"},
-{n:"Central Park",c:"Park",d:97.7,t:107,r:4.8,rc:280000,s:"843 acres of the world's most famous city park.",u:"https://www.centralparknyc.org/"},
-{n:"Hershey's Chocolate World",c:"Attraction",d:105,t:115,r:4.6,rc:33000,s:"Free factory-tour ride, tastings & candy-making add-ons.",u:"https://www.chocolateworld.com/"},
-{n:"Hershey Gardens",c:"Garden",d:105.5,t:115,r:4.7,rc:3200,s:"23 acres + butterfly atrium overlooking the park.",u:"https://hersheygardens.org/"},
-{n:"Hersheypark",c:"Theme Park",d:105.9,t:116,r:4.6,rc:32000,s:"15 coasters, a water park & chocolate everything.",u:"https://www.hersheypark.com/"}
+{n:"Wharton Esherick Museum",c:"Art",d:30.8,t:49,r:4.8,rc:500,s:"The wildly sculptural hilltop studio of the 'dean of American craftsmen.'",u:"https://whartonesherickmuseum.org/",ll:[40.056,-75.555]},
+{n:"Linvilla Orchards",c:"Farm",d:31.7,t:50,r:4.6,rc:6500,s:"300-acre family farm: pick-your-own, hayrides, big farm market.",u:"https://www.linvilla.com/",ll:[39.874,-75.418]},
+{n:"Subaru Park",c:"Sports",d:33.1,t:51,r:4.8,rc:5000,s:"Philadelphia Union MLS soccer on the Chester riverfront.",u:"https://www.philadelphiaunion.com/subarupark",ll:[39.832,-75.379]},
+{n:"American Helicopter Museum",c:"Museum",d:34.8,t:53,r:4.6,rc:900,s:"35+ helicopters; climb aboard several. Kid heaven.",u:"https://americanhelicopter.museum/",ll:[39.985,-75.583]},
+{n:"Princeton University & Art Museum",c:"Historic Site",d:36.5,t:54,r:4.8,rc:3200,s:"Gothic campus strolls; landmark new art museum opened 2025.",u:"https://www.princeton.edu/",ll:[40.343,-74.657]},
+{n:"Ringing Rocks Park",c:"Park/Nature",d:37.5,t:55,r:4.7,rc:2100,s:"Boulder field that chimes like bells when tapped — bring a hammer.",u:null,ll:[40.561,-75.128]},
+{n:"Brandywine Museum of Art",c:"Art Museum",d:40.7,t:58,r:4.7,rc:2300,s:"Three generations of Wyeths in a riverside gristmill.",u:"https://www.brandywine.org/museum",ll:[39.869,-75.593]},
+{n:"Lost River Caverns",c:"Cave",d:40.9,t:58,r:4.6,rc:1900,s:"Family-run crystal cavern tours since 1930 in Hellertown.",u:"https://lostcave.com/",ll:[40.578,-75.3]},
+{n:"Cowtown Rodeo",c:"Attraction",d:41,t:58,r:4.6,rc:3200,s:"Saturday-night pro rodeo running since 1929 — the East's oldest.",u:"https://www.cowtownrodeo.com/",ll:[39.735,-75.388]},
+{n:"Marsh Creek State Park",c:"State Park",d:41.6,t:58,r:4.7,rc:3300,s:"535-acre lake: sailing, kayaking, sunsets over the hills.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/marsh-creek-state-park.html",ll:[40.075,-75.72]},
+{n:"St. Peters Village",c:"Historic Town",d:41.8,t:59,r:4.7,rc:900,s:"Quirky 1800s ironworks village above French Creek boulders; bakery & inn.",u:null,ll:[40.176,-75.729]},
+{n:"Victory Brewing Company",c:"Brewery",d:42.3,t:59,r:4.5,rc:3000,s:"Flagship Downingtown brewpub of the HopDevil makers.",u:"https://victorybeer.com/",ll:[40.005,-75.71]},
+{n:"Bear Creek Mountain Resort",c:"Ski",d:44.1,t:60,r:4.5,rc:4000,s:"Skiing & snow tubing plus year-round resort dining and spa.",u:"https://www.bcmountainresort.com/",ll:[40.48,-75.59]},
+{n:"Nemours Estate",c:"Historic Site",d:44.4,t:61,r:4.8,rc:3200,s:"A Versailles-style château & gardens in Wilmington.",u:"https://nemoursestate.org/",ll:[39.785,-75.565]},
+{n:"Winterthur Museum, Garden & Library",c:"Museum",d:44.8,t:61,r:4.7,rc:4200,s:"du Pont's 175-room house of American antiques + storybook garden.",u:"https://www.winterthur.org/",ll:[39.805,-75.6]},
+{n:"Hopewell Furnace National Historic Site",c:"Historic Site",d:44.9,t:61,r:4.6,rc:1500,s:"Restored 1771–1883 iron plantation; orchard & casting demos.",u:"https://www.nps.gov/hofu/",ll:[40.207,-75.77]},
+{n:"Longwood Gardens",c:"Garden",d:45,t:61,r:4.8,rc:40000,s:"World-famous horticultural display; illuminated fountain shows.",u:"https://longwoodgardens.org/",ll:[39.871,-75.674]},
+{n:"Wind Creek Bethlehem",c:"Entertainment",d:45.4,t:61,r:4.4,rc:21000,s:"Casino, shops & shows inside the old steel mill.",u:"https://windcreek.com/bethlehem",ll:[40.616,-75.358]},
+{n:"SteelStacks",c:"Attraction",d:45.5,t:61,r:4.7,rc:5000,s:"Arts campus beneath Bethlehem Steel's monumental blast furnaces.",u:"https://www.steelstacks.org/",ll:[40.615,-75.366]},
+{n:"National Museum of Industrial History",c:"Museum",d:45.5,t:61,r:4.7,rc:1200,s:"Smithsonian-affiliated machines-and-steel story next to the stacks.",u:"https://www.nmih.org/",ll:[40.613,-75.37]},
+{n:"Delaware Art Museum",c:"Art Museum",d:45.5,t:61,r:4.7,rc:1600,s:"Howard Pyle illustrations & Pre-Raphaelite treasures.",u:"https://delart.org/",ll:[39.766,-75.563]},
+{n:"French Creek State Park",c:"State Park",d:46.3,t:62,r:4.7,rc:3054,s:"Camping, glamping, two lakes, extensive wooded trails.",u:null,ll:[40.206,-75.794]},
+{n:"Historic Moravian Bethlehem",c:"Historic Site",d:46.3,t:62,r:4.7,rc:2000,s:"UNESCO-listed 1741 Moravian quarter; Christmas City charm.",u:"https://historicbethlehem.org/",ll:[40.619,-75.383]},
+{n:"Hagley Museum and Library",c:"Museum",d:46.3,t:62,r:4.7,rc:2600,s:"Original du Pont gunpowder works along the Brandywine.",u:"https://www.hagley.org/",ll:[39.759,-75.57]},
+{n:"Six Flags Great Adventure",c:"Theme Park",d:46.7,t:62,r:4.4,rc:42000,s:"Major coasters plus a drive-through safari in Jackson.",u:"https://www.sixflags.com/greatadventure",ll:[40.139,-74.441]},
+{n:"Da Vinci Science Center",c:"Museum",d:47.7,t:63,r:4.5,rc:2600,s:"Hands-on science in downtown Allentown's new 2024 building.",u:"https://www.davincisciencecenter.org/",ll:[40.602,-75.474]},
+{n:"Daniel Boone Homestead",c:"Historic Site",d:47.9,t:63,r:4.6,rc:900,s:"Birthplace of the frontiersman; 579 bucolic acres.",u:null,ll:[40.28,-75.796]},
+{n:"Dorney Park & Wildwater Kingdom",c:"Theme Park",d:48.2,t:63,r:4.4,rc:15000,s:"Coasters plus a huge included water park in Allentown.",u:"https://www.dorneypark.com/",ll:[40.578,-75.535]},
+{n:"Mt Cuba Center",c:"Garden",d:48.2,t:63,r:4.9,rc:1600,s:"Ravishing native-plant garden; famous spring wildflower slopes.",u:"https://mtcubacenter.org/",ll:[39.788,-75.645]},
+{n:"America On Wheels Museum",c:"Museum",d:48.4,t:63,r:4.7,rc:1400,s:"75+ vehicles from horseless carriages to hot rods.",u:"https://www.americaonwheels.org/",ll:[40.613,-75.468]},
+{n:"Crayola Experience",c:"Kids",d:49.6,t:64,r:4.5,rc:7500,s:"Four floors of crayon-themed creativity in Easton.",u:"https://www.crayolaexperience.com/easton",ll:[40.692,-75.208]},
+{n:"Duke Farms",c:"Nature",d:50.4,t:65,r:4.8,rc:5000,s:"2,700-acre free eco-estate: orchid range, eagle cam, bike loops.",u:"https://www.dukefarms.org/",ll:[40.555,-74.62]},
+{n:"Reading Pagoda",c:"Attraction",d:56.5,t:69,r:4.6,rc:1700,s:"1908 Japanese-style pagoda with 30-mile views over Reading.",u:null,ll:[40.339,-75.905]},
+{n:"Lehigh Valley Zoo",c:"Zoo",d:58.6,t:70,r:4.4,rc:3200,s:"Compact zoo inside a game preserve; giraffe feedings.",u:"https://www.lvzoo.org/",ll:[40.674,-75.62]},
+{n:"Crystal Cave",c:"Cave",d:58.7,t:70,r:4.6,rc:2300,s:"PA's most-visited show cave — crystal formations toured since 1871.",u:"https://crystalcavepa.com/",ll:[40.54,-75.803]},
+{n:"Reading Public Museum",c:"Museum",d:58.8,t:70,r:4.6,rc:1900,s:"Art, science & a planetarium in a 25-acre arboretum.",u:"https://www.readingpublicmuseum.org/",ll:[40.328,-75.945]},
+{n:"Mid-Atlantic Air Museum",c:"Museum",d:61.3,t:71,r:4.7,rc:700,s:"Flying WWII warbirds incl. a rare P-61 Black Widow restoration.",u:"https://maam.org/",ll:[40.376,-75.963]},
+{n:"Blue Mountain Resort",c:"Ski",d:66.5,t:74,r:4.4,rc:4200,s:"PA's biggest vertical; summer biking & aerial ropes courses.",u:"https://www.skibluemt.com/",ll:[40.823,-75.508]},
+{n:"Allaire Village",c:"Historic Site",d:68.1,t:75,r:4.6,rc:3200,s:"Living-history 1830s ironmaking village + Pine Creek Railroad.",u:"https://allairevillage.org/",ll:[40.157,-74.13]},
+{n:"Kitchen Kettle Village",c:"Shopping",d:68.3,t:75,r:4.6,rc:9500,s:"40 shops around a jam & relish kitchen in Intercourse.",u:"https://www.kitchenkettle.com/",ll:[40.037,-76.106]},
+{n:"Cabela's Hamburg",c:"Shopping",d:69.5,t:76,r:4.6,rc:10000,s:"Destination outdoor megastore: mountain of taxidermy, big aquarium.",u:null,ll:[40.545,-75.99]},
+{n:"Sight & Sound Theatres",c:"Theater",d:70.2,t:77,r:4.9,rc:21000,s:"Broadway-scale biblical spectaculars with live animals.",u:"https://www.sight-sound.com/",ll:[39.988,-76.123]},
+{n:"Cherry Crest Adventure Farm",c:"Farm",d:71.5,t:78,r:4.7,rc:3600,s:"Famous 5-acre corn maze & 50 farm activities.",u:"https://www.cherrycrestfarm.com/",ll:[39.988,-76.142]},
+{n:"Railroad Museum of Pennsylvania",c:"Museum",d:72.7,t:79,r:4.8,rc:4600,s:"100+ historic locomotives under one colossal roof.",u:"https://rrmuseumpa.org/",ll:[39.982,-76.158]},
+{n:"Strasburg Rail Road",c:"Attraction",d:72.8,t:79,r:4.8,rc:7500,s:"America's oldest operating railroad; steam through Amish farms.",u:"https://www.strasburgrailroad.com/",ll:[39.982,-76.159]},
+{n:"Jenkinson's Boardwalk",c:"Beach",d:73.9,t:81,r:4.6,rc:13000,s:"Point Pleasant classic: rides, aquarium, funnel cake.",u:"https://jenkinsons.com/",ll:[40.092,-74.048]},
+{n:"Storybook Land",c:"Kids",d:74,t:81,r:4.7,rc:5000,s:"Beloved fairy-tale park for little kids since 1955.",u:"https://www.storybookland.com/",ll:[39.433,-74.58]},
+{n:"Hawk Mountain Sanctuary",c:"Nature",d:74.1,t:81,r:4.8,rc:2700,s:"World-famous raptor lookout; 18,000 hawks & eagles pass each fall.",u:"https://www.hawkmountain.org/",ll:[40.638,-75.989]},
+{n:"Delaware Water Gap NRA",c:"Nature",d:74.4,t:81,r:4.8,rc:3200,s:"Cliff-framed river gap: Mt. Tammany hike, beaches, waterfalls.",u:"https://www.nps.gov/dewa/",ll:[40.972,-75.142]},
+{n:"Seaside Heights Boardwalk",c:"Beach",d:74.4,t:81,r:4.5,rc:9500,s:"Rides & pier games of Jersey Shore fame.",u:null,ll:[39.944,-74.071]},
+{n:"Island Beach State Park",c:"Beach",d:74.8,t:82,r:4.8,rc:4200,s:"Ten untouched miles of dunes — NJ's wildest ocean beach.",u:"https://www.nj.gov/dep/parksandforests/parks/islandbeachstatepark.html",ll:[39.88,-74.09]},
+{n:"Amish Farm and House",c:"Attraction",d:76.8,t:84,r:4.6,rc:3600,s:"Guided farmhouse tours & countryside bus rides since 1955.",u:"https://www.amishfarmandhouse.com/",ll:[40.053,-76.233]},
+{n:"Asbury Park Boardwalk",c:"Beach",d:77.1,t:84,r:4.6,rc:8500,s:"Music-city beach town: Stone Pony, Silverball arcade, murals.",u:"https://www.apboardwalk.com/",ll:[40.22,-74.002]},
+{n:"Lehigh Gorge Scenic Railway",c:"Attraction",d:77.2,t:84,r:4.7,rc:3200,s:"Open-window vintage train up the whitewater gorge.",u:"https://www.lgsry.com/",ll:[40.866,-75.734]},
+{n:"Dutch Wonderland",c:"Theme Park",d:77.2,t:84,r:4.6,rc:9500,s:"A 'kingdom for kids' — gentle coasters & Duke the Dragon.",u:"https://www.dutchwonderland.com/",ll:[40.031,-76.235]},
+{n:"Jim Thorpe",c:"Historic Town",d:77.5,t:85,r:4.7,rc:5000,s:"'Switzerland of America': Victorian streets in the Lehigh Gorge.",u:"https://www.jimthorpe.org/",ll:[40.871,-75.732]},
+{n:"Barnegat Lighthouse State Park",c:"Beach",d:77.8,t:85,r:4.8,rc:3600,s:"Climb 'Old Barney' for Long Beach Island panoramas.",u:"https://www.nj.gov/dep/parksandforests/parks/barnlig.html",ll:[39.757,-74.11]},
+{n:"Lancaster Central Market",c:"Market",d:82,t:89,r:4.7,rc:6500,s:"Oldest continuously operating public market in America (1730).",u:"https://www.centralmarketlancaster.com/",ll:[40.0393,-76.307]},
+{n:"Sandy Hook (Gateway NRA)",c:"Beach",d:82.1,t:90,r:4.6,rc:6000,s:"Beaches, bike path & Fort Hancock at the shore's northern tip.",u:"https://www.nps.gov/gate/",ll:[40.432,-73.985]},
+{n:"Camelback Resort & Aquatopia",c:"Waterpark/Ski",d:83.1,t:91,r:4.4,rc:10000,s:"Ski slopes, alpine coaster & a giant indoor waterpark.",u:"https://www.camelbackresort.com/",ll:[41.051,-75.356]},
+{n:"Kalahari Resorts Poconos",c:"Waterpark",d:83.6,t:91,r:4.4,rc:15000,s:"Africa-themed indoor waterpark with day passes.",u:"https://www.kalahariresorts.com/pennsylvania/",ll:[41.045,-75.426]},
+{n:"Atlantic City Boardwalk",c:"Beach",d:85.7,t:93,r:4.5,rc:21000,s:"The original boardwalk: casinos, Steel Pier, salt water taffy.",u:"https://www.atlanticcitynj.com/",ll:[39.357,-74.418]},
+{n:"Ocean City NJ Boardwalk",c:"Beach",d:86.6,t:94,r:4.7,rc:11000,s:"America's Greatest Family Resort — 2.5 dry-town miles of rides & fudge.",u:"https://www.ocnj.us/",ll:[39.276,-74.575]},
+{n:"Bushkill Falls",c:"Nature",d:87.3,t:95,r:4.6,rc:6500,s:"'Niagara of Pennsylvania' — eight falls linked by boardwalks.",u:"https://www.visitbushkillfalls.com/",ll:[41.112,-75.006]},
+{n:"Yuengling Brewery",c:"Brewery",d:88.2,t:96,r:4.7,rc:3200,s:"Free tours of America's oldest brewery (1829), aging caves included.",u:"https://www.yuengling.com/",ll:[40.688,-76.195]},
+{n:"Liberty State Park & Statue of Liberty Ferry",c:"Attraction",d:88.6,t:97,r:4.7,rc:30000,s:"Skyline lawns; ferries to Lady Liberty & Ellis Island.",u:"https://www.nps.gov/stli/",ll:[40.704,-74.056]},
+{n:"9/11 Memorial & Museum",c:"Museum",d:91.3,t:100,r:4.8,rc:60000,s:"Twin reflecting pools & the moving story beneath.",u:"https://www.911memorial.org/",ll:[40.7115,-74.0134]},
+{n:"The High Line",c:"Park",d:93.7,t:102,r:4.8,rc:80000,s:"Elevated rail-trail park through Chelsea.",u:"https://www.thehighline.org/",ll:[40.748,-74.0048]},
+{n:"Empire State Building",c:"Attraction",d:94.8,t:103,r:4.7,rc:100000,s:"Art-deco icon with the 86th-floor open-air deck.",u:"https://www.esbnyc.com/",ll:[40.7484,-73.9857]},
+{n:"Times Square",c:"Attraction",d:95.3,t:104,r:4.7,rc:220000,s:"The neon crossroads of the world.",u:null,ll:[40.758,-73.9855]},
+{n:"Turkey Hill Experience",c:"Attraction",d:95.5,t:104,r:4.5,rc:3600,s:"Make-your-own-flavor ice cream lab in Columbia.",u:"https://www.turkeyhillexperience.com/",ll:[40.034,-76.504]},
+{n:"American Museum of Natural History",c:"Museum",d:97.1,t:106,r:4.8,rc:100000,s:"Dinos, the blue whale & the dazzling Gilder Center.",u:"https://www.amnh.org/",ll:[40.7813,-73.974]},
+{n:"The Metropolitan Museum of Art",c:"Art Museum",d:97.6,t:106,r:4.8,rc:100000,s:"Two million works — America's greatest museum.",u:"https://www.metmuseum.org/",ll:[40.7794,-73.9632]},
+{n:"Central Park",c:"Park",d:97.7,t:107,r:4.8,rc:280000,s:"843 acres of the world's most famous city park.",u:"https://www.centralparknyc.org/",ll:[40.7829,-73.9654]},
+{n:"Hershey's Chocolate World",c:"Attraction",d:105,t:115,r:4.6,rc:33000,s:"Free factory-tour ride, tastings & candy-making add-ons.",u:"https://www.chocolateworld.com/",ll:[40.289,-76.641]},
+{n:"Hershey Gardens",c:"Garden",d:105.5,t:115,r:4.7,rc:3200,s:"23 acres + butterfly atrium overlooking the park.",u:"https://hersheygardens.org/",ll:[40.286,-76.648]},
+{n:"Hersheypark",c:"Theme Park",d:105.9,t:116,r:4.6,rc:32000,s:"15 coasters, a water park & chocolate everything.",u:"https://www.hersheypark.com/",ll:[40.288,-76.654]}
 ],
 events: [
-{n:"Glenside Farmers Market",c:"Market",d:4.4,t:10,w:"Saturdays · 9:30a–1p (Apr–Nov)",s:"Weekly Saturday market: meats, farm eggs, produce, baked goods, honey, jams.",u:"https://montgomerycountyalive.com/events/"},
-{n:"Ambler Food Truck Fridays: Cousins Maine Lobster",c:"Food",d:7.1,t:16,w:"Fridays · 5p",s:"Food-truck night at Well Crafted Ambler.",u:"https://allevents.in/ambler-pa/all"},
-{n:"Royal Rummage in Chestnut Hill",c:"Street Fair",d:9.1,t:19,w:"Fri–Sun 7/24–26",s:"Sidewalk sales and deep discounts at 40+ retailers along Germantown Ave.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Carnival Family Fun Day — Shops at Valley Square",c:"Fair",d:10.1,t:21,w:"Sat 7/25 · 1–4p",s:"Free family carnival in Warrington: bounce houses, blow-up games, face painting, food trucks.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
-{n:"High Point Philly Friday Market",c:"Market",d:10.2,t:21,w:"Fridays (weekly)",s:"Local artists, makers & musicians at Allen Lane Station, Mt. Airy. Free.",u:"https://www.chestnuthilllocal.com/stories/untitled,40027"},
-{n:"Andalusia Garden Tours",c:"Tour",d:10.7,t:22,w:"Fridays · 1p (weekly)",s:"Guided garden walk at the historic Andalusia estate on the Delaware.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
-{n:"Artes en las Calles — Esperanza Arts Center",c:"Music",d:12.3,t:25,w:"Sat 7/25 · 6–9p",s:"Free summer street celebration with LaGuaGua 47 Orchestra, Brazilian music & food.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"El Centro de Oro Block Party",c:"Street Fair",d:13.7,t:27,w:"Sat 7/25 · 12–5p",s:"Latino cultural block party at 5th & Lehigh: live music and family activities.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Make The World Better Weekend: Pavement + Kurt Vile",c:"Music",d:14.1,t:28,w:"Fri–Sat 7/24–25",s:"Pavement + Ratboys (Fri) and Kurt Vile & the Violators (Sat) at the Dell Music Center.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Middletown Grange Fair",c:"Fair",d:14.3,t:28,w:"Wed–Sun 8/12–16",s:"Bucks County's classic ag fair in Wrightstown: 4-H shows, pig races, rides, the famous chicken dinner. Free admission.",u:"https://middletowngrangefair.org/"},
-{n:"Jill Scott at The Met",c:"Music",d:15.8,t:30,w:"7/24–7/29 · select nights",s:"Philly's own Jill Scott plays a hometown run at the Met on North Broad.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Glenside Farmers Market",c:"Market",d:4.4,t:10,w:"Saturdays · 9:30a–1p (Apr–Nov)",s:"Weekly Saturday market: meats, farm eggs, produce, baked goods, honey, jams.",u:"https://montgomerycountyalive.com/events/",ll:[40.102,-75.152]},
+{n:"Ambler Food Truck Fridays: Cousins Maine Lobster",c:"Food",d:7.1,t:16,w:"Fridays · 5p",s:"Food-truck night at Well Crafted Ambler.",u:"https://allevents.in/ambler-pa/all",ll:[40.155,-75.222]},
+{n:"Royal Rummage in Chestnut Hill",c:"Street Fair",d:9.1,t:19,w:"Fri–Sun 7/24–26",s:"Sidewalk sales and deep discounts at 40+ retailers along Germantown Ave.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[40.0793,-75.2069]},
+{n:"Carnival Family Fun Day — Shops at Valley Square",c:"Fair",d:10.1,t:21,w:"Sat 7/25 · 1–4p",s:"Free family carnival in Warrington: bounce houses, blow-up games, face painting, food trucks.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/",ll:[40.247,-75.131]},
+{n:"High Point Philly Friday Market",c:"Market",d:10.2,t:21,w:"Fridays (weekly)",s:"Local artists, makers & musicians at Allen Lane Station, Mt. Airy. Free.",u:"https://www.chestnuthilllocal.com/stories/untitled,40027",ll:[40.05,-75.191]},
+{n:"Andalusia Garden Tours",c:"Tour",d:10.7,t:22,w:"Fridays · 1p (weekly)",s:"Guided garden walk at the historic Andalusia estate on the Delaware.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/",ll:[40.065,-74.947]},
+{n:"Artes en las Calles — Esperanza Arts Center",c:"Music",d:12.3,t:25,w:"Sat 7/25 · 6–9p",s:"Free summer street celebration with LaGuaGua 47 Orchestra, Brazilian music & food.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[40.014,-75.136]},
+{n:"El Centro de Oro Block Party",c:"Street Fair",d:13.7,t:27,w:"Sat 7/25 · 12–5p",s:"Latino cultural block party at 5th & Lehigh: live music and family activities.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[39.993,-75.14]},
+{n:"Make The World Better Weekend: Pavement + Kurt Vile",c:"Music",d:14.1,t:28,w:"Fri–Sat 7/24–25",s:"Pavement + Ratboys (Fri) and Kurt Vile & the Violators (Sat) at the Dell Music Center.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[39.9945,-75.174]},
+{n:"Middletown Grange Fair",c:"Fair",d:14.3,t:28,w:"Wed–Sun 8/12–16",s:"Bucks County's classic ag fair in Wrightstown: 4-H shows, pig races, rides, the famous chicken dinner. Free admission.",u:"https://middletowngrangefair.org/",ll:[40.276,-74.995]},
+{n:"Jill Scott at The Met",c:"Music",d:15.8,t:30,w:"7/24–7/29 · select nights",s:"Philly's own Jill Scott plays a hometown run at the Met on North Broad.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[39.9691,-75.1596]},
 {n:"Jazzing on Ridge Festival",c:"Music",d:16.1,t:31,w:"Sat 7/25 · 12–6p",s:"Free neighborhood jazz festival on the 2200 block of Ridge Ave.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Philadelphia Chinese Lantern Festival",c:"Festival",d:17.3,t:33,w:"Nightly 6–11p thru 8/16",s:"200-ft dragon and massive light displays in Franklin Square; food & performances. $16–29.",u:"https://www.visitphilly.com/articles/philadelphia/top-things-to-do-in-philadelphia-in-july/"},
-{n:"Franklin Square 20th Birthday",c:"Festival",d:17.3,t:33,w:"Sat 7/25 · 10a–12p",s:"National Carousel Day: free cupcakes and buy-one-get-one carousel rides.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Jewish America 250 — Mikveh Israel",c:"Festival",d:17.6,t:33,w:"Sun 7/26 · 4–10p",s:"Celebration of Jewish culture and history in America's 250th year at the historic Old City congregation.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"RiverRink Summerfest & Spruce St Harbor Park",c:"Festival",d:17.9,t:34,w:"Daily thru September",s:"Roller skating, rides, mini-golf, hammocks & boardwalk food on the Delaware. Free entry.",u:"https://www.delawareriverwaterfront.com/where-to-go/independence-blue-cross-riverrink-summerfest"},
-{n:"Sips Undersea: Sunset with the Sharks",c:"Food",d:18,t:34,w:"Fri 7/24 · 6:30–9:30p",s:"Adults-only evening at Adventure Aquarium: shark exhibits, drinks, Delaware River views.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Train at Freedom Mortgage Pavilion",c:"Music",d:18.2,t:34,w:"Sun 7/26",s:"Train headlines the Camden waterfront amphitheater.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Twilight in the Gardens — Magic Gardens",c:"Music",d:18.5,t:34,w:"Fri 7/24 · 7–10p",s:"Live music among Isaiah Zagar's mosaics on South Street; BYO blanket and snacks.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Puerto Rican Day Festival — Bristol Wharf",c:"Festival",d:18.6,t:34,w:"Sat 7/25 · from 12p",s:"52nd annual waterfront festival: Tito Puente Jr. headlines, Danza Fiesta, food trucks & artisan vendors.",u:"https://levittownnow.com/2025/07/23/puerto-rican-day-festival-to-bring-music-dance-food-to-bristol-waterfront/"},
-{n:"Summer unWINEd Concert Series — Shady Brook Farm",c:"Music",d:18.9,t:35,w:"Fri & Sat evenings (summer)",s:"Live music, food & drink at the Yardley farm; themed Saturday nights.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
+{n:"Philadelphia Chinese Lantern Festival",c:"Festival",d:17.3,t:33,w:"Nightly 6–11p thru 8/16",s:"200-ft dragon and massive light displays in Franklin Square; food & performances. $16–29.",u:"https://www.visitphilly.com/articles/philadelphia/top-things-to-do-in-philadelphia-in-july/",ll:[39.9557,-75.1503]},
+{n:"Franklin Square 20th Birthday",c:"Festival",d:17.3,t:33,w:"Sat 7/25 · 10a–12p",s:"National Carousel Day: free cupcakes and buy-one-get-one carousel rides.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[39.9557,-75.1503]},
+{n:"Jewish America 250 — Mikveh Israel",c:"Festival",d:17.6,t:33,w:"Sun 7/26 · 4–10p",s:"Celebration of Jewish culture and history in America's 250th year at the historic Old City congregation.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[39.952,-75.147]},
+{n:"RiverRink Summerfest & Spruce St Harbor Park",c:"Festival",d:17.9,t:34,w:"Daily thru September",s:"Roller skating, rides, mini-golf, hammocks & boardwalk food on the Delaware. Free entry.",u:"https://www.delawareriverwaterfront.com/where-to-go/independence-blue-cross-riverrink-summerfest",ll:[39.946,-75.14]},
+{n:"Sips Undersea: Sunset with the Sharks",c:"Food",d:18,t:34,w:"Fri 7/24 · 6:30–9:30p",s:"Adults-only evening at Adventure Aquarium: shark exhibits, drinks, Delaware River views.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[39.9454,-75.131]},
+{n:"Train at Freedom Mortgage Pavilion",c:"Music",d:18.2,t:34,w:"Sun 7/26",s:"Train headlines the Camden waterfront amphitheater.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[39.943,-75.132]},
+{n:"Twilight in the Gardens — Magic Gardens",c:"Music",d:18.5,t:34,w:"Fri 7/24 · 7–10p",s:"Live music among Isaiah Zagar's mosaics on South Street; BYO blanket and snacks.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[39.9427,-75.1594]},
+{n:"Puerto Rican Day Festival — Bristol Wharf",c:"Festival",d:18.6,t:34,w:"Sat 7/25 · from 12p",s:"52nd annual waterfront festival: Tito Puente Jr. headlines, Danza Fiesta, food trucks & artisan vendors.",u:"https://levittownnow.com/2025/07/23/puerto-rican-day-festival-to-bring-music-dance-food-to-bristol-waterfront/",ll:[40.1,-74.852]},
+{n:"Summer unWINEd Concert Series — Shady Brook Farm",c:"Music",d:18.9,t:35,w:"Fri & Sat evenings (summer)",s:"Live music, food & drink at the Yardley farm; themed Saturday nights.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/",ll:[40.2,-74.86]},
 {n:"Wine & Culture Fest: Summer School",c:"Food",d:19.8,t:36,w:"Sat 7/25 · 11a–3p & 7–11p",s:"Wine tastings paired with rice-centric cuisine at Bok in South Philly.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Peddler's Village: An American Road Trip",c:"Festival",d:21.2,t:38,w:"Daily thru 8/31",s:"Giant sand sculptures of US landmarks (Statue of Liberty, Rushmore, Golden Gate) across the village.",u:"https://peddlersvillage.com/festivals/"},
-{n:"Phillies vs. Yankees",c:"Sports",d:21.6,t:38,w:"Fri–Sun 7/24–26",s:"Interleague home series against the Yankees at Citizens Bank Park.",u:"https://www.mlb.com/phillies/schedule"},
-{n:"New Hope Automobile Show",c:"Car Show",d:22.4,t:39,w:"Sat–Sun 8/8–9",s:"Long-running classic car show on the New Hope-Solebury HS campus.",u:"https://newhopeautoshow.com/"},
-{n:"Philadelphia Folk Festival",c:"Festival",d:25.9,t:44,w:"Fri–Sun 8/14–16",s:"63rd edition at Old Pool Farm, Upper Salford: camping, workshops, big folk lineup.",u:"https://folkfest.org/"},
-{n:"Union vs. Seattle Sounders",c:"Sports",d:33.1,t:51,w:"Sat 7/25 · 7:30p",s:"MLS match at Subaru Park on the Chester riverfront.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Longwood Gardens Illuminated Fountains",c:"Festival",d:45,t:61,w:"Weekend evenings thru Sept",s:"Dazzling music-synced fountain performances after dark.",u:"https://longwoodgardens.org/"},
-{n:"Musikfest",c:"Festival",d:46.3,t:62,w:"7/31–8/9",s:"America's biggest free music festival — 500+ acts across Bethlehem's Moravian district & SteelStacks.",u:"https://www.artsquest.org/musikfest/"}
+{n:"Peddler's Village: An American Road Trip",c:"Festival",d:21.2,t:38,w:"Daily thru 8/31",s:"Giant sand sculptures of US landmarks (Statue of Liberty, Rushmore, Golden Gate) across the village.",u:"https://peddlersvillage.com/festivals/",ll:[40.351,-75.061]},
+{n:"Phillies vs. Yankees",c:"Sports",d:21.6,t:38,w:"Fri–Sun 7/24–26",s:"Interleague home series against the Yankees at Citizens Bank Park.",u:"https://www.mlb.com/phillies/schedule",ll:[39.9061,-75.1665]},
+{n:"New Hope Automobile Show",c:"Car Show",d:22.4,t:39,w:"Sat–Sun 8/8–9",s:"Long-running classic car show on the New Hope-Solebury HS campus.",u:"https://newhopeautoshow.com/",ll:[40.361,-74.96]},
+{n:"Philadelphia Folk Festival",c:"Festival",d:25.9,t:44,w:"Fri–Sun 8/14–16",s:"63rd edition at Old Pool Farm, Upper Salford: camping, workshops, big folk lineup.",u:"https://folkfest.org/",ll:[40.276,-75.437]},
+{n:"Union vs. Seattle Sounders",c:"Sports",d:33.1,t:51,w:"Sat 7/25 · 7:30p",s:"MLS match at Subaru Park on the Chester riverfront.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/",ll:[39.832,-75.379]},
+{n:"Longwood Gardens Illuminated Fountains",c:"Festival",d:45,t:61,w:"Weekend evenings thru Sept",s:"Dazzling music-synced fountain performances after dark.",u:"https://longwoodgardens.org/",ll:[39.871,-75.674]},
+{n:"Musikfest",c:"Festival",d:46.3,t:62,w:"7/31–8/9",s:"America's biggest free music festival — 500+ acts across Bethlehem's Moravian district & SteelStacks.",u:"https://www.artsquest.org/musikfest/",ll:[40.615,-75.366]}
 ],
 fishing: [
-{n:"Masons Mill Park Pond",c:"Pond",d:3.2,t:8,r:4.7,rc:1721,s:"Small pond in a big Upper Moreland park; panfish, easy family fishing.",u:"https://www.uppermoreland.org/"},
-{n:"Pennypack Creek @ Lorimer Park",c:"Creek/Trout",d:5.3,t:12,r:4.8,rc:1617,s:"Stocked rainbow/brown/palomino trout (spring + Oct); put-and-take; sunfish & rock bass in summer.",u:"https://www.physics.upenn.edu/~wk/local-streams.html"},
-{n:"Loch Alsh Reservoir (Ambler)",c:"Reservoir",d:5.7,t:13,r:4,rc:71,s:"Stocked trout + carp; quiet suburban sleeper, bank fishing, line-recycling bins.",u:"https://www.yelp.com/search?cflt=fishing&find_loc=Montgomery+County%2C+PA"},
-{n:"Wissahickon Creek @ Fort Washington SP",c:"Creek/Trout",d:7.3,t:16,r:4.6,rc:1314,s:"Stocked trout section through the state park; deep pools; October extended-season stocking.",u:"https://www.physics.upenn.edu/~wk/local-streams.html"},
-{n:"Churchville Reservoir",c:"Reservoir",d:8.1,t:18,r:4.7,rc:900,s:"Shoreline fishing at the nature center; bass & panfish.",u:"https://churchvillenaturecenter.org/"},
-{n:"Wissahickon Creek @ Valley Green",c:"Creek/Trout",d:10.2,t:21,r:4.8,rc:6926,s:"8 miles of stocked trout water through the Wissahickon gorge — the classic Philly fly water.",u:"https://www.visitpa.com/blog/post/best-pennsylvania-trout-fishing-spots/"},
-{n:"Neshaminy Creek @ Tyler State Park",c:"Creek/Bass",d:12.7,t:26,r:4.8,rc:3499,s:"Smallmouth, largemouth, crappie, carp; bank + canoe; special-reg trout water below the causeway dam.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
-{n:"Schuylkill River @ Flat Rock Dam",c:"River",d:12.8,t:26,r:4.6,rc:500,s:"Manayunk access; smallmouth, channel cats, muskie in an urban setting.",u:"https://fishbrain.com/cities/us/pa/willow-grove"},
-{n:"Stony Creek Park (Lansdale)",c:"Pond",d:14.9,t:29,r:4.6,rc:700,s:"Small lake with fountain; bass & panfish; family-friendly.",u:"https://www.yelp.com/search?find_desc=fishing+spots&find_loc=Montgomery+County,+PA"},
-{n:"Neshaminy State Park (Delaware R.)",c:"River",d:15.1,t:29,r:4.5,rc:3000,s:"Tidal Delaware: stripers, catfish, bass, muskie; boat launch.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
-{n:"Lake Luxembourg @ Core Creek Park",c:"Lake",d:15.3,t:30,r:4.7,rc:2983,s:"165-ac lake; bass, crappie, cats; 24-hr fishing dock, launch, paddle rentals.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
-{n:"Norristown Farm Park (Stony Creek)",c:"Creek/Trout",d:15.9,t:31,r:4.7,rc:2000,s:"Stocked trout in Stony Creek; meadows and paved-trail access.",u:"https://www.yelp.com/search?find_desc=fishing+spots&find_loc=Montgomery+County,+PA"},
-{n:"Lake Galena @ Peace Valley Park",c:"Lake",d:16.4,t:31,r:4.8,rc:71,s:"365-ac lake: walleye, bass, panfish; rentals + full loop trail. Top Bucks fishery.",u:"https://www.yelp.com/search?find_desc=fishing+spots&find_loc=Montgomery+County,+PA"},
-{n:"Fischer's Park (Towamencin Creek)",c:"Creek",d:17.8,t:33,r:4.8,rc:1184,s:"Fishing pier + creek; very family-friendly Harleysville park.",u:"https://www.yelp.com/search?cflt=fishing&find_loc=Montgomery+County%2C+PA"},
-{n:"Silver Lake (Bristol)",c:"Lake",d:18.2,t:34,r:4.4,rc:23,s:"Warm-water bass/panfish; lily-pad channels; kayak-friendly, nature center on shore.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
-{n:"Evansburg State Park (Skippack Creek)",c:"Creek/Trout",d:20.1,t:36,r:4.6,rc:1393,s:"8 miles of Skippack Creek: stocked trout, smallmouth, sunnies.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/evansburg-state-park.html"},
-{n:"Levittown Lake",c:"Lake",d:20.8,t:37,r:4.2,rc:47,s:"Stocked trout spring + fall; holds big bass; electric/unpowered boats only.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
-{n:"Delaware Canal SP (towpath)",c:"Canal/River",d:20.9,t:38,r:4.7,rc:1500,s:"Canal + Delaware River access along the towpath; 50-ac pond, 11 river islands.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/"},
-{n:"Green Lane Reservoir",c:"Reservoir",d:29.5,t:47,r:4.7,rc:2500,s:"814-ac, up to 45 ft deep: walleye, hybrid stripers, big bass, crappie; boat rentals.",u:"https://www.aquamarinepower.com/best-fishing-spots-montgomery-county-pa/"},
-{n:"Lake Nockamixon",c:"Lake",d:29.9,t:48,r:4.7,rc:6000,s:"1,450-ac premier lake: muskie, hybrid stripers, walleye, bass; marinas & launches.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/nockamixon-state-park.html"}
+{n:"Masons Mill Park Pond",c:"Pond",d:3.2,t:8,r:4.7,rc:1721,s:"Small pond in a big Upper Moreland park; panfish, easy family fishing.",u:"https://www.uppermoreland.org/",ll:[40.157,-75.065]},
+{n:"Pennypack Creek @ Lorimer Park",c:"Creek/Trout",d:5.3,t:12,r:4.8,rc:1617,s:"Stocked rainbow/brown/palomino trout (spring + Oct); put-and-take; sunfish & rock bass in summer.",u:"https://www.physics.upenn.edu/~wk/local-streams.html",ll:[40.083,-75.033]},
+{n:"Loch Alsh Reservoir (Ambler)",c:"Reservoir",d:5.7,t:13,r:4,rc:71,s:"Stocked trout + carp; quiet suburban sleeper, bank fishing, line-recycling bins.",u:"https://www.yelp.com/search?cflt=fishing&find_loc=Montgomery+County%2C+PA",ll:[40.166,-75.208]},
+{n:"Wissahickon Creek @ Fort Washington SP",c:"Creek/Trout",d:7.3,t:16,r:4.6,rc:1314,s:"Stocked trout section through the state park; deep pools; October extended-season stocking.",u:"https://www.physics.upenn.edu/~wk/local-streams.html",ll:[40.135,-75.209]},
+{n:"Churchville Reservoir",c:"Reservoir",d:8.1,t:18,r:4.7,rc:900,s:"Shoreline fishing at the nature center; bass & panfish.",u:"https://churchvillenaturecenter.org/",ll:[40.188,-74.999]},
+{n:"Wissahickon Creek @ Valley Green",c:"Creek/Trout",d:10.2,t:21,r:4.8,rc:6926,s:"8 miles of stocked trout water through the Wissahickon gorge — the classic Philly fly water.",u:"https://www.visitpa.com/blog/post/best-pennsylvania-trout-fishing-spots/",ll:[40.055,-75.222]},
+{n:"Neshaminy Creek @ Tyler State Park",c:"Creek/Bass",d:12.7,t:26,r:4.8,rc:3499,s:"Smallmouth, largemouth, crappie, carp; bank + canoe; special-reg trout water below the causeway dam.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/",ll:[40.221,-74.954]},
+{n:"Schuylkill River @ Flat Rock Dam",c:"River",d:12.8,t:26,r:4.6,rc:500,s:"Manayunk access; smallmouth, channel cats, muskie in an urban setting.",u:"https://fishbrain.com/cities/us/pa/willow-grove",ll:[40.027,-75.242]},
+{n:"Stony Creek Park (Lansdale)",c:"Pond",d:14.9,t:29,r:4.6,rc:700,s:"Small lake with fountain; bass & panfish; family-friendly.",u:"https://www.yelp.com/search?find_desc=fishing+spots&find_loc=Montgomery+County,+PA",ll:[40.235,-75.293]},
+{n:"Neshaminy State Park (Delaware R.)",c:"River",d:15.1,t:29,r:4.5,rc:3000,s:"Tidal Delaware: stripers, catfish, bass, muskie; boat launch.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/",ll:[40.078,-74.917]},
+{n:"Lake Luxembourg @ Core Creek Park",c:"Lake",d:15.3,t:30,r:4.7,rc:2983,s:"165-ac lake; bass, crappie, cats; 24-hr fishing dock, launch, paddle rentals.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/",ll:[40.203,-74.921]},
+{n:"Norristown Farm Park (Stony Creek)",c:"Creek/Trout",d:15.9,t:31,r:4.7,rc:2000,s:"Stocked trout in Stony Creek; meadows and paved-trail access.",u:"https://www.yelp.com/search?find_desc=fishing+spots&find_loc=Montgomery+County,+PA",ll:[40.135,-75.352]},
+{n:"Lake Galena @ Peace Valley Park",c:"Lake",d:16.4,t:31,r:4.8,rc:71,s:"365-ac lake: walleye, bass, panfish; rentals + full loop trail. Top Bucks fishery.",u:"https://www.yelp.com/search?find_desc=fishing+spots&find_loc=Montgomery+County,+PA",ll:[40.325,-75.175]},
+{n:"Fischer's Park (Towamencin Creek)",c:"Creek",d:17.8,t:33,r:4.8,rc:1184,s:"Fishing pier + creek; very family-friendly Harleysville park.",u:"https://www.yelp.com/search?cflt=fishing&find_loc=Montgomery+County%2C+PA",ll:[40.253,-75.345]},
+{n:"Silver Lake (Bristol)",c:"Lake",d:18.2,t:34,r:4.4,rc:23,s:"Warm-water bass/panfish; lily-pad channels; kayak-friendly, nature center on shore.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/",ll:[40.109,-74.86]},
+{n:"Evansburg State Park (Skippack Creek)",c:"Creek/Trout",d:20.1,t:36,r:4.6,rc:1393,s:"8 miles of Skippack Creek: stocked trout, smallmouth, sunnies.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/evansburg-state-park.html",ll:[40.184,-75.428]},
+{n:"Levittown Lake",c:"Lake",d:20.8,t:37,r:4.2,rc:47,s:"Stocked trout spring + fall; holds big bass; electric/unpowered boats only.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/",ll:[40.152,-74.854]},
+{n:"Delaware Canal SP (towpath)",c:"Canal/River",d:20.9,t:38,r:4.7,rc:1500,s:"Canal + Delaware River access along the towpath; 50-ac pond, 11 river islands.",u:"https://www.johnsautotags.com/bucks-county-fishing-spots/",ll:[40.24,-74.84]},
+{n:"Green Lane Reservoir",c:"Reservoir",d:29.5,t:47,r:4.7,rc:2500,s:"814-ac, up to 45 ft deep: walleye, hybrid stripers, big bass, crappie; boat rentals.",u:"https://www.aquamarinepower.com/best-fishing-spots-montgomery-county-pa/",ll:[40.337,-75.47]},
+{n:"Lake Nockamixon",c:"Lake",d:29.9,t:48,r:4.7,rc:6000,s:"1,450-ac premier lake: muskie, hybrid stripers, walleye, bass; marinas & launches.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/nockamixon-state-park.html",ll:[40.466,-75.229]}
+],
+chinese: [
+{n:"Weee! Chinese Grocery Delivery",c:"Grocery (delivery)",d:0,t:0,r:null,rc:null,s:"Chinese e-grocery that delivers to Willow Grove — Sichuan pantry, frozen dim sum, fresh produce to the door.",u:"https://www.sayweee.com/en/grocery-near-me/asian-supermarket-in-usa/pennsylvania/city-willow-grove/chinese-store"},
+{n:"H Mart Elkins Park",c:"Grocery",d:6.3,t:14,r:4.3,rc:3000,s:"Closest big Asian supermarket (~15 min): produce, live fish counter, Sichuan pantry staples (doubanjiang, huajiao), food court.",u:"https://www.hmart.com/",ll:[40.074,-75.128]},
+{n:"Tylor Asian Market (Feasterville)",c:"Grocery",d:9.4,t:20,r:4.4,rc:300,s:"Compact Chinese/pan-Asian grocery on Street Rd — quick pantry runs without the drive to Chinatown.",u:"https://www.yelp.com/search?find_desc=Asian+Supermarket&find_loc=Willow+Grove,+PA",ll:[40.152,-74.985]},
+{n:"Assi Plaza (North Wales)",c:"Grocery",d:11.2,t:23,r:4.3,rc:2500,s:"Huge pan-Asian market: Chinese/Korean/SE-Asian aisles, seafood, housewares, food stalls.",u:"https://www.assiplaza.net/",ll:[40.226,-75.245]},
+{n:"Philadelphia Museum of Art — Chinese galleries",c:"Culture",d:16.5,t:32,r:4.8,rc:23000,s:"A reassembled Beijing palace reception hall and scholar's study.",u:"https://www.philamuseum.org/",ll:[39.9656,-75.181]},
+{n:"Chili Szechuan",c:"Sichuan",d:17,t:32,r:4.5,rc:300,s:"Traditional Chengdu recipes and real spice — one of Chinatown's newer Sichuan standouts.",u:"https://www.phillymag.com/foobooz/chinese-restaurant-philadelphia-chinatown/",ll:[39.956,-75.156]},
+{n:"Yi Pin 一品",c:"Sichuan",d:17,t:32,r:4.4,rc:400,s:"Dry pepper fish, northwest-style BBQ skewers & hot pot — open till midnight every night.",u:"https://www.phillymag.com/foobooz/chinese-restaurant-philadelphia-chinatown/",ll:[39.9555,-75.1545]},
+{n:"Bai Wei 百味",c:"Sichuan",d:17,t:32,r:4.5,rc:400,s:"Sichuan small plates plus hand-pulled biang biang noodles.",u:"https://www.phillymag.com/foobooz/chinese-restaurant-philadelphia-chinatown/",ll:[39.9558,-75.157]},
+{n:"Dim Sum Garden 小笼包",c:"Dim Sum",d:17,t:32,r:4.4,rc:3500,s:"Shanghai-style xiao long bao — the Chinatown soup-dumpling staple.",u:"https://www.dimsumgardenphilly.com/",ll:[39.9563,-75.1568]},
+{n:"Ocean Harbor 海港",c:"Dim Sum",d:17,t:32,r:4,rc:1800,s:"Classic cart-service Cantonese dim sum; go early on weekends.",u:"https://www.theinfatuation.com/philadelphia/guides/the-best-dim-sum-spots-in-philly",ll:[39.956,-75.155]},
+{n:"Chubby Cattle 肥牛",c:"Hot Pot",d:17,t:32,r:4.5,rc:1500,s:"Wagyu-focused conveyor-belt hot pot — widely called the best hot pot in the city.",u:"https://www.chubbycattle.com/",ll:[39.9557,-75.1543]},
+{n:"Bread Top House 面包店",c:"Bakery",d:17,t:32,r:4.5,rc:600,s:"Hong Kong-style bakery: pineapple buns, egg tarts, milk bread.",u:"https://www.theinfatuation.com/philadelphia/neighborhoods/chinatown",ll:[39.956,-75.1585]},
+{n:"Mango Mango 芒果芒果",c:"Dessert Café",d:17,t:32,r:4.4,rc:800,s:"HK-style mango desserts: sago, pomelo, grass jelly.",u:"https://www.mangomangodessert.com/",ll:[39.9556,-75.154]},
+{n:"PCDC — Chinatown events calendar",c:"Community",d:17,t:32,r:null,rc:null,s:"Philadelphia Chinatown Development Corporation — the community org behind Chinatown's festivals; their calendar lists everything happening.",u:"https://chinatown-pcdc.org/upcoming-events/",ll:[39.956,-75.1555]},
+{n:"Philadelphia Chinese Lantern Festival",c:"Annual Event",d:17,t:32,r:null,rc:null,s:"Nightly thru 8/16 in Franklin Square — giant lanterns handmade by Zigong artisans from Sichuan.",u:"https://www.visitphilly.com/things-to-do/events/philadelphia-chinese-lantern-festival-at-franklin-square/",ll:[39.9557,-75.1503]},
+{n:"Chengdu Famous Food 成都名小吃",c:"Sichuan",d:17.1,t:32,r:4.6,rc:500,s:"Casual Chengdu snack shop: dan dan mian, chuan chuan skewers, sweet-water noodles — closest thing to a Chengdu xiaochi stall.",u:"https://www.phillymag.com/foobooz/chinese-restaurant-philadelphia-chinatown/",ll:[39.9553,-75.156]},
+{n:"Nan Zhou Hand Drawn Noodle 兰州拉面",c:"Noodles",d:17.1,t:32,r:4.4,rc:2500,s:"Hand-pulled Lanzhou beef noodle soup, made in the window.",u:"https://www.theinfatuation.com/philadelphia/neighborhoods/chinatown",ll:[39.9556,-75.158]},
+{n:"Sang Kee Peking Duck House 北京烤鸭",c:"Cantonese",d:17.1,t:32,r:4.4,rc:2000,s:"40+ years of roast duck, wonton noodle soup & salt-baked squid.",u:"https://sangkeechinatown.com/",ll:[39.9553,-75.1533]},
+{n:"A La Mousse",c:"Dessert Café",d:17.1,t:32,r:4.6,rc:1500,s:"Elegant Asian patisserie: airy cream cakes, matcha, taro, mango.",u:"https://www.alamousse.com/",ll:[39.9548,-75.1533]},
+{n:"Ten Ren Tea 天仁茗茶",c:"Tea",d:17.1,t:32,r:4.5,rc:400,s:"Taiwanese tea institution: loose-leaf teas + fresh bubble tea.",u:"https://www.tenren.com/",ll:[39.9552,-75.1548]},
+{n:"Philadelphia Chinatown 费城华埠",c:"Neighborhood",d:17.1,t:32,r:4.5,rc:3000,s:"The heart of it all: the 10th & Arch Friendship Gate, BBQ shops, herbal stores, bakeries — make a day of it.",u:"https://www.visitphilly.com/areas/philadelphia-neighborhoods/chinatown/",ll:[39.9553,-75.155]},
+{n:"Chinatown Mid-Autumn Festival 中秋节",c:"Annual Event",d:17.1,t:32,r:null,rc:null,s:"30th annual street festival: lion & dragon dances, mooncake contest, opera, kids' lantern parade. Mid-Autumn 2026 falls Fri Sept 25 — festival on the nearby weekend.",u:"https://www.aaunited.org/maf",ll:[39.9553,-75.155]},
+{n:"Lunar New Year in Philadelphia 春节",c:"Annual Event",d:17.1,t:32,r:null,rc:null,s:"Lion dances, parades & banquets across Chinatown and the city every February (next: Feb 6, 2027).",u:"https://www.visitphilly.com/articles/philadelphia/lunar-new-year-in-philadelphia/",ll:[39.9553,-75.155]},
+{n:"EMei 峨嵋",c:"Sichuan",d:17.2,t:33,r:4.4,rc:1800,s:"Chef Zhao's Chinatown institution — Philly's benchmark Sichuan: mapo tofu, water-boiled fish, dry pot, proper má-là.",u:"https://www.emeiphilly.com/",ll:[39.9538,-75.1554]},
+{n:"Han Dynasty (Old City)",c:"Sichuan",d:17.6,t:33,r:4.4,rc:2500,s:"The famous dan dan noodles & dry pepper-style chicken; several area locations.",u:"https://handynasty.net/",ll:[39.9487,-75.1447]},
+{n:"Jane G's",c:"Sichuan",d:17.6,t:33,r:4.4,rc:1200,s:"Stylish Sichuan on Chestnut St — peppercorn classics in a date-night room.",u:"https://www.janegsphilly.com/",ll:[39.9518,-75.1727]},
+{n:"Dan Dan 担担 (Rittenhouse)",c:"Sichuan",d:17.8,t:33,r:4.4,rc:1500,s:"Sichuan–Taiwanese favorite near Rittenhouse Square; second location in Ardmore.",u:"https://www.dandanrestaurant.com/",ll:[39.949,-75.167]},
+{n:"Penn Museum — Chinese Rotunda",c:"Culture",d:18.1,t:34,r:4.7,rc:5000,s:"One of the finest Chinese galleries in America: Tang horses & the famous crystal sphere under a 90-ft dome.",u:"https://www.penn.museum/",ll:[39.9492,-75.1911]},
+{n:"Hung Vuong Supermarket",c:"Grocery",d:18.9,t:35,r:4.3,rc:1500,s:"Big Viet-Chinese market on Washington Ave: produce, fresh noodles, roast meats nearby.",u:"https://www.yelp.com/search?find_desc=Asian+Supermarket&find_loc=Willow+Grove,+PA",ll:[39.936,-75.163]},
+{n:"Tom's Dim Sum (Media)",c:"Dim Sum",d:27.4,t:45,r:4.5,rc:1300,s:"Beloved XLB & dumpling house out in Media — handy for west-suburb trips.",u:"https://www.tomsdimsum.com/",ll:[39.917,-75.388]}
 ]
 };
 
@@ -565,10 +612,36 @@ const COLS = {
     {k:"d",label:"Distance",type:"num"},
     {k:"t",label:"Drive",type:"num"},
     {k:"pop",label:"Popularity",type:"num"}
+  ],
+  chinese: [
+    {k:"n",label:"Name",type:"str"},
+    {k:"c",label:"Category",type:"str"},
+    {k:"s",label:"Summary",type:"str",nosort:true},
+    {k:"d",label:"Distance",type:"num"},
+    {k:"t",label:"Drive",type:"num"},
+    {k:"pop",label:"Popularity",type:"num"}
   ]
 };
 
-let state = { tab:"attractions", q:"", cat:"", maxT:"", sortKey:"d", sortDir:1 };
+let state = { tab:"attractions", q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list" };
+const favs = new Set(JSON.parse(localStorage.getItem("wg-favs")||"[]"));
+let userLoc = null;
+
+// distance from an arbitrary point (used for "near me"; nothing leaves the browser)
+function havMi(aLat,aLon,bLat,bLon){
+  const t=x=>x*Math.PI/180;
+  const s=Math.sin(t(bLat-aLat)/2)**2+Math.cos(t(aLat))*Math.cos(t(bLat))*Math.sin(t(bLon-aLon)/2)**2;
+  return 2*3958.8*Math.asin(Math.sqrt(s));
+}
+// effective distance/time for a row given the current origin mode
+function eff(r){
+  if(userLoc){
+    if(!r.ll) return {d:null,t:null};
+    const d = Math.round(havMi(userLoc[0],userLoc[1],r.ll[0],r.ll[1])*1.3*10)/10;
+    return {d, t: Math.max(1, Math.round(d/Math.min(55,24+0.45*d)*60))};
+  }
+  return {d:r.d, t:r.t};
+}
 const MAXDRIVE = Math.max(...Object.values(DATA).flat().map(r=>r.t));
 const $ = id => document.getElementById(id);
 
@@ -583,10 +656,11 @@ const dirUrl = r => `https://www.google.com/maps/dir/?api=1&origin=${ORIGIN}&des
 const embedUrl = r => `https://maps.google.com/maps?q=${mapsQ(r)}&z=12&output=embed`;
 
 function detailHTML(r){
+  const e = eff(r);
   const meta = [
     `<span class="cat">${r.c}</span>`,
     r.w?`<span class="when">${r.w}</span>`:"",
-    `<span class="dist">${r.d.toFixed(1)} mi · ~${r.t} min drive</span>`,
+    e.d!=null?`<span class="dist">${e.d.toFixed(1)} mi · ~${e.t} min drive</span>`:"",
     r.r!=null?fmtPop(r):""
   ].filter(Boolean).join("");
   return `<div class="detailbox">
@@ -608,11 +682,13 @@ function rows(){
   const q = state.q.trim().toLowerCase();
   if(q) list = list.filter(r => (r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")).toLowerCase().includes(q));
   if(state.cat) list = list.filter(r => r.c === state.cat);
-  if(state.maxT) list = list.filter(r => r.t <= +state.maxT);
+  if(state.maxT) list = list.filter(r => { const t = eff(r).t; return t != null && t <= +state.maxT; });
+  if(state.fav) list = list.filter(r => favs.has(rkey(r)));
   const k = state.sortKey, dir = state.sortDir;
   list.sort((a,b)=>{
     let av,bv;
     if(k==="pop"){av=pop(a);bv=pop(b);}
+    else if(k==="d"||k==="t"){ av=eff(a)[k]; bv=eff(b)[k]; if(av==null)av=Infinity; if(bv==null)bv=Infinity; }
     else {av=a[k];bv=b[k];}
     if(typeof av==="string") return av.localeCompare(bv)*dir;
     return (av-bv)*dir;
@@ -629,8 +705,14 @@ function nameCell(r){
   return r.u ? `<span class="name"><a href="${r.u}" target="_blank" rel="noopener">${r.n}</a></span>` : `<span class="name">${r.n}</span>`;
 }
 function distCell(r){
-  const w = Math.max(4, Math.round(r.t / MAXDRIVE * 100));
-  return `<span class="dist">${r.d.toFixed(1)} mi</span><div class="band" title="~${r.t} min drive"><i style="width:${w}%"></i></div>`;
+  const e = eff(r);
+  if(e.d == null) return `<span class="dist" title="No coordinates for this spot yet">—</span>`;
+  const w = Math.max(4, Math.round(e.t / MAXDRIVE * 100));
+  return `<span class="dist">${e.d.toFixed(1)} mi</span><div class="band" title="~${e.t} min drive"><i style="width:${w}%"></i></div>`;
+}
+function favStar(key){
+  const on = favs.has(key);
+  return `<button class="favbtn ${on?'on':''}" data-fav="${key}" aria-label="${on?'Remove from':'Add to'} favorites" aria-pressed="${on}">${on?'★':'☆'}</button>`;
 }
 
 function render(){
@@ -646,12 +728,12 @@ function render(){
   $("tbody").innerHTML = list.map(r=>{
     const key = rkey(r), open = expanded.has(key);
     const main = `<tr class="rowmain" data-key="${key}" tabindex="0" role="button" aria-expanded="${open}">`+cols.map(c=>{
-      if(c.k==="n") return `<td><span class="chev">▶</span>${nameCell(r)}<a class="maplink" href="${mapUrl(r)}" target="_blank" rel="noopener" title="Open in Google Maps" aria-label="Open ${r.n} in Google Maps">📍</a></td>`;
+      if(c.k==="n") return `<td>${favStar(key)}<span class="chev">▶</span>${nameCell(r)}<a class="maplink" href="${mapUrl(r)}" target="_blank" rel="noopener" title="Open in Google Maps" aria-label="Open ${r.n} in Google Maps">📍</a></td>`;
       if(c.k==="c") return `<td><span class="cat">${r.c}</span></td>`;
       if(c.k==="s") return `<td><span class="summary">${r.s}</span></td>`;
       if(c.k==="w") return `<td><span class="when">${r.w}</span></td>`;
       if(c.k==="d") return `<td>${distCell(r)}</td>`;
-      if(c.k==="t") return `<td><span class="dist">~${r.t} min</span></td>`;
+      if(c.k==="t"){ const e=eff(r); return `<td><span class="dist">${e.t==null?"—":"~"+e.t+" min"}</span></td>`; }
       if(c.k==="pop") return `<td>${fmtPop(r)}</td>`;
       return "<td></td>";
     }).join("")+"</tr>";
@@ -663,7 +745,7 @@ function render(){
     const key = rkey(r), open = expanded.has(key);
     return `
     <div class="card" data-key="${key}" tabindex="0" role="button" aria-expanded="${open}">
-      <div class="top"><span><span class="chev">▶</span>${nameCell(r)}<a class="maplink" href="${mapUrl(r)}" target="_blank" rel="noopener" title="Open in Google Maps" aria-label="Open ${r.n} in Google Maps">📍</a></span><span class="dist">${r.d.toFixed(1)} mi · ~${r.t}m</span></div>
+      <div class="top"><span>${favStar(key)}<span class="chev">▶</span>${nameCell(r)}<a class="maplink" href="${mapUrl(r)}" target="_blank" rel="noopener" title="Open in Google Maps" aria-label="Open ${r.n} in Google Maps">📍</a></span><span class="dist">${(e=>e.d==null?"—":`${e.d.toFixed(1)} mi · ~${e.t}m`)(eff(r))}</span></div>
       <div class="row2">
         <span class="cat">${r.c}</span>
         ${r.w?`<span class="when">${r.w}</span>`:""}
@@ -673,8 +755,14 @@ function render(){
       ${open?detailHTML(r):""}
     </div>`;
   }).join("");
-  $("empty").hidden = list.length>0;
-  $("showing").textContent = `showing ${list.length} of ${DATA[state.tab].length}`;
+  const mapMode = state.view==="map";
+  $("mapview").hidden = !mapMode;
+  $("tbl").style.display = mapMode ? "none" : "";
+  $("cards").style.display = mapMode ? "none" : "";
+  if(mapMode) renderMap(list);
+  $("empty").hidden = list.length>0 || mapMode;
+  $("showing").textContent = `showing ${list.length} of ${DATA[state.tab].length}${userLoc?" · distances from your location":""}`;
+  syncHash();
   // header sort listeners
   document.querySelectorAll("#theadRow th").forEach(th=>{
     if(th.dataset.nosort) return;
@@ -714,10 +802,20 @@ function toggleRow(el){
   render();
 }
 function clickToggle(e){
-  if(e.target.closest("a")||e.target.closest("iframe")) return;
+  if(e.target.closest("a")||e.target.closest("iframe")||e.target.closest(".favbtn")) return;
   const el = e.target.closest("[data-key]");
   if(el) toggleRow(el);
 }
+function favClick(e){
+  const b = e.target.closest(".favbtn");
+  if(!b) return;
+  const k = b.dataset.fav;
+  favs.has(k) ? favs.delete(k) : favs.add(k);
+  localStorage.setItem("wg-favs", JSON.stringify([...favs]));
+  render();
+}
+$("tbody").addEventListener("click",favClick);
+$("cards").addEventListener("click",favClick);
 function keyToggle(e){
   if(e.key!=="Enter" && e.key!==" ") return;
   if(e.target.closest("a")) return;
@@ -763,6 +861,105 @@ $("installBtn").addEventListener("click",async ()=>{
 });
 $("refreshBtn").addEventListener("click",()=>{ closeMenu(); location.reload(); });
 
+// favorites-only toggle
+$("favToggle").addEventListener("click",()=>{
+  state.fav = !state.fav;
+  $("favToggle").setAttribute("aria-pressed", state.fav);
+  render();
+});
+
+// distances from current location (computed in-browser; never sent anywhere)
+$("geoToggle").addEventListener("click",()=>{
+  if(userLoc){
+    userLoc = null;
+    $("geoToggle").setAttribute("aria-pressed","false");
+    $("geoToggle").textContent = "📍 Near me";
+    render();
+    return;
+  }
+  if(!navigator.geolocation){ toast("Geolocation isn't available in this browser."); return; }
+  navigator.geolocation.getCurrentPosition(p=>{
+    userLoc = [p.coords.latitude, p.coords.longitude];
+    $("geoToggle").setAttribute("aria-pressed","true");
+    $("geoToggle").textContent = "📍 From you";
+    render();
+  }, ()=>toast("Couldn't get your location — check the browser's location permission."));
+});
+
+// map view (Leaflet, lazy-loaded on first use)
+let leafletReady=false, map=null, markerLayer=null;
+function loadLeaflet(cb){
+  if(leafletReady) return cb();
+  const css=document.createElement("link"); css.rel="stylesheet";
+  css.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"; document.head.appendChild(css);
+  const s=document.createElement("script"); s.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+  s.onload=()=>{ leafletReady=true; cb(); };
+  s.onerror=()=>toast("Couldn't load the map library — check your connection.");
+  document.head.appendChild(s);
+}
+function renderMap(list){
+  loadLeaflet(()=>{
+    if(!map){
+      map = L.map("mapview");
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap"}).addTo(map);
+      markerLayer = L.layerGroup().addTo(map);
+    }
+    markerLayer.clearLayers();
+    const pts = [];
+    list.forEach(r=>{
+      if(!r.ll) return;
+      pts.push(r.ll);
+      const e = eff(r);
+      markerLayer.addLayer(L.marker(r.ll).bindPopup(
+        `<b>${r.n}</b><br>${r.c}${r.w?` · ${r.w}`:""}${e.d!=null?`<br>${e.d.toFixed(1)} mi · ~${e.t} min`:""}` +
+        `<br><a href="${mapUrl(r)}" target="_blank" rel="noopener">Google Maps</a>` +
+        (r.u?` · <a href="${r.u}" target="_blank" rel="noopener">Website</a>`:"")
+      ));
+    });
+    if(userLoc){
+      pts.push(userLoc);
+      markerLayer.addLayer(L.circleMarker(userLoc,{radius:7,color:"#b5542d",fillColor:"#b5542d",fillOpacity:.9}).bindPopup("You are here"));
+    }
+    if(pts.length) map.fitBounds(pts,{padding:[30,30],maxZoom:13});
+    setTimeout(()=>map.invalidateSize(),60);
+  });
+}
+$("mapToggle").addEventListener("click",()=>{
+  state.view = state.view==="map" ? "list" : "map";
+  $("mapToggle").setAttribute("aria-pressed", state.view==="map");
+  render();
+});
+
+// shareable URL state
+function syncHash(){
+  const p = new URLSearchParams();
+  if(state.tab!=="attractions") p.set("tab",state.tab);
+  if(state.q) p.set("q",state.q);
+  if(state.cat) p.set("cat",state.cat);
+  if(state.maxT) p.set("t",state.maxT);
+  if(!(state.sortKey==="d"&&state.sortDir===1)) p.set("s",state.sortKey+":"+state.sortDir);
+  if(state.fav) p.set("fav","1");
+  if(state.view==="map") p.set("view","map");
+  const h = p.toString();
+  history.replaceState(null,"", h ? "#"+h : location.pathname+location.search);
+}
+function readHash(){
+  const p = new URLSearchParams(location.hash.slice(1));
+  if(p.get("tab") && DATA[p.get("tab")]) state.tab = p.get("tab");
+  if(p.get("q")) state.q = p.get("q");
+  if(p.get("t")) state.maxT = p.get("t");
+  if(p.get("s")){ const [k,d]=p.get("s").split(":"); state.sortKey=k; state.sortDir=+d||1; }
+  if(p.get("fav")) state.fav = true;
+  if(p.get("view")==="map") state.view = "map";
+  if(state.tab==="fishing" && !p.get("s")){ state.sortKey="pop"; state.sortDir=-1; }
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.tab===state.tab));
+  $("q").value = state.q;
+  $("distFilter").value = state.maxT;
+  $("favToggle").setAttribute("aria-pressed", state.fav);
+  $("mapToggle").setAttribute("aria-pressed", state.view==="map");
+  return p.get("cat");
+}
+
 // service worker (offline + installability)
 if("serviceWorker" in navigator && location.protocol !== "file:"){
   navigator.serviceWorker.register("./sw.js").catch(()=>{});
@@ -786,7 +983,9 @@ $("distFilter").addEventListener("change",e=>{state.maxT=e.target.value;render()
 
 // tab counts
 for(const k of Object.keys(DATA)) $("cnt-"+k).textContent = DATA[k].length;
+const initCat = readHash();
 fillCats();
+if(initCat){ state.cat = initCat; $("catFilter").value = initCat; }
 fillSort();
 render();
 </script>

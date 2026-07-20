@@ -10,6 +10,11 @@ A single-page, fully client-side "field guide" web app for the Willow Grove, PA 
   - **Attractions** — ~200 places within a ~2-hour drive (parks, breweries, museums, escape rooms, state parks, farms, theme parks, beaches, historic sites — from central Philly out to Lancaster, Hershey, the Lehigh Valley, the Poconos, the Jersey Shore, NYC, and the Brandywine Valley), sorted by distance by default
   - **Weekend Events** — real, verifiable events for the covered weekend, each with a source link
   - **Fishing** — 20 creeks, lakes, and reservoirs with species info and PFBC stocked-trout notes, sorted by popularity by default
+  - **Chinese 中华** — a curated guide to authentic Chinese food and culture: Sichuan restaurants, dim sum, hot pot, bakeries & tea, Asian supermarkets, Chinatown, and annual festivals
+- **Favorites** — star any row (saved in your browser); filter to favorites with ★
+- **Near me** — recompute all distances from your current location (computed entirely in-browser)
+- **Map view** — see the current filtered list as pins on an OpenStreetMap map
+- **Shareable links** — tab, search, filters, and sort are encoded in the URL hash
 - **Sortable columns** — click any header to sort, click again to reverse; a sort dropdown appears on mobile
 - **Live search** across name, category, summary, and event times
 - **Filters** — category dropdown and max-drive-time dropdown (≤10/20/30/45/60 min)
