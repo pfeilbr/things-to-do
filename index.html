@@ -227,7 +227,7 @@ footer a{color:var(--moss)}
       <a href="https://github.com/pfeilbr/things-to-do" target="_blank" rel="noopener"><span class="mico">★</span> View on GitHub</a>
     </div>
     <h1>Willow Grove <span class="pin">Local Guide</span></h1>
-    <div class="sub">Willow Grove, PA · everything within a ~2-hr drive / weekend events (Jul 17–19 2026) / fishing spots · distances estimated from central Willow Grove</div>
+    <div class="sub">Willow Grove, PA · everything within a ~2-hr drive / weekend events (Jul 24–26 2026, plus upcoming) / fishing spots · distances estimated from central Willow Grove</div>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" data-tab="attractions">Attractions <span class="cnt" id="cnt-attractions"></span></button>
       <button class="tab" role="tab" data-tab="events">Weekend Events <span class="cnt" id="cnt-events"></span></button>
@@ -266,13 +266,13 @@ footer a{color:var(--moss)}
 </div>
 
 <footer>
-  Data gathered Jul 2026 from Google Places, VisitPhilly, Metro Philadelphia, Visit Bucks County, PA DCNR, PFBC stream guides & local calendars.<br>
+  Data gathered Jul 2026 from Google Places, VisitPhilly, Visit Bucks County, LevittownNow, PA DCNR, PFBC stream guides & local calendars.<br>
   Drive times are straight-line ×1.3 road factor at 24–55 mph (average speed scales with trip length) — verify before you go. Fishing requires a PA license (+ trout stamp on stocked water).
 </footer>
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-07-19T11:45Z";
+const BUILD = "2026-07-20T04:08Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -383,11 +383,13 @@ attractions: [
 {n:"Skippack Village",c:"Shopping",d:20.3,t:37,r:4.6,rc:2000,s:"Walkable strip of boutiques, galleries & BYOBs.",u:"https://skippackvillage.com/"},
 {n:"Bowman's Hill Wildflower Preserve",c:"Nature",d:20.4,t:37,r:4.8,rc:1400,s:"134 acres of native PA wildflowers near Washington Crossing.",u:"https://bhwp.org/"},
 {n:"Stoneleigh: A Natural Garden",c:"Garden",d:20.5,t:37,r:4.8,rc:800,s:"Free 42-acre public garden on a Villanova estate.",u:"https://natlands.org/stoneleigh/"},
+{n:"Little Explorers Adventure Park",c:"Kids",d:21.2,t:38,r:null,rc:null,s:"New 2026 indoor play space in Dublin Town Center: open play and imaginative zones for ages 0–6.",u:"https://www.visitbuckscounty.com/articles/post/whats-ahead-in-bucks-county-pa-in-2026/"},
 {n:"Citizens Bank Park",c:"Sports",d:21.6,t:38,r:4.8,rc:26000,s:"Home of the Phillies; ballpark tours on non-game days.",u:"https://www.mlb.com/phillies/ballpark"},
 {n:"Washington Crossing Historic Park",c:"Historic Site",d:21.9,t:39,r:4.7,rc:3200,s:"Where Washington crossed the Delaware, Christmas 1776; annual reenactment.",u:"https://www.washingtoncrossingpark.org/"},
 {n:"Wells Fargo Center",c:"Sports",d:22,t:39,r:4.7,rc:20000,s:"Flyers & Sixers arena plus major touring concerts.",u:"https://www.wellsfargocenterphilly.com/"},
 {n:"Simeone Foundation Automotive Museum",c:"Museum",d:22.1,t:39,r:4.8,rc:1700,s:"75 legendary racing sports cars; monthly demo days.",u:"https://www.simeonemuseum.org/"},
 {n:"John James Audubon Center at Mill Grove",c:"Nature",d:22.1,t:39,r:4.7,rc:900,s:"Audubon's first American home; bird museum & trails.",u:"https://johnjames.audubon.org/"},
+{n:"Bucks County Children's Museum",c:"Kids",d:22.5,t:40,r:null,rc:null,s:"Hands-on New Hope museum reopened after a 2026 sensory-friendly renovation: six new exhibits incl. a covered bridge and village square.",u:"https://buckskids.org/"},
 {n:"Chanticleer Garden",c:"Garden",d:22.6,t:40,r:4.9,rc:2600,s:"A 'pleasure garden' many rank among America's most beautiful; Wed–Sun.",u:"https://www.chanticleergarden.org/"},
 {n:"Arnold's Family Fun Center",c:"Entertainment",d:22.7,t:40,r:4.2,rc:3000,s:"Go-karts, bowling, laser tag & arcade in Oaks.",u:"https://arnoldsffc.com/"},
 {n:"New Hope & Ivyland Railroad",c:"Attraction",d:22.9,t:40,r:4.6,rc:2700,s:"Vintage steam & diesel excursions through Bucks countryside.",u:"https://www.newhoperailroad.com/"},
@@ -396,6 +398,7 @@ attractions: [
 {n:"New Hope & Lambertville",c:"Historic Town",d:23,t:40,r:4.7,rc:6000,s:"Twin river towns: galleries, antiques, canal walks, a footbridge between states.",u:"https://visitnewhope.com/"},
 {n:"Valley Forge National Historical Park",c:"Historic Site",d:23.5,t:41,r:4.8,rc:8748,s:"Revolutionary War encampment; visitor center, drive/bike loop, free entry.",u:"https://www.nps.gov/vafo/"},
 {n:"Jenkins Arboretum & Gardens",c:"Garden",d:23.9,t:41,r:4.8,rc:900,s:"Free woodland garden ablaze with azaleas & rhododendrons.",u:"https://jenkinsarboretum.org/"},
+{n:"Boo's Firehouse Tavern & Brewery",c:"Brewery",d:24.7,t:42,r:null,rc:null,s:"New for 2026: a brewery-tavern in the old Point Pleasant firehouse along the Delaware.",u:"https://www.visitbuckscounty.com/articles/post/whats-ahead-in-bucks-county-pa-in-2026/"},
 {n:"John Heinz National Wildlife Refuge",c:"Nature",d:24.8,t:42,r:4.7,rc:2600,s:"Tidal-marsh boardwalks & bald eagles minutes from the airport; free.",u:"https://www.fws.gov/refuge/john-heinz-at-tinicum"},
 {n:"Fort Mifflin",c:"Historic Site",d:24.9,t:42,r:4.6,rc:1600,s:"1777 siege fort still intact; casemates, cannons & ghost lore.",u:"https://www.fortmifflin.us/"},
 {n:"Spring Mountain Adventures",c:"Ski",d:26.2,t:44,r:4.3,rc:1500,s:"Closest ski hill to Philly; summer zip-line canopy tours.",u:"https://springmountainadventures.com/"},
@@ -404,6 +407,7 @@ attractions: [
 {n:"Tyler Arboretum",c:"Garden",d:29,t:47,r:4.7,rc:1700,s:"650 acres: champion trees, treehouses & 17 miles of trails.",u:"https://tylerarboretum.org/"},
 {n:"Green Lane Park",c:"Park",d:29.5,t:47,r:4.7,rc:2500,s:"Montco's biggest park: 814-ac reservoir, trails, boat rentals.",u:"https://montgomerycountypa.gov/"},
 {n:"Nockamixon State Park",c:"State Park",d:29.9,t:48,r:4.7,rc:6000,s:"1,450-acre lake for boating & biking below Haycock Mountain.",u:"https://www.pa.gov/agencies/dcnr/visit-a-park/find-a-park/nockamixon-state-park.html"},
+{n:"Trolley Barn Public Market",c:"Market",d:30.7,t:49,r:null,rc:null,s:"Quakertown food hall in a restored trolley barn: vendors, craft-beverage bar, fire pits, indoor/outdoor events Thu–Sun.",u:"https://trolleybarnpublicmarket.com/"},
 {n:"Wharton Esherick Museum",c:"Art",d:30.8,t:49,r:4.8,rc:500,s:"The wildly sculptural hilltop studio of the 'dean of American craftsmen.'",u:"https://whartonesherickmuseum.org/"},
 {n:"Linvilla Orchards",c:"Farm",d:31.7,t:50,r:4.6,rc:6500,s:"300-acre family farm: pick-your-own, hayrides, big farm market.",u:"https://www.linvilla.com/"},
 {n:"Subaru Park",c:"Sports",d:33.1,t:51,r:4.8,rc:5000,s:"Philadelphia Union MLS soccer on the Chester riverfront.",u:"https://www.philadelphiaunion.com/subarupark"},
@@ -483,35 +487,30 @@ attractions: [
 {n:"Hersheypark",c:"Theme Park",d:105.9,t:116,r:4.6,rc:32000,s:"15 coasters, a water park & chocolate everything.",u:"https://www.hersheypark.com/"}
 ],
 events: [
-{n:"Glenside Farmers Market",c:"Market",d:4.4,t:10,w:"Sat 7/18 · 9:30a–1p",s:"Weekly Saturday market: meats, farm eggs, produce, baked goods, honey, jams.",u:"https://montgomerycountyalive.com/events/"},
-{n:"NT Live: The Audience — Ambler Theater",c:"Film/Theater",d:6.9,t:15,w:"Sun 7/19 · 12p",s:"National Theatre Live screening at the nonprofit Ambler Theater.",u:"https://allevents.in/ambler-pa/all"},
-{n:"Ambler Farmers Market Grand Opening",c:"Market",d:7,t:15,w:"Sat 7/18 · 9a",s:"Grand opening at La Provence: farmers, artisans, food creators, bakers.",u:"https://allevents.in/ambler-pa/all"},
-{n:"Ambler Food Truck Fridays: Cousins Maine Lobster",c:"Food",d:7.1,t:16,w:"Fri 7/17 · 5p",s:"Food-truck night at Well Crafted Ambler.",u:"https://allevents.in/ambler-pa/all"},
-{n:"High Point Philly Friday Market",c:"Market",d:10.2,t:21,w:"Fri 7/17 (weekly)",s:"Local artists, makers & musicians at Allen Lane Station, Mt. Airy. Free.",u:"https://www.chestnuthilllocal.com/stories/untitled,40027"},
-{n:"Andalusia Garden Tours",c:"Tour",d:10.7,t:22,w:"Fri 7/17 · 1p (weekly)",s:"Guided garden walk at the historic Andalusia estate on the Delaware.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
-{n:"Doylestown at Dusk Car Show",c:"Car Show",d:15,t:29,w:"Sat 7/18 · 5–10p",s:"500+ classic & antique vehicles fill downtown Doylestown; live music, food.",u:"https://buckscountyparent.com/events/"},
-{n:"Under the El Bazaar: Christmas in July",c:"Street Fair",d:15.6,t:30,w:"Sat 7/18 · 12–6p",s:"Free Fishtown block party: artisans, vintage vendors, live music, Santa photos 1–3.",u:"https://www.metrophiladelphia.com/stories/fun-things-to-do-philly-this-weekend,147863"},
-{n:"Summer Ale Fest at Philadelphia Zoo",c:"Festival",d:16,t:31,w:"Sat 7/18 · 7–10p",s:"Adults-only after-hours zoo: 100+ beers/ciders/seltzers, food trucks, live bands. Online tickets only.",u:"https://www.phillymag.com/things-to-do/weekend-philadelphia/"},
-{n:"Philadelphia Chinese Lantern Festival",c:"Festival",d:16.7,t:32,w:"Nightly 6–11p thru 8/16",s:"200-ft dragon and massive light displays in Franklin Square; food & performances. $16–29.",u:"https://thephiladelphiacitizen.org/things-to-do-philly-weekend/"},
-{n:"Lancaster Avenue Jazz & Arts Festival",c:"Music",d:16.9,t:32,w:"Sat 7/18 · 12–7p",s:"Free West Powelton jazz festival at Saunders Park Greene — this year honoring John Coltrane.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Franklin Fountain: Ice Cream Soda Anniversary",c:"Food/History",d:17.5,t:33,w:"Sat 7/18 · 11a–1p",s:"Philly's 52 Weeks of Firsts marks the ice cream soda's local origin.",u:"https://www.visitphilly.com/articles/philadelphia/top-things-to-do-in-philadelphia-in-july/"},
-{n:"RiverRink Summerfest & Spruce St Harbor Park",c:"Festival",d:17.9,t:34,w:"Daily; live ent. Thu–Sat",s:"Roller skating, rides, mini-golf, hammocks & boardwalk food on the Delaware. Free entry.",u:"https://www.delawareriverwaterfront.com/where-to-go/independence-blue-cross-riverrink-summerfest"},
-{n:"Philly Youth Music Fest",c:"Music",d:17.9,t:34,w:"This weekend",s:"Young musicians take the stage at Spruce Street Harbor Park.",u:"https://thephiladelphiacitizen.org/things-to-do-philly-weekend/"},
-{n:"Tai Chi & Meditation on the Barge",c:"Wellness",d:17.9,t:34,w:"Sat 7/18 · 11a",s:"Free guided tai chi + meditation on the double-decker barge at Spruce St Harbor Park.",u:"https://news.ibx.com/riverrink-summerfest-2026/"},
-{n:"Summer unWINEd Concert Series — Shady Brook Farm",c:"Music",d:18.9,t:35,w:"Fri night + Sat",s:"Live music, food & drink at the Yardley farm; themed Saturday nights.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
-{n:"Christmas in July — Blank Space, Yardley",c:"Street Fair",d:20.9,t:38,w:"Sat 7/18 · 11a–4p",s:"Holiday-themed vendor & craft fair at Blank Space Community Center.",u:"https://buckscountyparent.com/events/"},
+{n:"Royal Rummage in Chestnut Hill",c:"Street Fair",d:9.1,t:19,w:"Fri–Sun 7/24–26",s:"Sidewalk sales and deep discounts at 40+ retailers along Germantown Ave.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Carnival Family Fun Day — Shops at Valley Square",c:"Fair",d:10.1,t:21,w:"Sat 7/25 · 1–4p",s:"Free family carnival in Warrington: bounce houses, blow-up games, face painting, food trucks.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
+{n:"Artes en las Calles — Esperanza Arts Center",c:"Music",d:12.3,t:25,w:"Sat 7/25 · 6–9p",s:"Free summer street celebration with LaGuaGua 47 Orchestra, Brazilian music & food.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"El Centro de Oro Block Party",c:"Street Fair",d:13.7,t:27,w:"Sat 7/25 · 12–5p",s:"Latino cultural block party at 5th & Lehigh: live music and family activities.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Make The World Better Weekend: Pavement + Kurt Vile",c:"Music",d:14.1,t:28,w:"Fri–Sat 7/24–25",s:"Pavement + Ratboys (Fri) and Kurt Vile & the Violators (Sat) at the Dell Music Center.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Middletown Grange Fair",c:"Fair",d:14.3,t:28,w:"Wed–Sun 8/12–16",s:"Bucks County's classic ag fair in Wrightstown: 4-H shows, pig races, rides, the famous chicken dinner. Free admission.",u:"https://middletowngrangefair.org/"},
+{n:"Jill Scott at The Met",c:"Music",d:15.8,t:30,w:"7/24–7/29 · select nights",s:"Philly's own Jill Scott plays a hometown run at the Met on North Broad.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Jazzing on Ridge Festival",c:"Music",d:16.1,t:31,w:"Sat 7/25 · 12–6p",s:"Free neighborhood jazz festival on the 2200 block of Ridge Ave.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Philadelphia Chinese Lantern Festival",c:"Festival",d:17.3,t:33,w:"Nightly 6–11p thru 8/16",s:"200-ft dragon and massive light displays in Franklin Square; food & performances. $16–29.",u:"https://www.visitphilly.com/articles/philadelphia/top-things-to-do-in-philadelphia-in-july/"},
+{n:"Franklin Square 20th Birthday",c:"Festival",d:17.3,t:33,w:"Sat 7/25 · 10a–12p",s:"National Carousel Day: free cupcakes and buy-one-get-one carousel rides.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Jewish America 250 — Mikveh Israel",c:"Festival",d:17.6,t:33,w:"Sun 7/26 · 4–10p",s:"Celebration of Jewish culture and history in America's 250th year at the historic Old City congregation.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"RiverRink Summerfest & Spruce St Harbor Park",c:"Festival",d:17.9,t:34,w:"Daily thru September",s:"Roller skating, rides, mini-golf, hammocks & boardwalk food on the Delaware. Free entry.",u:"https://www.delawareriverwaterfront.com/where-to-go/independence-blue-cross-riverrink-summerfest"},
+{n:"Sips Undersea: Sunset with the Sharks",c:"Food",d:18,t:34,w:"Fri 7/24 · 6:30–9:30p",s:"Adults-only evening at Adventure Aquarium: shark exhibits, drinks, Delaware River views.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Train at Freedom Mortgage Pavilion",c:"Music",d:18.2,t:34,w:"Sun 7/26",s:"Train headlines the Camden waterfront amphitheater.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Twilight in the Gardens — Magic Gardens",c:"Music",d:18.5,t:34,w:"Fri 7/24 · 7–10p",s:"Live music among Isaiah Zagar's mosaics on South Street; BYO blanket and snacks.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Puerto Rican Day Festival — Bristol Wharf",c:"Festival",d:18.6,t:34,w:"Sat 7/25 · from 12p",s:"52nd annual waterfront festival: Tito Puente Jr. headlines, Danza Fiesta, food trucks & artisan vendors.",u:"https://levittownnow.com/2025/07/23/puerto-rican-day-festival-to-bring-music-dance-food-to-bristol-waterfront/"},
+{n:"Wine & Culture Fest: Summer School",c:"Food",d:19.8,t:36,w:"Sat 7/25 · 11a–3p & 7–11p",s:"Wine tastings paired with rice-centric cuisine at Bok in South Philly.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
 {n:"Peddler's Village: An American Road Trip",c:"Festival",d:21.2,t:38,w:"Daily thru 8/31",s:"Giant sand sculptures of US landmarks (Statue of Liberty, Rushmore, Golden Gate) across the village.",u:"https://peddlersvillage.com/festivals/"},
-{n:"Dublin Vol. Fire Co. Fireman's Fair",c:"Fair",d:21.5,t:38,w:"Thru Sat 7/18",s:"100+ year tradition: rides, games, food, raffles, fireworks.",u:"https://buckscountyparent.com/events/"},
-{n:"Phillies vs. Mets",c:"Sports",d:21.6,t:38,w:"Sat–Sun 7/18–19",s:"Home series at Citizens Bank Park the week after the All-Star Game.",u:"https://www.visitphilly.com/articles/philadelphia/top-things-to-do-in-philadelphia-in-july/"},
-{n:"Diplo's Run Club Philadelphia 5K",c:"Sports",d:22,t:39,w:"Sat 7/18 · 7a",s:"5K starting/finishing at the Linc with a post-race Diplo concert.",u:"https://thephiladelphiacitizen.org/things-to-do-philly-weekend/"},
-{n:"FDR Park Summer Market & Vendor Fair",c:"Market",d:22.2,t:39,w:"Fri–Sun 7/17–19 · 10a–5p",s:"3-day market: local makers, fashion, home décor, specialty foods. Free admission.",u:"https://975thefanatic.com/2026/07/15/things-to-do-in-philadelphia-this-weekend-july-17-july-19/"},
-{n:"Wicked Gluten Free Expo & Food Festival",c:"Food",d:23.6,t:41,w:"Sat 7/18 · 10a–5p",s:"110+ celiac-safe vendors at the Greater Philadelphia Expo Center, Oaks; demos, free parking.",u:"https://www.metrophiladelphia.com/stories/fun-things-to-do-philly-this-weekend,147863"},
-{n:"Hellerick's Family Farm Summer Concert",c:"Music",d:23.7,t:41,w:"Fri 7/17 evening",s:"Friday-evening farm concert: food trucks, soft ice cream, mini donuts.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
-{n:"Green Lane Park Summer Concert Series",c:"Music",d:29.7,t:48,w:"Sat 7/18",s:"Free outdoor county-park concert (monthly series May–Oct).",u:"https://montgomerycountypa.gov/3474/Events"},
-{n:"Harrah's Philly Foodie & Fireworks Festival",c:"Food",d:32,t:50,w:"Sat 7/18 · 2–10p",s:"250+ menu items from 100+ vendors in Chester; 250th-anniversary theme, fireworks.",u:"https://www.metrophiladelphia.com/stories/fun-things-to-do-philly-this-weekend,147863"},
-{n:"Penns Woods Winery Cars & Coffee",c:"Car Show",d:39.8,t:57,w:"Sat 7/18 · 12–4p",s:"Vintage cars at the Chadds Ford winery; live music, artisan market, Federal Donuts.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
-{n:"Longwood Gardens Illuminated Fountains",c:"Festival",d:45,t:61,w:"Weekend evenings",s:"Dazzling music-synced fountain performances after dark.",u:"https://mainlinetoday.com/things-to-do/main-line-weekend/"},
-{n:"Pineapple Cup Polo",c:"Sports",d:50.2,t:65,w:"Sun 7/19 · 1:30–5p",s:"Hawaiian-attire polo afternoon in Toughkenamon; wine, beer & cocktails at the Polo Bar. BYO chair.",u:"https://mainlinetoday.com/things-to-do/main-line-weekend/"}
+{n:"Phillies vs. Yankees",c:"Sports",d:21.6,t:38,w:"Fri–Sun 7/24–26",s:"Interleague home series against the Yankees at Citizens Bank Park.",u:"https://www.mlb.com/phillies/schedule"},
+{n:"New Hope Automobile Show",c:"Car Show",d:22.4,t:39,w:"Sat–Sun 8/8–9",s:"Long-running classic car show on the New Hope-Solebury HS campus.",u:"https://newhopeautoshow.com/"},
+{n:"Philadelphia Folk Festival",c:"Festival",d:25.9,t:44,w:"Fri–Sun 8/14–16",s:"63rd edition at Old Pool Farm, Upper Salford: camping, workshops, big folk lineup.",u:"https://folkfest.org/"},
+{n:"Union vs. Seattle Sounders",c:"Sports",d:33.1,t:51,w:"Sat 7/25 · 7:30p",s:"MLS match at Subaru Park on the Chester riverfront.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
+{n:"Longwood Gardens Illuminated Fountains",c:"Festival",d:45,t:61,w:"Weekend evenings thru Sept",s:"Dazzling music-synced fountain performances after dark.",u:"https://longwoodgardens.org/"},
+{n:"Musikfest",c:"Festival",d:46.3,t:62,w:"7/31–8/9",s:"America's biggest free music festival — 500+ acts across Bethlehem's Moravian district & SteelStacks.",u:"https://www.artsquest.org/musikfest/"}
 ],
 fishing: [
 {n:"Masons Mill Park Pond",c:"Pond",d:3.2,t:8,r:4.7,rc:1721,s:"Small pond in a big Upper Moreland park; panfish, easy family fishing.",u:"https://www.uppermoreland.org/"},
