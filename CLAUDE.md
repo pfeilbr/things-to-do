@@ -51,7 +51,7 @@ The owner will periodically ask to refresh the Events tab via web search:
 
 ## Distance/drive-time formula
 
-Straight-line haversine miles from central Willow Grove ×1.3 road factor = `d` (the displayed distance). Drive time `t` = `d / mph × 60` rounded to whole minutes, where `mph = min(55, 24 + 0.45 × d)` — average speed scales with trip length so highway trips aren't overestimated. This method is disclosed in the footer — don't change one without the other. Attractions scope: anything with `t ≤ 180` min (3-hr band; reaches NYC, Baltimore, the Poconos, the Jersey/Delaware shore and Gettysburg — Washington DC falls just outside at ~190 min). Never put the origin coordinates in the repo — do distance math in a scratchpad script.
+Straight-line haversine miles from central Willow Grove ×1.3 road factor = `d` (the displayed distance). Drive time `t` = `d / mph × 60` rounded to whole minutes, where `mph = min(55, 24 + 0.45 × d)` — average speed scales with trip length so highway trips aren't overestimated. This method is disclosed in the footer — don't change one without the other. Attractions scope: anything with `t ≤ 210` min (~3½-hr band; reaches NYC, Baltimore, the Poconos, the Jersey/Delaware shore, Gettysburg, and Washington DC with its close-in VA/MD suburbs at ~185–205 min). Never put the origin coordinates in the repo — do distance math in a scratchpad script.
 
 ## Publishing
 

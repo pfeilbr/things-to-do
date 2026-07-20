@@ -248,7 +248,7 @@ footer a{color:var(--moss)}
       <a href="https://github.com/pfeilbr/things-to-do" target="_blank" rel="noopener"><span class="mico">★</span> View on GitHub</a>
     </div>
     <h1><span id="hPlace">Willow Grove</span> <span class="pin">Local Guide</span></h1>
-    <div class="sub">Attractions within a ~3-hr drive / events / fishing / Chinese guide 中华 · distances estimated from <button id="originBtn" class="originbtn" title="Change the location distances are measured from">central Willow Grove</button></div>
+    <div class="sub">Attractions within a ~3½-hr drive / events / fishing / Chinese guide 中华 · distances estimated from <button id="originBtn" class="originbtn" title="Change the location distances are measured from">central Willow Grove</button></div>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" data-tab="attractions">Attractions <span class="cnt" id="cnt-attractions"></span></button>
       <button class="tab" role="tab" data-tab="events">Events <span class="cnt" id="cnt-events"></span></button>
@@ -274,6 +274,7 @@ footer a{color:var(--moss)}
     <option value="90">≤ 90 min</option>
     <option value="120">≤ 2 hr</option>
     <option value="180">≤ 3 hr</option>
+    <option value="210">≤ 3½ hr</option>
   </select>
   <select id="sortSelect" class="mobile-sort" aria-label="Sort by"></select>
   <button id="favToggle" class="ctlbtn" aria-pressed="false" title="Show favorites only">★ Favs</button>
@@ -300,7 +301,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-07-20T20:21Z";
+const BUILD = "2026-07-20T23:03Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -628,7 +629,48 @@ attractions: [
 {n:"Dia Beacon",c:"Art",d:144.3,t:157,r:null,rc:null,s:"A daylit Nabisco box factory turned minimalist cathedral: Serra, Judd, Flavin at full scale.",u:"https://www.diaart.org/visit/visit-our-locations-sites/dia-beacon-beacon-united-states",ll:[41.5045,-73.984]},
 {n:"Gettysburg National Military Park",c:"Battlefield",d:148.3,t:162,r:4.9,rc:7129,s:"6,000 acres of hallowed ground, an auto tour, and the restored Cyclorama painting.",u:"https://www.nps.gov/gett/",ll:[39.8118,-77.2258]},
 {n:"Appalachian Trail Museum",c:"Nature",d:150.9,t:165,r:4.8,rc:178,s:"At the AT's halfway point in Pine Grove Furnace State Park — home of the half-gallon challenge.",u:"https://atmuseum.org/",ll:[40.0293,-77.3053]},
-{n:"Eisenhower National Historic Site",c:"Historic Site",d:151.5,t:165,r:4.7,rc:1262,s:"Ike's only home — a working farm beside the battlefield, tours free from the park shuttle.",u:"https://www.nps.gov/eise/",ll:[39.7924,-77.267]}
+{n:"Eisenhower National Historic Site",c:"Historic Site",d:151.5,t:165,r:4.7,rc:1262,s:"Ike's only home — a working farm beside the battlefield, tours free from the park shuttle.",u:"https://www.nps.gov/eise/",ll:[39.7924,-77.267]},
+{n:"Assateague Island National Seashore",c:"National Park",d:170.2,t:186,r:null,rc:null,s:"Wild horses on an undeveloped barrier island — stay 40 feet back, they bite.",u:"https://www.nps.gov/asis/",ll:[38.251,-75.152]},
+{n:"National Museum of Civil War Medicine",c:"Museum",d:171.4,t:187,r:4.7,rc:760,s:"Unflinching, superbly told story of battlefield surgery in downtown Frederick.",u:"https://www.civilwarmed.org/",ll:[39.4145,-77.4093]},
+{n:"Eastern Market",c:"Market",d:172.5,t:188,r:4.5,rc:4394,s:"1873 brick market hall on Capitol Hill; blueberry-buckwheat pancakes inside, flea market outside.",u:"https://easternmarket-dc.org",ll:[38.8869,-76.9959]},
+{n:"Supreme Court of the United States",c:"Landmark",d:172.7,t:188,r:4.2,rc:838,s:"Marble temple facing the Capitol; walk in free for a courtroom lecture or live oral arguments.",u:"https://www.supremecourt.gov",ll:[38.8906,-77.0044]},
+{n:"Library of Congress",c:"Landmark",d:172.9,t:189,r:4.8,rc:3684,s:"The Jefferson Building's gilded Great Hall is the most beautiful room in Washington, and free.",u:"https://www.loc.gov/visit/",ll:[38.8887,-77.0047]},
+{n:"Smithsonian's National Zoo",c:"Zoo",d:172.9,t:189,r:4.6,rc:46521,s:"Free zoo climbing Rock Creek's slope; giant pandas Bao Li and Qing Bao anchor the Asia Trail.",u:"https://nationalzoo.si.edu",ll:[38.9296,-77.0497]},
+{n:"United States Capitol",c:"Landmark",d:173,t:189,r:4.7,rc:4958,s:"Free guided tours under the dome; reserve ahead through the visitor center or your congressman.",u:"https://www.visitthecapitol.gov",ll:[38.8899,-77.0091]},
+{n:"National Portrait Gallery",c:"Art",d:173.3,t:189,r:4.8,rc:13538,s:"Presidential portraits and a glass-roofed courtyard, sharing the old Patent Office with SAAM; free.",u:"https://npg.si.edu",ll:[38.8979,-77.023]},
+{n:"Planet Word",c:"Museum",d:173.4,t:189,r:4.8,rc:2466,s:"Voice-activated museum of language in a restored schoolhouse; free, and a sleeper favorite.",u:"https://planetwordmuseum.org",ll:[38.9022,-77.0295]},
+{n:"United States Botanic Garden",c:"Garden",d:173.4,t:189,r:4.7,rc:18671,s:"Victorian glasshouse at the Capitol's foot: jungle, desert and orchids under one roof; free.",u:"https://www.usbg.gov",ll:[38.8879,-77.0131]},
+{n:"Ford's Theatre",c:"Historic Site",d:173.5,t:189,r:4.7,rc:8423,s:"The box where Lincoln was shot, plus the Petersen House across the street where he died.",u:"https://www.fords.org",ll:[38.8967,-77.0259]},
+{n:"National Gallery of Art",c:"Art",d:173.5,t:189,r:4.8,rc:20426,s:"The only Leonardo in the Americas, plus a neon-lit tunnel between wings.",u:"https://www.nga.gov/",ll:[38.8913,-77.02]},
+{n:"National Museum of the American Indian",c:"Museum",d:173.5,t:189,r:4.5,rc:11214,s:"Curved limestone building, Native-curated galleries and the best cafeteria on the Mall; free.",u:"https://americanindian.si.edu",ll:[38.8887,-77.0164]},
+{n:"National Archives Museum",c:"Museum",d:173.6,t:189,r:4.7,rc:6602,s:"Declaration, Constitution and Bill of Rights in dim light under armored glass; free, timed entry.",u:"https://museum.archives.gov",ll:[38.8929,-77.0229]},
+{n:"National Air and Space Museum",c:"Museum",d:173.7,t:189,r:4.6,rc:48278,s:"Wright Flyer, Apollo 11 capsule and a moon rock you can touch. Free.",u:"https://airandspace.si.edu/",ll:[38.8882,-77.0199]},
+{n:"National Museum of Natural History",c:"Museum",d:173.8,t:190,r:4.8,rc:58268,s:"Hope Diamond, a T. rex mid-kill and the giant elephant in the rotunda.",u:"https://naturalhistory.si.edu/",ll:[38.8913,-77.0261]},
+{n:"The Phillips Collection",c:"Art",d:173.8,t:190,r:4.7,rc:2282,s:"America's first modern art museum; Renoir's Boating Party hangs in a Dupont Circle townhouse.",u:"https://www.phillipscollection.org",ll:[38.9115,-77.0468]},
+{n:"Hirshhorn Museum and Sculpture Garden",c:"Art",d:173.9,t:190,r:4.5,rc:6251,s:"The Smithsonian's concrete doughnut of contemporary art, with a sunken sculpture garden; free.",u:"https://hirshhorn.si.edu",ll:[38.888,-77.023]},
+{n:"The White House",c:"Landmark",d:174,t:190,r:null,rc:null,s:"Tours need a congressional request months out; most visitors settle for the Lafayette Square view.",u:"https://www.whitehouse.gov/visit/",ll:[38.8977,-77.0365]},
+{n:"Washington National Cathedral",c:"Landmark",d:174,t:190,r:4.8,rc:7252,s:"Neo-Gothic giant finished in 1990, with a Darth Vader gargoyle and a moon rock set in the glass.",u:"https://cathedral.org",ll:[38.9305,-77.0708]},
+{n:"National Museum of American History",c:"Museum",d:174.1,t:190,r:4.7,rc:27860,s:"Star-Spangled Banner, Julia Child's kitchen, ruby slippers; free and gloriously scattershot.",u:"https://americanhistory.si.edu",ll:[38.8911,-77.03]},
+{n:"International Spy Museum",c:"Museum",d:174.2,t:190,r:4.4,rc:17884,s:"Bond's Aston Martin, a KGB lipstick pistol and an undercover identity for the day; ticketed.",u:"https://www.spymuseum.org",ll:[38.8843,-77.0257]},
+{n:"National Museum of African American History and Culture",c:"Museum",d:174.2,t:190,r:4.8,rc:30602,s:"Bronze-latticed landmark tracing four centuries from the hold upward.",u:"https://nmaahc.si.edu/",ll:[38.8911,-77.0326]},
+{n:"Washington Monument",c:"Observation",d:174.4,t:190,r:4.7,rc:24250,s:"555-ft obelisk with a 70-second elevator to the best view in the city; free timed tickets go fast.",u:"https://www.nps.gov/wamo/index.htm",ll:[38.8895,-77.0353]},
+{n:"United States Holocaust Memorial Museum",c:"Museum",d:174.5,t:190,r:4.8,rc:17378,s:"Harrowing, superbly built permanent exhibition; free, but timed passes are required in peak months.",u:"https://www.ushmm.org",ll:[38.8868,-77.0325]},
+{n:"World War II Memorial",c:"Memorial",d:174.7,t:191,r:4.9,rc:25558,s:"Granite pillars and fountains between the Monument and Lincoln; free, and best after dark when lit.",u:"https://www.nps.gov/wwii/index.htm",ll:[38.8894,-77.0404]},
+{n:"Tidal Basin",c:"Park",d:174.9,t:191,r:4.8,rc:848,s:"Two-mile loop past Jefferson, FDR and MLK, and 3,000 cherry trees that mob it every early April.",u:"https://www.nps.gov/subjects/cherryblossom/index.htm",ll:[38.8846,-77.0384]},
+{n:"Thomas Jefferson Memorial",c:"Memorial",d:175,t:191,r:4.8,rc:12226,s:"Pantheon-style domed rotunda across the Tidal Basin, ringed by cherry trees; free, open 24 hours.",u:"https://www.nps.gov/thje/index.htm",ll:[38.8814,-77.0365]},
+{n:"Vietnam Veterans Memorial",c:"Memorial",d:175,t:191,r:4.9,rc:3190,s:"Maya Lin's black granite wall cut into the earth, 58,000 names deep; quiet, free, always open.",u:"https://www.nps.gov/vive/index.htm",ll:[38.8911,-77.0478]},
+{n:"Martin Luther King Jr. Memorial",c:"Memorial",d:175.1,t:191,r:4.9,rc:8801,s:"Thirty feet of King emerging from the Stone of Hope, facing the Tidal Basin; free, always open.",u:"https://www.nps.gov/mlkm/index.htm",ll:[38.8862,-77.0442]},
+{n:"Franklin Delano Roosevelt Memorial",c:"Memorial",d:175.2,t:191,r:4.9,rc:80,s:"Four granite outdoor rooms for four terms, with waterfalls and a bronze bread line; free.",u:"https://www.nps.gov/frde/index.htm",ll:[38.8833,-77.0424]},
+{n:"Georgetown Waterfront Park",c:"Park",d:175.2,t:191,r:4.7,rc:7576,s:"Potomac promenade below the C&O Canal and M Street; kayaks, crew shells and cupcake lines.",u:"https://www.nps.gov/places/georgetown-waterfront-park.htm",ll:[38.9026,-77.0637]},
+{n:"Kennedy Center",c:"Performing Arts",d:175.2,t:191,r:4.8,rc:11494,s:"Riverfront marble slab with a free Millennium Stage show most evenings and a rooftop terrace view.",u:"https://www.kennedy-center.org",ll:[38.8956,-77.0555]},
+{n:"Korean War Veterans Memorial",c:"Memorial",d:175.2,t:191,r:4.8,rc:2998,s:"Nineteen steel soldiers on patrol through juniper; eerie in fog, free, open around the clock.",u:"https://www.nps.gov/kowa/index.htm",ll:[38.8876,-77.0475]},
+{n:"Lincoln Memorial",c:"Historic Site",d:175.2,t:191,r:4.8,rc:53729,s:"Nineteen feet of seated marble at the head of the Reflecting Pool.",u:"https://www.nps.gov/linc/",ll:[38.8893,-77.0502]},
+{n:"Marine Corps War Memorial (Iwo Jima)",c:"Memorial",d:176.2,t:192,r:4.9,rc:5531,s:"The Iwo Jima flag-raising cast 32 feet tall with the DC skyline behind it; free, best at sunrise.",u:"https://www.nps.gov/gwmp/planyourvisit/usmc_memorial.htm",ll:[38.8903,-77.0697]},
+{n:"Arlington National Cemetery",c:"Historic Site",d:176.9,t:193,r:4.8,rc:3816,s:"624 acres of white headstones, the Tomb of the Unknowns guard change, and JFK's eternal flame.",u:"https://www.arlingtoncemetery.mil",ll:[38.8783,-77.0687]},
+{n:"The Capital Wheel at National Harbor",c:"Observation",d:179.9,t:196,r:4.6,rc:3784,s:"180-foot Ferris wheel over the Potomac, with the DC skyline visible on a clear day.",u:"https://www.thecapitalwheel.com",ll:[38.7825,-77.0165]},
+{n:"Old Town Alexandria",c:"Neighborhood",d:180.1,t:196,r:null,rc:null,s:"Cobblestoned 18th-century port with King Street shops, waterfront piers and Torpedo Factory studios.",u:"https://visitalexandria.com",ll:[38.8048,-77.0469]},
+{n:"George Washington's Mount Vernon",c:"Historic Site",d:188.1,t:205,r:4.7,rc:16659,s:"Washington's Potomac plantation: mansion, tomb, working farm and hard truths about the enslaved.",u:"https://www.mountvernon.org",ll:[38.7076,-77.0861]},
+{n:"National Museum of the United States Army",c:"Museum",d:190.5,t:208,r:4.8,rc:2168,s:"Free, ambitious and blessedly uncrowded; tanks, oral histories and a corridor of soldier stories.",u:"https://www.thenmusa.org",ll:[38.7195,-77.1486]}
 ],
 events: [
 {n:"Glenside Farmers Market",c:"Market",d:4.4,t:10,w:"Saturdays · 9:30a–1p (Apr–Nov)",s:"Weekly Saturday market: meats, farm eggs, produce, baked goods, honey, jams.",u:"https://montgomerycountyalive.com/events/",ll:[40.102,-75.152]},
