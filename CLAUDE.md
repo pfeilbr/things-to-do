@@ -10,7 +10,9 @@ It's an installable PWA: `manifest.webmanifest`, `sw.js` (network-first, cache f
 
 ## Privacy
 
-This is a public repo. Never add personal information: no precise coordinates, no addresses, no names/emails. The distance origin is always the generic "central Willow Grove" / `"Willow Grove, PA"` place name — never exact lat/long in page text, JS constants, URLs, README, or commit messages.
+This is a public repo. Never add personal information: no addresses, no names/emails.
+
+**The origin is never a coordinate in this repo.** Rows carry `ll:[lat,lng]` for *public places* — that's fine and required. But the point distances are measured *from* is only ever the place name `"Willow Grove, PA"` (`DEFAULT_PLACE`); its coordinates are resolved at runtime by geocoder, never committed. Never put origin lat/long in page text, JS constants, URLs, README, or commit messages. When you need origin-relative math offline, do it in a scratchpad script.
 
 ## Structure of index.html
 
@@ -18,24 +20,38 @@ This is a public repo. Never add personal information: no precise coordinates, n
 - `const DATA = { attractions: [...], events: [...], fishing: [...], chinese: [...] }` — the four datasets. Row fields:
   - `n` name, `c` category, `s` summary, `d` distance (mi), `t` drive time (min), `u` source URL or `null`
   - `r` Google rating + `rc` review count (popularity = `r × rc`); `r:null` for rows without ratings
-  - `w` when string (events only, e.g. `"Sat 7/18 · 9:30a–1p"`)
+  - `w` when string (events only, e.g. `"Sat 7/25 · 9:30a–1p"` or `"Saturdays · 9:30a–1p"`)
   - `ll:[lat,lon]` — venue coordinates (NOT the origin; these are public places). Powers the map view and "near me" mode. ALWAYS include `ll` on new rows, and NEVER drop existing `ll` fields when regenerating data.
 - The `chinese` tab is a curated guide to authentic Chinese life for a Sichuan family: Sichuan restaurants, dim sum, hot pot, bakeries/tea, Asian groceries, Chinatown culture, annual Chinese festivals. Names include Chinese characters where apt. Keep the bar high: authentic spots only, no Americanized takeout. Refresh its annual-event dates when they're announced (Mid-Autumn Festival, Lunar New Year).
 - `COLS` — per-tab column definitions; `render()` builds the table, mobile cards, and expandable detail panels (Google Maps embed + directions + website links).
 - Default sorts: attractions/events by distance asc, fishing by popularity desc.
 
+## The origin is a parameter
+
+The guide is not hard-wired to Willow Grove. `eff(r)` returns each row's effective `d`/`t` against the active origin, which is one of three things:
+
+1. **Default** — no origin set: the baked `d`/`t` on each row are used as-is (they are the precomputed values for `DEFAULT_PLACE`).
+2. **A named place** — the dotted link in the `.sub` line, `?from=Doylestown,PA`, or `setOrigin(name)`. Geocoded via OSM Nominatim, cached in `localStorage` under `wg-origin`, distances recomputed from `ll`.
+3. **Geolocation** — the "📍 Near me" button.
+
+Consequences to respect when editing:
+- A row without `ll` shows "—" and drops out of drive-time filters under modes 2 and 3. That's why `ll` is mandatory on new rows.
+- Never reintroduce a hardcoded `"…, PA"` suffix in the Maps/directions/embed URLs — the guide now spans PA/NJ/NY/MD/DE, so those links are built from `ll`.
+- Keep branding generic. The `<h1>` place, `document.title`, and the origin link all follow the active origin; don't hardcode "Willow Grove" into new UI copy.
+
 ## Updating events (recurring task)
 
-The owner will periodically ask to refresh the Weekend Events tab via web search:
+The owner will periodically ask to refresh the Events tab via web search:
 
 1. Web-search for real events in the Willow Grove / Montgomery County / Bucks County / Philadelphia area for the upcoming weekend (farmers markets, festivals, concerts, car shows, sports, fairs).
-2. **Only include events you can verify with a source URL** (`u` field). Never pad with guesses or recurring events you can't confirm for that specific weekend.
-3. Estimate `d`/`t` per the formula below; update the weekend date range in the header `.sub` line and keep the footer's "data gathered" month current.
-4. Attractions and fishing data change rarely — only touch them if asked or clearly stale.
+2. **Only include events you can verify with a source URL** (`u` field). Never pad with guesses.
+3. Recurring weekly/seasonal entries (farmers markets, Friday food-truck nights, summer concert series) are wanted — keep them and refresh their `w` string; do not delete them just because a given weekend's listing page has rotated. This was an explicit owner correction.
+4. Estimate `d`/`t` per the formula below and keep the footer's "data gathered" month current.
+5. Attractions and fishing data change rarely — only touch them if asked or clearly stale.
 
 ## Distance/drive-time formula
 
-Straight-line haversine miles from central Willow Grove ×1.3 road factor = `d` (the displayed distance). Drive time `t` = `d / mph × 60` rounded to whole minutes, where `mph = min(55, 24 + 0.45 × d)` — average speed scales with trip length so highway trips aren't overestimated. This method is disclosed in the footer — don't change one without the other. Attractions scope: anything with `t ≤ 120` min. Never put the origin coordinates in the repo — do distance math in a scratchpad script.
+Straight-line haversine miles from central Willow Grove ×1.3 road factor = `d` (the displayed distance). Drive time `t` = `d / mph × 60` rounded to whole minutes, where `mph = min(55, 24 + 0.45 × d)` — average speed scales with trip length so highway trips aren't overestimated. This method is disclosed in the footer — don't change one without the other. Attractions scope: anything with `t ≤ 180` min (3-hr band; reaches NYC, Baltimore, the Poconos, the Jersey/Delaware shore and Gettysburg — Washington DC falls just outside at ~190 min). Never put the origin coordinates in the repo — do distance math in a scratchpad script.
 
 ## Publishing
 
