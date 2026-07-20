@@ -4,7 +4,13 @@ Guidance for Claude Code when working in this repo.
 
 ## What this is
 
-A client-side local guide for Willow Grove, PA published via GitHub Pages from `main` branch root. The app lives in `index.html` — no build step, no dependencies, no backend. Keep it that way.
+A client-side local guide published via GitHub Pages from `main` branch root. No build step, no dependencies, no backend. Keep it that way.
+
+Two files matter:
+- **`index.html`** — a *generic* renderer. Nothing in it names a location outside the `CONFIG` block.
+- **`data.json`** — the datasets, fetched at boot. This is the only per-location artifact.
+
+To retarget the guide at another place, edit `CONFIG` and swap `data.json`. Because data is fetched, **the page no longer works over `file://`** — serve it (`python3 -m http.server`) when testing locally. The boot path detects that case and says so rather than rendering an empty table.
 
 It's an installable PWA: `manifest.webmanifest`, `sw.js` (network-first, cache fallback — deploys still land immediately), and `icons/` (all rasterized from `icon.svg`; regenerate with `qlmanage -t -s <size>` + `sips`, using a full-bleed variant for maskable/apple-touch). The ☰ menu in the header holds the Install action and is the place to hang future navigation/features.
 
@@ -17,14 +23,16 @@ This is a public repo. Never add personal information: no addresses, no names/em
 ## Structure of index.html
 
 - `<style>` — field-guide palette (CSS vars: `--pine`, `--creek`, `--paper`, `--moss`, `--clay`); Barlow Condensed display, Inter body, JetBrains Mono data; mobile card layout below 760px.
-- `const DATA = { attractions: [...], events: [...], fishing: [...], chinese: [...] }` — the four datasets. Row fields:
+- `CONFIG` (top of the `<script>`) — place name, branding, localStorage namespace, footer copy, and the `tabs` array. `COLS`, `TABLABEL`, the tab buttons, per-tab default sorts and the tab counts are all derived from `CONFIG.tabs`; adding or removing a tab is a one-place edit. `CONFIG.place` is a NAME, never coordinates.
+- `data.json` — `{ attractions: [...], events: [...], fishing: [...], chinese: [...] }`, one key per `CONFIG.tabs` entry. Row fields:
   - `n` name, `c` category, `s` summary, `d` distance (mi), `t` drive time (min), `u` source URL or `null`
   - `r` Google rating + `rc` review count (popularity = `r × rc`); `r:null` for rows without ratings
   - `w` when string (events only, e.g. `"Sat 7/25 · 9:30a–1p"` or `"Saturdays · 9:30a–1p"`)
   - `ll:[lat,lon]` — venue coordinates (NOT the origin; these are public places). Powers the map view and "near me" mode. ALWAYS include `ll` on new rows, and NEVER drop existing `ll` fields when regenerating data.
 - The `chinese` tab is a curated guide to authentic Chinese life for a Sichuan family: Sichuan restaurants, dim sum, hot pot, bakeries/tea, Asian groceries, Chinatown culture, annual Chinese festivals. Names include Chinese characters where apt. Keep the bar high: authentic spots only, no Americanized takeout. Refresh its annual-event dates when they're announced (Mid-Autumn Festival, Lunar New Year).
-- `COLS` — per-tab column definitions; `render()` builds the table, mobile cards, and expandable detail panels (Google Maps embed + directions + website links).
-- Default sorts: attractions/events by distance asc, fishing by popularity desc.
+- `render()` builds the table, mobile cards, and expandable detail panels (Google Maps embed + directions + website links).
+- Default sorts come from `CONFIG.tabs[].sort` — attractions/events/chinese by distance asc, fishing by popularity desc.
+- **Bump `CACHE` in `sw.js` whenever `data.json`'s shape changes**, and keep `data.json` in its `PRECACHE` list.
 
 ## The origin is a parameter
 
