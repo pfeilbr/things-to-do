@@ -227,7 +227,7 @@ footer a{color:var(--moss)}
       <a href="https://github.com/pfeilbr/things-to-do" target="_blank" rel="noopener"><span class="mico">★</span> View on GitHub</a>
     </div>
     <h1>Willow Grove <span class="pin">Local Guide</span></h1>
-    <div class="sub">Willow Grove, PA · everything within a ~2-hr drive / weekend events (Jul 24–26 2026, plus upcoming) / fishing spots · distances estimated from central Willow Grove</div>
+    <div class="sub">Willow Grove, PA · everything within a ~2-hr drive / weekend events (Jul 24 – Aug 16 2026) / fishing spots · distances estimated from central Willow Grove</div>
     <div class="tabs" role="tablist">
       <button class="tab active" role="tab" data-tab="attractions">Attractions <span class="cnt" id="cnt-attractions"></span></button>
       <button class="tab" role="tab" data-tab="events">Weekend Events <span class="cnt" id="cnt-events"></span></button>
@@ -272,7 +272,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-07-20T04:08Z";
+const BUILD = "2026-07-20T04:30Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -487,8 +487,12 @@ attractions: [
 {n:"Hersheypark",c:"Theme Park",d:105.9,t:116,r:4.6,rc:32000,s:"15 coasters, a water park & chocolate everything.",u:"https://www.hersheypark.com/"}
 ],
 events: [
+{n:"Glenside Farmers Market",c:"Market",d:4.4,t:10,w:"Saturdays · 9:30a–1p (Apr–Nov)",s:"Weekly Saturday market: meats, farm eggs, produce, baked goods, honey, jams.",u:"https://montgomerycountyalive.com/events/"},
+{n:"Ambler Food Truck Fridays: Cousins Maine Lobster",c:"Food",d:7.1,t:16,w:"Fridays · 5p",s:"Food-truck night at Well Crafted Ambler.",u:"https://allevents.in/ambler-pa/all"},
 {n:"Royal Rummage in Chestnut Hill",c:"Street Fair",d:9.1,t:19,w:"Fri–Sun 7/24–26",s:"Sidewalk sales and deep discounts at 40+ retailers along Germantown Ave.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
 {n:"Carnival Family Fun Day — Shops at Valley Square",c:"Fair",d:10.1,t:21,w:"Sat 7/25 · 1–4p",s:"Free family carnival in Warrington: bounce houses, blow-up games, face painting, food trucks.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
+{n:"High Point Philly Friday Market",c:"Market",d:10.2,t:21,w:"Fridays (weekly)",s:"Local artists, makers & musicians at Allen Lane Station, Mt. Airy. Free.",u:"https://www.chestnuthilllocal.com/stories/untitled,40027"},
+{n:"Andalusia Garden Tours",c:"Tour",d:10.7,t:22,w:"Fridays · 1p (weekly)",s:"Guided garden walk at the historic Andalusia estate on the Delaware.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
 {n:"Artes en las Calles — Esperanza Arts Center",c:"Music",d:12.3,t:25,w:"Sat 7/25 · 6–9p",s:"Free summer street celebration with LaGuaGua 47 Orchestra, Brazilian music & food.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
 {n:"El Centro de Oro Block Party",c:"Street Fair",d:13.7,t:27,w:"Sat 7/25 · 12–5p",s:"Latino cultural block party at 5th & Lehigh: live music and family activities.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
 {n:"Make The World Better Weekend: Pavement + Kurt Vile",c:"Music",d:14.1,t:28,w:"Fri–Sat 7/24–25",s:"Pavement + Ratboys (Fri) and Kurt Vile & the Violators (Sat) at the Dell Music Center.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
@@ -503,6 +507,7 @@ events: [
 {n:"Train at Freedom Mortgage Pavilion",c:"Music",d:18.2,t:34,w:"Sun 7/26",s:"Train headlines the Camden waterfront amphitheater.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
 {n:"Twilight in the Gardens — Magic Gardens",c:"Music",d:18.5,t:34,w:"Fri 7/24 · 7–10p",s:"Live music among Isaiah Zagar's mosaics on South Street; BYO blanket and snacks.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
 {n:"Puerto Rican Day Festival — Bristol Wharf",c:"Festival",d:18.6,t:34,w:"Sat 7/25 · from 12p",s:"52nd annual waterfront festival: Tito Puente Jr. headlines, Danza Fiesta, food trucks & artisan vendors.",u:"https://levittownnow.com/2025/07/23/puerto-rican-day-festival-to-bring-music-dance-food-to-bristol-waterfront/"},
+{n:"Summer unWINEd Concert Series — Shady Brook Farm",c:"Music",d:18.9,t:35,w:"Fri & Sat evenings (summer)",s:"Live music, food & drink at the Yardley farm; themed Saturday nights.",u:"https://www.visitbuckscounty.com/blog/stories/post/whats-up-this-weekend-in-bucks-county/"},
 {n:"Wine & Culture Fest: Summer School",c:"Food",d:19.8,t:36,w:"Sat 7/25 · 11a–3p & 7–11p",s:"Wine tastings paired with rice-centric cuisine at Bok in South Philly.",u:"https://www.visitphilly.com/articles/philadelphia/things-to-do-in-philadelphia-this-week-weekend/"},
 {n:"Peddler's Village: An American Road Trip",c:"Festival",d:21.2,t:38,w:"Daily thru 8/31",s:"Giant sand sculptures of US landmarks (Statue of Liberty, Rushmore, Golden Gate) across the village.",u:"https://peddlersvillage.com/festivals/"},
 {n:"Phillies vs. Yankees",c:"Sports",d:21.6,t:38,w:"Fri–Sun 7/24–26",s:"Interleague home series against the Yankees at Citizens Bank Park.",u:"https://www.mlb.com/phillies/schedule"},
