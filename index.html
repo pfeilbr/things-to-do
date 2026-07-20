@@ -167,6 +167,11 @@ tr.detail td{background:#f2efe4;padding:0 14px}
 .favbtn{background:none;border:none;cursor:pointer;font-size:15px;line-height:1;color:#c9c2b0;padding:0 4px;vertical-align:baseline}
 .favbtn.on{color:var(--clay)}
 #mapview{height:520px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
+.itemcard{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;margin-top:12px}
+.itemcard h2{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(26px,4vw,36px);color:var(--pine);letter-spacing:.5px;line-height:1.1;margin-bottom:10px}
+.itemcard .dmeta{margin-top:2px}
+.mapembed.itembig{width:100%;height:340px;margin-top:18px}
+.backbtn{margin-top:4px}
 #mapview .leaflet-popup-content{font-family:'Inter',sans-serif;font-size:13px}
 @media (max-width:760px){#mapview{height:70vh}}
 /* mobile cards */
@@ -272,6 +277,7 @@ footer a{color:var(--moss)}
 <div class="meta-line"><span id="showing"></span><span>tap a row for map & links · click a column header to sort</span></div>
 
 <div class="twrap">
+  <div id="itemview" hidden></div>
   <div id="mapview" hidden></div>
   <table id="tbl" aria-live="polite">
     <thead><tr id="theadRow"></tr></thead>
@@ -288,7 +294,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-07-20T05:50Z";
+const BUILD = "2026-07-20T06:15Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -624,7 +630,7 @@ const COLS = {
   ]
 };
 
-let state = { tab:"attractions", q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list" };
+let state = { tab:"attractions", q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null };
 const favs = new Set(JSON.parse(localStorage.getItem("wg-favs")||"[]"));
 let userLoc = null;
 
@@ -718,6 +724,21 @@ function favStar(key){
 }
 
 function render(){
+  // standalone item detail view (permalink target)
+  const detailMode = !!state.item;
+  $("itemview").hidden = !detailMode;
+  document.querySelector(".controls").style.display = detailMode ? "none" : "";
+  document.querySelector(".meta-line").style.display = detailMode ? "none" : "";
+  if(detailMode){
+    $("tbl").style.display = "none";
+    $("cards").style.display = "none";
+    $("mapview").hidden = true;
+    $("empty").hidden = true;
+    renderItem();
+    syncHash();
+    return;
+  }
+  document.title = BASETITLE;
   const cols = COLS[state.tab];
   // header
   $("theadRow").innerHTML = cols.map(c=>{
@@ -777,6 +798,39 @@ function render(){
   });
 }
 
+const TABLABEL = {attractions:"Attractions", events:"Weekend Events", fishing:"Fishing", chinese:"Chinese 中华"};
+function renderItem(){
+  const [tab,name] = keyParts(state.item);
+  const r = (DATA[tab]||[]).find(x=>x.n===name);
+  if(!r){ state.item = null; render(); return; }
+  const e = eff(r);
+  document.title = `${r.n} — Willow Grove Local Guide`;
+  $("itemview").innerHTML = `
+    <button class="ctlbtn backbtn" id="backBtn">← Back to ${TABLABEL[tab]||tab}</button>
+    <div class="itemcard">
+      <h2>${r.n} ${favStar(state.item)}</h2>
+      <div class="dmeta">
+        <span class="cat">${r.c}</span>
+        ${r.w?`<span class="when">${r.w}</span>`:""}
+        ${e.d!=null?`<span class="dist">${e.d.toFixed(1)} mi · ~${e.t} min drive</span>`:""}
+        ${r.r!=null?fmtPop(r):""}
+      </div>
+      <p class="summary" style="max-width:none;font-size:15px;margin-top:14px">${r.s}</p>
+      <div class="dlinks">
+        ${r.u?`<a class="dlink" href="${r.u}" target="_blank" rel="noopener">Website ↗</a>`:""}
+        <a class="dlink alt" href="${mapUrl(r)}" target="_blank" rel="noopener">Google Maps ↗</a>
+        <a class="dlink alt" href="${dirUrl(r)}" target="_blank" rel="noopener">Directions ↗</a>
+        <button class="dlink share" data-share="${state.item}">Share ⤴</button>
+      </div>
+      <iframe class="mapembed itembig" loading="lazy" title="Map of ${r.n}" src="${embedUrl(r)}"></iframe>
+    </div>`;
+}
+$("itemview").addEventListener("click",e=>{
+  if(e.target.closest("#backBtn")){ state.item = null; render(); return; }
+  favClick(e);
+  shareClick(e);
+});
+
 function fillCats(){
   const cats = [...new Set(DATA[state.tab].map(r=>r.c))].sort();
   $("catFilter").innerHTML = `<option value="">All categories</option>`+cats.map(c=>`<option>${c}</option>`).join("");
@@ -808,15 +862,20 @@ function clickToggle(e){
   const el = e.target.closest("[data-key]");
   if(el) toggleRow(el);
 }
+function slugify(s){
+  const slug = s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+  return slug || encodeURIComponent(s);
+}
+function keyParts(key){ const i = key.indexOf("|"); return [key.slice(0,i), key.slice(i+1)]; }
 function permalink(key){
-  const [tab,name] = key.split("|");
+  const [tab,name] = keyParts(key);
   const p = new URLSearchParams();
   if(tab!=="attractions") p.set("tab",tab);
-  p.set("item",name);
+  p.set("item", slugify(name));
   return location.origin + location.pathname + "#" + p.toString();
 }
 async function shareItem(key){
-  const [tab,name] = key.split("|");
+  const [tab,name] = keyParts(key);
   const r = DATA[tab]?.find(x=>x.n===name);
   const url = permalink(key);
   if(navigator.share){
@@ -966,6 +1025,7 @@ function syncHash(){
   if(!(state.sortKey==="d"&&state.sortDir===1)) p.set("s",state.sortKey+":"+state.sortDir);
   if(state.fav) p.set("fav","1");
   if(state.view==="map") p.set("view","map");
+  if(state.item) p.set("item", slugify(keyParts(state.item)[1]));
   const h = p.toString();
   history.replaceState(null,"", h ? "#"+h : location.pathname+location.search);
 }
@@ -979,9 +1039,9 @@ function readHash(){
   if(p.get("view")==="map") state.view = "map";
   if(state.tab==="fishing" && !p.get("s")){ state.sortKey="pop"; state.sortDir=-1; }
   const item = p.get("item");
-  if(item && DATA[state.tab].some(r=>r.n===item)){
-    pendingScroll = state.tab+"|"+item;
-    expanded.add(pendingScroll);
+  if(item){
+    const row = DATA[state.tab].find(r => slugify(r.n) === item || r.n === item);
+    if(row) state.item = state.tab + "|" + row.n;
   }
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.tab===state.tab));
   $("q").value = state.q;
@@ -1001,6 +1061,7 @@ document.querySelectorAll(".tab").forEach(t=>{
     document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
     t.classList.add("active");
     state.tab = t.dataset.tab;
+    state.item = null;
     state.q=""; $("q").value="";
     state.maxT=""; $("distFilter").value="";
     if(state.tab==="fishing"){ state.sortKey="pop"; state.sortDir=-1; }
@@ -1014,17 +1075,17 @@ $("distFilter").addEventListener("change",e=>{state.maxT=e.target.value;render()
 
 // tab counts
 for(const k of Object.keys(DATA)) $("cnt-"+k).textContent = DATA[k].length;
-let pendingScroll = null;
-const initCat = readHash();
-fillCats();
-if(initCat){ state.cat = initCat; $("catFilter").value = initCat; }
-fillSort();
-render();
-if(pendingScroll){
-  const el = document.querySelector(`tr[data-key="${CSS.escape(pendingScroll)}"], .card[data-key="${CSS.escape(pendingScroll)}"]`);
-  if(el) setTimeout(()=>el.scrollIntoView({block:"center"}), 80);
-  pendingScroll = null;
+const BASETITLE = document.title;
+function applyHash(){
+  Object.assign(state, {tab:"attractions", q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null});
+  const cat = readHash();
+  fillCats();
+  if(cat){ state.cat = cat; $("catFilter").value = cat; }
+  fillSort();
+  render();
 }
+window.addEventListener("hashchange", applyHash);
+applyHash();
 </script>
 </body>
 </html>
