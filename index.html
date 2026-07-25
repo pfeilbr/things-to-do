@@ -132,6 +132,7 @@ tbody tr:hover{background:#faf8f1}
   border-radius:4px;padding:2px 7px;white-space:nowrap;
 }
 .when{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--clay);white-space:nowrap}
+.when .tdy{font-style:normal;background:var(--moss);color:var(--paper);border-radius:4px;padding:1px 5px;font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;vertical-align:1px}
 .dist{font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap}
 /* signature: drive band — proportional bar under distance */
 .band{height:4px;border-radius:2px;background:var(--line);margin-top:5px;width:88px;overflow:hidden}
@@ -272,6 +273,7 @@ footer a{color:var(--moss)}
     <option value="210">≤ 3½ hr</option>
   </select>
   <select id="sortSelect" class="mobile-sort" aria-label="Sort by"></select>
+  <button id="todayBtn" class="ctlbtn" aria-pressed="false" title="Events happening today first, nearest first" hidden>☀ Today</button>
   <button id="favToggle" class="ctlbtn" aria-pressed="false" title="Show favorites only">★ Favs</button>
   <button id="geoToggle" class="ctlbtn" aria-pressed="false" title="Recompute distances from your current location (stays on your device)">📍 Near me</button>
   <button id="mapToggle" class="ctlbtn" aria-pressed="false" title="Map view">🗺 Map</button>
@@ -296,7 +298,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-07-25T04:07Z";
+const BUILD = "2026-07-25T10:09Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -420,7 +422,7 @@ function detailHTML(r){
   const e = eff(r);
   const meta = [
     `<span class="cat">${r.c}</span>`,
-    r.w?`<span class="when">${r.w}</span>`:"",
+    r.w?whenCell(r):"",
     e.d!=null?`<span class="dist">${e.d.toFixed(1)} mi · ~${e.t} min drive</span>`:"",
     r.r!=null?fmtPop(r):""
   ].filter(Boolean).join("");
@@ -450,6 +452,11 @@ function rows(){
   list.sort((a,b)=>{
     let av,bv;
     if(k==="pop"){av=pop(a);bv=pop(b);}
+    else if(k==="today"){ // happening today first, then nearest first within each group
+      av = happensToday(a.w) ? 0 : 1; bv = happensToday(b.w) ? 0 : 1;
+      if(av===bv){ let ad=eff(a).d, bd=eff(b).d; if(ad==null)ad=Infinity; if(bd==null)bd=Infinity; return ad-bd; }
+      return (av-bv)*dir;
+    }
     else if(k==="d"||k==="t"){ av=eff(a)[k]; bv=eff(b)[k]; if(av==null)av=Infinity; if(bv==null)bv=Infinity; }
     else {av=a[k];bv=b[k];}
     if(typeof av==="string") return av.localeCompare(bv)*dir;
@@ -457,6 +464,59 @@ function rows(){
   });
   return list;
 }
+
+// ---- "today" awareness ----------------------------------------------------------------
+// Parses the human-readable `w` strings just well enough to answer one question: does this
+// event happen today? Handles "Sat 7/25 · 12–4p", "Sat–Sun 8/1–2", "Wed–Sun 7/29–8/2",
+// "Fri 7/31 – Sun 8/9", "Fri & Sun 8/21 & 8/23", "Mon–Sun 8/10–16", "Daily thru 9/7",
+// "Sat & Sun thru 10/31", "Weekend evenings thru Sept", "Saturdays · 9:30a–1p (Apr–Nov)",
+// "Fridays (weekly)", "Fri & Sat evenings (summer)". Time-of-day tokens never contain "/",
+// so date tokens are unambiguous. Unparseable strings just return false (never "today").
+const MONNUM = {jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+const DOWNUM = {sun:0,mon:1,tue:2,wed:3,thu:4,fri:5,sat:6};
+const DAYRE  = "(sun|mon|tue|wed|thu|fri|sat)";
+function daysIn(s){                 // weekday constraint implied by the words, or null = any day
+  if(/nightly|daily/.test(s)) return null;
+  if(/weekend/.test(s)) return new Set([5,6,0]);
+  const out = new Set();
+  const range = new RegExp("\\b"+DAYRE+"[a-z]*\\s*[–-]\\s*"+DAYRE+"[a-z]*","g");
+  let m;
+  while(m = range.exec(s)) for(let i=DOWNUM[m[1]];;i=(i+1)%7){ out.add(i); if(i===DOWNUM[m[2]]) break; }
+  for(const mm of s.replace(range," ").matchAll(new RegExp("\\b"+DAYRE+"[a-z]*","g"))) out.add(DOWNUM[mm[1]]);
+  return out.size ? out : null;
+}
+function happensToday(w){
+  if(!w) return false;
+  const now = new Date(), T = (now.getMonth()+1)*100 + now.getDate(), dow = now.getDay(), mo = now.getMonth()+1;
+  const md = (m,d) => +m*100 + +d;
+  const s = w.toLowerCase();
+  const dayOK = ds => !ds || ds.has(dow);
+  // "thru 8/16" / "thru Sept" — running now until the end date, maybe on limited weekdays
+  let m = s.match(/thru\s+(\d{1,2})\/(\d{1,2})/);
+  if(m) return T <= md(m[1],m[2]) && dayOK(daysIn(s.slice(0,m.index)));
+  m = s.match(/thru\s+([a-z]{3,})/);
+  if(m && MONNUM[m[1].slice(0,3)]) return T <= md(MONNUM[m[1].slice(0,3)],31) && dayOK(daysIn(s.slice(0,m.index)));
+  // explicit dates: cross-month ranges ("7/31 – Sun 8/9"), same-month ("8/10–16"), singles
+  let rest = s, hit = false, any = false;
+  rest = rest.replace(/(\d{1,2})\/(\d{1,2})\s*[–-]\s*(?:[a-z]{3,4}\s+)?(\d{1,2})\/(\d{1,2})/g,
+    (_,a,b,c,d) => { any = true; if(T >= md(a,b) && T <= md(c,d)) hit = true; return " "; });
+  rest = rest.replace(/(\d{1,2})\/(\d{1,2})\s*[–-]\s*(\d{1,2})/g,
+    (_,a,b,c) => { any = true; if(T >= md(a,b) && T <= md(a,c)) hit = true; return " "; });
+  rest.replace(/(\d{1,2})\/(\d{1,2})/g,
+    (_,a,b) => { any = true; if(T === md(a,b)) hit = true; return " "; });
+  if(any) return hit;
+  // recurring weekly, optionally with a month window: "(Apr–Nov)", "(summer)"
+  const days = daysIn(s);
+  if(!days) return false;           // no dates and no weekdays — can't tell, don't claim today
+  m = s.match(/\(([a-z]{3,})\s*[–-]\s*([a-z]{3,})\)/);
+  if(m && MONNUM[m[1].slice(0,3)] && MONNUM[m[2].slice(0,3)]){
+    const a = MONNUM[m[1].slice(0,3)], b = MONNUM[m[2].slice(0,3)];
+    if(a<=b ? (mo<a||mo>b) : (mo<a&&mo>b)) return false;
+  }
+  if(/\(summer\)/.test(s) && (mo<6 || mo>8)) return false;
+  return days.has(dow);
+}
+const whenCell = r => `<span class="when">${r.w}${happensToday(r.w)?' <b class="tdy">today</b>':''}</span>`;
 
 function fmtPop(r){
   if(r.r==null) return "—";
@@ -508,7 +568,7 @@ function render(){
       if(c.k==="n") return `<td>${favStar(key)}<span class="chev">▶</span>${nameCell(r)}<a class="maplink" href="${mapUrl(r)}" target="_blank" rel="noopener" title="Open in Google Maps" aria-label="Open ${r.n} in Google Maps">📍</a></td>`;
       if(c.k==="c") return `<td><span class="cat">${r.c}</span></td>`;
       if(c.k==="s") return `<td><span class="summary">${r.s}</span></td>`;
-      if(c.k==="w") return `<td><span class="when">${r.w}</span></td>`;
+      if(c.k==="w") return `<td>${whenCell(r)}</td>`;
       if(c.k==="d") return `<td>${distCell(r)}</td>`;
       if(c.k==="t"){ const e=eff(r); return `<td><span class="dist">${e.t==null?"—":"~"+e.t+" min"}</span></td>`; }
       if(c.k==="pop") return `<td>${fmtPop(r)}</td>`;
@@ -525,7 +585,7 @@ function render(){
       <div class="top"><span>${favStar(key)}<span class="chev">▶</span>${nameCell(r)}<a class="maplink" href="${mapUrl(r)}" target="_blank" rel="noopener" title="Open in Google Maps" aria-label="Open ${r.n} in Google Maps">📍</a></span><span class="dist">${(e=>e.d==null?"—":`${e.d.toFixed(1)} mi · ~${e.t}m`)(eff(r))}</span></div>
       <div class="row2">
         <span class="cat">${r.c}</span>
-        ${r.w?`<span class="when">${r.w}</span>`:""}
+        ${r.w?whenCell(r):""}
         ${r.r!=null?fmtPop(r):""}
       </div>
       <div class="summary">${r.s}</div>
@@ -538,6 +598,8 @@ function render(){
   $("cards").style.display = mapMode ? "none" : "";
   if(mapMode) renderMap(list);
   $("empty").hidden = list.length>0 || mapMode;
+  $("todayBtn").hidden = !hasWhen();
+  $("todayBtn").setAttribute("aria-pressed", state.sortKey==="today");
   $("showing").textContent = `showing ${list.length} of ${DATA[state.tab].length}${userLoc?" · distances from your location":""}`;
   syncHash();
   // header sort listeners
@@ -564,7 +626,7 @@ function renderItem(){
       <h2>${r.n} ${favStar(state.item)}</h2>
       <div class="dmeta">
         <span class="cat">${r.c}</span>
-        ${r.w?`<span class="when">${r.w}</span>`:""}
+        ${r.w?whenCell(r):""}
         ${e.d!=null?`<span class="dist">${e.d.toFixed(1)} mi · ~${e.t} min drive</span>`:""}
         ${r.r!=null?fmtPop(r):""}
       </div>
@@ -590,9 +652,11 @@ function fillCats(){
   state.cat="";
 }
 
+// tabs whose rows carry a When string (`w` column) get the "today first" sort
+const hasWhen = () => COLS[state.tab].some(c=>c.k==="w");
 function fillSort(){
   const cols = COLS[state.tab].filter(c=>!c.nosort);
-  $("sortSelect").innerHTML = cols.map(c=>{
+  $("sortSelect").innerHTML = (hasWhen()?`<option value="today:1">Sort: Today first (near → far)</option>`:"") + cols.map(c=>{
     const lbls = c.type==="num" ? ["low → high","high → low"] : ["A → Z","Z → A"];
     return `<option value="${c.k}:1">Sort: ${c.label} (${lbls[0]})</option><option value="${c.k}:-1">Sort: ${c.label} (${lbls[1]})</option>`;
   }).join("");
@@ -603,6 +667,11 @@ $("sortSelect").addEventListener("change",e=>{
   const [k,d] = e.target.value.split(":");
   state.sortKey = k; state.sortDir = +d;
   render();
+});
+$("todayBtn").addEventListener("click",()=>{
+  if(state.sortKey==="today"){ const [k,d]=defSort(state.tab); state.sortKey=k; state.sortDir=d; }
+  else { state.sortKey="today"; state.sortDir=1; }
+  syncSort(); render();
 });
 
 function toggleRow(el){
