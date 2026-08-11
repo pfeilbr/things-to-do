@@ -1,17 +1,22 @@
-# Willow Grove Local Guide
+# Things To Do — Multi-City Local Guide
 
-A single-page, fully client-side "field guide" web app for the Willow Grove, PA area — local attractions, weekend events, and fishing spots in one sortable, searchable table.
+A single-page, fully client-side "field guide" web app — pick a city, get things to do in one sortable, searchable table. Ships with five cities: **Philly (Willow Grove) · NYC · Brooklyn · Queens · Flushing**.
 
 **Live site:** https://pfeilbr.github.io/things-to-do/
 
 ## Features
 
-- **Three datasets** in tabs:
-  - **Attractions** — ~200 places within a ~2-hour drive (parks, breweries, museums, escape rooms, state parks, farms, theme parks, beaches, historic sites — from central Philly out to Lancaster, Hershey, the Lehigh Valley, the Poconos, the Jersey Shore, NYC, and the Brandywine Valley), sorted by distance by default
-  - **Weekend Events** — real, verifiable events for the covered weekend, each with a source link
-  - **Fishing** — 20 creeks, lakes, and reservoirs with species info and PFBC stocked-trout notes, sorted by popularity by default
-  - **Chinese 中华** — a curated guide to authentic Chinese food and culture: Sichuan restaurants, dim sum, hot pot, bakeries & tea, Asian supermarkets, Chinatown, and annual festivals
-- **Favorites** — star any row (saved in your browser); filter to favorites with ★
+- **City switcher** — a chip bar in the header swaps the whole guide (tabs, data, distances, favorites) between cities; your pick is remembered, and `?city=nyc` links directly
+- **Interest-focused tabs** per city:
+  - **Spots / Attractions** — date-worthy highlights, views, museums, walks, sorted by distance
+  - **Nightlife** — dance floors and hip-hop/R&B nights first, then lounges, live music, speakeasies, and KTV
+  - **Sushi & Eats** — omakase and sushi across price points, plus standout Japanese/Korean/SEA spots
+  - **Chinese 中华** — authentic Chinese food and culture: Sichuan restaurants, dim sum, hot pot, bakeries & tea, markets, temples, festivals (Flushing's is the deepest)
+  - **Fishing** — piers, lakes, party boats, and surf spots with license notes
+  - **MTB** — real mountain-bike trails within a drive, labeled honestly (singletrack vs. greenway)
+  - **Social** — recurring series where strangers actually talk: dance socials, run clubs, trivia, language exchanges, night markets — with a "today" badge on ones happening now
+  - Philly additionally keeps its **weekend Events** tab
+- **Favorites** — star any row (saved in your browser, per city); filter to favorites with ★
 - **Near me** — recompute all distances from your current location (computed entirely in-browser)
 - **Map view** — see the current filtered list as pins on an OpenStreetMap map
 - **Shareable links** — tab, search, filters, and sort are encoded in the URL hash
@@ -26,13 +31,13 @@ A single-page, fully client-side "field guide" web app for the Willow Grove, PA 
 
 ## How distances work
 
-Distances are straight-line (haversine) from central Willow Grove, multiplied by a 1.3 road factor. Drive times use an average speed that scales with trip length (24 mph for short local hops up to 55 mph for highway trips: `mph = min(55, 24 + 0.45 × road_miles)`). They're estimates — verify before you go.
+Distances are straight-line (haversine) from the active city's center (or any origin you set — tap the dotted place name, or use 📍 Near me), multiplied by a 1.3 road factor. Drive times use an average speed that scales with trip length (24 mph for short local hops up to 55 mph for highway trips: `mph = min(55, 24 + 0.45 × road_miles)`). They're estimates — verify before you go.
 
 ## Data sources
 
-Google Places ratings, VisitPhilly, Metro Philadelphia, Visit Bucks County, PA DCNR, PFBC stream guides, and local event calendars. Event data is time-sensitive and reflects the weekend noted in the page header.
+Google Places ratings, official venue sites, VisitPhilly, Visit Bucks County, Time Out NY, The Infatuation, PA DCNR, PFBC stream guides, and local event calendars. Event data is time-sensitive and reflects the weekend noted in the page header.
 
-> Fishing requires a PA license (plus a trout stamp on stocked water).
+> Fishing licenses: PA license (+ trout stamp on stocked water) for the Philly guide; NY freshwater license or the free saltwater registry for the NYC guides.
 
 ## Development
 
