@@ -1,7 +1,7 @@
 {
-  "name": "Willow Grove Local Guide",
-  "short_name": "WG Guide",
-  "description": "Attractions, weekend events & fishing spots within a 2-hour drive of Willow Grove, PA.",
+  "name": "Things To Do — Local Guide",
+  "short_name": "Local Guide",
+  "description": "Multi-city guide (Philly, NYC, Brooklyn, Queens, Flushing): date-worthy spots, nightlife, sushi, Chinese culture, fishing & mountain biking.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

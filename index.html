@@ -6,8 +6,8 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Local Guide — Attractions, Events & Fishing</title>
-<meta name="description" id="metaDesc" content="Sortable, searchable local guide: attractions, events and fishing spots, with drive times from any place you choose.">
+<title>Local Guide — Things To Do</title>
+<meta name="description" id="metaDesc" content="Multi-city guide to things to do: date-worthy spots, nightlife & dance floors, sushi, Chinese culture, fishing and mountain biking — with drive times from any place you choose.">
 <meta name="theme-color" content="#1d3a2f">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -15,7 +15,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="WG Guide">
+<meta name="apple-mobile-web-app-title" content="Local Guide">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -79,6 +79,22 @@ h1 .pin{color:var(--moss)}
 .tab:hover{border-color:var(--paper)}
 .tab.active{background:var(--paper);color:var(--pine);border-color:var(--paper)}
 .tab .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.7;margin-left:5px}
+/* city switcher */
+.citybar{display:flex;gap:6px;margin-top:16px;flex-wrap:wrap;align-items:center}
+.citybar .clabel{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;opacity:.55;margin-right:2px}
+.citychip{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.2px;
+  background:rgba(246,244,236,.07);color:var(--paper);
+  border:1px solid rgba(246,244,236,.3);border-radius:6px;
+  padding:5px 11px;cursor:pointer;transition:background .15s,border-color .15s;
+}
+.citychip:hover{border-color:var(--paper)}
+.citychip.active{background:var(--clay);border-color:var(--clay);color:#fff;font-weight:700}
+@media (max-width:760px){
+  .citychip{padding:5px 8px;font-size:10.5px}
+  .tab{padding:6px 13px;font-size:15px}
+  .tabs{gap:6px;margin-top:14px}
+}
 .tab:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
 /* controls */
 .controls{
@@ -250,6 +266,7 @@ footer a{color:var(--moss)}
     </div>
     <h1><span id="hPlace"></span> <span class="pin" id="hBrand"></span></h1>
     <div class="sub"><span id="subBlurb"></span> · distances estimated from <button id="originBtn" class="originbtn" title="Change the location distances are measured from"></button></div>
+    <nav class="citybar" id="citybar" aria-label="Switch city"><span class="clabel">CITY</span></nav>
     <div class="tabs" role="tablist" id="tabs"></div>
   </div>
 </header>
@@ -298,7 +315,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-11T04:07Z";
+const BUILD = "2026-08-11T15:16Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -310,75 +327,117 @@ if(location.protocol !== "file:"){
 }
 
 // ---- CONFIG ---------------------------------------------------------------------------
-// Everything location- and branding-specific lives here. To point this guide at another
-// place: edit this block and swap data.json. Nothing below should need touching.
+// Everything location- and branding-specific lives here. The guide is MULTI-CITY: each
+// entry in CONFIG.cities names a place, its dataset file, and its tab layout. To add a
+// city: build its data file, append an entry here, and add the file to sw.js PRECACHE.
 // NOTE: `place` is a NAME, never coordinates — it is geocoded at runtime, so no origin
 // coordinate is ever committed to this repo.
+// shared column layouts
+const C_STD = [
+  {k:"n",label:"Name",type:"str"},
+  {k:"c",label:"Category",type:"str"},
+  {k:"s",label:"Summary",type:"str",nosort:true},
+  {k:"d",label:"Distance",type:"num"},
+  {k:"t",label:"Drive",type:"num"},
+  {k:"pop",label:"Popularity",type:"num"}
+];
+const C_WHEN = [
+  {k:"n",label:"Event",type:"str"},
+  {k:"c",label:"Type",type:"str"},
+  {k:"w",label:"When",type:"str"},
+  {k:"s",label:"Summary",type:"str",nosort:true},
+  {k:"d",label:"Distance",type:"num"},
+  {k:"t",label:"Drive",type:"num"}
+];
+const C_FISH = [
+  {k:"n",label:"Spot",type:"str"},
+  {k:"c",label:"Water",type:"str"},
+  {k:"s",label:"What you'll catch",type:"str",nosort:true},
+  {k:"d",label:"Distance",type:"num"},
+  {k:"t",label:"Drive",type:"num"},
+  {k:"pop",label:"Popularity",type:"num"}
+];
+// interest tabs shared across the city guides
+const T_SPOTS   = {key:"spots",     label:"Spots",        sort:["d",1],    cols:C_STD};
+const T_NIGHT   = {key:"nightlife", label:"Nightlife",    sort:["pop",-1], cols:C_STD};
+const T_EATS    = {key:"eats",      label:"Sushi & Eats", sort:["pop",-1], cols:C_STD};
+const T_CHINESE = {key:"chinese",   label:"Chinese \u4e2d\u534e", sort:["d",1], cols:C_STD};
+const T_FISH    = {key:"fishing",   label:"Fishing",      sort:["pop",-1], cols:C_FISH};
+const T_BIKE    = {key:"biking",    label:"MTB",          sort:["d",1],    cols:C_STD};
+const T_SOCIAL  = {key:"social",    label:"Social",       sort:["d",1],    cols:C_WHEN};
+const CITY_TABS = [T_SPOTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
+
+const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
+const NY_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
+
 const CONFIG = {
-  place:       "Willow Grove, PA",
-  placeShort:  "Willow Grove",
-  originLabel: "central Willow Grove",
-  brand:       "Local Guide",
-  blurb:       "Attractions within a ~3\u00bd-hr drive / weekend events (Aug 11 \u2013 Sep 27 2026) / fishing / Chinese guide \u4e2d\u534e",
-  ns:          "wg",
-  note:        "Fishing requires a PA license (+ trout stamp on stocked water).",
-  sources:     "Data gathered Aug 2026 from Google Places, VisitPhilly, Visit Bucks County, LevittownNow, FestivalsInPA, CarCruiseFinder, NPS, PA DCNR, NJ/NY/MD/DE state parks, PFBC stream guides &amp; local calendars; Chinese guide via Yelp, Philly Mag, The Infatuation &amp; PCDC.",
-  tabs: [
-    {key:"attractions", label:"Attractions", sort:["d",1], cols:[
-      {k:"n",label:"Name",type:"str"},
-      {k:"c",label:"Category",type:"str"},
-      {k:"s",label:"Summary",type:"str",nosort:true},
-      {k:"d",label:"Distance",type:"num"},
-      {k:"t",label:"Drive",type:"num"},
-      {k:"pop",label:"Popularity",type:"num"}
-    ]},
-    {key:"events", label:"Events", sort:["d",1], cols:[
-      {k:"n",label:"Event",type:"str"},
-      {k:"c",label:"Type",type:"str"},
-      {k:"w",label:"When",type:"str"},
-      {k:"s",label:"Summary",type:"str",nosort:true},
-      {k:"d",label:"Distance",type:"num"},
-      {k:"t",label:"Drive",type:"num"}
-    ]},
-    {key:"fishing", label:"Fishing", sort:["pop",-1], cols:[
-      {k:"n",label:"Spot",type:"str"},
-      {k:"c",label:"Water",type:"str"},
-      {k:"s",label:"What you'll catch",type:"str",nosort:true},
-      {k:"d",label:"Distance",type:"num"},
-      {k:"t",label:"Drive",type:"num"},
-      {k:"pop",label:"Popularity",type:"num"}
-    ]},
-    {key:"chinese", label:"Chinese \u4e2d\u534e", sort:["d",1], cols:[
-      {k:"n",label:"Name",type:"str"},
-      {k:"c",label:"Category",type:"str"},
-      {k:"s",label:"Summary",type:"str",nosort:true},
-      {k:"d",label:"Distance",type:"num"},
-      {k:"t",label:"Drive",type:"num"},
-      {k:"pop",label:"Popularity",type:"num"}
-    ]}
+  brand: "Local Guide",
+  cities: [
+    { id:"philly", chip:"PHILLY",
+      place:"Willow Grove, PA", placeShort:"Willow Grove", originLabel:"central Willow Grove",
+      ns:"wg", data:"data.json",
+      blurb:"Attractions within a ~3\u00bd-hr drive / weekend events / nightlife &amp; dance floors / sushi / MTB / fishing / Chinese guide \u4e2d\u534e",
+      note:"Fishing requires a PA license (+ trout stamp on stocked water).",
+      sources:"Data gathered Aug 2026 from Google Places, VisitPhilly, Visit Bucks County, LevittownNow, FestivalsInPA, CarCruiseFinder, NPS, PA DCNR, NJ/NY/MD/DE state parks, PFBC stream guides &amp; local calendars; Chinese guide via Yelp, Philly Mag, The Infatuation &amp; PCDC.",
+      tabs:[
+        {key:"attractions", label:"Attractions", sort:["d",1], cols:C_STD},
+        {key:"events",      label:"Events",      sort:["d",1], cols:C_WHEN},
+        T_NIGHT, T_EATS, T_BIKE, T_SOCIAL, T_FISH, T_CHINESE
+      ]},
+    { id:"nyc", chip:"NYC",
+      place:"Union Square, Manhattan, NY", placeShort:"New York City", originLabel:"Union Square, Manhattan",
+      ns:"nyc", data:"data-nyc.json",
+      blurb:"Manhattan: date-worthy spots / hip-hop nights &amp; dance floors / sushi &amp; omakase / Chinatown \u4e2d\u534e / fishing / MTB / weekly socials",
+      note:NY_NOTE, sources:NY_SOURCES,
+      tabs:CITY_TABS },
+    { id:"brooklyn", chip:"BROOKLYN",
+      place:"Barclays Center, Brooklyn, NY", placeShort:"Brooklyn", originLabel:"central Brooklyn",
+      ns:"bk", data:"data-brooklyn.json",
+      blurb:"Brooklyn: dance-floor capital of the city / date-worthy spots / sushi / Sunset Park \u4e2d\u534e / party boats / MTB / weekly socials",
+      note:NY_NOTE, sources:NY_SOURCES,
+      tabs:CITY_TABS },
+    { id:"queens", chip:"QUEENS",
+      place:"Forest Hills, Queens, NY", placeShort:"Queens", originLabel:"Forest Hills, Queens",
+      ns:"qns", data:"data-queens.json",
+      blurb:"Queens: skyline date walks / warehouse-to-KTV nightlife / sushi &amp; omakase / Elmhurst \u4e2d\u534e / fishing / Cunningham MTB / socials",
+      note:NY_NOTE, sources:NY_SOURCES,
+      tabs:CITY_TABS },
+    { id:"flushing", chip:"FLUSHING",
+      place:"Flushing, Queens, NY", placeShort:"Flushing", originLabel:"Main St, Flushing",
+      ns:"flu", data:"data-flushing.json",
+      blurb:"Flushing \u4e2d\u534e: the deepest Chinese-culture guide here \u2014 Sichuan, dim sum, KTV, tea / plus spots, nightlife, fishing &amp; MTB",
+      note:NY_NOTE, sources:NY_SOURCES,
+      tabs:CITY_TABS }
   ]
 };
-const TABS     = CONFIG.tabs;
-const HOME     = TABS[0].key;                                   // default / canonical tab
-const COLS     = Object.fromEntries(TABS.map(t=>[t.key,t.cols]));
-const TABLABEL = Object.fromEntries(TABS.map(t=>[t.key,t.label]));
+
+// ---- per-city derived state -----------------------------------------------------------
+let CITY = null, TABS = [], HOME = "", COLS = {}, TABLABEL = {};
+const cityById = id => CONFIG.cities.find(c=>c.id===id);
+const DEFAULT_CITY = CONFIG.cities[0].id;
+function setCityConfig(c){
+  CITY = c;
+  TABS = c.tabs;
+  HOME = TABS[0].key;                                           // default / canonical tab
+  COLS = Object.fromEntries(TABS.map(t=>[t.key,t.cols]));
+  TABLABEL = Object.fromEntries(TABS.map(t=>[t.key,t.label]));
+}
 const tabDef   = k => TABS.find(t=>t.key===k) || TABS[0];
 const defSort  = k => tabDef(k).sort;                           // [sortKey, sortDir]
-const skey     = n => CONFIG.ns+"-"+n;                          // namespaced storage key
+const skey     = n => CITY.ns+"-"+n;                            // per-city storage key
 
-let DATA = {};   // loaded from data.json at boot — see CONFIG above
+let DATA = {};          // active city's dataset — see CONFIG above
+const DATACACHE = {};   // cityId -> dataset, so switching back is instant
 
-
-let state = { tab:"attractions", q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null };
-const favs = new Set(JSON.parse(localStorage.getItem(skey("favs"))||"[]"));
+let state = { tab:null, q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null };
+let favs = new Set();   // per-city; loaded in activateCity()
 let userLoc = null;
 
 // The guide is origin-agnostic: every row carries `ll` (public place coordinates) and the
-// baked d/t are just the precomputed values for CONFIG.place. Point it anywhere by name.
-// The default place's own coordinates are deliberately NOT in this file — they're resolved
-// by name on demand, so the repo never ships an origin coordinate.
-let origin = null;   // {name, label, ll:[lat,lng]} once a custom origin is chosen
-try { origin = JSON.parse(localStorage.getItem(skey("origin"))||"null"); } catch(e){ origin = null; }
+// baked d/t are just the precomputed values for the active city's `place`. Point it
+// anywhere by name. No place's own coordinates are in this file — they're resolved by
+// name on demand, so the repo never ships an origin coordinate.
+let origin = null;   // {name, label, ll:[lat,lng]} once a custom origin is chosen (kept per city)
 
 // distance from an arbitrary point (used for "near me" / custom origin; nothing leaves the browser)
 function havMi(aLat,aLon,bLat,bLon){
@@ -393,8 +452,8 @@ function ride(mi){
 }
 // the point distances are currently measured from, or null to use the baked values
 function originLL(){ return userLoc || (origin && origin.ll) || null; }
-function originLabel(){ return userLoc ? "your location" : (origin ? origin.label : CONFIG.originLabel); }
-function originPlace(){ return userLoc ? userLoc.join(",") : (origin ? origin.name : CONFIG.place); }
+function originLabel(){ return userLoc ? "your location" : (origin ? origin.label : CITY.originLabel); }
+function originPlace(){ return userLoc ? userLoc.join(",") : (origin ? origin.name : CITY.place); }
 
 // effective distance/time for a row given the current origin mode
 function eff(r){
@@ -442,7 +501,7 @@ function detailHTML(r){
 }
 
 function rows(){
-  let list = DATA[state.tab].slice();
+  let list = (DATA[state.tab]||[]).slice();
   const q = state.q.trim().toLowerCase();
   if(q) list = list.filter(r => (r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")).toLowerCase().includes(q));
   if(state.cat) list = list.filter(r => r.c === state.cat);
@@ -600,7 +659,7 @@ function render(){
   $("empty").hidden = list.length>0 || mapMode;
   $("todayBtn").hidden = !hasWhen();
   $("todayBtn").setAttribute("aria-pressed", state.sortKey==="today");
-  $("showing").textContent = `showing ${list.length} of ${DATA[state.tab].length}${userLoc?" · distances from your location":""}`;
+  $("showing").textContent = `showing ${list.length} of ${(DATA[state.tab]||[]).length}${userLoc?" · distances from your location":""}`;
   syncHash();
   // header sort listeners
   document.querySelectorAll("#theadRow th").forEach(th=>{
@@ -647,7 +706,7 @@ $("itemview").addEventListener("click",e=>{
 });
 
 function fillCats(){
-  const cats = [...new Set(DATA[state.tab].map(r=>r.c))].sort();
+  const cats = [...new Set((DATA[state.tab]||[]).map(r=>r.c))].sort();
   $("catFilter").innerHTML = `<option value="">All categories</option>`+cats.map(c=>`<option>${c}</option>`).join("");
   state.cat="";
 }
@@ -692,6 +751,7 @@ function keyParts(key){ const i = key.indexOf("|"); return [key.slice(0,i), key.
 function permalink(key){
   const [tab,name] = keyParts(key);
   const p = new URLSearchParams();
+  if(CITY.id!==DEFAULT_CITY) p.set("city",CITY.id);
   if(tab!==HOME) p.set("tab",tab);
   p.set("item", slugify(name));
   return location.origin + location.pathname + "#" + p.toString();
@@ -781,7 +841,7 @@ $("favToggle").addEventListener("click",()=>{
 function syncOrigin(){
   const label = originLabel();
   $("originBtn").textContent = label;
-  const place = userLoc ? "Your location" : (origin ? origin.short : CONFIG.placeShort);
+  const place = userLoc ? "Your location" : (origin ? origin.short : CITY.placeShort);
   $("hPlace").textContent = place;
   document.title = baseTitle();
 }
@@ -810,12 +870,12 @@ async function setOrigin(q){
   }
 }
 $("originBtn").addEventListener("click",()=>{
-  const cur = origin ? origin.name : CONFIG.place;
-  const q = prompt("Measure distances from which place?\n(Any town, address or landmark — e.g. \"Doylestown, PA\")\n\nLeave blank to reset to " + CONFIG.place + ".", cur);
+  const cur = origin ? origin.name : CITY.place;
+  const q = prompt("Measure distances from which place?\n(Any town, address or landmark — e.g. \"Doylestown, PA\")\n\nLeave blank to reset to " + CITY.place + ".", cur);
   if(q === null) return;
   if(!q.trim()){
     origin = null; localStorage.removeItem(skey("origin"));
-    syncOrigin(); render(); toast("Reset to " + CONFIG.place + ".");
+    syncOrigin(); render(); toast("Reset to " + CITY.place + ".");
     return;
   }
   setOrigin(q.trim());
@@ -886,6 +946,7 @@ $("mapToggle").addEventListener("click",()=>{
 // shareable URL state
 function syncHash(){
   const p = new URLSearchParams();
+  if(CITY.id!==DEFAULT_CITY) p.set("city",CITY.id);
   if(state.tab!==HOME) p.set("tab",state.tab);
   if(state.q) p.set("q",state.q);
   if(state.cat) p.set("cat",state.cat);
@@ -908,7 +969,7 @@ function readHash(){
   if(!p.get("s")){ const [k,d]=defSort(state.tab); state.sortKey=k; state.sortDir=d; }
   const item = p.get("item");
   if(item){
-    const row = DATA[state.tab].find(r => slugify(r.n) === item || r.n === item);
+    const row = (DATA[state.tab]||[]).find(r => slugify(r.n) === item || r.n === item);
     if(row) state.item = state.tab + "|" + row.n;
   }
   $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.tab===state.tab));
@@ -945,16 +1006,20 @@ function renderTabs(){
 }
 function applyBranding(){
   $("hBrand").textContent  = CONFIG.brand;
-  $("subBlurb").innerHTML  = CONFIG.blurb;
-  $("ftSources").innerHTML = CONFIG.sources;
-  $("ftNote").textContent  = CONFIG.note;
+  $("subBlurb").innerHTML  = CITY.blurb;
+  $("ftSources").innerHTML = CITY.sources;
+  $("ftNote").textContent  = CITY.note;
 }
 $("q").addEventListener("input",e=>{state.q=e.target.value;render();});
 $("catFilter").addEventListener("change",e=>{state.cat=e.target.value;render();});
 $("distFilter").addEventListener("change",e=>{state.maxT=e.target.value;render();});
 
-function baseTitle(){ return `${userLoc ? "Near You" : (origin ? origin.short : CONFIG.placeShort)} ${CONFIG.brand}`; }
-function applyHash(){
+function baseTitle(){ return `${userLoc ? "Near You" : (origin ? origin.short : CITY.placeShort)} ${CONFIG.brand}`; }
+async function applyHash(){
+  const cid = new URLSearchParams(location.hash.slice(1)).get("city");
+  if(cid && cid!==CITY.id && cityById(cid)){
+    if(!await loadCity(cityById(cid))) return;
+  }
   const [hk,hd]=defSort(HOME);
   Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null});
   const cat = readHash();
@@ -965,30 +1030,72 @@ function applyHash(){
 }
 window.addEventListener("hashchange", applyHash);
 
-// ?from=Doylestown,PA lets a link pin the guide to any place
-const fromParam = new URLSearchParams(location.search).get("from");
-
-// ---- boot: the datasets live in data.json so this file stays a generic renderer -------
-function boot(d){
-  DATA = d;
-  MAXDRIVE = Math.max(...Object.values(DATA).flat().map(r=>r.t));
-  state.tab = HOME;
+// ---- city switching -------------------------------------------------------------------
+async function fetchCity(c){
+  if(DATACACHE[c.id]) return DATACACHE[c.id];
+  const r = await fetch(c.data, {cache:"no-cache"});
+  if(!r.ok) throw "HTTP "+r.status;
+  return DATACACHE[c.id] = await r.json();
+}
+// point every per-city global (tabs, data, favorites, origin, branding) at this city
+function activateCity(c){
+  setCityConfig(c);
+  DATA = DATACACHE[c.id];
+  MAXDRIVE = Math.max(1, ...Object.values(DATA).flat().map(r=>r.t||0));
+  favs = new Set(JSON.parse(localStorage.getItem(skey("favs"))||"[]"));
+  try { origin = JSON.parse(localStorage.getItem(skey("origin"))||"null"); } catch(e){ origin = null; }
+  localStorage.setItem("guide-city", c.id);
   applyBranding();
   renderTabs();
+  renderCityBar();
   syncOrigin();
-  applyHash();
-  if(fromParam) setOrigin(fromParam);
+}
+async function loadCity(c){
+  try{ await fetchCity(c); }
+  catch(err){ toast("Couldn't load the "+c.placeShort+" data ("+err+")"); renderCityBar(); return false; }
+  activateCity(c);
+  return true;
+}
+async function switchCity(id){
+  const c = cityById(id);
+  if(!c || c.id===CITY.id) return;
+  if(!await loadCity(c)) return;
+  const [sk,sd] = defSort(HOME);
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:false, item:null});
+  $("q").value=""; $("distFilter").value="";
+  $("favToggle").setAttribute("aria-pressed","false");
+  fillCats(); fillSort(); render();
+}
+function renderCityBar(){
+  $("citybar").innerHTML = `<span class="clabel">CITY</span>`+CONFIG.cities.map(c=>
+    `<button class="citychip${CITY&&c.id===CITY.id?" active":""}" data-city="${c.id}" aria-pressed="${CITY&&c.id===CITY.id}">${c.chip}</button>`
+  ).join("");
+  $("citybar").querySelectorAll(".citychip").forEach(b=>b.addEventListener("click",()=>switchCity(b.dataset.city)));
+}
+
+// ?from=Doylestown,PA pins the origin; ?city=nyc / #city=nyc picks the city
+const fromParam = new URLSearchParams(location.search).get("from");
+
+// ---- boot: datasets live in per-city data files so this file stays a generic renderer --
+function pickBootCity(){
+  const h = new URLSearchParams(location.hash.slice(1)).get("city");
+  const s = new URLSearchParams(location.search).get("city");
+  const l = localStorage.getItem("guide-city");
+  for(const id of [h,s,l]) if(id && cityById(id)) return cityById(id);
+  return CONFIG.cities[0];
 }
 function bootFailed(err){
+  renderCityBar();
   applyBranding();
   $("empty").hidden = false;
   $("empty").textContent = location.protocol === "file:"
-    ? "This page loads its data from data.json, which browsers block over file://. Serve the folder over http (e.g. python3 -m http.server) and reload."
-    : "Couldn't load data.json — check your connection and reload. (" + err + ")";
+    ? "This page loads its data from "+CITY.data+", which browsers block over file://. Serve the folder over http (e.g. python3 -m http.server) and reload."
+    : "Couldn't load "+CITY.data+" — check your connection and reload. (" + err + ")";
 }
-fetch("data.json", {cache:"no-cache"})
-  .then(r => r.ok ? r.json() : Promise.reject("HTTP "+r.status))
-  .then(boot)
+const bootCity = pickBootCity();
+setCityConfig(bootCity);
+fetchCity(bootCity)
+  .then(()=>{ activateCity(bootCity); applyHash(); if(fromParam) setOrigin(fromParam); })
   .catch(bootFailed);
 </script>
 </body>
