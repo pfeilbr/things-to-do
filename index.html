@@ -315,7 +315,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-11T15:16Z";
+const BUILD = "2026-08-12T16:09Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -369,6 +369,7 @@ const CITY_TABS = [T_SPOTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
 const NY_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
+const MID_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, local press &amp; event calendars.";
 
 const CONFIG = {
   brand: "Local Guide",
@@ -407,6 +408,27 @@ const CONFIG = {
       ns:"flu", data:"data-flushing.json",
       blurb:"Flushing \u4e2d\u534e: the deepest Chinese-culture guide here \u2014 Sichuan, dim sum, KTV, tea / plus spots, nightlife, fishing &amp; MTB",
       note:NY_NOTE, sources:NY_SOURCES,
+      tabs:CITY_TABS },
+    { id:"ac", chip:"AC",
+      place:"Atlantic City, NJ", placeShort:"Atlantic City", originLabel:"the AC Boardwalk",
+      ns:"ac", data:"data-ac.json",
+      blurb:"Atlantic City: boardwalk &amp; casino nights / dance floors / party-boat fishing / sushi / date-worthy shore escapes / socials",
+      note:"NJ freshwater fishing needs a license; saltwater needs only the free registry.",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"baltimore", chip:"BALTIMORE",
+      place:"Inner Harbor, Baltimore, MD", placeShort:"Baltimore", originLabel:"the Inner Harbor",
+      ns:"bal", data:"data-baltimore.json",
+      blurb:"Baltimore: harbor dates / dance floors &amp; live rooms / sushi / suburban Sichuan \u4e2d\u534e / Chesapeake &amp; tailwater fishing / Patapsco MTB / socials",
+      note:"MD fishing needs a license \u2014 separate tidal (Chesapeake) and nontidal.",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"dc", chip:"DC",
+      place:"Washington, DC", placeShort:"Washington DC", originLabel:"downtown DC",
+      ns:"dc", data:"data-dc.json",
+      blurb:"Washington DC: monuments-after-dark dates / go-go, hip-hop &amp; salsa nights / sushi &amp; omakase / Rockville \u4e2d\u534e hub / Potomac fishing / MTB / socials",
+      note:"Fishing the Potomac/Anacostia in the District needs a DC license (MD/VA waters have their own).",
+      sources:MID_SOURCES,
       tabs:CITY_TABS }
   ]
 };

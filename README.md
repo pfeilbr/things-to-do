@@ -1,6 +1,6 @@
 # Things To Do — Multi-City Local Guide
 
-A single-page, fully client-side "field guide" web app — pick a city, get things to do in one sortable, searchable table. Ships with five cities: **Philly (Willow Grove) · NYC · Brooklyn · Queens · Flushing**.
+A single-page, fully client-side "field guide" web app — pick a city, get things to do in one sortable, searchable table. Ships with eight cities: **Philly (Willow Grove) · NYC · Brooklyn · Queens · Flushing · Atlantic City · Baltimore · Washington DC**.
 
 **Live site:** https://pfeilbr.github.io/things-to-do/
 
