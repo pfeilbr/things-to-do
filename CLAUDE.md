@@ -69,6 +69,6 @@ Straight-line haversine miles from the city's origin place ×1.3 road factor = `
 
 ## Publishing
 
-`git push` to `main` — GitHub Pages (legacy build, main branch root) auto-deploys in ~1 minute. Verify the live URL picked up the change (curl for a string unique to the new version, not just HTTP 200).
+`git push` to `main` — the `.github/workflows/pages.yml` workflow deploys the repo root to GitHub Pages in ~1 minute (it can also re-enable Pages by itself via `enablement: true` if Pages got turned off; it can be fired manually with a `workflow_dispatch`). Pages requires the repo to be **public** on the free plan — if the site 404s entirely, check repo visibility first. Verify the live URL picked up the change (curl for a string unique to the new version, not just HTTP 200).
 
 **Always bump the `BUILD` constant** (top of the `<script>` in `index.html`) to the current UTC timestamp on every deploy — the page fetches itself with `cache:"no-store"` and auto-reloads visitors holding a stale cached copy (GitHub Pages caches for ~10 min). If BUILD isn't bumped, visitors won't get the refresh.
