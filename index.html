@@ -315,7 +315,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-13T13:14Z";
+const BUILD = "2026-08-13T13:32Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -498,6 +498,34 @@ const CONFIG = {
       ns:"bna", data:"data-nashville.json",
       blurb:"Nashville: Ryman &amp; rooftop dates / hip-hop floors beyond the honky-tonks / sushi / Charlotte Pike \u4e2d\u534e / tailwater trout &amp; lake bass / Hamilton Creek MTB / socials",
       note:"TN fishing needs a license (+ trout stamp for the tailwaters).",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"la", chip:"LA",
+      place:"Downtown Los Angeles, CA", placeShort:"Los Angeles", originLabel:"downtown LA",
+      ns:"la", data:"data-la.json",
+      blurb:"LA: Griffith-sunset dates / hip-hop floors &amp; salsa rooms / omakase ladder / SGV \u4e2d\u534e capital / party boats &amp; piers / canyon MTB / socials",
+      note:"CA fishing needs a license \u2014 except from public piers.",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"sf", chip:"SF",
+      place:"Union Square, San Francisco, CA", placeShort:"San Francisco", originLabel:"Union Square, SF",
+      ns:"sf", data:"data-sf.json",
+      blurb:"San Francisco: bridge-and-ferry dates / house floors &amp; Motown nights / omakase / Chinatown + Clement St \u4e2d\u534e / salmon boats / Marin MTB (where it was born) / socials",
+      note:"CA fishing needs a license \u2014 except from public piers.",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"seattle", chip:"SEATTLE",
+      place:"Pike Place Market, Seattle, WA", placeShort:"Seattle", originLabel:"Pike Place",
+      ns:"sea", data:"data-seattle.json",
+      blurb:"Seattle: market &amp; ferry dates / Capitol Hill floors &amp; Century Ballroom salsa / Shiro's-to-Taneda sushi / ID + Bellevue \u4e2d\u534e / Puget salmon / Duthie MTB / socials",
+      note:"WA fishing needs a license (+ a catch record card for salmon).",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"sandiego", chip:"SAN DIEGO",
+      place:"Gaslamp Quarter, San Diego, CA", placeShort:"San Diego", originLabel:"the Gaslamp Quarter",
+      ns:"sd", data:"data-sandiego.json",
+      blurb:"San Diego: Balboa &amp; sunset-cliff dates / Gaslamp floors &amp; Sevilla salsa / Sushi Ota-tier sushi / Convoy District \u4e2d\u534e / the long-range tuna fleet / Mission Trails MTB / socials",
+      note:"CA fishing needs a license \u2014 except from public piers.",
       sources:MID_SOURCES,
       tabs:CITY_TABS }
   ]
