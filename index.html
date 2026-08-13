@@ -300,6 +300,7 @@ footer a{color:var(--moss)}
     <option value="210">≤ 3½ hr</option>
   </select>
   <select id="sortSelect" class="mobile-sort" aria-label="Sort by"></select>
+  <button id="tonightBtn" class="ctlbtn" aria-pressed="false" title="Everything happening today in this city, across all tabs">☀ Tonight</button>
   <button id="todayBtn" class="ctlbtn" aria-pressed="false" title="Events happening today first, nearest first" hidden>☀ Today</button>
   <button id="favToggle" class="ctlbtn" aria-pressed="false" title="Show favorites only">★ Favs</button>
   <button id="geoToggle" class="ctlbtn" aria-pressed="false" title="Recompute distances from your current location (stays on your device)">📍 Near me</button>
@@ -571,7 +572,7 @@ const skey     = n => CITY.ns+"-"+n;                            // per-city stor
 let DATA = {};          // active city's dataset — see CONFIG above
 const DATACACHE = {};   // cityId -> dataset, so switching back is instant
 
-let state = { tab:null, q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null };
+let state = { tab:null, q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false };
 let favs = new Set();   // per-city; loaded in activateCity()
 let userLoc = null;
 
@@ -612,7 +613,7 @@ const $ = id => document.getElementById(id);
 function pop(row){ return (row.rc||0) * (row.r||0); }
 
 const expanded = new Set();
-const rkey = r => state.tab+"|"+r.n;
+const rkey = r => (state.tonight?"tonight":state.tab)+"|"+r.n;
 // prefer coordinates — the guide now spans PA/NJ/NY/MD/DE, so a bare "name, PA" would misresolve
 const mapsQ = r => encodeURIComponent(r.ll ? r.ll.join(",") : r.n);
 const mapUrl = r => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.n)}${r.ll?`&query_place_id=&center=${mapsQ(r)}`:""}`;
@@ -643,7 +644,16 @@ function detailHTML(r){
 }
 
 function rows(){
-  let list = (DATA[state.tab]||[]).slice();
+  let list;
+  if(state.tonight){
+    // everything happening today in this city, across every tab
+    const seen = new Set();
+    list = [];
+    for(const t of TABS) for(const r of (DATA[t.key]||[]))
+      if(r.w && happensToday(r.w) && !seen.has(r.n)){ seen.add(r.n); list.push(r); }
+  } else {
+    list = (DATA[state.tab]||[]).slice();
+  }
   const q = state.q.trim().toLowerCase();
   if(q) list = list.filter(r => (r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")).toLowerCase().includes(q));
   if(state.cat) list = list.filter(r => r.c === state.cat);
@@ -754,7 +764,7 @@ function render(){
     return;
   }
   document.title = baseTitle();
-  const cols = COLS[state.tab];
+  const cols = state.tonight ? C_WHEN : COLS[state.tab];
   // header
   $("theadRow").innerHTML = cols.map(c=>{
     const sorted = state.sortKey===c.k;
@@ -799,9 +809,11 @@ function render(){
   $("cards").style.display = mapMode ? "none" : "";
   if(mapMode) renderMap(list);
   $("empty").hidden = list.length>0 || mapMode;
-  $("todayBtn").hidden = !hasWhen();
+  $("todayBtn").hidden = state.tonight || !hasWhen();
   $("todayBtn").setAttribute("aria-pressed", state.sortKey==="today");
-  $("showing").textContent = `showing ${list.length} of ${(DATA[state.tab]||[]).length}${userLoc?" · distances from your location":""}`;
+  $("showing").textContent = state.tonight
+    ? `showing ${list.length} happening tonight`
+    : `showing ${list.length} of ${(DATA[state.tab]||[]).length}${userLoc?" · distances from your location":""}`;
   syncHash();
   // header sort listeners
   document.querySelectorAll("#theadRow th").forEach(th=>{
@@ -874,6 +886,18 @@ $("todayBtn").addEventListener("click",()=>{
   else { state.sortKey="today"; state.sortDir=1; }
   syncSort(); render();
 });
+
+// ---- tonight mode: one tap for everything happening today, across all tabs ------------
+function setTonight(on){
+  state.tonight = on;
+  state.item = null;
+  $("tonightBtn").setAttribute("aria-pressed", on);
+  if(on){ state.sortKey="d"; state.sortDir=1; }
+  else { const [k,d]=defSort(state.tab); state.sortKey=k; state.sortDir=d; }
+  $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", !on && x.dataset.tab===state.tab));
+  render();
+}
+$("tonightBtn").addEventListener("click",()=>setTonight(!state.tonight));
 
 function toggleRow(el){
   const key = el.dataset.key;
@@ -1095,6 +1119,7 @@ function syncHash(){
   if(state.maxT) p.set("t",state.maxT);
   if(!(state.sortKey==="d"&&state.sortDir===1)) p.set("s",state.sortKey+":"+state.sortDir);
   if(state.fav) p.set("fav","1");
+  if(state.tonight) p.set("tonight","1");
   if(state.view==="map") p.set("view","map");
   if(state.item) p.set("item", slugify(keyParts(state.item)[1]));
   const h = p.toString();
@@ -1107,17 +1132,19 @@ function readHash(){
   if(p.get("t")) state.maxT = p.get("t");
   if(p.get("s")){ const [k,d]=p.get("s").split(":"); state.sortKey=k; state.sortDir=+d||1; }
   if(p.get("fav")) state.fav = true;
+  if(p.get("tonight")){ state.tonight = true; state.sortKey="d"; state.sortDir=1; }
   if(p.get("view")==="map") state.view = "map";
-  if(!p.get("s")){ const [k,d]=defSort(state.tab); state.sortKey=k; state.sortDir=d; }
+  if(!p.get("s") && !state.tonight){ const [k,d]=defSort(state.tab); state.sortKey=k; state.sortDir=d; }
   const item = p.get("item");
   if(item){
     const row = (DATA[state.tab]||[]).find(r => slugify(r.n) === item || r.n === item);
     if(row) state.item = state.tab + "|" + row.n;
   }
-  $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.tab===state.tab));
+  $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", !state.tonight && x.dataset.tab===state.tab));
   $("q").value = state.q;
   $("distFilter").value = state.maxT;
   $("favToggle").setAttribute("aria-pressed", state.fav);
+  $("tonightBtn").setAttribute("aria-pressed", state.tonight);
   $("mapToggle").setAttribute("aria-pressed", state.view==="map");
   return p.get("cat");
 }
@@ -1138,6 +1165,8 @@ function renderTabs(){
       t.classList.add("active");
       state.tab = t.dataset.tab;
       state.item = null;
+      state.tonight = false;
+      $("tonightBtn").setAttribute("aria-pressed","false");
       state.q=""; $("q").value="";
       state.maxT=""; $("distFilter").value="";
       const [sk,sd]=defSort(state.tab); state.sortKey=sk; state.sortDir=sd;
@@ -1163,7 +1192,7 @@ async function applyHash(){
     if(!await loadCity(cityById(cid))) return;
   }
   const [hk,hd]=defSort(HOME);
-  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null});
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false});
   const cat = readHash();
   fillCats();
   if(cat){ state.cat = cat; $("catFilter").value = cat; }
@@ -1204,9 +1233,10 @@ async function switchCity(id){
   if(!c || c.id===CITY.id) return;
   if(!await loadCity(c)) return;
   const [sk,sd] = defSort(HOME);
-  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:false, item:null});
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:false, item:null, tonight:false});
   $("q").value=""; $("distFilter").value="";
   $("favToggle").setAttribute("aria-pressed","false");
+  $("tonightBtn").setAttribute("aria-pressed","false");
   fillCats(); fillSort(); render();
 }
 function renderCityBar(){
