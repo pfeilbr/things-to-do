@@ -48,7 +48,9 @@ for (const file of dataFiles) {
       }
     }
     const coverage = withLL / rows;
-    const minCoverage = file === 'data.json' ? 0.95 : 1.0; // legacy Philly rows predate the ll mandate
+    // 10 legacy Philly rows have no findable OSM entry (verified by geocode
+    // attempt Aug 2026) + 1 virtual delivery row; ratchet upward as resolved.
+    const minCoverage = file === 'data.json' ? 0.98 : 1.0;
     assert.ok(coverage >= minCoverage, `${file}: ll coverage ${(coverage * 100).toFixed(1)}% < ${minCoverage * 100}%`);
   });
 }
@@ -66,4 +68,10 @@ test('sw.js precaches every data file, valid cache version', () => {
 
 test('BUILD constant format', () => {
   assert.match(indexHtml, /const BUILD = "\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z"/);
+});
+
+test('CI runs on a schedule (freshness rots with time, not commits)', () => {
+  const ci = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'ci.yml'), 'utf8');
+  assert.ok(ci.includes('schedule:'), 'ci.yml needs a schedule trigger');
+  assert.ok(ci.includes('workflow_dispatch'), 'ci.yml needs manual dispatch');
 });

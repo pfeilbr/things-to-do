@@ -101,6 +101,23 @@ h1 .pin{color:var(--moss)}
 .citychip.active{background:var(--clay);border-color:var(--clay);color:#fff;font-weight:700}
 .tripnote{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.6;margin-top:7px;letter-spacing:.4px}
 .ctlbtn .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.75;margin-left:3px}
+/* cross-tab search hints */
+.xfind{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.xflabel{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1px;opacity:.55;text-transform:uppercase}
+.xf{font-size:13.5px;font-family:inherit;border:1px dashed var(--creek);background:none;border-radius:14px;padding:3px 11px;cursor:pointer;color:var(--creek)}
+.xf:hover{border-style:solid}
+.xf .cnt{font-family:'JetBrains Mono',monospace;font-size:10.5px;opacity:.7;margin-left:2px}
+[hidden]{display:none!important} /* flex/grid display rules must not defeat the hidden attribute */
+/* near-me city suggestion */
+.suggest{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--pine);color:var(--paper);
+  padding:10px 14px;border-radius:8px;margin-bottom:14px}
+.suggest .ctlbtn{border-color:rgba(246,244,236,.4);color:var(--paper);background:none}
+.suggest .ctlbtn:hover{border-color:var(--paper)}
+/* back to top */
+.totop{position:fixed;right:18px;bottom:18px;z-index:60;width:44px;height:44px;border-radius:50%;
+  border:1px solid var(--pine);background:var(--pine);color:var(--paper);font-size:20px;line-height:1;
+  cursor:pointer;box-shadow:0 2px 10px rgba(29,58,47,.35)}
+.totop:hover{background:var(--creek);border-color:var(--creek)}
 @media (max-width:760px){
   .citychip{padding:5px 8px;font-size:10.5px}
   .tab{padding:6px 13px;font-size:15px}
@@ -284,6 +301,11 @@ footer a{color:var(--moss)}
   </div>
 </header>
 
+<div class="suggest" id="citySuggest" hidden>
+  <span>📍 You're near <b id="suggestName"></b> — switch to that guide?</span>
+  <button id="citySuggestGo" class="ctlbtn">Switch</button>
+  <button id="citySuggestNo" class="ctlbtn" aria-label="Dismiss suggestion">✕</button>
+</div>
 <div class="controls">
   <div class="search">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -309,7 +331,9 @@ footer a{color:var(--moss)}
   <button id="geoToggle" class="ctlbtn" aria-pressed="false" title="Recompute distances from your current location (stays on your device)">📍 Near me</button>
   <button id="mapToggle" class="ctlbtn" aria-pressed="false" title="Map view">🗺 Map</button>
 </div>
+<div class="xfind" id="xfind" hidden></div>
 <div class="meta-line"><span id="showing"></span><span>tap a row for map & links · click a column header to sort</span></div>
+<button id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
 
 <div class="twrap">
   <div id="itemview" hidden></div>
@@ -329,7 +353,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-13T17:20Z";
+const BUILD = "2026-08-13T18:43Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -836,6 +860,7 @@ function render(){
   $("todayBtn").hidden = state.tonight || !hasWhen();
   $("todayBtn").setAttribute("aria-pressed", state.sortKey==="today");
   $("tonightCnt").textContent = Object.values(DATA).flat().filter(r=>r.w && happensToday(r.w)).length;
+  renderXfind();
   $("showing").textContent = state.tonight
     ? `showing ${list.length} happening tonight`
     : `showing ${list.length} of ${(DATA[state.tab]||[]).length}${userLoc?" · distances from your location":""}`;
@@ -911,6 +936,64 @@ $("todayBtn").addEventListener("click",()=>{
   else { state.sortKey="today"; state.sortDir=1; }
   syncSort(); render();
 });
+
+// ---- cross-tab search hints: "also N matches in <tab>" -------------------------------
+function renderXfind(){
+  const el = $("xfind");
+  const q = state.q.trim().toLowerCase();
+  if(!q || state.tonight){ el.hidden = true; el.innerHTML = ""; return; }
+  const hits = TABS.filter(t=>t.key!==state.tab).map(t=>({
+    key: t.key, label: TABLABEL[t.key],
+    n: (DATA[t.key]||[]).filter(r=>(r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")).toLowerCase().includes(q)).length
+  })).filter(h=>h.n>0);
+  if(!hits.length){ el.hidden = true; el.innerHTML = ""; return; }
+  el.hidden = false;
+  el.innerHTML = `<span class="xflabel">also in</span>`+hits.map(h=>
+    `<button class="xf" data-tab="${h.key}">${h.label} <span class="cnt">${h.n}</span></button>`).join("");
+  el.querySelectorAll(".xf").forEach(b=>b.addEventListener("click",()=>{
+    // switch tab like a tab click, but KEEP the query
+    $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.tab===b.dataset.tab));
+    state.tab = b.dataset.tab;
+    state.item = null;
+    state.tonight = false;
+    $("tonightBtn").setAttribute("aria-pressed","false");
+    const [sk,sd]=defSort(state.tab); state.sortKey=sk; state.sortDir=sd;
+    fillCats(); fillSort(); render();
+  }));
+}
+
+// ---- near-me city suggestion: standing in another guide's city? offer to switch --------
+function cityCentroid(d){
+  let la=0, lo=0, n=0;
+  for(const rows of Object.values(d)) for(const r of rows) if(r.ll){ la+=r.ll[0]; lo+=r.ll[1]; n++; }
+  return n ? [la/n, lo/n] : null;
+}
+async function maybeSuggestCity(){
+  try{
+    if(!userLoc) return;
+    const loc = userLoc;
+    const all = await Promise.all(CONFIG.cities.map(c=>fetchCity(c).then(d=>({c,d})).catch(()=>null)));
+    if(!userLoc || userLoc[0]!==loc[0]) return;   // near-me toggled off / moved meanwhile
+    let best = null;
+    for(const x of all){
+      if(!x) continue;
+      const ll = cityCentroid(x.d);
+      if(!ll) continue;
+      const dist = havMi(loc[0], loc[1], ll[0], ll[1]);
+      if(!best || dist < best.dist) best = { c: x.c, dist };
+    }
+    if(!best || best.c.id === CITY.id || best.dist > 80) return;
+    if(sessionStorage.getItem("nosuggest-" + best.c.id)) return;
+    $("suggestName").textContent = best.c.placeShort;
+    $("citySuggest").hidden = false;
+    $("citySuggestGo").onclick = ()=>{ $("citySuggest").hidden = true; switchCity(best.c.id); };
+    $("citySuggestNo").onclick = ()=>{ sessionStorage.setItem("nosuggest-" + best.c.id, "1"); $("citySuggest").hidden = true; };
+  }catch(e){ /* suggestion is best-effort */ }
+}
+
+// ---- back to top -----------------------------------------------------------------------
+window.addEventListener("scroll",()=>{ $("toTop").hidden = window.scrollY <= 600; },{passive:true});
+$("toTop").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
 
 // ---- tonight mode: one tap for everything happening today, across all tabs ------------
 function setTonight(on){
@@ -1087,6 +1170,7 @@ $("geoToggle").addEventListener("click",()=>{
     $("geoToggle").setAttribute("aria-pressed","true");
     $("geoToggle").textContent = "📍 From you";
     syncOrigin(); render();
+    maybeSuggestCity();
   }, ()=>toast("Couldn't get your location — check the browser's location permission."));
 });
 
