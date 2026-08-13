@@ -16,6 +16,10 @@ A single-page, fully client-side "field guide" web app — pick a city, get thin
   - **MTB** — real mountain-bike trails within a drive, labeled honestly (singletrack vs. greenway)
   - **Social** — recurring series where strangers actually talk: dance socials, run clubs, trivia, language exchanges, night markets — with a "today" badge on ones happening now
   - Philly additionally keeps its **weekend Events** tab
+- **☀ Tonight** — one tap shows everything happening today in the active city (events + recurring socials), with a live count badge; shareable via `#tonight=1`
+- **Smart search** — cross-tab hints ("also 10 in Sushi & Eats") that keep your query when you tap through
+- **Near-me city switch** — using 📍 in another covered city offers to swap you to that guide
+- **Trip notes** — every away city shows its distance from home base ("≈1¾ hr drive")
 - **Favorites** — star any row (saved in your browser, per city); filter to favorites with ★
 - **Near me** — recompute all distances from your current location (computed entirely in-browser)
 - **Map view** — see the current filtered list as pins on an OpenStreetMap map

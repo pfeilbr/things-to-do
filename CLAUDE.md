@@ -71,7 +71,7 @@ Straight-line haversine miles from the city's origin place ×1.3 road factor = `
 
 `tests/` runs with node builtins only — no package.json, no dependencies:
 - `node --test 'tests/unit/*.test.js' 'tests/data/*.test.js'` — unit tests for the core logic (extracted from index.html into a vm sandbox with injectable dates) and the data-schema/consistency suite over every city dataset (also run by `.github/workflows/ci.yml` on push/PR). Run these after ANY data or index.html edit.
-- `node tests/e2e/<name>.test.js` — self-contained Playwright specs (region picker, tonight mode, map clustering). They need chromium + the playwright package; in sandboxes the browser can't reach CDNs, so `tests/e2e/_lib.js` routes unpkg/tile requests to `tests/e2e/vendor/` and blocks the service worker (which would otherwise shadow interception).
+- `node tests/e2e/run-all.js` (or `node tests/e2e/<name>.test.js` individually) — self-contained Playwright specs (region picker, tonight mode + count badge, map clustering, search hints, near-me city suggestion, trip notes, back-to-top, keyboard a11y). They need chromium + the playwright package; in sandboxes the browser can't reach CDNs, so `tests/e2e/_lib.js` routes unpkg/tile requests to `tests/e2e/vendor/` and blocks the service worker (which would otherwise shadow interception). CI runs the full e2e suite on every pull request.
 - The `w` when-strings power both the events "today" badge and Tonight mode — keep them in the formats `tests/unit/core.test.js` pins.
 
 ## Publishing
