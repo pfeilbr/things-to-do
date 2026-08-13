@@ -326,7 +326,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-13T13:32Z";
+const BUILD = "2026-08-13T15:39Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -1076,14 +1076,36 @@ function loadLeaflet(cb){
   s.onerror=()=>toast("Couldn't load the map library — check your connection.");
   document.head.appendChild(s);
 }
+// marker clustering for big tabs (Philly attractions is 380+ pins); lazy-loaded like leaflet
+let clusterReady = false;
+function loadCluster(cb){
+  if(clusterReady) return cb();
+  for(const href of ["https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css",
+                     "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"]){
+    const css=document.createElement("link"); css.rel="stylesheet"; css.href=href; document.head.appendChild(css);
+  }
+  const s=document.createElement("script"); s.src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js";
+  s.onload=()=>{ clusterReady=true; cb(); };
+  s.onerror=()=>cb();   // plain markers are a fine fallback
+  document.head.appendChild(s);
+}
+const CLUSTER_ABOVE = 60;   // plain markers below this many pins
 function renderMap(list){
   loadLeaflet(()=>{
+    const build = ()=>renderMarkers(list);
+    if(list.filter(r=>r.ll).length > CLUSTER_ABOVE) loadCluster(build); else build();
+  });
+}
+function renderMarkers(list){
     if(!map){
       map = L.map("mapview");
+      window.map = map;
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap"}).addTo(map);
-      markerLayer = L.layerGroup().addTo(map);
     }
-    markerLayer.clearLayers();
+    if(markerLayer) map.removeLayer(markerLayer);
+    const useCluster = clusterReady && typeof L.markerClusterGroup==="function" && list.filter(r=>r.ll).length > CLUSTER_ABOVE;
+    markerLayer = useCluster ? L.markerClusterGroup({showCoverageOnHover:false}) : L.layerGroup();
+    markerLayer.addTo(map);
     const pts = [];
     list.forEach(r=>{
       if(!r.ll) return;
@@ -1101,7 +1123,6 @@ function renderMap(list){
     }
     if(pts.length) map.fitBounds(pts,{padding:[30,30],maxZoom:13});
     setTimeout(()=>map.invalidateSize(),60);
-  });
 }
 $("mapToggle").addEventListener("click",()=>{
   state.view = state.view==="map" ? "list" : "map";

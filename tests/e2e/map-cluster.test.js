@@ -1,11 +1,12 @@
 // TDD spec for map marker clustering (CONTRACTS §5).
-const { serve, launch, check, fatal, done } = require('./_lib');
+const { serve, launch, check, fatal, done, routeUnpkg } = require('./_lib');
 const PORT = 8933, URL = `http://localhost:${PORT}/`;
 
 (async () => {
   const server = await serve(PORT);
   const browser = await launch();
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  await routeUnpkg(page);
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
 

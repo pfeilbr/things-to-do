@@ -67,6 +67,13 @@ The owner will periodically ask to refresh the (Philly) Events tab via web searc
 
 Straight-line haversine miles from the city's origin place ×1.3 road factor = `d` (the displayed distance). Drive time `t` = `d / mph × 60` rounded to whole minutes, where `mph = min(55, 24 + 0.45 × d)` — average speed scales with trip length so highway trips aren't overestimated. This method is disclosed in the footer — don't change one without the other. Baked `d`/`t` are measured from each city's `place` (Philly: central Willow Grove; NYC: Union Square; Brooklyn: Barclays Center area; Queens: Forest Hills; Flushing: Main St & Roosevelt; Atlantic City: Boardwalk Hall area; Baltimore: Inner Harbor; DC: downtown/Freedom Plaza area; Pittsburgh: Point State Park area; Richmond: downtown; Boston: Boston Common — and each newer city's entry names its own downtown anchor). Philly attractions scope: anything with `t ≤ 210` min (~3½-hr band; reaches NYC, Baltimore, the Poconos, the Jersey/Delaware shore, Gettysburg, and Washington DC with its close-in VA/MD suburbs at ~185–205 min). City guides keep venues roughly within the metro (~≤60–90 min). Never put origin coordinates in the repo — do distance math in a scratchpad script.
 
+## Testing
+
+`tests/` runs with node builtins only — no package.json, no dependencies:
+- `node --test 'tests/unit/*.test.js' 'tests/data/*.test.js'` — unit tests for the core logic (extracted from index.html into a vm sandbox with injectable dates) and the data-schema/consistency suite over every city dataset (also run by `.github/workflows/ci.yml` on push/PR). Run these after ANY data or index.html edit.
+- `node tests/e2e/<name>.test.js` — self-contained Playwright specs (region picker, tonight mode, map clustering). They need chromium + the playwright package; in sandboxes the browser can't reach CDNs, so `tests/e2e/_lib.js` routes unpkg/tile requests to `tests/e2e/vendor/` and blocks the service worker (which would otherwise shadow interception).
+- The `w` when-strings power both the events "today" badge and Tonight mode — keep them in the formats `tests/unit/core.test.js` pins.
+
 ## Publishing
 
 `git push` to `main` — the `.github/workflows/pages.yml` workflow deploys the repo root to GitHub Pages in ~1 minute (it can also re-enable Pages by itself via `enablement: true` if Pages got turned off; it can be fired manually with a `workflow_dispatch`). Pages requires the repo to be **public** on the free plan — if the site 404s entirely, check repo visibility first. Verify the live URL picked up the change (curl for a string unique to the new version, not just HTTP 200).
