@@ -80,7 +80,16 @@ h1 .pin{color:var(--moss)}
 .tab.active{background:var(--paper);color:var(--pine);border-color:var(--paper)}
 .tab .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.7;margin-left:5px}
 /* city switcher */
-.citybar{display:flex;gap:6px;margin-top:16px;flex-wrap:wrap;align-items:center}
+.regionbar{display:flex;gap:2px;margin-top:14px;flex-wrap:wrap;align-items:center}
+.regionchip{
+  font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:1.5px;
+  background:none;border:none;border-bottom:2px solid transparent;
+  color:rgba(246,244,236,.6);padding:4px 10px;cursor:pointer;text-transform:uppercase;
+  transition:color .15s,border-color .15s;
+}
+.regionchip:hover{color:var(--paper)}
+.regionchip.active{color:var(--paper);border-bottom-color:var(--clay)}
+.citybar{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center}
 .citybar .clabel{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;opacity:.55;margin-right:2px}
 .citychip{
   font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.2px;
@@ -266,6 +275,7 @@ footer a{color:var(--moss)}
     </div>
     <h1><span id="hPlace"></span> <span class="pin" id="hBrand"></span></h1>
     <div class="sub"><span id="subBlurb"></span> · distances estimated from <button id="originBtn" class="originbtn" title="Change the location distances are measured from"></button></div>
+    <nav class="regionbar" id="regionbar" aria-label="Switch region"></nav>
     <nav class="citybar" id="citybar" aria-label="Switch city"><span class="clabel">CITY</span></nav>
     <div class="tabs" role="tablist" id="tabs"></div>
   </div>
@@ -531,10 +541,22 @@ const CONFIG = {
   ]
 };
 
+// city regions for the two-level picker; every CONFIG.cities entry gets a .region
+const REGIONS = [
+  ["HOME",        ["philly"]],
+  ["NYC",         ["nyc","brooklyn","queens","flushing"]],
+  ["EAST",        ["ac","baltimore","dc","richmond","vb","boston","pittsburgh"]],
+  ["GREAT LAKES", ["buffalo","cleveland","chicago","toronto"]],
+  ["SOUTH",       ["raleigh","nashville"]],
+  ["WEST",        ["la","sf","seattle","sandiego"]]
+];
+
 // ---- per-city derived state -----------------------------------------------------------
 let CITY = null, TABS = [], HOME = "", COLS = {}, TABLABEL = {};
 const cityById = id => CONFIG.cities.find(c=>c.id===id);
 const DEFAULT_CITY = CONFIG.cities[0].id;
+REGIONS.forEach(([name,ids])=>ids.forEach(id=>{ const c=cityById(id); if(c) c.region=name; }));
+let shownRegion = null;   // region whose cities the citybar currently lists
 function setCityConfig(c){
   CITY = c;
   TABS = c.tabs;
@@ -1165,6 +1187,7 @@ function activateCity(c){
   favs = new Set(JSON.parse(localStorage.getItem(skey("favs"))||"[]"));
   try { origin = JSON.parse(localStorage.getItem(skey("origin"))||"null"); } catch(e){ origin = null; }
   localStorage.setItem("guide-city", c.id);
+  shownRegion = c.region;   // citybar snaps back to the active city's region
   applyBranding();
   renderTabs();
   renderCityBar();
@@ -1187,9 +1210,17 @@ async function switchCity(id){
   fillCats(); fillSort(); render();
 }
 function renderCityBar(){
-  $("citybar").innerHTML = `<span class="clabel">CITY</span>`+CONFIG.cities.map(c=>
+  if(!shownRegion) shownRegion = CITY ? CITY.region : REGIONS[0][0];
+  $("regionbar").innerHTML = REGIONS.map(([name])=>
+    `<button class="regionchip${name===shownRegion?" active":""}" data-region="${name}" aria-pressed="${name===shownRegion}">${name}</button>`
+  ).join("");
+  $("citybar").innerHTML = `<span class="clabel">CITY</span>`+CONFIG.cities.filter(c=>c.region===shownRegion).map(c=>
     `<button class="citychip${CITY&&c.id===CITY.id?" active":""}" data-city="${c.id}" aria-pressed="${CITY&&c.id===CITY.id}">${c.chip}</button>`
   ).join("");
+  $("regionbar").querySelectorAll(".regionchip").forEach(b=>b.addEventListener("click",()=>{
+    shownRegion = b.dataset.region;
+    renderCityBar();
+  }));
   $("citybar").querySelectorAll(".citychip").forEach(b=>b.addEventListener("click",()=>switchCity(b.dataset.city)));
 }
 
