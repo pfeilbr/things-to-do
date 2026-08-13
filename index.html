@@ -315,7 +315,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-13T10:05Z";
+const BUILD = "2026-08-13T10:28Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -428,6 +428,27 @@ const CONFIG = {
       ns:"dc", data:"data-dc.json",
       blurb:"Washington DC: monuments-after-dark dates / go-go, hip-hop &amp; salsa nights / sushi &amp; omakase / Rockville \u4e2d\u534e hub / Potomac fishing / MTB / socials",
       note:"Fishing the Potomac/Anacostia in the District needs a DC license (MD/VA waters have their own).",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"pittsburgh", chip:"PITTSBURGH",
+      place:"Downtown Pittsburgh, PA", placeShort:"Pittsburgh", originLabel:"downtown Pittsburgh",
+      ns:"pgh", data:"data-pittsburgh.json",
+      blurb:"Pittsburgh: incline-view dates / dance floors &amp; live rooms / sushi / Squirrel Hill \u4e2d\u534e / three-rivers fishing / Frick Park MTB / socials",
+      note:"Fishing requires a PA license (+ trout stamp on stocked water).",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"richmond", chip:"RICHMOND",
+      place:"Richmond, VA", placeShort:"Richmond", originLabel:"downtown Richmond",
+      ns:"rva", data:"data-richmond.json",
+      blurb:"Richmond: river-city dates / live rooms &amp; dance nights / sushi / Peter Chang \u4e2d\u534e / James River smallmouth &amp; blue cats / in-city singletrack / socials",
+      note:"VA fishing needs a license \u2014 freshwater and saltwater are separate.",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"boston", chip:"BOSTON",
+      place:"Boston Common, Boston, MA", placeShort:"Boston", originLabel:"Boston Common",
+      ns:"bos", data:"data-boston.json",
+      blurb:"Boston: North End &amp; harbor dates / hip-hop &amp; salsa nights / omakase / Chinatown + Quincy \u4e2d\u534e / harbor stripers / Fells MTB / socials",
+      note:"MA fishing: freshwater license, or a ~$10 saltwater permit.",
       sources:MID_SOURCES,
       tabs:CITY_TABS }
   ]
