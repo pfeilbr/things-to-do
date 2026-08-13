@@ -75,3 +75,10 @@ test('CI runs on a schedule (freshness rots with time, not commits)', () => {
   assert.ok(ci.includes('schedule:'), 'ci.yml needs a schedule trigger');
   assert.ok(ci.includes('workflow_dispatch'), 'ci.yml needs manual dispatch');
 });
+
+test('CI runs the browser e2e suite on PRs', () => {
+  const ci = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'ci.yml'), 'utf8');
+  assert.ok(/\be2e:/.test(ci), 'ci.yml needs an e2e job');
+  assert.ok(ci.includes('playwright install'), 'e2e job must install a browser');
+  assert.ok(ci.includes('tests/e2e'), 'e2e job must run the specs');
+});
