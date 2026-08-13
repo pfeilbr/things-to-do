@@ -315,7 +315,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-13T10:28Z";
+const BUILD = "2026-08-13T10:30Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -449,6 +449,34 @@ const CONFIG = {
       ns:"bos", data:"data-boston.json",
       blurb:"Boston: North End &amp; harbor dates / hip-hop &amp; salsa nights / omakase / Chinatown + Quincy \u4e2d\u534e / harbor stripers / Fells MTB / socials",
       note:"MA fishing: freshwater license, or a ~$10 saltwater permit.",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"vb", chip:"VA BEACH",
+      place:"Virginia Beach Oceanfront, VA", placeShort:"Virginia Beach", originLabel:"the VB Oceanfront",
+      ns:"vb", data:"data-vb.json",
+      blurb:"Virginia Beach: boardwalk &amp; bay dates / oceanfront dance floors / sushi / Sichuan circuit \u4e2d\u534e / CBBT &amp; Rudee Inlet fishing / socials",
+      note:"VA fishing needs a license \u2014 freshwater and saltwater are separate.",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"buffalo", chip:"BUFFALO",
+      place:"Downtown Buffalo, NY", placeShort:"Buffalo", originLabel:"downtown Buffalo",
+      ns:"buf", data:"data-buffalo.json",
+      blurb:"Buffalo: Niagara Falls dates / Chippewa &amp; Allen St nights / sushi / Sheridan Dr \u4e2d\u534e / world-class steelhead / MTB / socials",
+      note:NY_NOTE,
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"cleveland", chip:"CLEVELAND",
+      place:"Public Square, Cleveland, OH", placeShort:"Cleveland", originLabel:"Public Square",
+      ns:"cle", data:"data-cleveland.json",
+      blurb:"Cleveland: lakefront dates / W 6th &amp; Flats nights / sushi / AsiaTown \u4e2d\u534e / walleye &amp; steelhead / Ray's + CVNP MTB / socials",
+      note:"OH fishing needs a license (cheap one-day options exist).",
+      sources:MID_SOURCES,
+      tabs:CITY_TABS },
+    { id:"raleigh", chip:"RALEIGH",
+      place:"Downtown Raleigh, NC", placeShort:"Raleigh", originLabel:"downtown Raleigh",
+      ns:"rdu", data:"data-raleigh.json",
+      blurb:"Raleigh-Durham: museum-park dates / Glenwood &amp; warehouse nights / sushi / Cary \u4e2d\u534e corridor / Falls &amp; Jordan Lake bass / Triangle singletrack / socials",
+      note:"NC fishing needs a license (inland vs coastal are separate).",
       sources:MID_SOURCES,
       tabs:CITY_TABS }
   ]
