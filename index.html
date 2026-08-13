@@ -99,6 +99,8 @@ h1 .pin{color:var(--moss)}
 }
 .citychip:hover{border-color:var(--paper)}
 .citychip.active{background:var(--clay);border-color:var(--clay);color:#fff;font-weight:700}
+.tripnote{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.6;margin-top:7px;letter-spacing:.4px}
+.ctlbtn .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.75;margin-left:3px}
 @media (max-width:760px){
   .citychip{padding:5px 8px;font-size:10.5px}
   .tab{padding:6px 13px;font-size:15px}
@@ -277,6 +279,7 @@ footer a{color:var(--moss)}
     <div class="sub"><span id="subBlurb"></span> · distances estimated from <button id="originBtn" class="originbtn" title="Change the location distances are measured from"></button></div>
     <nav class="regionbar" id="regionbar" aria-label="Switch region"></nav>
     <nav class="citybar" id="citybar" aria-label="Switch city"><span class="clabel">CITY</span></nav>
+    <div class="tripnote" id="tripNote" hidden></div>
     <div class="tabs" role="tablist" id="tabs"></div>
   </div>
 </header>
@@ -300,7 +303,7 @@ footer a{color:var(--moss)}
     <option value="210">≤ 3½ hr</option>
   </select>
   <select id="sortSelect" class="mobile-sort" aria-label="Sort by"></select>
-  <button id="tonightBtn" class="ctlbtn" aria-pressed="false" title="Everything happening today in this city, across all tabs">☀ Tonight</button>
+  <button id="tonightBtn" class="ctlbtn" aria-pressed="false" title="Everything happening today in this city, across all tabs">☀ Tonight <span id="tonightCnt" class="cnt">0</span></button>
   <button id="todayBtn" class="ctlbtn" aria-pressed="false" title="Events happening today first, nearest first" hidden>☀ Today</button>
   <button id="favToggle" class="ctlbtn" aria-pressed="false" title="Show favorites only">★ Favs</button>
   <button id="geoToggle" class="ctlbtn" aria-pressed="false" title="Recompute distances from your current location (stays on your device)">📍 Near me</button>
@@ -399,30 +402,35 @@ const CONFIG = {
     { id:"nyc", chip:"NYC",
       place:"Union Square, Manhattan, NY", placeShort:"New York City", originLabel:"Union Square, Manhattan",
       ns:"nyc", data:"data-nyc.json",
+      trip:"≈1¾ hr drive from home base",
       blurb:"Manhattan: date-worthy spots / hip-hop nights &amp; dance floors / sushi &amp; omakase / Chinatown \u4e2d\u534e / fishing / MTB / weekly socials",
       note:NY_NOTE, sources:NY_SOURCES,
       tabs:CITY_TABS },
     { id:"brooklyn", chip:"BROOKLYN",
       place:"Barclays Center, Brooklyn, NY", placeShort:"Brooklyn", originLabel:"central Brooklyn",
       ns:"bk", data:"data-brooklyn.json",
+      trip:"≈1¾ hr drive from home base",
       blurb:"Brooklyn: dance-floor capital of the city / date-worthy spots / sushi / Sunset Park \u4e2d\u534e / party boats / MTB / weekly socials",
       note:NY_NOTE, sources:NY_SOURCES,
       tabs:CITY_TABS },
     { id:"queens", chip:"QUEENS",
       place:"Forest Hills, Queens, NY", placeShort:"Queens", originLabel:"Forest Hills, Queens",
       ns:"qns", data:"data-queens.json",
+      trip:"≈1¾ hr drive from home base",
       blurb:"Queens: skyline date walks / warehouse-to-KTV nightlife / sushi &amp; omakase / Elmhurst \u4e2d\u534e / fishing / Cunningham MTB / socials",
       note:NY_NOTE, sources:NY_SOURCES,
       tabs:CITY_TABS },
     { id:"flushing", chip:"FLUSHING",
       place:"Flushing, Queens, NY", placeShort:"Flushing", originLabel:"Main St, Flushing",
       ns:"flu", data:"data-flushing.json",
+      trip:"≈2 hr drive from home base",
       blurb:"Flushing \u4e2d\u534e: the deepest Chinese-culture guide here \u2014 Sichuan, dim sum, KTV, tea / plus spots, nightlife, fishing &amp; MTB",
       note:NY_NOTE, sources:NY_SOURCES,
       tabs:CITY_TABS },
     { id:"ac", chip:"AC",
       place:"Atlantic City, NJ", placeShort:"Atlantic City", originLabel:"the AC Boardwalk",
       ns:"ac", data:"data-ac.json",
+      trip:"≈1½ hr drive from home base",
       blurb:"Atlantic City: boardwalk &amp; casino nights / dance floors / party-boat fishing / sushi / date-worthy shore escapes / socials",
       note:"NJ freshwater fishing needs a license; saltwater needs only the free registry.",
       sources:MID_SOURCES,
@@ -430,6 +438,7 @@ const CONFIG = {
     { id:"baltimore", chip:"BALTIMORE",
       place:"Inner Harbor, Baltimore, MD", placeShort:"Baltimore", originLabel:"the Inner Harbor",
       ns:"bal", data:"data-baltimore.json",
+      trip:"≈2¼ hr drive from home base",
       blurb:"Baltimore: harbor dates / dance floors &amp; live rooms / sushi / suburban Sichuan \u4e2d\u534e / Chesapeake &amp; tailwater fishing / Patapsco MTB / socials",
       note:"MD fishing needs a license \u2014 separate tidal (Chesapeake) and nontidal.",
       sources:MID_SOURCES,
@@ -437,6 +446,7 @@ const CONFIG = {
     { id:"dc", chip:"DC",
       place:"Washington, DC", placeShort:"Washington DC", originLabel:"downtown DC",
       ns:"dc", data:"data-dc.json",
+      trip:"≈2¾ hr drive from home base",
       blurb:"Washington DC: monuments-after-dark dates / go-go, hip-hop &amp; salsa nights / sushi &amp; omakase / Rockville \u4e2d\u534e hub / Potomac fishing / MTB / socials",
       note:"Fishing the Potomac/Anacostia in the District needs a DC license (MD/VA waters have their own).",
       sources:MID_SOURCES,
@@ -444,6 +454,7 @@ const CONFIG = {
     { id:"pittsburgh", chip:"PITTSBURGH",
       place:"Downtown Pittsburgh, PA", placeShort:"Pittsburgh", originLabel:"downtown Pittsburgh",
       ns:"pgh", data:"data-pittsburgh.json",
+      trip:"≈5½ hr drive from home base",
       blurb:"Pittsburgh: incline-view dates / dance floors &amp; live rooms / sushi / Squirrel Hill \u4e2d\u534e / three-rivers fishing / Frick Park MTB / socials",
       note:"Fishing requires a PA license (+ trout stamp on stocked water).",
       sources:MID_SOURCES,
@@ -451,6 +462,7 @@ const CONFIG = {
     { id:"richmond", chip:"RICHMOND",
       place:"Richmond, VA", placeShort:"Richmond", originLabel:"downtown Richmond",
       ns:"rva", data:"data-richmond.json",
+      trip:"≈4½ hr drive from home base",
       blurb:"Richmond: river-city dates / live rooms &amp; dance nights / sushi / Peter Chang \u4e2d\u534e / James River smallmouth &amp; blue cats / in-city singletrack / socials",
       note:"VA fishing needs a license \u2014 freshwater and saltwater are separate.",
       sources:MID_SOURCES,
@@ -458,6 +470,7 @@ const CONFIG = {
     { id:"boston", chip:"BOSTON",
       place:"Boston Common, Boston, MA", placeShort:"Boston", originLabel:"Boston Common",
       ns:"bos", data:"data-boston.json",
+      trip:"≈5½ hr drive from home base",
       blurb:"Boston: North End &amp; harbor dates / hip-hop &amp; salsa nights / omakase / Chinatown + Quincy \u4e2d\u534e / harbor stripers / Fells MTB / socials",
       note:"MA fishing: freshwater license, or a ~$10 saltwater permit.",
       sources:MID_SOURCES,
@@ -465,6 +478,7 @@ const CONFIG = {
     { id:"vb", chip:"VA BEACH",
       place:"Virginia Beach Oceanfront, VA", placeShort:"Virginia Beach", originLabel:"the VB Oceanfront",
       ns:"vb", data:"data-vb.json",
+      trip:"≈4¾ hr drive from home base",
       blurb:"Virginia Beach: boardwalk &amp; bay dates / oceanfront dance floors / sushi / Sichuan circuit \u4e2d\u534e / CBBT &amp; Rudee Inlet fishing / socials",
       note:"VA fishing needs a license \u2014 freshwater and saltwater are separate.",
       sources:MID_SOURCES,
@@ -472,6 +486,7 @@ const CONFIG = {
     { id:"buffalo", chip:"BUFFALO",
       place:"Downtown Buffalo, NY", placeShort:"Buffalo", originLabel:"downtown Buffalo",
       ns:"buf", data:"data-buffalo.json",
+      trip:"≈5¾ hr drive from home base",
       blurb:"Buffalo: Niagara Falls dates / Chippewa &amp; Allen St nights / sushi / Sheridan Dr \u4e2d\u534e / world-class steelhead / MTB / socials",
       note:NY_NOTE,
       sources:MID_SOURCES,
@@ -479,6 +494,7 @@ const CONFIG = {
     { id:"cleveland", chip:"CLEVELAND",
       place:"Public Square, Cleveland, OH", placeShort:"Cleveland", originLabel:"Public Square",
       ns:"cle", data:"data-cleveland.json",
+      trip:"≈7½ hr drive from home base",
       blurb:"Cleveland: lakefront dates / W 6th &amp; Flats nights / sushi / AsiaTown \u4e2d\u534e / walleye &amp; steelhead / Ray's + CVNP MTB / socials",
       note:"OH fishing needs a license (cheap one-day options exist).",
       sources:MID_SOURCES,
@@ -486,6 +502,7 @@ const CONFIG = {
     { id:"raleigh", chip:"RALEIGH",
       place:"Downtown Raleigh, NC", placeShort:"Raleigh", originLabel:"downtown Raleigh",
       ns:"rdu", data:"data-raleigh.json",
+      trip:"≈7½ hr drive from home base",
       blurb:"Raleigh-Durham: museum-park dates / Glenwood &amp; warehouse nights / sushi / Cary \u4e2d\u534e corridor / Falls &amp; Jordan Lake bass / Triangle singletrack / socials",
       note:"NC fishing needs a license (inland vs coastal are separate).",
       sources:MID_SOURCES,
@@ -493,6 +510,7 @@ const CONFIG = {
     { id:"chicago", chip:"CHICAGO",
       place:"Millennium Park, Chicago, IL", placeShort:"Chicago", originLabel:"Millennium Park",
       ns:"chi", data:"data-chicago.json",
+      trip:"≈2h flight from home base",
       blurb:"Chicago: river &amp; lakefront dates / house-music &amp; hip-hop floors / omakase / Chinatown \u4e2d\u534e / Lake Michigan fishing / Palos MTB / socials",
       note:"IL fishing needs a license (Lake Michigan included).",
       sources:MID_SOURCES,
@@ -500,6 +518,7 @@ const CONFIG = {
     { id:"toronto", chip:"TORONTO",
       place:"Downtown Toronto, ON", placeShort:"Toronto", originLabel:"downtown Toronto",
       ns:"tor", data:"data-toronto.json",
+      trip:"≈6¾ hr drive from home base",
       blurb:"Toronto: island &amp; harbourfront dates / King West &amp; hip-hop nights / omakase / Markham-tier \u4e2d\u534e / salmon runs &amp; island pike / Don Valley MTB / socials",
       note:"Ontario fishing needs an Outdoors Card + licence; US visitors need a passport.",
       sources:MID_SOURCES,
@@ -507,6 +526,7 @@ const CONFIG = {
     { id:"nashville", chip:"NASHVILLE",
       place:"Downtown Nashville, TN", placeShort:"Nashville", originLabel:"downtown Nashville",
       ns:"bna", data:"data-nashville.json",
+      trip:"≈2h flight from home base",
       blurb:"Nashville: Ryman &amp; rooftop dates / hip-hop floors beyond the honky-tonks / sushi / Charlotte Pike \u4e2d\u534e / tailwater trout &amp; lake bass / Hamilton Creek MTB / socials",
       note:"TN fishing needs a license (+ trout stamp for the tailwaters).",
       sources:MID_SOURCES,
@@ -514,6 +534,7 @@ const CONFIG = {
     { id:"la", chip:"LA",
       place:"Downtown Los Angeles, CA", placeShort:"Los Angeles", originLabel:"downtown LA",
       ns:"la", data:"data-la.json",
+      trip:"≈6h flight from home base",
       blurb:"LA: Griffith-sunset dates / hip-hop floors &amp; salsa rooms / omakase ladder / SGV \u4e2d\u534e capital / party boats &amp; piers / canyon MTB / socials",
       note:"CA fishing needs a license \u2014 except from public piers.",
       sources:MID_SOURCES,
@@ -521,6 +542,7 @@ const CONFIG = {
     { id:"sf", chip:"SF",
       place:"Union Square, San Francisco, CA", placeShort:"San Francisco", originLabel:"Union Square, SF",
       ns:"sf", data:"data-sf.json",
+      trip:"≈6h flight from home base",
       blurb:"San Francisco: bridge-and-ferry dates / house floors &amp; Motown nights / omakase / Chinatown + Clement St \u4e2d\u534e / salmon boats / Marin MTB (where it was born) / socials",
       note:"CA fishing needs a license \u2014 except from public piers.",
       sources:MID_SOURCES,
@@ -528,6 +550,7 @@ const CONFIG = {
     { id:"seattle", chip:"SEATTLE",
       place:"Pike Place Market, Seattle, WA", placeShort:"Seattle", originLabel:"Pike Place",
       ns:"sea", data:"data-seattle.json",
+      trip:"≈6h flight from home base",
       blurb:"Seattle: market &amp; ferry dates / Capitol Hill floors &amp; Century Ballroom salsa / Shiro's-to-Taneda sushi / ID + Bellevue \u4e2d\u534e / Puget salmon / Duthie MTB / socials",
       note:"WA fishing needs a license (+ a catch record card for salmon).",
       sources:MID_SOURCES,
@@ -535,6 +558,7 @@ const CONFIG = {
     { id:"sandiego", chip:"SAN DIEGO",
       place:"Gaslamp Quarter, San Diego, CA", placeShort:"San Diego", originLabel:"the Gaslamp Quarter",
       ns:"sd", data:"data-sandiego.json",
+      trip:"≈6h flight from home base",
       blurb:"San Diego: Balboa &amp; sunset-cliff dates / Gaslamp floors &amp; Sevilla salsa / Sushi Ota-tier sushi / Convoy District \u4e2d\u534e / the long-range tuna fleet / Mission Trails MTB / socials",
       note:"CA fishing needs a license \u2014 except from public piers.",
       sources:MID_SOURCES,
@@ -811,6 +835,7 @@ function render(){
   $("empty").hidden = list.length>0 || mapMode;
   $("todayBtn").hidden = state.tonight || !hasWhen();
   $("todayBtn").setAttribute("aria-pressed", state.sortKey==="today");
+  $("tonightCnt").textContent = Object.values(DATA).flat().filter(r=>r.w && happensToday(r.w)).length;
   $("showing").textContent = state.tonight
     ? `showing ${list.length} happening tonight`
     : `showing ${list.length} of ${(DATA[state.tab]||[]).length}${userLoc?" · distances from your location":""}`;
@@ -1201,6 +1226,8 @@ function applyBranding(){
   $("subBlurb").innerHTML  = CITY.blurb;
   $("ftSources").innerHTML = CITY.sources;
   $("ftNote").textContent  = CITY.note;
+  $("tripNote").hidden = !CITY.trip;
+  $("tripNote").textContent = CITY.trip || "";
 }
 $("q").addEventListener("input",e=>{state.q=e.target.value;render();});
 $("catFilter").addEventListener("change",e=>{state.cat=e.target.value;render();});
