@@ -122,10 +122,25 @@ h1 .pin{color:var(--moss)}
   border:1px solid var(--pine);background:var(--pine);color:var(--paper);font-size:20px;line-height:1;
   cursor:pointer;box-shadow:0 2px 10px rgba(29,58,47,.35)}
 .totop:hover{background:var(--creek);border-color:var(--creek)}
+/* On desktop the wrapper is transparent — its children lay out directly in .controls. */
+.ctlrow{display:contents}
 @media (max-width:760px){
   .citychip{padding:5px 8px;font-size:10.5px}
   .tab{padding:6px 13px;font-size:15px}
   .tabs{gap:6px;margin-top:14px}
+  /* Phone chrome budget: every chip/control strip becomes ONE swipeable row
+     instead of wrapping, so results start near the top of the screen. */
+  .regionbar,.citybar,.tabs,.xfind,.ctlrow{
+    flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  .regionbar::-webkit-scrollbar,.citybar::-webkit-scrollbar,.tabs::-webkit-scrollbar,
+  .xfind::-webkit-scrollbar,.ctlrow::-webkit-scrollbar{display:none}
+  .regionbar>*,.citybar>*,.tabs>*,.xfind>*,.ctlrow>*{flex:0 0 auto}
+  .ctlrow{display:flex;gap:8px;align-items:center;width:100%}
+  .search{flex:1 1 100%}
+  h1{font-size:34px;line-height:1.05}
+  .sub{font-size:12px;line-height:1.35}
+  .meta-line span:last-child{display:none}
 }
 .tab:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
 /* controls */
@@ -315,6 +330,7 @@ footer a{color:var(--moss)}
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
     <input id="q" type="search" placeholder="Search name, summary, category…" autocomplete="off">
   </div>
+  <div class="ctlrow">
   <select id="catFilter" aria-label="Filter by category"><option value="">All categories</option></select>
   <select id="distFilter" aria-label="Filter by drive time">
     <option value="">Any drive</option>
@@ -334,6 +350,7 @@ footer a{color:var(--moss)}
   <button id="favToggle" class="ctlbtn" aria-pressed="false" title="Show favorites only">★ Favs</button>
   <button id="geoToggle" class="ctlbtn" aria-pressed="false" title="Recompute distances from your current location (stays on your device)">📍 Near me</button>
   <button id="mapToggle" class="ctlbtn" aria-pressed="false" title="Map view">🗺 Map</button>
+  </div>
 </div>
 <div class="xfind" id="xfind" hidden></div>
 <div class="xfind" id="globalFavs" hidden></div>
@@ -358,7 +375,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-14T16:16Z";
+const BUILD = "2026-08-14T18:21Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -408,6 +425,7 @@ const T_CHINESE = {key:"chinese",   label:"Chinese \u4e2d\u534e", sort:["d",1], 
 const T_FISH    = {key:"fishing",   label:"Fishing",      sort:["pop",-1], cols:C_FISH};
 const T_BIKE    = {key:"biking",    label:"MTB",          sort:["d",1],    cols:C_STD};
 const T_SOCIAL  = {key:"social",    label:"Social",       sort:["d",1],    cols:C_WHEN};
+const C_CITY = {k:"city",label:"City",type:"str",nosort:true};   // prepended in all-cities search
 const CITY_TABS = [T_SPOTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
@@ -625,7 +643,7 @@ const skey     = n => CITY.ns+"-"+n;                            // per-city stor
 let DATA = {};          // active city's dataset — see CONFIG above
 const DATACACHE = {};   // cityId -> dataset, so switching back is instant
 
-let state = { tab:null, q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false };
+let state = { tab:null, q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false, allCities:false };
 let favs = new Set();   // per-city; loaded in activateCity()
 let userLoc = null;
 
@@ -666,7 +684,8 @@ const $ = id => document.getElementById(id);
 function pop(row){ return (row.rc||0) * (row.r||0); }
 
 const expanded = new Set();
-const rkey = r => (state.tonight?"tonight":state.tab)+"|"+r.n;
+// all-cities mode must key by city too: several venues share a name between guides
+const rkey = r => (state.allCities ? "all|"+(r._city?r._city.id:"") : state.tonight ? "tonight" : state.tab)+"|"+r.n;
 // prefer coordinates — the guide now spans PA/NJ/NY/MD/DE, so a bare "name, PA" would misresolve
 const mapsQ = r => encodeURIComponent(r.ll ? r.ll.join(",") : r.n);
 const mapUrl = r => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.n)}${r.ll?`&query_place_id=&center=${mapsQ(r)}`:""}`;
@@ -698,7 +717,9 @@ function detailHTML(r){
 
 function rows(){
   let list;
-  if(state.tonight){
+  if(state.allCities){
+    list = ALLROWS.slice();
+  } else if(state.tonight){
     // everything happening today in this city, across every tab
     const seen = new Set();
     list = [];
@@ -817,7 +838,7 @@ function render(){
     return;
   }
   document.title = baseTitle();
-  const cols = state.tonight ? C_WHEN : COLS[state.tab];
+  const cols = state.allCities ? [C_CITY, ...C_STD] : state.tonight ? C_WHEN : COLS[state.tab];
   // header
   $("theadRow").innerHTML = cols.map(c=>{
     const sorted = state.sortKey===c.k;
@@ -829,6 +850,7 @@ function render(){
   $("tbody").innerHTML = list.map(r=>{
     const key = rkey(r), open = expanded.has(key);
     const main = `<tr class="rowmain" data-key="${key}" tabindex="0" role="button" aria-expanded="${open}">`+cols.map(c=>{
+      if(c.k==="city") return `<td>${r._city?r._city.chip:""}</td>`;
       if(c.k==="n") return `<td>${favStar(key)}<span class="chev">▶</span>${nameCell(r)}<a class="maplink" href="${mapUrl(r)}" target="_blank" rel="noopener" title="Open in Google Maps" aria-label="Open ${r.n} in Google Maps">📍</a></td>`;
       if(c.k==="c") return `<td><span class="cat">${r.c}</span></td>`;
       if(c.k==="s") return `<td><span class="summary">${r.s}</span></td>`;
@@ -867,7 +889,9 @@ function render(){
   $("tonightCnt").textContent = Object.values(DATA).flat().filter(r=>r.w && happensToday(r.w)).length;
   renderXfind();
   renderGlobalFavs();
-  $("showing").textContent = state.tonight
+  $("showing").textContent = state.allCities
+    ? `showing ${list.length} across all cities`
+    : state.tonight
     ? `showing ${list.length} happening tonight`
     : `showing ${list.length} of ${(DATA[state.tab]||[]).length}${userLoc?" · distances from your location":""}`;
   syncHash();
@@ -947,15 +971,17 @@ $("todayBtn").addEventListener("click",()=>{
 function renderXfind(){
   const el = $("xfind");
   const q = state.q.trim().toLowerCase();
-  if(!q || state.tonight){ el.hidden = true; el.innerHTML = ""; return; }
+  if(!q || state.tonight || state.allCities){ el.hidden = true; el.innerHTML = ""; return; }
   const hits = TABS.filter(t=>t.key!==state.tab).map(t=>({
     key: t.key, label: TABLABEL[t.key],
     n: (DATA[t.key]||[]).filter(r=>(r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")).toLowerCase().includes(q)).length
   })).filter(h=>h.n>0);
-  if(!hits.length){ el.hidden = true; el.innerHTML = ""; return; }
   el.hidden = false;
-  el.innerHTML = `<span class="xflabel">also in</span>`+hits.map(h=>
-    `<button class="xf" data-tab="${h.key}">${h.label} <span class="cnt">${h.n}</span></button>`).join("");
+  // #xfAll deliberately has no `xf` class — the per-tab hint contract counts .xf children
+  el.innerHTML = (hits.length ? `<span class="xflabel">also in</span>` : `<span class="xflabel">search</span>`)
+    + hits.map(h=>`<button class="xf" data-tab="${h.key}">${h.label} <span class="cnt">${h.n}</span></button>`).join("")
+    + `<button class="gfav" id="xfAll" title="Search every city">🌎 all cities</button>`;
+  $("xfAll").addEventListener("click", enterAllCities);
   el.querySelectorAll(".xf").forEach(b=>b.addEventListener("click",()=>{
     // switch tab like a tab click, but KEEP the query
     $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.tab===b.dataset.tab));
@@ -995,6 +1021,29 @@ async function maybeSuggestCity(){
     $("citySuggestGo").onclick = ()=>{ $("citySuggest").hidden = true; switchCity(best.c.id); };
     $("citySuggestNo").onclick = ()=>{ sessionStorage.setItem("nosuggest-" + best.c.id, "1"); $("citySuggest").hidden = true; };
   }catch(e){ /* suggestion is best-effort */ }
+}
+
+// ---- search every city at once ---------------------------------------------------------
+let ALLROWS = [];
+async function enterAllCities(){
+  const loaded = await Promise.all(CONFIG.cities.map(c=>fetchCity(c).then(d=>({c,d})).catch(()=>null)));
+  ALLROWS = [];
+  for(const x of loaded){
+    if(!x) continue;
+    for(const rs of Object.values(x.d)) for(const r of rs) ALLROWS.push({...r, _city:x.c});
+  }
+  state.allCities = true;
+  state.item = null;
+  state.sortKey = "d"; state.sortDir = 1;
+  $("tabs").querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  render();
+}
+function exitAllCities(){
+  if(!state.allCities) return;
+  state.allCities = false;
+  ALLROWS = [];
+  $("tabs").querySelectorAll(".tab").forEach(t=>t.classList.toggle("active", t.dataset.tab===state.tab));
+  const [k,d] = defSort(state.tab); state.sortKey = k; state.sortDir = d;
 }
 
 // ---- favorites in OTHER cities: one shortlist across all 22 guides ---------------------
@@ -1339,6 +1388,7 @@ function renderTabs(){
       state.tab = t.dataset.tab;
       state.item = null;
       state.tonight = false;
+      state.allCities = false; ALLROWS = [];
       $("tonightBtn").setAttribute("aria-pressed","false");
       state.q=""; $("q").value="";
       state.maxT=""; $("distFilter").value="";
@@ -1356,7 +1406,11 @@ function applyBranding(){
   $("tripNote").hidden = !CITY.trip;
   $("tripNote").textContent = CITY.trip || "";
 }
-$("q").addEventListener("input",e=>{state.q=e.target.value;render();});
+$("q").addEventListener("input",e=>{
+  state.q=e.target.value;
+  if(state.allCities && !state.q.trim()) exitAllCities();
+  render();
+});
 $("catFilter").addEventListener("change",e=>{state.cat=e.target.value;render();});
 $("distFilter").addEventListener("change",e=>{state.maxT=e.target.value;render();});
 
