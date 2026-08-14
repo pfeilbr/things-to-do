@@ -102,7 +102,23 @@ async function snapshot(page) {
 
   // ---------- go offline ----------
   await context.setOffline(true);
-  await page.reload({ waitUntil: 'domcontentloaded' }); // networkidle can hang offline
+  let navErr = null;
+  // networkidle can hang offline — domcontentloaded only
+  try { await page.reload({ waitUntil: 'domcontentloaded' }); }
+  catch (e) { navErr = e.message.split('\n')[0]; }
+  if (navErr) {
+    // the SW never served the document from cache: the navigation itself died
+    check(false, `offline reload navigated at all — the document was NOT served from cache, navigation failed (${navErr}). sw.js's fetch handler must fall back to the cache for navigations too.`);
+    check(false, 'no boot-failure text shown offline — page never loaded offline');
+    check(false, "offline reload renders the active city's rows — page never loaded offline");
+    check(false, 'region/city bar renders offline — page never loaded offline');
+    check(false, 'tab switching works offline — page never loaded offline');
+    await context.setOffline(false);
+    await page.goto(URL, { waitUntil: 'domcontentloaded' }).catch(() => {});
+    await context.close(); await browser.close(); server.close();
+    done();
+    return;
+  }
   let booted = true;
   try { await page.waitForSelector(ROWS, { timeout: 20000 }); }
   catch { booted = false; }

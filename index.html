@@ -18,7 +18,10 @@
 <meta name="apple-mobile-web-app-title" content="Local Guide">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<!-- Fonts load async: a slow/unreachable font host must never gate first paint
+     (weak signal at a trailhead is the normal case for this app). -->
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
   --pine:#1d3a2f;      /* deep pine green */
@@ -104,9 +107,10 @@ h1 .pin{color:var(--moss)}
 /* cross-tab search hints */
 .xfind{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:10px}
 .xflabel{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1px;opacity:.55;text-transform:uppercase}
-.xf{font-size:13.5px;font-family:inherit;border:1px dashed var(--creek);background:none;border-radius:14px;padding:3px 11px;cursor:pointer;color:var(--creek)}
-.xf:hover{border-style:solid}
-.xf .cnt{font-family:'JetBrains Mono',monospace;font-size:10.5px;opacity:.7;margin-left:2px}
+.xf,.gfav{font-size:13.5px;font-family:inherit;border:1px dashed var(--creek);background:none;border-radius:14px;padding:3px 11px;cursor:pointer;color:var(--creek)}
+.xf:hover,.gfav:hover{border-style:solid}
+.xf .cnt,.gfav .cnt{font-family:'JetBrains Mono',monospace;font-size:10.5px;opacity:.7;margin-left:2px}
+.gfav{border-color:var(--clay);color:var(--clay)}
 [hidden]{display:none!important} /* flex/grid display rules must not defeat the hidden attribute */
 /* near-me city suggestion */
 .suggest{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--pine);color:var(--paper);
@@ -332,6 +336,7 @@ footer a{color:var(--moss)}
   <button id="mapToggle" class="ctlbtn" aria-pressed="false" title="Map view">🗺 Map</button>
 </div>
 <div class="xfind" id="xfind" hidden></div>
+<div class="xfind" id="globalFavs" hidden></div>
 <div class="meta-line"><span id="showing"></span><span>tap a row for map & links · click a column header to sort</span></div>
 <button id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
 
@@ -353,7 +358,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-13T19:10Z";
+const BUILD = "2026-08-14T16:16Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -861,6 +866,7 @@ function render(){
   $("todayBtn").setAttribute("aria-pressed", state.sortKey==="today");
   $("tonightCnt").textContent = Object.values(DATA).flat().filter(r=>r.w && happensToday(r.w)).length;
   renderXfind();
+  renderGlobalFavs();
   $("showing").textContent = state.tonight
     ? `showing ${list.length} happening tonight`
     : `showing ${list.length} of ${(DATA[state.tab]||[]).length}${userLoc?" · distances from your location":""}`;
@@ -989,6 +995,43 @@ async function maybeSuggestCity(){
     $("citySuggestGo").onclick = ()=>{ $("citySuggest").hidden = true; switchCity(best.c.id); };
     $("citySuggestNo").onclick = ()=>{ sessionStorage.setItem("nosuggest-" + best.c.id, "1"); $("citySuggest").hidden = true; };
   }catch(e){ /* suggestion is best-effort */ }
+}
+
+// ---- favorites in OTHER cities: one shortlist across all 22 guides ---------------------
+// Favorites live per city under `<ns>-favs` as ["<tab>|<row name>", …], so the names are
+// readable without loading those datasets — the list works even offline.
+function otherCityFavs(){
+  const out = [];
+  for(const c of CONFIG.cities){
+    if(CITY && c.id === CITY.id) continue;
+    let keys = [];
+    try { keys = JSON.parse(localStorage.getItem(c.ns+"-favs") || "[]"); } catch(e){ keys = []; }
+    for(const k of keys){
+      const name = String(k).slice(String(k).indexOf("|")+1);
+      if(name) out.push({ city:c, name });
+    }
+  }
+  return out;
+}
+function renderGlobalFavs(){
+  const el = $("globalFavs");
+  const items = state.fav ? otherCityFavs() : [];
+  if(!items.length){ el.hidden = true; el.textContent = ""; return; }
+  el.hidden = false;
+  el.textContent = "";
+  const lab = document.createElement("span");
+  lab.className = "xflabel"; lab.textContent = "★ elsewhere";
+  el.appendChild(lab);
+  for(const it of items){
+    const b = document.createElement("button");
+    b.className = "gfav"; b.dataset.city = it.city.id;
+    b.textContent = it.name + " ";
+    const chip = document.createElement("span");
+    chip.className = "cnt"; chip.textContent = it.city.chip;
+    b.appendChild(chip);
+    b.addEventListener("click", ()=>switchCity(it.city.id, {keepFav:true}));
+    el.appendChild(b);
+  }
 }
 
 // ---- back to top -----------------------------------------------------------------------
@@ -1360,14 +1403,15 @@ async function loadCity(c){
   activateCity(c);
   return true;
 }
-async function switchCity(id){
+async function switchCity(id, opts={}){
   const c = cityById(id);
   if(!c || c.id===CITY.id) return;
   if(!await loadCity(c)) return;
   const [sk,sd] = defSort(HOME);
-  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:false, item:null, tonight:false});
+  // keepFav: jumping from the global favorites list should land with ★ still on
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:!!opts.keepFav, item:null, tonight:false});
   $("q").value=""; $("distFilter").value="";
-  $("favToggle").setAttribute("aria-pressed","false");
+  $("favToggle").setAttribute("aria-pressed", state.fav);
   $("tonightBtn").setAttribute("aria-pressed","false");
   fillCats(); fillSort(); render();
 }

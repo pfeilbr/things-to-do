@@ -5,6 +5,18 @@ const { serve, launch, check, fatal, done } = require('./_lib');
 const PORT = 8953, URL = `http://localhost:${PORT}/`;
 
 const DATA_RE = /data[^/]*\.json(\?|$)/;
+
+// The Google Fonts <link> in <head> is render-blocking, and sandboxed test envs
+// can't reach it — the request sits until the proxy resets it (~13s observed),
+// which would gate first paint on a host that answers in milliseconds in prod.
+// Stub it (same idea as _lib's unpkg/tile routing) so the 10s budget below
+// measures the app's own boot rather than the sandbox's network.
+async function stubFonts(page) {
+  await page.route('https://fonts.googleapis.com/**', r =>
+    r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
+  await page.route('https://fonts.gstatic.com/**', r => r.abort());
+}
+
 // Console noise we don't own: the sandbox can't reach these hosts, and a missing
 // favicon is not an app error. Anything else counts as a real console error.
 const NOISE = [/unpkg\.com/, /tile\.openstreetmap\.org/, /nominatim/i, /favicon/i,
@@ -25,6 +37,7 @@ const isNoise = t => NOISE.some(re => re.test(t));
   });
   // instrumented BEFORE any navigation so the boot fetch is counted
   page.on('request', r => { if (DATA_RE.test(r.url())) dataReqs.push(r.url()); });
+  await stubFonts(page);
 
   // start from a clean slate: no persisted city, no favourites
   await page.goto(URL, { waitUntil: 'domcontentloaded' });

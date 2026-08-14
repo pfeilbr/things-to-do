@@ -5,6 +5,19 @@
 //   index.html 69.0 KB · largest dataset data-nyc.json 27.8 KB
 //   data.json 157.8 KB · all root JSON 669.8 KB · sw.js PRECACHE 27 entries
 const test = require('node:test');
+// A third-party stylesheet in <head> blocks first paint until that host answers.
+// On weak cell signal (the trailhead/creek case) a hanging font host can stall
+// the whole page for 10s+, so remote fonts must load async and never block.
+require('node:test').test('no render-blocking third-party stylesheet', () => {
+  const fs2 = require('node:fs'), path2 = require('node:path');
+  const html = fs2.readFileSync(path2.join(__dirname, '..', '..', 'index.html'), 'utf8')
+    .replace(/<noscript>[\s\S]*?<\/noscript>/g, ''); // no-JS fallback can't use the onload swap
+  const blocking = [...html.matchAll(/<link[^>]*rel=["']stylesheet["'][^>]*>/g)]
+    .map(m => m[0])
+    .filter(tag => /https?:\/\//.test(tag) && !/media=["']print["']/.test(tag));
+  require('node:assert').equal(blocking.length, 0,
+    `these block first paint on a slow font/CDN host:\n  ${blocking.join('\n  ')}`);
+});
 const assert = require('node:assert');
 const fs = require('node:fs');
 const path = require('node:path');
