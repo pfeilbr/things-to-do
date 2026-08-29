@@ -61,13 +61,18 @@ Consequences to respect when editing:
 
 ## Updating events (recurring task)
 
-The owner will periodically ask to refresh the (Philly) Events tab via web search:
+Two guides carry dated `events`: **Philly** (`data.json`) and the **five NYC-area cities**
+(`data-nyc/brooklyn/queens/flushing/foresthills.json`, tab list `NYC_TABS`). Boston does
+not yet. The routine is the same for both — the owner will ask to refresh a weekend or a
+month:
 
-1. Web-search for real events in the Willow Grove / Montgomery County / Bucks County / Philadelphia area for the upcoming weekend (farmers markets, festivals, concerts, car shows, sports, fairs).
+1. Web-search for real events in the relevant area for the window asked for — Willow Grove / Montgomery / Bucks / Philadelphia for `data.json`; Manhattan, Brooklyn, Queens, Flushing and Forest Hills for the NYC set (festivals, parades, street fairs, concerts, sports, museum openings).
 2. **Only include events you can verify with a source URL** (`u` field). Never pad with guesses.
 3. Recurring weekly/seasonal entries (farmers markets, Friday food-truck nights, summer concert series) are wanted — keep them and refresh their `w` string; do not delete them just because a given weekend's listing page has rotated. This was an explicit owner correction.
 4. Estimate `d`/`t` per the formula below and keep the footer's "data gathered" month current.
 5. Attractions and fishing data change rarely — only touch them if asked or clearly stale.
+6. **Don't duplicate a recurring series into `events`.** If a market/night market/greenmarket already has a row in `social` (or `shops`), fix that row's `w` string instead — the consistency test only catches exact name collisions, so near-identical names ("Queens Night Market" vs "Queens Night Market fall season") have to be caught by eye.
+7. A one-off with no verifiable date does not belong in `events` at all; "check schedule" is not a `w` string.
 
 ## Distance/drive-time formula
 

@@ -15,7 +15,7 @@ A single-page, fully client-side web app — pick a city from the dropdown, get 
   - **Fishing** — piers, lakes, party boats, and surf spots with license notes
   - **MTB** — real mountain-bike trails within a drive, labeled honestly (singletrack vs. greenway)
   - **Social** — recurring series where strangers actually talk: dance socials, run clubs, trivia, language exchanges, night markets — with a "today" badge on ones happening now
-  - Philly additionally keeps its **weekend Events** tab
+  - **Events** — dated, source-verified listings for the next few weeks, on Philly and the five NYC-area guides; the ones happening today get a TODAY badge
 - **Everyday-life tabs** on the six home guides (Forest Hills, NYC, Brooklyn, Queens, Flushing, Boston) — the stuff you actually look up when you live somewhere rather than visit it:
   - **Museums** — museums and galleries, from the Met down to a museum inside a Tribeca freight elevator
   - **Sights** — things worth looking at: observation decks, public art, architecture, World's Fair ruins, oddities like Grand Central's whispering gallery

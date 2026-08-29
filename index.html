@@ -421,7 +421,7 @@ footer a{color:var(--accent-soft)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-29T13:39Z";
+const BUILD = "2026-08-29T14:00Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -480,10 +480,16 @@ const T_SIGHTS  = {key:"sights",    label:"Sights",       sort:["d",1],    cols:
 const T_WALKS   = {key:"walks",     label:"Walks",        sort:["d",1],    cols:C_STD};
 const T_SHOPS   = {key:"shops",     label:"Shops",        sort:["d",1],    cols:C_STD};
 const T_DAILY   = {key:"essentials",label:"Essentials",   sort:["d",1],    cols:C_STD};
+const T_EVENTS  = {key:"events",    label:"Events",       sort:["d",1],    cols:C_WHEN};
 // NYC-area layout: the seven interest tabs plus the five everyday ones, ordered so the
 // things you browse for fun come before the things you only look up when you need them.
 const HOME_TABS = [T_SPOTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY,
                    T_NIGHT, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
+// The NYC-area guides also carry dated Events, refreshed the way Philly's are (see
+// CLAUDE.md). Events sit second: they rot, so they want to be seen before the evergreen
+// tabs. Boston keeps HOME_TABS until its events are curated too.
+const NYC_TABS = [T_SPOTS, T_EVENTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY,
+                  T_NIGHT, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
 const NY_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
@@ -509,35 +515,35 @@ const CONFIG = {
       trip:"≈1¾ hr drive from home base",
       blurb:"Forest Hills at walking distance: Austin St &amp; the Gardens / everywhere to eat / shops / gas, hardware &amp; the rest of the errands / walks / sights / socials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:[T_SPOTS, T_EATS, T_SHOPS, T_DAILY, T_WALKS, T_SIGHTS, T_MUSEUM, T_NIGHT, T_CHINESE, T_SOCIAL] },
+      tabs:[T_SPOTS, T_EVENTS, T_EATS, T_SHOPS, T_DAILY, T_WALKS, T_SIGHTS, T_MUSEUM, T_NIGHT, T_CHINESE, T_SOCIAL] },
     { id:"nyc", chip:"NYC",
       place:"Union Square, Manhattan, NY", placeShort:"New York City", originLabel:"Union Square, Manhattan",
       ns:"nyc", data:"data-nyc.json",
       trip:"≈1¾ hr drive from home base",
       blurb:"Manhattan: museums &amp; sights / date-worthy spots / everywhere to eat / walks / shops / hip-hop nights / Chinatown \u4e2d\u534e / essentials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:HOME_TABS },
+      tabs:NYC_TABS },
     { id:"brooklyn", chip:"BROOKLYN",
       place:"Barclays Center, Brooklyn, NY", placeShort:"Brooklyn", originLabel:"central Brooklyn",
       ns:"bk", data:"data-brooklyn.json",
       trip:"≈1¾ hr drive from home base",
       blurb:"Brooklyn: museums &amp; street art / dance-floor capital / walks &amp; waterfront / shops &amp; flea markets / sushi / Sunset Park \u4e2d\u534e / essentials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:HOME_TABS },
+      tabs:NYC_TABS },
     { id:"queens", chip:"QUEENS",
       place:"Forest Hills, Queens, NY", placeShort:"Queens", originLabel:"Forest Hills, Queens",
       ns:"qns", data:"data-queens.json",
       trip:"≈1¾ hr drive from home base",
       blurb:"Queens: museums &amp; World's Fair ruins / the world's food / Forest Park &amp; shoreline walks / shops / nightlife / Elmhurst \u4e2d\u534e / essentials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:HOME_TABS },
+      tabs:NYC_TABS },
     { id:"flushing", chip:"FLUSHING",
       place:"Flushing, Queens, NY", placeShort:"Flushing", originLabel:"Main St, Flushing",
       ns:"flu", data:"data-flushing.json",
       trip:"≈2 hr drive from home base",
       blurb:"Flushing \u4e2d\u534e: the deepest Chinese-culture guide here \u2014 Sichuan, dim sum, KTV, tea / plus museums, sights, walks, shops &amp; essentials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:HOME_TABS },
+      tabs:NYC_TABS },
     { id:"ac", chip:"AC",
       place:"Atlantic City, NJ", placeShort:"Atlantic City", originLabel:"the AC Boardwalk",
       ns:"ac", data:"data-ac.json",

@@ -13,14 +13,16 @@ const CITY_TABS = ['spots', 'nightlife', 'eats', 'chinese', 'fishing', 'biking',
 // HOME_TABS in index.html). Forest Hills is a walking-distance neighborhood guide, so it
 // drops the two tabs that are inherently a drive away.
 const DAILY_TABS = ['museums', 'sights', 'walks', 'shops', 'essentials'];
+// the NYC-area guides also carry dated events (Boston does not, yet)
+const NYC_EXTRA = [...DAILY_TABS, 'events'];
 const LAYOUTS = {
   'data.json': PHILLY_TABS,
-  'data-nyc.json': [...CITY_TABS, ...DAILY_TABS],
-  'data-brooklyn.json': [...CITY_TABS, ...DAILY_TABS],
-  'data-queens.json': [...CITY_TABS, ...DAILY_TABS],
-  'data-flushing.json': [...CITY_TABS, ...DAILY_TABS],
+  'data-nyc.json': [...CITY_TABS, ...NYC_EXTRA],
+  'data-brooklyn.json': [...CITY_TABS, ...NYC_EXTRA],
+  'data-queens.json': [...CITY_TABS, ...NYC_EXTRA],
+  'data-flushing.json': [...CITY_TABS, ...NYC_EXTRA],
   'data-boston.json': [...CITY_TABS, ...DAILY_TABS],
-  'data-foresthills.json': ['spots', 'nightlife', 'eats', 'chinese', 'social', ...DAILY_TABS],
+  'data-foresthills.json': ['spots', 'nightlife', 'eats', 'chinese', 'social', ...NYC_EXTRA],
 };
 
 const dataFiles = fs.readdirSync(ROOT).filter(f => /^data.*\.json$/.test(f)).sort();
