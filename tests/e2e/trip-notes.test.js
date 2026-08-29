@@ -1,20 +1,14 @@
 // TDD spec for trip-from-home notes (CONTRACTS §7).
-// Every non-HOME CONFIG city carries a `trip` string; `#tripNote` sits in the
-// header directly after #citybar — hidden/empty for philly, showing exactly
-// CITY.trip for every other active city, persisting across reloads.
+// Every non-HOME CONFIG city carries a `trip` string. Since the header became a single
+// app bar the note sits in the meta line beside the origin picker — distance context
+// next to the distances — hidden/empty for philly, showing exactly CITY.trip for every
+// other active city, and persisting across reloads.
 const { serve, launch, check, fatal, done } = require('./_lib');
 const PORT = 8935, URL = `http://localhost:${PORT}/`;
 
-// Switch city through the two-level picker (region chip → city chip); falls
-// back to the page's own switchCity() if the regionbar isn't rendered.
+// Switch city through the region-grouped dropdown.
 async function goCity(page, region, id, placeShort) {
-  const chip = await page.$(`.regionchip[data-region="${region}"]`);
-  if (chip) {
-    await chip.click();
-    await page.click(`.citychip[data-city="${id}"]`);
-  } else {
-    await page.evaluate(cid => switchCity(cid), id);
-  }
+  await page.selectOption('#citySelect', id);
   await page.waitForFunction(
     ps => document.querySelector('#hPlace').textContent.includes(ps),
     placeShort, { timeout: 15000 });
@@ -37,11 +31,11 @@ const cfgTrip = (page, id) => page.evaluate(cid => CONFIG.cities.find(c => c.id 
 
   if (!(await page.$('#tripNote'))) { await browser.close(); server.close(); fatal('missing #tripNote — feature not implemented'); }
 
-  // placement: inside the header, directly after #citybar
+  // placement: in the meta line, alongside the origin picker
   check(await page.evaluate(() => {
-    const t = document.querySelector('#tripNote'), cb = document.querySelector('#citybar');
-    return !!t.closest('header') && cb.nextElementSibling === t;
-  }), '#tripNote is in the header directly after #citybar');
+    const t = document.querySelector('#tripNote');
+    return !!t.closest('.meta-line') && !!t.parentElement.querySelector('#originBtn');
+  }), '#tripNote sits in the meta line next to the origin picker');
 
   // every non-HOME city entry carries a non-empty trip string; philly does not need one
   const missing = await page.evaluate(() =>

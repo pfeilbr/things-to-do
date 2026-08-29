@@ -23,7 +23,7 @@ const QUERY = 'park';
 // Elements the contract calls out, plus the rest of the header stack for context.
 // (contract-named ones first so they're easy to spot in the output)
 const CHROME = [
-  '#regionbar', '#citybar', '#tripNote', '.controls', '#xfind', '#globalFavs',
+  '.appbar', '.tabwrap', '#tripNote', '.controls', '#catChips', '#xfind', '#globalFavs',
   'header', 'h1', '.sub', '#tabs', '#citySuggest', '.meta-line',
 ];
 

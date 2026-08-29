@@ -1,8 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="100" fill="#1d3a2f"/>
-  <path d="M60 402 q34 -22 68 0 t68 0 t68 0 t68 0 t68 0 t52 0" stroke="#2f6f8f" stroke-width="18" fill="none" stroke-linecap="round"/>
-  <path d="M96 444 q34 -20 68 0 t68 0 t68 0 t68 0 t56 0" stroke="#2f6f8f" stroke-width="13" fill="none" opacity=".55" stroke-linecap="round"/>
-  <path d="M256 64c-66 0-116 50-116 114 0 82 116 190 116 190s116-108 116-190c0-64-50-114-116-114z" fill="#f6f4ec"/>
-  <path d="M256 108l46 66h-24l38 56h-120l38-56h-24z" fill="#1d3a2f"/>
-  <rect x="245" y="230" width="22" height="26" rx="4" fill="#b5542d"/>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d4d8f"/>
+      <stop offset="1" stop-color="#2f6fdc"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="104" fill="url(#g)"/>
+  <path d="M256 96c-62 0-112 50-112 112 0 84 112 208 112 208s112-124 112-208c0-62-50-112-112-112z" fill="#ffffff"/>
+  <circle cx="256" cy="206" r="44" fill="#2f6fdc"/>
+  <path d="M236 206l14 15 27-30" stroke="#ffffff" stroke-width="14" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

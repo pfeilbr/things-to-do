@@ -63,6 +63,7 @@ const INTENTIONAL_CROSS_TAB = new Set([
   'data-brooklyn.json|Shirley Chisholm State Park|walks,biking',
   'data-queens.json|Rockaway Boardwalk|walks,biking',
   'data-flushing.json|Kissena Velodrome|sights,biking',   // landmark + the track itself
+  'data-boston.json|Minuteman Bikeway|walks,biking',
 ]);
 
 test('no unvetted duplicate rows across tabs of one city', () => {

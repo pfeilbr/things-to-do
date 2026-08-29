@@ -68,13 +68,9 @@ const isNoise = t => NOISE.some(re => re.test(t));
     `no duplicate dataset requests on boot (${dataReqs.length} request(s) for ${bootFetches.length} file(s))`);
 
   // ---- (e) switching city fetches exactly one more dataset ----
-  if (!(await page.$('.regionchip[data-region="NYC"]'))) {
-    await browser.close(); server.close(); fatal('missing NYC regionchip — cannot drive the city switch');
-  }
-  await page.click('.regionchip[data-region="NYC"]');
-  await page.waitForSelector('.citychip[data-city="nyc"]', { timeout: 5000 });
+
   dataReqs = [];                                   // reset AFTER the region click
-  await page.click('.citychip[data-city="nyc"]');
+  await page.selectOption('#citySelect', 'nyc');
   await page.waitForFunction(() => document.querySelector('#hPlace').textContent.includes('New York'),
     null, { timeout: 15000 });
   await page.waitForLoadState('networkidle');
@@ -86,9 +82,7 @@ const isNoise = t => NOISE.some(re => re.test(t));
 
   // switching back to an already-loaded city must not refetch (in-memory cache)
   dataReqs = [];
-  await page.click('.regionchip[data-region="HOME"]');
-  await page.waitForSelector('.citychip[data-city="philly"]', { timeout: 5000 });
-  await page.click('.citychip[data-city="philly"]');
+  await page.selectOption('#citySelect', 'philly');
   await page.waitForFunction(() => !document.querySelector('#hPlace').textContent.includes('New York'),
     null, { timeout: 15000 });
   await page.waitForTimeout(500);

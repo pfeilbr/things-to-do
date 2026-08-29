@@ -1,12 +1,12 @@
-# Things To Do — Multi-City Local Guide
+# Things To Do
 
-A single-page, fully client-side "field guide" web app — pick a city, get things to do in one sortable, searchable table. Ships with twenty-three guides: **Philly (Willow Grove) · Forest Hills · NYC · Brooklyn · Queens · Flushing · Atlantic City · Baltimore · Washington DC · Pittsburgh · Richmond · Boston · Virginia Beach · Buffalo · Cleveland · Raleigh-Durham · Chicago · Toronto · Nashville · Los Angeles · San Francisco · Seattle · San Diego**.
+A single-page, fully client-side web app — pick a city from the dropdown, get things to do in one sortable, searchable table. Ships with twenty-three guides: **Philly (Willow Grove) · Forest Hills · NYC · Brooklyn · Queens · Flushing · Atlantic City · Baltimore · Washington DC · Pittsburgh · Richmond · Boston · Virginia Beach · Buffalo · Cleveland · Raleigh-Durham · Chicago · Toronto · Nashville · Los Angeles · San Francisco · Seattle · San Diego**.
 
 **Live site:** https://pfeilbr.github.io/things-to-do/
 
 ## Features
 
-- **City switcher** — a chip bar in the header swaps the whole guide (tabs, data, distances, favorites) between cities; your pick is remembered, and `?city=nyc` links directly
+- **City switcher** — a region-grouped dropdown in the app bar swaps the whole guide (tabs, data, distances, favorites) between cities; your pick is remembered, and `?city=nyc` links directly
 - **Interest-focused tabs** per city:
   - **Spots / Attractions** — date-worthy highlights and experiences, sorted by distance
   - **Nightlife** — dance floors and hip-hop/R&B nights first, then lounges, live music, speakeasies, and KTV
@@ -16,13 +16,14 @@ A single-page, fully client-side "field guide" web app — pick a city, get thin
   - **MTB** — real mountain-bike trails within a drive, labeled honestly (singletrack vs. greenway)
   - **Social** — recurring series where strangers actually talk: dance socials, run clubs, trivia, language exchanges, night markets — with a "today" badge on ones happening now
   - Philly additionally keeps its **weekend Events** tab
-- **Everyday-life tabs** on the five home guides (Forest Hills, NYC, Brooklyn, Queens, Flushing) — the stuff you actually look up when you live somewhere rather than visit it:
+- **Everyday-life tabs** on the six home guides (Forest Hills, NYC, Brooklyn, Queens, Flushing, Boston) — the stuff you actually look up when you live somewhere rather than visit it:
   - **Museums** — museums and galleries, from the Met down to a museum inside a Tribeca freight elevator
   - **Sights** — things worth looking at: observation decks, public art, architecture, World's Fair ruins, oddities like Grand Central's whispering gallery
   - **Walks** — walking *routes*, not just parks: greenways, promenades, park loops, woodland trails, boardwalks, brownstone wanders
   - **Shops** — bookstores, record shops, vintage, markets, department stores and the specialist places worth crossing town for
   - **Essentials** — the errand layer: gas stations, pharmacies, hardware, laundromats, urgent care, licensed dispensaries, post offices, car washes, bike repair
 - **Forest Hills** is a *neighborhood* guide rather than a borough one — nearly everything in it is inside a two-mile walk of Austin Street
+- **Boston** covers the whole metro: Cambridge, Somerville, Brookline, Charlestown, Quincy, Salem and the Blue Hills, not just the peninsula
 - **☀ Tonight** — one tap shows everything happening today in the active city (events + recurring socials), with a live count badge; shareable via `#tonight=1`
 - **Smart search** — cross-tab hints ("also 10 in Sushi & Eats") that keep your query when you tap through
 - **Near-me city switch** — using 📍 in another covered city offers to swap you to that guide

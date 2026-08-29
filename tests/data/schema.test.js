@@ -19,6 +19,7 @@ const LAYOUTS = {
   'data-brooklyn.json': [...CITY_TABS, ...DAILY_TABS],
   'data-queens.json': [...CITY_TABS, ...DAILY_TABS],
   'data-flushing.json': [...CITY_TABS, ...DAILY_TABS],
+  'data-boston.json': [...CITY_TABS, ...DAILY_TABS],
   'data-foresthills.json': ['spots', 'nightlife', 'eats', 'chinese', 'social', ...DAILY_TABS],
 };
 

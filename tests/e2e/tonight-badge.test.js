@@ -35,11 +35,8 @@ async function badgeText(page) {
   let txt = await badgeText(page);
   check(txt === String(expPhilly), `boot (philly): badge "${txt}" == expected count ${expPhilly}`);
 
-  // switch to a city in a DIFFERENT region: regionchip first, then citychip
-  if (!(await page.$('#regionbar .regionchip'))) { await browser.close(); server.close(); fatal('missing region chips — cannot navigate citybar'); }
-  await page.click('.regionchip[data-region="NYC"]');
-  await page.waitForSelector('.citychip[data-city="nyc"]', { timeout: 5000 });
-  await page.click('.citychip[data-city="nyc"]');
+  // switch to a city in a DIFFERENT region — one interaction through the dropdown
+  await page.selectOption('#citySelect', 'nyc');
   await page.waitForFunction(() => document.querySelector('#hPlace').textContent.includes('New York'), null, { timeout: 15000 });
   await page.waitForTimeout(200);
   const expNyc = await expectedCount(page);

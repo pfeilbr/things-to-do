@@ -31,10 +31,9 @@ const BOOT_FAIL = `(() => {
 async function snapshot(page) {
   return page.evaluate(() => ({
     rows: document.querySelectorAll('#tbody tr.rowmain').length,
-    regionChips: document.querySelectorAll('#regionbar .regionchip').length,
-    cityChips: document.querySelectorAll('#citybar .citychip').length,
-    activeCityChip: (document.querySelector('#citybar .citychip.active') || {}).textContent || null,
-    activeRegionChip: (document.querySelector('#regionbar .regionchip.active') || {}).textContent || null,
+    cityGroups: document.querySelectorAll('#citySelect optgroup').length,
+    cityOptions: document.querySelectorAll('#citySelect option').length,
+    activeCity: (document.querySelector('#hPlace') || {}).textContent || null,
     tabs: [...document.querySelectorAll('#tabs .tab')].map(t => t.dataset.tab),
     activeTab: (document.querySelector('#tabs .tab.active') || {}).dataset?.tab || null,
     place: (document.getElementById('hPlace') || {}).textContent || '',
@@ -91,8 +90,7 @@ async function snapshot(page) {
   check(controlled, 'page is controlled by the service worker before going offline');
 
   // ---------- switch to a second city so its data file is fetched too ----------
-  await page.click('#regionbar .regionchip[data-region="NYC"]').catch(() => {});
-  await page.click('#citybar .citychip[data-city="nyc"]').catch(() => {});
+  await page.selectOption('#citySelect', 'nyc').catch(() => {});
   await page.waitForFunction(() => localStorage.getItem('guide-city') === 'nyc', { timeout: 15000 })
     .catch(() => {});
   const online = await snapshot(page);
@@ -131,8 +129,8 @@ async function snapshot(page) {
     booted && off.rows > 0
       ? `offline reload renders the active city's rows (${off.rows} rows, city=${off.storedCity})`
       : `offline reload rendered ZERO rows — the app did not come back up offline (rows=${off.rows}, city=${off.storedCity}, sw controller=${off.controlled})`);
-  check(off.regionChips === 6, `region bar renders offline (${off.regionChips} .regionchip, expected 6)`);
-  check(off.cityChips > 0, `city bar renders offline (${off.cityChips} .citychip)`);
+  check(off.cityGroups === 6, `city picker renders its regions offline (${off.cityGroups} optgroups, expected 6)`);
+  check(off.cityOptions > 0, `city picker renders its cities offline (${off.cityOptions} options)`);
   check(off.activeCityChip !== null, `active city chip still marked offline (${off.activeCityChip})`);
   check(off.storedCity === 'nyc' && /new york|nyc|manhattan|union/i.test(off.place),
     `offline boot restores the last active city (guide-city=${off.storedCity}, h1 place="${off.place}")`);
@@ -160,8 +158,7 @@ async function snapshot(page) {
 
   // informational: sw.js precaches every city dataset, so a cold city switch
   // offline should also work. Not a §12 requirement — logged, not asserted.
-  await page.click('#regionbar .regionchip[data-region="HOME"]').catch(() => {});
-  await page.click('#citybar .citychip[data-city="philly"]').catch(() => {});
+  await page.selectOption('#citySelect', 'philly').catch(() => {});
   await page.waitForTimeout(2500);
   const crossCity = await snapshot(page);
   console.log(`  INFO offline city switch → guide-city=${crossCity.storedCity}, rows=${crossCity.rows}` +

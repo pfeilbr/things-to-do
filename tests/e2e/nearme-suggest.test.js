@@ -44,9 +44,10 @@ async function nearSel(page) {
 
 async function tapNear(page, sel) {
   await page.click(sel);
-  // geolocation success == the header flips to the near-you state
+  // Geolocation success == the ORIGIN flips to the near-you state. #hPlace is the city
+  // picker's label and always names the city, so the origin control is what to watch.
   await page.waitForFunction(
-    () => /your location/i.test(document.querySelector('#hPlace').textContent),
+    () => /your location/i.test(document.querySelector('#originBtn').textContent),
     null, { timeout: 10000 });
 }
 
@@ -82,8 +83,10 @@ function waitForSuggest(page) {
         .then(() => true).catch(() => false);
       check(switched, 'Go switches the active city (localStorage guide-city == "seattle")');
       await page.waitForTimeout(500);
-      check(/your location/i.test(await page.$eval('#hPlace', e => e.textContent)),
-        '#hPlace still shows the near-you state after the switch (userLoc preserved)');
+      check(/your location/i.test(await page.$eval('#originBtn', e => e.textContent)),
+        'origin still shows the near-you state after the switch (userLoc preserved)');
+      check(/Seattle/.test(await page.$eval('#hPlace', e => e.textContent)),
+        'the city picker now names Seattle');
       check((await page.$eval(sel, e => e.getAttribute('aria-pressed'))) === 'true',
         'near-me control stays engaged after the switch (aria-pressed="true")');
       check(!(await suggestVisible(page)), 'bar hides after Go');

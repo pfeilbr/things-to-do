@@ -87,23 +87,16 @@ const PORT = 8934, URL = `http://localhost:${PORT}/`;
   for (const { id, v } of ctl)
     check(v === 'true' || v === 'false', `#${id} has aria-pressed (got ${v})`);
 
-  // --- §6: every regionchip/citychip carries aria-pressed ---
-  const auditChips = () => page.evaluate(() => {
-    const all = [...document.querySelectorAll('.regionchip, .citychip')];
-    return { total: all.length, ok: all.filter(e => ['true', 'false'].includes(e.getAttribute('aria-pressed'))).length };
-  });
-  let chips = await auditChips();
-  check(chips.total > 0, `region/city chips rendered (${chips.total})`);
-  check(chips.ok === chips.total, `every chip has aria-pressed on boot (${chips.ok}/${chips.total})`);
-  // chips re-rendered by a region switch keep the attribute
-  if (await page.$('.regionchip[data-region="WEST"]')) {
-    await page.click('.regionchip[data-region="WEST"]');
-    await page.waitForTimeout(200);
-    chips = await auditChips();
-    check(chips.ok === chips.total, `every chip still has aria-pressed after region switch (${chips.ok}/${chips.total})`);
-  } else {
-    check(false, 'WEST regionchip present for re-render chip audit');
-  }
+  // --- §6: the city picker is a real, labelled select ---
+  check(await page.$eval('#citySelect', e => e.tagName === 'SELECT'), 'city picker is a native <select>');
+  check(await page.$eval('#citySelect', e => !!(e.getAttribute('aria-label') || e.labels?.length)),
+    'city picker carries an accessible name');
+  const groupLabels = await page.$$eval('#citySelect optgroup', gs => gs.every(g => !!g.label));
+  check(groupLabels, 'every optgroup in the city picker is labelled');
+  // the visible label must track the select, or the header lies about what you're looking at
+  await page.selectOption('#citySelect', 'nyc');
+  await page.waitForFunction(() => document.querySelector('#hPlace').textContent.includes('New York City'), null, { timeout: 15000 });
+  check(await page.$eval('#citySelect', e => e.value) === 'nyc', 'select value and visible label agree after a switch');
 
   check(errors.length === 0, `no page errors (got: ${errors.join(' | ') || 'none'})`);
   await browser.close(); server.close();

@@ -1,15 +1,28 @@
 {
-  "name": "Things To Do — Local Guide",
-  "short_name": "Local Guide",
-  "description": "Multi-city guide (Philly, NYC, Brooklyn, Queens, Flushing): date-worthy spots, nightlife, sushi, Chinese culture, fishing & mountain biking.",
+  "name": "Things To Do",
+  "short_name": "Things To Do",
+  "description": "A things-to-do guide for 24 cities: places to eat, museums, sights, walks, shops, nightlife and the everyday essentials, sorted by how far away they are.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f6f4ec",
-  "theme_color": "#1d3a2f",
+  "background_color": "#f4f6f9",
+  "theme_color": "#15304e",
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
   ]
 }

@@ -6,143 +6,145 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>Local Guide — Things To Do</title>
-<meta name="description" id="metaDesc" content="Multi-city guide to things to do: date-worthy spots, nightlife & dance floors, sushi, Chinese culture, fishing and mountain biking — with drive times from any place you choose.">
-<meta name="theme-color" content="#1d3a2f">
+<title>Things To Do</title>
+<meta name="description" id="metaDesc" content="Things to do in 24 cities: places to eat, museums, sights, walks, shops, nightlife and everyday essentials — sorted by how far they are from wherever you point it.">
+<meta name="theme-color" content="#15304e">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Local Guide">
+<meta name="apple-mobile-web-app-title" content="Things To Do">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Fonts load async: a slow/unreachable font host must never gate first paint
      (weak signal at a trailhead is the normal case for this app). -->
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-<noscript><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
-  --pine:#1d3a2f;      /* deep pine green */
-  --creek:#2f6f8f;     /* creek blue */
-  --paper:#f6f4ec;     /* warm paper */
-  --bark:#4a3f35;      /* dark bark text */
-  --moss:#7a9a6d;      /* moss accent */
-  --clay:#b5542d;      /* trail-blaze orange */
-  --line:#d9d4c5;
+  --brand:#15304e;       /* deep navy — app bar, headings */
+  --accent:#2f6fdc;      /* primary blue — links, active state */
+  --accent-soft:#8ab6f5; /* light blue, for use on the dark bar */
+  --hot:#d97706;         /* amber — favorites, "clear filters" */
+  --bg:#f4f6f9;          /* cool page background */
+  --text:#1b2330;        /* near-black slate */
+  --muted:#5b6675;       /* secondary text */
+  --line:#dde3ea;
   --card:#ffffff;
   --radius:10px;
-  --shadow:0 1px 3px rgba(29,58,47,.08),0 4px 14px rgba(29,58,47,.06);
+  --shadow:0 1px 2px rgba(21,48,78,.06),0 4px 14px rgba(21,48,78,.07);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 body{
   font-family:'Inter',system-ui,sans-serif;
-  background:var(--paper);
-  color:var(--bark);
+  background:var(--bg);
+  color:var(--text);
   line-height:1.5;
   font-size:15px;
 }
 header{
-  background:var(--pine);
-  color:var(--paper);
-  padding:28px 20px 20px;
-  border-bottom:4px solid var(--clay);
+  background:var(--brand);
+  color:var(--bg);
+  padding:0 20px;
+  box-shadow:0 1px 0 rgba(0,0,0,.15);
 }
 .hwrap{max-width:1200px;margin:0 auto}
+/* row one: wordmark, city picker, menu — everything else moved out of the header */
+.appbar{position:relative;display:flex;align-items:center;gap:14px;height:58px}
+.brand{display:flex;align-items:center;gap:9px;flex:0 0 auto}
+.brand .mark{
+  width:24px;height:24px;border-radius:6px;flex:0 0 auto;
+  background:linear-gradient(135deg,var(--accent),var(--accent-soft));
+  display:grid;place-items:center;font-size:13px;color:#fff;
+}
+.appbar .spacer{flex:1 1 auto}
 h1{
-  font-family:'Barlow Condensed',sans-serif;
+  font-family:'Inter',system-ui,sans-serif;
   font-weight:700;
-  font-size:clamp(30px,5vw,46px);
-  letter-spacing:.5px;
-  text-transform:uppercase;
-  line-height:1.05;
+  font-size:17px;
+  letter-spacing:-.2px;
+  line-height:1.1;
+  white-space:nowrap;
 }
-h1 .pin{color:var(--moss)}
-.sub{
-  font-family:'JetBrains Mono',monospace;
-  font-size:12.5px;
-  opacity:.85;
-  margin-top:6px;
+.citypick{
+  position:relative;display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);
+  border-radius:8px;padding:6px 11px;max-width:min(46vw,300px);
+  transition:background .15s,border-color .15s;
 }
+.citypick:hover,.citypick:focus-within{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5)}
+.citypick .cityname{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.citypick .caret{opacity:.7;font-size:10px;flex:0 0 auto}
+/* the native select sits invisibly on top, so the control is a real accessible select */
+.citypick select{
+  position:absolute;inset:0;width:100%;height:100%;
+  opacity:0;cursor:pointer;font-size:16px;   /* 16px stops iOS zooming on focus */
+}
+.metaright{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tripnote{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);opacity:.85}
 /* tabs */
+.tabwrap{position:relative}
+.tabwrap::after{      /* scroll affordance: the strip runs past the edge on most cities */
+  content:"";position:absolute;top:0;right:0;bottom:0;width:36px;pointer-events:none;
+  background:linear-gradient(to right,rgba(21,48,78,0),var(--brand));
+}
 .tabs{
-  display:flex;gap:8px;margin-top:20px;flex-wrap:wrap;
+  display:flex;gap:2px;align-items:stretch;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
 }
+.tabs::-webkit-scrollbar{display:none}
+.tabs>*{flex:0 0 auto}
 .tab{
-  font-family:'Barlow Condensed',sans-serif;
-  font-weight:600;font-size:17px;letter-spacing:.5px;text-transform:uppercase;
-  background:transparent;color:var(--paper);
-  border:1.5px solid rgba(246,244,236,.4);
-  border-radius:999px;padding:7px 18px;cursor:pointer;
-  transition:background .15s,color .15s;
-}
-.tab:hover{border-color:var(--paper)}
-.tab.active{background:var(--paper);color:var(--pine);border-color:var(--paper)}
-.tab .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.7;margin-left:5px}
-/* city switcher */
-.regionbar{display:flex;gap:2px;margin-top:14px;flex-wrap:wrap;align-items:center}
-.regionchip{
-  font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:1.5px;
-  background:none;border:none;border-bottom:2px solid transparent;
-  color:rgba(246,244,236,.6);padding:4px 10px;cursor:pointer;text-transform:uppercase;
+  font-family:'Inter',system-ui,sans-serif;
+  font-weight:500;font-size:14px;
+  background:none;color:rgba(255,255,255,.72);
+  border:none;border-bottom:2.5px solid transparent;
+  padding:11px 13px 9px;cursor:pointer;white-space:nowrap;
   transition:color .15s,border-color .15s;
 }
-.regionchip:hover{color:var(--paper)}
-.regionchip.active{color:var(--paper);border-bottom-color:var(--clay)}
-.citybar{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center}
-.citybar .clabel{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;opacity:.55;margin-right:2px}
-.citychip{
-  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.2px;
-  background:rgba(246,244,236,.07);color:var(--paper);
-  border:1px solid rgba(246,244,236,.3);border-radius:6px;
-  padding:5px 11px;cursor:pointer;transition:background .15s,border-color .15s;
-}
-.citychip:hover{border-color:var(--paper)}
-.citychip.active{background:var(--clay);border-color:var(--clay);color:#fff;font-weight:700}
-.tripnote{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.6;margin-top:7px;letter-spacing:.4px}
+.tab:hover{color:#fff}
+.tab.active{color:#fff;font-weight:600;border-bottom-color:var(--accent-soft)}
+.tab .cnt{font-family:'JetBrains Mono',monospace;font-size:10.5px;opacity:.6;margin-left:5px}
+/* city switcher */
 .ctlbtn .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.75;margin-left:3px}
 /* cross-tab search hints */
 .xfind{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:10px}
 .xflabel{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1px;opacity:.55;text-transform:uppercase}
-.xf,.gfav{font-size:13.5px;font-family:inherit;border:1px dashed var(--creek);background:none;border-radius:14px;padding:3px 11px;cursor:pointer;color:var(--creek)}
+.xf,.gfav{font-size:13.5px;font-family:inherit;border:1px dashed var(--accent);background:none;border-radius:14px;padding:3px 11px;cursor:pointer;color:var(--accent)}
 .xf:hover,.gfav:hover{border-style:solid}
 .xf .cnt,.gfav .cnt{font-family:'JetBrains Mono',monospace;font-size:10.5px;opacity:.7;margin-left:2px}
-.gfav{border-color:var(--clay);color:var(--clay)}
+.gfav{border-color:var(--hot);color:var(--hot)}
 [hidden]{display:none!important} /* flex/grid display rules must not defeat the hidden attribute */
 /* near-me city suggestion */
-.suggest{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--pine);color:var(--paper);
+.suggest{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--brand);color:var(--bg);
   padding:10px 14px;border-radius:8px;margin-bottom:14px}
-.suggest .ctlbtn{border-color:rgba(246,244,236,.4);color:var(--paper);background:none}
-.suggest .ctlbtn:hover{border-color:var(--paper)}
+.suggest .ctlbtn{border-color:rgba(255,255,255,.4);color:var(--bg);background:none}
+.suggest .ctlbtn:hover{border-color:var(--bg)}
 /* back to top */
 .totop{position:fixed;right:18px;bottom:18px;z-index:60;width:44px;height:44px;border-radius:50%;
-  border:1px solid var(--pine);background:var(--pine);color:var(--paper);font-size:20px;line-height:1;
-  cursor:pointer;box-shadow:0 2px 10px rgba(29,58,47,.35)}
-.totop:hover{background:var(--creek);border-color:var(--creek)}
+  border:1px solid var(--brand);background:var(--brand);color:var(--bg);font-size:20px;line-height:1;
+  cursor:pointer;box-shadow:0 2px 10px rgba(21,48,78,.35)}
+.totop:hover{background:var(--accent);border-color:var(--accent)}
 /* On desktop the wrapper is transparent — its children lay out directly in .controls. */
 .ctlrow{display:contents}
 @media (max-width:760px){
-  .citychip{padding:5px 8px;font-size:10.5px}
-  .tab{padding:6px 13px;font-size:15px}
-  .tabs{gap:6px;margin-top:14px}
+  .tab{padding:10px 11px 8px;font-size:13.5px}
+  .appbar{gap:10px;height:54px}
   /* Phone chrome budget: every chip/control strip becomes ONE swipeable row
      instead of wrapping, so results start near the top of the screen. */
-  .regionbar,.citybar,.tabs,.xfind,.ctlrow{
+  .tabs,.xfind,.ctlrow{
     flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
   }
-  .regionbar::-webkit-scrollbar,.citybar::-webkit-scrollbar,.tabs::-webkit-scrollbar,
-  .xfind::-webkit-scrollbar,.ctlrow::-webkit-scrollbar{display:none}
-  .regionbar>*,.citybar>*,.tabs>*,.xfind>*,.ctlrow>*{flex:0 0 auto}
+  .tabs::-webkit-scrollbar,.xfind::-webkit-scrollbar,.ctlrow::-webkit-scrollbar{display:none}
+  .tabs>*,.xfind>*,.ctlrow>*{flex:0 0 auto}
   .ctlrow{display:flex;gap:8px;align-items:center;width:100%}
   .search{flex:1 1 100%}
-  h1{font-size:34px;line-height:1.05}
-  .sub{font-size:12px;line-height:1.35}
-  .meta-line span:last-child{display:none}
 }
-.tab:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--clay);outline-offset:2px}
+.tab:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
 /* controls */
 .controls{
   max-width:1200px;margin:18px auto 0;padding:0 20px;
@@ -154,12 +156,12 @@ h1 .pin{color:var(--moss)}
 .search input{
   width:100%;padding:10px 14px 10px 36px;
   border:1.5px solid var(--line);border-radius:var(--radius);
-  background:var(--card);font-family:'Inter',sans-serif;font-size:14px;color:var(--bark);
+  background:var(--card);font-family:'Inter',sans-serif;font-size:14px;color:var(--text);
 }
 .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.45}
 select{
   padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--radius);
-  background:var(--card);font-family:'Inter',sans-serif;font-size:14px;color:var(--bark);cursor:pointer;
+  background:var(--card);font-family:'Inter',sans-serif;font-size:14px;color:var(--text);cursor:pointer;
 }
 /* category filter bar: chips with counts, one row, scrolls sideways when it overflows */
 .chipbar{
@@ -171,26 +173,28 @@ select{
 .chipbar>*{flex:0 0 auto}
 .catchip{
   font-family:'Inter',sans-serif;font-size:13px;
-  background:var(--card);color:var(--bark);
+  background:var(--card);color:var(--text);
   border:1.5px solid var(--line);border-radius:999px;
   padding:5px 12px;cursor:pointer;white-space:nowrap;
   transition:border-color .15s,background .15s,color .15s;
 }
-.catchip:hover{border-color:var(--creek)}
-.catchip.active{background:var(--pine);border-color:var(--pine);color:var(--paper);font-weight:600}
+.catchip:hover{border-color:var(--accent)}
+.catchip.active{background:var(--brand);border-color:var(--brand);color:var(--bg);font-weight:600}
 .catchip .cnt{font-family:'JetBrains Mono',monospace;font-size:10.5px;opacity:.6;margin-left:4px}
 .catchip.active .cnt{opacity:.75}
 .clearbtn{
-  font-family:'Inter',sans-serif;font-size:12.5px;color:var(--clay);
-  background:none;border:1px dashed var(--clay);border-radius:14px;
+  font-family:'Inter',sans-serif;font-size:12.5px;color:var(--hot);
+  background:none;border:1px dashed var(--hot);border-radius:14px;
   padding:2px 10px;cursor:pointer;margin-left:8px;
 }
 .clearbtn:hover{border-style:solid}
 .meta-line{
   max-width:1200px;margin:10px auto 0;padding:0 20px;
-  font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8a8171;
-  display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px 14px;align-items:center;
 }
+.originwrap{color:var(--muted)}
+.originwrap .originbtn{color:var(--accent);font-weight:500}
 /* table */
 .twrap{max-width:1200px;margin:12px auto 60px;padding:0 20px}
 table{
@@ -199,41 +203,41 @@ table{
   box-shadow:var(--shadow);
 }
 thead th{
-  font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:14.5px;
+  font-family:'Inter',system-ui,sans-serif;font-weight:600;font-size:14.5px;
   letter-spacing:.8px;text-transform:uppercase;
   text-align:left;padding:12px 14px;
-  background:var(--pine);color:var(--paper);
+  background:var(--brand);color:var(--bg);
   cursor:pointer;user-select:none;white-space:nowrap;
   position:sticky;top:0;z-index:2;
 }
 thead th .arrow{font-size:11px;opacity:.6;margin-left:4px}
-thead th.sorted .arrow{opacity:1;color:var(--moss)}
+thead th.sorted .arrow{opacity:1;color:var(--accent-soft)}
 tbody td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
 tbody tr:hover{background:#faf8f1}
-.name{font-weight:600;color:var(--pine)}
-.name a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--moss)}
-.name a:hover{color:var(--clay);border-color:var(--clay)}
-.summary{font-size:13.5px;color:#6d6353;max-width:420px}
+.name{font-weight:600;color:var(--brand)}
+.name a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--accent-soft)}
+.name a:hover{color:var(--hot);border-color:var(--hot)}
+.summary{font-size:13.5px;color:var(--muted);max-width:420px}
 .cat{
   display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10.5px;
-  background:#eef1e6;color:var(--pine);border:1px solid #d7ddc8;
+  background:#eaf1fb;color:#1d4d8f;border:1px solid #cfe0f7;
   border-radius:4px;padding:2px 7px;white-space:nowrap;
 }
-.when{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--clay);white-space:nowrap}
-.when .tdy{font-style:normal;background:var(--moss);color:var(--paper);border-radius:4px;padding:1px 5px;font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;vertical-align:1px}
+.when{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--hot);white-space:nowrap}
+.when .tdy{font-style:normal;background:var(--accent);color:#fff;border-radius:4px;padding:1px 5px;font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;vertical-align:1px}
 .dist{font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap}
 /* signature: drive band — proportional bar under distance */
 .band{height:4px;border-radius:2px;background:var(--line);margin-top:5px;width:88px;overflow:hidden}
-.band i{display:block;height:100%;background:linear-gradient(90deg,var(--moss),var(--creek))}
+.band i{display:block;height:100%;background:linear-gradient(90deg,var(--accent-soft),var(--accent))}
 .pop{font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap}
-.pop .star{color:var(--clay)}
+.pop .star{color:var(--hot)}
 .rc{color:#8a8171;font-size:11px}
 .empty{
   text-align:center;padding:48px 20px;color:#8a8171;font-size:14px;
 }
 /* expandable rows */
 tr.rowmain{cursor:pointer}
-.chev{display:inline-block;font-size:10px;color:var(--moss);margin-right:6px;transition:transform .15s}
+.chev{display:inline-block;font-size:10px;color:var(--accent-soft);margin-right:6px;transition:transform .15s}
 [aria-expanded="true"] .chev{transform:rotate(90deg)}
 .maplink{text-decoration:none;font-size:12px;margin-left:6px;opacity:.75}
 .maplink:hover{opacity:1}
@@ -242,27 +246,27 @@ tr.detail td{background:#f2efe4;padding:0 14px}
 .detailbox .info{flex:1;min-width:240px}
 .dmeta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .dlinks{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.dlink{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--paper);background:var(--creek);border-radius:6px;padding:5px 10px;text-decoration:none;border:none;cursor:pointer}
-.dlink:hover{background:var(--pine)}
-.dlink.alt{background:var(--moss)}
-.dlink.share{background:var(--clay)}
+.dlink{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--bg);background:var(--accent);border-radius:6px;padding:5px 10px;text-decoration:none;border:none;cursor:pointer}
+.dlink:hover{background:var(--brand)}
+.dlink.alt{background:var(--accent-soft)}
+.dlink.share{background:var(--hot)}
 .mapembed{width:300px;max-width:100%;height:190px;border:0;border-radius:8px;box-shadow:var(--shadow)}
 .mobile-sort{display:none}
 .ctlbtn{
   padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--radius);
-  background:var(--card);font-family:'Inter',sans-serif;font-size:14px;color:var(--bark);cursor:pointer;
+  background:var(--card);font-family:'Inter',sans-serif;font-size:14px;color:var(--text);cursor:pointer;
 }
-.ctlbtn[aria-pressed="true"]{background:var(--pine);color:var(--paper);border-color:var(--pine)}
+.ctlbtn[aria-pressed="true"]{background:var(--brand);color:var(--bg);border-color:var(--brand)}
 .originbtn{
   background:none;border:none;padding:0;font:inherit;color:inherit;cursor:pointer;
   text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;
 }
-.originbtn:hover{color:var(--paper);text-decoration-style:solid}
-.favbtn{background:none;border:none;cursor:pointer;font-size:15px;line-height:1;color:#c9c2b0;padding:0 4px;vertical-align:baseline}
-.favbtn.on{color:var(--clay)}
+.originbtn:hover{color:var(--brand);text-decoration-style:solid}
+.favbtn{background:none;border:none;cursor:pointer;font-size:15px;line-height:1;color:#c2cad4;padding:0 4px;vertical-align:baseline}
+.favbtn.on{color:var(--hot)}
 #mapview{height:520px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px}
 .itemcard{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;margin-top:12px}
-.itemcard h2{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(26px,4vw,36px);color:var(--pine);letter-spacing:.5px;line-height:1.1;margin-bottom:10px}
+.itemcard h2{font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:clamp(24px,3.4vw,32px);color:var(--brand);letter-spacing:-.3px;line-height:1.15;margin-bottom:10px}
 .itemcard .dmeta{margin-top:2px}
 .mapembed.itembig{width:100%;height:340px;margin-top:18px}
 .backbtn{margin-top:4px}
@@ -275,7 +279,7 @@ tr.detail td{background:#f2efe4;padding:0 14px}
   .cards{display:grid;gap:10px}
   .card{
     background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);
-    padding:14px 16px;border-left:4px solid var(--moss);
+    padding:14px 16px;border-left:4px solid var(--accent-soft);
   }
   .card .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
   .card .name{font-size:15.5px}
@@ -290,36 +294,40 @@ tr.detail td{background:#f2efe4;padding:0 14px}
   .mobile-sort{display:block}
 }
 footer{
-  background:var(--pine);color:rgba(246,244,236,.75);
-  padding:20px;text-align:center;font-size:12.5px;
+  background:var(--brand);color:rgba(255,255,255,.7);
+  padding:22px 20px;text-align:center;font-size:12.5px;
   font-family:'JetBrains Mono',monospace;
 }
-footer a{color:var(--moss)}
+.ftblurb{
+  display:inline-block;max-width:900px;margin-bottom:10px;
+  font-family:'Inter',system-ui,sans-serif;font-size:13.5px;color:rgba(255,255,255,.9);
+}
+footer a{color:var(--accent-soft)}
 /* hamburger menu */
 .hwrap{position:relative}
 .burger{
-  position:absolute;top:0;right:0;
-  background:transparent;border:1.5px solid rgba(246,244,236,.4);border-radius:8px;
-  color:var(--paper);cursor:pointer;padding:8px 10px;line-height:0;
+  flex:0 0 auto;
+  background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:8px;
+  color:var(--bg);cursor:pointer;padding:7px 9px;line-height:0;
 }
-.burger:hover{border-color:var(--paper)}
+.burger:hover{border-color:#fff}
 .menu{
-  position:absolute;top:44px;right:0;z-index:50;min-width:230px;
-  background:var(--card);border-radius:var(--radius);box-shadow:0 6px 24px rgba(29,58,47,.25);
+  position:absolute;top:50px;right:0;z-index:50;min-width:230px;
+  background:var(--card);border-radius:var(--radius);box-shadow:0 6px 24px rgba(21,48,78,.28);
   padding:6px;display:none;
 }
 .menu.open{display:block}
 .menu button,.menu a{
   display:flex;align-items:center;gap:10px;width:100%;text-align:left;
   background:none;border:none;border-radius:7px;cursor:pointer;
-  font-family:'Inter',sans-serif;font-size:14px;color:var(--bark);
+  font-family:'Inter',sans-serif;font-size:14px;color:var(--text);
   padding:10px 12px;text-decoration:none;
 }
-.menu button:hover,.menu a:hover{background:#eef1e6}
+.menu button:hover,.menu a:hover{background:#eef2f7}
 .menu .mico{width:20px;text-align:center}
 .toast{
   position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;
-  background:var(--pine);color:var(--paper);border-radius:10px;box-shadow:var(--shadow);
+  background:var(--brand);color:var(--bg);border-radius:10px;box-shadow:var(--shadow);
   padding:14px 18px;font-size:13.5px;max-width:min(92vw,420px);text-align:center;
 }
 .toast[hidden]{display:none}
@@ -328,20 +336,23 @@ footer a{color:var(--moss)}
 <body>
 <header>
   <div class="hwrap">
-    <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
-    <div class="menu" id="menu">
-      <button id="installBtn"><span class="mico">📲</span> Install app</button>
-      <button id="refreshBtn"><span class="mico">↻</span> Check for updates</button>
-      <a href="https://github.com/pfeilbr/things-to-do" target="_blank" rel="noopener"><span class="mico">★</span> View on GitHub</a>
+    <div class="appbar">
+      <div class="brand"><span class="mark" aria-hidden="true">◆</span><h1 id="hBrand"></h1></div>
+      <div class="citypick">
+        <span class="cityname" id="hPlace"></span><span class="caret" aria-hidden="true">▼</span>
+        <select id="citySelect" aria-label="Choose a city"></select>
+      </div>
+      <span class="spacer"></span>
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="menu" id="menu">
+        <button id="installBtn"><span class="mico">📲</span> Install app</button>
+        <button id="refreshBtn"><span class="mico">↻</span> Check for updates</button>
+        <a href="https://github.com/pfeilbr/things-to-do" target="_blank" rel="noopener"><span class="mico">★</span> View on GitHub</a>
+      </div>
     </div>
-    <h1><span id="hPlace"></span> <span class="pin" id="hBrand"></span></h1>
-    <div class="sub"><span id="subBlurb"></span> · distances estimated from <button id="originBtn" class="originbtn" title="Change the location distances are measured from"></button></div>
-    <nav class="regionbar" id="regionbar" aria-label="Switch region"></nav>
-    <nav class="citybar" id="citybar" aria-label="Switch city"><span class="clabel">CITY</span></nav>
-    <div class="tripnote" id="tripNote" hidden></div>
-    <div class="tabs" role="tablist" id="tabs"></div>
+    <div class="tabwrap"><div class="tabs" role="tablist" id="tabs"></div></div>
   </div>
 </header>
 
@@ -388,7 +399,7 @@ footer a{color:var(--moss)}
 <nav class="chipbar" id="catChips" aria-label="Filter by category"></nav>
 <div class="xfind" id="xfind" hidden></div>
 <div class="xfind" id="globalFavs" hidden></div>
-<div class="meta-line"><span id="showing"></span><span>tap a row for map & links · click a column header to sort</span></div>
+<div class="meta-line"><span id="showing"></span><span class="metaright"><span class="tripnote" id="tripNote" hidden></span><span class="originwrap">distances from <button id="originBtn" class="originbtn" title="Change the location distances are measured from"></button></span></span></div>
 <button id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
 
 <div class="twrap">
@@ -403,13 +414,14 @@ footer a{color:var(--moss)}
 </div>
 
 <footer>
+  <span class="ftblurb" id="subBlurb"></span><br>
   <span id="ftSources"></span> Map © OpenStreetMap contributors; place lookup via OSM Nominatim.<br>
   Distances are measured from the place named above — tap it to re-centre the whole guide anywhere. Drive times are straight-line ×1.3 road factor at 24–55 mph (average speed scales with trip length) — verify before you go. <span id="ftNote"></span>
 </footer>
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-29T12:56Z";
+const BUILD = "2026-08-29T13:39Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -478,7 +490,7 @@ const NY_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Pla
 const MID_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, local press &amp; event calendars.";
 
 const CONFIG = {
-  brand: "Local Guide",
+  brand: "Things To Do",
   cities: [
     { id:"philly", chip:"PHILLY",
       place:"Willow Grove, PA", placeShort:"Willow Grove", originLabel:"central Willow Grove",
@@ -570,10 +582,10 @@ const CONFIG = {
       place:"Boston Common, Boston, MA", placeShort:"Boston", originLabel:"Boston Common",
       ns:"bos", data:"data-boston.json",
       trip:"≈5½ hr drive from home base",
-      blurb:"Boston: North End &amp; harbor dates / hip-hop &amp; salsa nights / omakase / Chinatown + Quincy \u4e2d\u534e / harbor stripers / Fells MTB / socials",
+      blurb:"Boston &amp; the metro: museums &amp; Freedom Trail sights / North End &amp; Cambridge eats / Emerald Necklace walks / Harvard Sq shops / dance floors / Chinatown \u4e2d\u534e / essentials",
       note:"MA fishing: freshwater license, or a ~$10 saltwater permit.",
       sources:MID_SOURCES,
-      tabs:CITY_TABS },
+      tabs:HOME_TABS },
     { id:"vb", chip:"VA BEACH",
       place:"Virginia Beach Oceanfront, VA", placeShort:"Virginia Beach", originLabel:"the VB Oceanfront",
       ns:"vb", data:"data-vb.json",
@@ -680,7 +692,6 @@ let CITY = null, TABS = [], HOME = "", COLS = {}, TABLABEL = {};
 const cityById = id => CONFIG.cities.find(c=>c.id===id);
 const DEFAULT_CITY = CONFIG.cities[0].id;
 REGIONS.forEach(([name,ids])=>ids.forEach(id=>{ const c=cityById(id); if(c) c.region=name; }));
-let shownRegion = null;   // region whose cities the citybar currently lists
 function setCityConfig(c){
   CITY = c;
   TABS = c.tabs;
@@ -1319,8 +1330,6 @@ $("favToggle").addEventListener("click",()=>{
 function syncOrigin(){
   const label = originLabel();
   $("originBtn").textContent = label;
-  const place = userLoc ? "Your location" : (origin ? origin.short : CITY.placeShort);
-  $("hPlace").textContent = place;
   document.title = baseTitle();
 }
 async function geocode(q){
@@ -1533,7 +1542,7 @@ $("distFilter").addEventListener("change",e=>{
   render();
 });
 
-function baseTitle(){ return `${userLoc ? "Near You" : (origin ? origin.short : CITY.placeShort)} ${CONFIG.brand}`; }
+function baseTitle(){ return `${CONFIG.brand} · ${userLoc ? "Near You" : (origin ? origin.short : CITY.placeShort)}`; }
 async function applyHash(){
   const cid = new URLSearchParams(location.hash.slice(1)).get("city");
   if(cid && cid!==CITY.id && cityById(cid)){
@@ -1564,7 +1573,6 @@ function activateCity(c){
   favs = new Set(JSON.parse(localStorage.getItem(skey("favs"))||"[]"));
   try { origin = JSON.parse(localStorage.getItem(skey("origin"))||"null"); } catch(e){ origin = null; }
   localStorage.setItem("guide-city", c.id);
-  shownRegion = c.region;   // citybar snaps back to the active city's region
   applyBranding();
   renderTabs();
   renderCityBar();
@@ -1588,20 +1596,24 @@ async function switchCity(id, opts={}){
   $("tonightBtn").setAttribute("aria-pressed","false");
   fillCats(); fillSort(); render();
 }
+// One region-grouped <select> does the job the region bar and the city bar used to
+// split between them: the regions survive as <optgroup>s, and the header stays one row.
 function renderCityBar(){
-  if(!shownRegion) shownRegion = CITY ? CITY.region : REGIONS[0][0];
-  $("regionbar").innerHTML = REGIONS.map(([name])=>
-    `<button class="regionchip${name===shownRegion?" active":""}" data-region="${name}" aria-pressed="${name===shownRegion}">${name}</button>`
+  const sel = $("citySelect");
+  sel.innerHTML = REGIONS.map(([region, ids]) =>
+    `<optgroup label="${region}">` + ids.map(id => {
+      const c = cityById(id);
+      return c ? `<option value="${c.id}">${c.placeShort}</option>` : "";
+    }).join("") + `</optgroup>`
   ).join("");
-  $("citybar").innerHTML = `<span class="clabel">CITY</span>`+CONFIG.cities.filter(c=>c.region===shownRegion).map(c=>
-    `<button class="citychip${CITY&&c.id===CITY.id?" active":""}" data-city="${c.id}" aria-pressed="${CITY&&c.id===CITY.id}">${c.chip}</button>`
-  ).join("");
-  $("regionbar").querySelectorAll(".regionchip").forEach(b=>b.addEventListener("click",()=>{
-    shownRegion = b.dataset.region;
-    renderCityBar();
-  }));
-  $("citybar").querySelectorAll(".citychip").forEach(b=>b.addEventListener("click",()=>switchCity(b.dataset.city)));
+  if(CITY) sel.value = CITY.id;
+  $("hPlace").textContent = CITY ? CITY.placeShort : "";
 }
+$("citySelect").addEventListener("change", e => {
+  const id = e.target.value;
+  if(CITY && id === CITY.id) return;
+  switchCity(id);
+});
 
 // ?from=Doylestown,PA pins the origin; ?city=nyc / #city=nyc picks the city
 const fromParam = new URLSearchParams(location.search).get("from");
