@@ -9,6 +9,18 @@ const ROOT = path.join(__dirname, '..', '..');
 const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w']);
 const PHILLY_TABS = ['attractions', 'events', 'nightlife', 'eats', 'biking', 'social', 'fishing', 'chinese'];
 const CITY_TABS = ['spots', 'nightlife', 'eats', 'chinese', 'fishing', 'biking', 'social'];
+// The NYC-area guides carry the everyday-life tabs on top of the interest tabs (see
+// HOME_TABS in index.html). Forest Hills is a walking-distance neighborhood guide, so it
+// drops the two tabs that are inherently a drive away.
+const DAILY_TABS = ['museums', 'sights', 'walks', 'shops', 'essentials'];
+const LAYOUTS = {
+  'data.json': PHILLY_TABS,
+  'data-nyc.json': [...CITY_TABS, ...DAILY_TABS],
+  'data-brooklyn.json': [...CITY_TABS, ...DAILY_TABS],
+  'data-queens.json': [...CITY_TABS, ...DAILY_TABS],
+  'data-flushing.json': [...CITY_TABS, ...DAILY_TABS],
+  'data-foresthills.json': ['spots', 'nightlife', 'eats', 'chinese', 'social', ...DAILY_TABS],
+};
 
 const dataFiles = fs.readdirSync(ROOT).filter(f => /^data.*\.json$/.test(f)).sort();
 const indexHtml = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
@@ -18,7 +30,7 @@ for (const file of dataFiles) {
   test(`${file}: schema`, () => {
     const d = JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
     const keys = Object.keys(d).sort();
-    const layout = file === 'data.json' ? PHILLY_TABS : CITY_TABS;
+    const layout = LAYOUTS[file] || CITY_TABS;
     assert.deepEqual(keys, [...layout].sort(), `${file} tab keys`);
     let rows = 0, withLL = 0;
     for (const [tab, list] of Object.entries(d)) {
@@ -54,6 +66,16 @@ for (const file of dataFiles) {
     assert.ok(coverage >= minCoverage, `${file}: ll coverage ${(coverage * 100).toFixed(1)}% < ${minCoverage * 100}%`);
   });
 }
+
+test('every dataset tab key is a tab index.html renders', () => {
+  const declared = new Set([...indexHtml.matchAll(/key:"(\w+)",\s*label:/g)].map(m => m[1]));
+  for (const file of dataFiles) {
+    const d = JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
+    for (const tab of Object.keys(d)) {
+      assert.ok(declared.has(tab), `${file}: tab "${tab}" has no matching tab definition in index.html`);
+    }
+  }
+});
 
 test('CONFIG references every data file and vice versa', () => {
   const referenced = [...indexHtml.matchAll(/data:"(data[^"]*\.json)"/g)].map(m => m[1]);

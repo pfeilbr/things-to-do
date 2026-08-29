@@ -161,6 +161,31 @@ select{
   padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--radius);
   background:var(--card);font-family:'Inter',sans-serif;font-size:14px;color:var(--bark);cursor:pointer;
 }
+/* category filter bar: chips with counts, one row, scrolls sideways when it overflows */
+.chipbar{
+  max-width:1200px;margin:10px auto 0;padding:0 20px;
+  display:flex;gap:6px;align-items:center;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.chipbar::-webkit-scrollbar{display:none}
+.chipbar>*{flex:0 0 auto}
+.catchip{
+  font-family:'Inter',sans-serif;font-size:13px;
+  background:var(--card);color:var(--bark);
+  border:1.5px solid var(--line);border-radius:999px;
+  padding:5px 12px;cursor:pointer;white-space:nowrap;
+  transition:border-color .15s,background .15s,color .15s;
+}
+.catchip:hover{border-color:var(--creek)}
+.catchip.active{background:var(--pine);border-color:var(--pine);color:var(--paper);font-weight:600}
+.catchip .cnt{font-family:'JetBrains Mono',monospace;font-size:10.5px;opacity:.6;margin-left:4px}
+.catchip.active .cnt{opacity:.75}
+.clearbtn{
+  font-family:'Inter',sans-serif;font-size:12.5px;color:var(--clay);
+  background:none;border:1px dashed var(--clay);border-radius:14px;
+  padding:2px 10px;cursor:pointer;margin-left:8px;
+}
+.clearbtn:hover{border-style:solid}
 .meta-line{
   max-width:1200px;margin:10px auto 0;padding:0 20px;
   font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8a8171;
@@ -331,18 +356,26 @@ footer a{color:var(--moss)}
     <input id="q" type="search" placeholder="Search name, summary, category…" autocomplete="off">
   </div>
   <div class="ctlrow">
-  <select id="catFilter" aria-label="Filter by category"><option value="">All categories</option></select>
-  <select id="distFilter" aria-label="Filter by drive time">
-    <option value="">Any drive</option>
-    <option value="10">≤ 10 min</option>
-    <option value="20">≤ 20 min</option>
-    <option value="30">≤ 30 min</option>
-    <option value="45">≤ 45 min</option>
-    <option value="60">≤ 60 min</option>
-    <option value="90">≤ 90 min</option>
-    <option value="120">≤ 2 hr</option>
-    <option value="180">≤ 3 hr</option>
-    <option value="210">≤ 3½ hr</option>
+  <select id="distFilter" aria-label="Filter by distance or drive time">
+    <optgroup label="Any">
+      <option value="">Any distance</option>
+    </optgroup>
+    <optgroup label="On foot">
+      <option value="d:0.5">≤ ½ mi walk</option>
+      <option value="d:1">≤ 1 mi walk</option>
+      <option value="d:2">≤ 2 mi</option>
+    </optgroup>
+    <optgroup label="By car">
+      <option value="10">≤ 10 min</option>
+      <option value="20">≤ 20 min</option>
+      <option value="30">≤ 30 min</option>
+      <option value="45">≤ 45 min</option>
+      <option value="60">≤ 60 min</option>
+      <option value="90">≤ 90 min</option>
+      <option value="120">≤ 2 hr</option>
+      <option value="180">≤ 3 hr</option>
+      <option value="210">≤ 3½ hr</option>
+    </optgroup>
   </select>
   <select id="sortSelect" class="mobile-sort" aria-label="Sort by"></select>
   <button id="tonightBtn" class="ctlbtn" aria-pressed="false" title="Everything happening today in this city, across all tabs">☀ Tonight <span id="tonightCnt" class="cnt">0</span></button>
@@ -352,6 +385,7 @@ footer a{color:var(--moss)}
   <button id="mapToggle" class="ctlbtn" aria-pressed="false" title="Map view">🗺 Map</button>
   </div>
 </div>
+<nav class="chipbar" id="catChips" aria-label="Filter by category"></nav>
 <div class="xfind" id="xfind" hidden></div>
 <div class="xfind" id="globalFavs" hidden></div>
 <div class="meta-line"><span id="showing"></span><span>tap a row for map & links · click a column header to sort</span></div>
@@ -375,7 +409,7 @@ footer a{color:var(--moss)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-29T04:07Z";
+const BUILD = "2026-08-29T12:56Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -427,6 +461,17 @@ const T_BIKE    = {key:"biking",    label:"MTB",          sort:["d",1],    cols:
 const T_SOCIAL  = {key:"social",    label:"Social",       sort:["d",1],    cols:C_WHEN};
 const C_CITY = {k:"city",label:"City",type:"str",nosort:true};   // prepended in all-cities search
 const CITY_TABS = [T_SPOTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
+// The everyday-life tabs. Only the guides for places the owner actually lives in and
+// around carry these — a visitor guide to Cleveland has no business listing a laundromat.
+const T_MUSEUM  = {key:"museums",   label:"Museums",      sort:["d",1],    cols:C_STD};
+const T_SIGHTS  = {key:"sights",    label:"Sights",       sort:["d",1],    cols:C_STD};
+const T_WALKS   = {key:"walks",     label:"Walks",        sort:["d",1],    cols:C_STD};
+const T_SHOPS   = {key:"shops",     label:"Shops",        sort:["d",1],    cols:C_STD};
+const T_DAILY   = {key:"essentials",label:"Essentials",   sort:["d",1],    cols:C_STD};
+// NYC-area layout: the seven interest tabs plus the five everyday ones, ordered so the
+// things you browse for fun come before the things you only look up when you need them.
+const HOME_TABS = [T_SPOTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY,
+                   T_NIGHT, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
 const NY_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
@@ -446,34 +491,41 @@ const CONFIG = {
         {key:"events",      label:"Events",      sort:["d",1], cols:C_WHEN},
         T_NIGHT, T_EATS, T_BIKE, T_SOCIAL, T_FISH, T_CHINESE
       ]},
+    { id:"foresthills", chip:"FOREST HILLS",
+      place:"Austin Street, Forest Hills, Queens, NY", placeShort:"Forest Hills", originLabel:"Austin St, Forest Hills",
+      ns:"fh", data:"data-foresthills.json",
+      trip:"≈1¾ hr drive from home base",
+      blurb:"Forest Hills at walking distance: Austin St &amp; the Gardens / everywhere to eat / shops / gas, hardware &amp; the rest of the errands / walks / sights / socials",
+      note:NY_NOTE, sources:NY_SOURCES,
+      tabs:[T_SPOTS, T_EATS, T_SHOPS, T_DAILY, T_WALKS, T_SIGHTS, T_MUSEUM, T_NIGHT, T_CHINESE, T_SOCIAL] },
     { id:"nyc", chip:"NYC",
       place:"Union Square, Manhattan, NY", placeShort:"New York City", originLabel:"Union Square, Manhattan",
       ns:"nyc", data:"data-nyc.json",
       trip:"≈1¾ hr drive from home base",
-      blurb:"Manhattan: date-worthy spots / hip-hop nights &amp; dance floors / sushi &amp; omakase / Chinatown \u4e2d\u534e / fishing / MTB / weekly socials",
+      blurb:"Manhattan: museums &amp; sights / date-worthy spots / everywhere to eat / walks / shops / hip-hop nights / Chinatown \u4e2d\u534e / essentials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:CITY_TABS },
+      tabs:HOME_TABS },
     { id:"brooklyn", chip:"BROOKLYN",
       place:"Barclays Center, Brooklyn, NY", placeShort:"Brooklyn", originLabel:"central Brooklyn",
       ns:"bk", data:"data-brooklyn.json",
       trip:"≈1¾ hr drive from home base",
-      blurb:"Brooklyn: dance-floor capital of the city / date-worthy spots / sushi / Sunset Park \u4e2d\u534e / party boats / MTB / weekly socials",
+      blurb:"Brooklyn: museums &amp; street art / dance-floor capital / walks &amp; waterfront / shops &amp; flea markets / sushi / Sunset Park \u4e2d\u534e / essentials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:CITY_TABS },
+      tabs:HOME_TABS },
     { id:"queens", chip:"QUEENS",
       place:"Forest Hills, Queens, NY", placeShort:"Queens", originLabel:"Forest Hills, Queens",
       ns:"qns", data:"data-queens.json",
       trip:"≈1¾ hr drive from home base",
-      blurb:"Queens: skyline date walks / warehouse-to-KTV nightlife / sushi &amp; omakase / Elmhurst \u4e2d\u534e / fishing / Cunningham MTB / socials",
+      blurb:"Queens: museums &amp; World's Fair ruins / the world's food / Forest Park &amp; shoreline walks / shops / nightlife / Elmhurst \u4e2d\u534e / essentials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:CITY_TABS },
+      tabs:HOME_TABS },
     { id:"flushing", chip:"FLUSHING",
       place:"Flushing, Queens, NY", placeShort:"Flushing", originLabel:"Main St, Flushing",
       ns:"flu", data:"data-flushing.json",
       trip:"≈2 hr drive from home base",
-      blurb:"Flushing \u4e2d\u534e: the deepest Chinese-culture guide here \u2014 Sichuan, dim sum, KTV, tea / plus spots, nightlife, fishing &amp; MTB",
+      blurb:"Flushing \u4e2d\u534e: the deepest Chinese-culture guide here \u2014 Sichuan, dim sum, KTV, tea / plus museums, sights, walks, shops &amp; essentials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:CITY_TABS },
+      tabs:HOME_TABS },
     { id:"ac", chip:"AC",
       place:"Atlantic City, NJ", placeShort:"Atlantic City", originLabel:"the AC Boardwalk",
       ns:"ac", data:"data-ac.json",
@@ -616,7 +668,7 @@ const CONFIG = {
 // city regions for the two-level picker; every CONFIG.cities entry gets a .region
 const REGIONS = [
   ["HOME",        ["philly"]],
-  ["NYC",         ["nyc","brooklyn","queens","flushing"]],
+  ["NYC",         ["foresthills","nyc","brooklyn","queens","flushing"]],
   ["EAST",        ["ac","baltimore","dc","richmond","vb","boston","pittsburgh"]],
   ["GREAT LAKES", ["buffalo","cleveland","chicago","toronto"]],
   ["SOUTH",       ["raleigh","nashville"]],
@@ -643,7 +695,7 @@ const skey     = n => CITY.ns+"-"+n;                            // per-city stor
 let DATA = {};          // active city's dataset — see CONFIG above
 const DATACACHE = {};   // cityId -> dataset, so switching back is instant
 
-let state = { tab:null, q:"", cat:"", maxT:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false, allCities:false };
+let state = { tab:null, q:"", cat:"", maxT:"", maxD:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false, allCities:false };
 let favs = new Set();   // per-city; loaded in activateCity()
 let userLoc = null;
 
@@ -680,6 +732,7 @@ function eff(r){
 }
 let MAXDRIVE = 1;  // widest drive time in the dataset; set once data loads
 const $ = id => document.getElementById(id);
+const esc = t => String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;");
 
 function pop(row){ return (row.rc||0) * (row.r||0); }
 
@@ -715,23 +768,26 @@ function detailHTML(r){
   </div>`;
 }
 
-function rows(){
-  let list;
-  if(state.allCities){
-    list = ALLROWS.slice();
-  } else if(state.tonight){
+// The rows the current tab/mode draws from, before any filter is applied. Split out of
+// rows() so the category chips can count against it.
+function rowsUnfiltered(){
+  if(state.allCities) return ALLROWS.slice();
+  if(state.tonight){
     // everything happening today in this city, across every tab
-    const seen = new Set();
-    list = [];
+    const seen = new Set(), list = [];
     for(const t of TABS) for(const r of (DATA[t.key]||[]))
       if(r.w && happensToday(r.w) && !seen.has(r.n)){ seen.add(r.n); list.push(r); }
-  } else {
-    list = (DATA[state.tab]||[]).slice();
+    return list;
   }
+  return (DATA[state.tab]||[]).slice();
+}
+function rows(){
+  let list = rowsUnfiltered();
   const q = state.q.trim().toLowerCase();
   if(q) list = list.filter(r => (r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")).toLowerCase().includes(q));
   if(state.cat) list = list.filter(r => r.c === state.cat);
   if(state.maxT) list = list.filter(r => { const t = eff(r).t; return t != null && t <= +state.maxT; });
+  if(state.maxD) list = list.filter(r => { const d = eff(r).d; return d != null && d <= +state.maxD; });
   if(state.fav) list = list.filter(r => favs.has(rkey(r)));
   const k = state.sortKey, dir = state.sortDir;
   list.sort((a,b)=>{
@@ -828,6 +884,7 @@ function render(){
   $("itemview").hidden = !detailMode;
   document.querySelector(".controls").style.display = detailMode ? "none" : "";
   document.querySelector(".meta-line").style.display = detailMode ? "none" : "";
+  $("catChips").style.display = detailMode ? "none" : "";
   if(detailMode){
     $("tbl").style.display = "none";
     $("cards").style.display = "none";
@@ -838,6 +895,7 @@ function render(){
     return;
   }
   document.title = baseTitle();
+  drawCats();
   const cols = state.allCities ? [C_CITY, ...C_STD] : state.tonight ? C_WHEN : COLS[state.tab];
   // header
   $("theadRow").innerHTML = cols.map(c=>{
@@ -894,6 +952,7 @@ function render(){
     : state.tonight
     ? `showing ${list.length} happening tonight`
     : `showing ${list.length} of ${(DATA[state.tab]||[]).length}${userLoc?" · distances from your location":""}`;
+  drawClear();
   syncHash();
   // header sort listeners
   document.querySelectorAll("#theadRow th").forEach(th=>{
@@ -939,14 +998,67 @@ $("itemview").addEventListener("click",e=>{
   shareClick(e);
 });
 
-function fillCats(){
-  const cats = [...new Set((DATA[state.tab]||[]).map(r=>r.c))].sort();
-  $("catFilter").innerHTML = `<option value="">All categories</option>`+cats.map(c=>`<option>${c}</option>`).join("");
-  state.cat="";
+// The category filter is a chip bar rather than a <select>: with the everyday-life tabs
+// a tab can carry 15+ categories, and chips show how many rows each one holds before you
+// commit to it. Counts are computed against the tab, not the current filter, so the
+// numbers don't shuffle as you click.
+function catCounts(){
+  const src = state.tonight || state.allCities ? rowsUnfiltered() : (DATA[state.tab]||[]);
+  const m = new Map();
+  for(const r of src) m.set(r.c, (m.get(r.c)||0)+1);
+  return [...m.entries()].sort((a,b)=> b[1]-a[1] || a[0].localeCompare(b[0]));
 }
+function fillCats(reset){
+  if(reset !== false) state.cat = "";
+  drawCats();
+}
+function drawCats(){
+  const cats = catCounts();
+  const total = cats.reduce((n,[,c])=>n+c, 0);
+  $("catChips").innerHTML =
+    `<button class="catchip${state.cat?"":" active"}" data-cat="" aria-pressed="${!state.cat}">All <span class="cnt">${total}</span></button>` +
+    cats.map(([c,n])=>`<button class="catchip${state.cat===c?" active":""}" data-cat="${esc(c)}" aria-pressed="${state.cat===c}">${c} <span class="cnt">${n}</span></button>`).join("");
+  $("catChips").hidden = cats.length < 2;
+}
+$("catChips").addEventListener("click", e => {
+  const b = e.target.closest(".catchip");
+  if(!b) return;
+  state.cat = b.dataset.cat === state.cat ? "" : b.dataset.cat;   // click the active chip to clear
+  render();
+});
 
 // tabs whose rows carry a When string (`w` column) get the "today first" sort
 const hasWhen = () => COLS[state.tab].some(c=>c.k==="w");
+// One escape hatch for every filter at once — with a chip bar, a search box, a distance
+// band and a favourites toggle in play it is easy to end up staring at an empty table.
+function activeFilters(){
+  const on = [];
+  if(state.q.trim()) on.push(`“${state.q.trim()}”`);
+  if(state.cat) on.push(state.cat);
+  if(state.maxD) on.push(`≤ ${state.maxD} mi`);
+  if(state.maxT) on.push(`≤ ${state.maxT} min`);
+  if(state.fav) on.push("favorites");
+  return on;
+}
+function drawClear(){
+  const on = activeFilters();
+  const line = document.querySelector(".meta-line");
+  let btn = $("clearFilters");
+  if(!on.length){ if(btn) btn.remove(); return; }
+  if(!btn){
+    btn = document.createElement("button");
+    btn.id = "clearFilters"; btn.className = "clearbtn";
+    btn.addEventListener("click", clearFilters);
+    line.firstElementChild.after(btn);
+  }
+  btn.textContent = `clear: ${on.join(" · ")} ✕`;
+}
+function clearFilters(){
+  state.q = ""; state.cat = ""; state.maxT = ""; state.maxD = ""; state.fav = false;
+  $("q").value = ""; $("distFilter").value = "";
+  $("favToggle").setAttribute("aria-pressed","false");
+  if(state.allCities) exitAllCities(); else render();
+}
 function fillSort(){
   const cols = COLS[state.tab].filter(c=>!c.nosort);
   $("sortSelect").innerHTML = (hasWhen()?`<option value="today:1">Sort: Today first (near → far)</option>`:"") + cols.map(c=>{
@@ -1339,6 +1451,7 @@ function syncHash(){
   if(state.q) p.set("q",state.q);
   if(state.cat) p.set("cat",state.cat);
   if(state.maxT) p.set("t",state.maxT);
+  if(state.maxD) p.set("mi",state.maxD);
   if(!(state.sortKey==="d"&&state.sortDir===1)) p.set("s",state.sortKey+":"+state.sortDir);
   if(state.fav) p.set("fav","1");
   if(state.tonight) p.set("tonight","1");
@@ -1352,6 +1465,7 @@ function readHash(){
   if(p.get("tab") && DATA[p.get("tab")]) state.tab = p.get("tab");
   if(p.get("q")) state.q = p.get("q");
   if(p.get("t")) state.maxT = p.get("t");
+  if(p.get("mi")) state.maxD = p.get("mi");
   if(p.get("s")){ const [k,d]=p.get("s").split(":"); state.sortKey=k; state.sortDir=+d||1; }
   if(p.get("fav")) state.fav = true;
   if(p.get("tonight")){ state.tonight = true; state.sortKey="d"; state.sortDir=1; }
@@ -1364,7 +1478,7 @@ function readHash(){
   }
   $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", !state.tonight && x.dataset.tab===state.tab));
   $("q").value = state.q;
-  $("distFilter").value = state.maxT;
+  $("distFilter").value = state.maxD ? "d:"+state.maxD : state.maxT;
   $("favToggle").setAttribute("aria-pressed", state.fav);
   $("tonightBtn").setAttribute("aria-pressed", state.tonight);
   $("mapToggle").setAttribute("aria-pressed", state.view==="map");
@@ -1391,7 +1505,7 @@ function renderTabs(){
       state.allCities = false; ALLROWS = [];
       $("tonightBtn").setAttribute("aria-pressed","false");
       state.q=""; $("q").value="";
-      state.maxT=""; $("distFilter").value="";
+      state.maxT=""; state.maxD=""; $("distFilter").value="";
       const [sk,sd]=defSort(state.tab); state.sortKey=sk; state.sortDir=sd;
       fillCats(); fillSort(); render();
     });
@@ -1411,8 +1525,13 @@ $("q").addEventListener("input",e=>{
   if(state.allCities && !state.q.trim()) exitAllCities();
   render();
 });
-$("catFilter").addEventListener("change",e=>{state.cat=e.target.value;render();});
-$("distFilter").addEventListener("change",e=>{state.maxT=e.target.value;render();});
+$("distFilter").addEventListener("change",e=>{
+  const v = e.target.value;
+  // one control, two bands: "d:<mi>" filters straight distance, a bare number drive minutes
+  if(v.startsWith("d:")){ state.maxD = v.slice(2); state.maxT = ""; }
+  else { state.maxT = v; state.maxD = ""; }
+  render();
+});
 
 function baseTitle(){ return `${userLoc ? "Near You" : (origin ? origin.short : CITY.placeShort)} ${CONFIG.brand}`; }
 async function applyHash(){
@@ -1421,10 +1540,10 @@ async function applyHash(){
     if(!await loadCity(cityById(cid))) return;
   }
   const [hk,hd]=defSort(HOME);
-  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false});
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", maxD:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false});
   const cat = readHash();
-  fillCats();
-  if(cat){ state.cat = cat; $("catFilter").value = cat; }
+  if(cat){ state.cat = cat; }
+  fillCats(false);
   fillSort();
   render();
 }

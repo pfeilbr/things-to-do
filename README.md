@@ -1,6 +1,6 @@
 # Things To Do — Multi-City Local Guide
 
-A single-page, fully client-side "field guide" web app — pick a city, get things to do in one sortable, searchable table. Ships with twenty-two cities: **Philly (Willow Grove) · NYC · Brooklyn · Queens · Flushing · Atlantic City · Baltimore · Washington DC · Pittsburgh · Richmond · Boston · Virginia Beach · Buffalo · Cleveland · Raleigh-Durham · Chicago · Toronto · Nashville · Los Angeles · San Francisco · Seattle · San Diego**.
+A single-page, fully client-side "field guide" web app — pick a city, get things to do in one sortable, searchable table. Ships with twenty-three guides: **Philly (Willow Grove) · Forest Hills · NYC · Brooklyn · Queens · Flushing · Atlantic City · Baltimore · Washington DC · Pittsburgh · Richmond · Boston · Virginia Beach · Buffalo · Cleveland · Raleigh-Durham · Chicago · Toronto · Nashville · Los Angeles · San Francisco · Seattle · San Diego**.
 
 **Live site:** https://pfeilbr.github.io/things-to-do/
 
@@ -8,7 +8,7 @@ A single-page, fully client-side "field guide" web app — pick a city, get thin
 
 - **City switcher** — a chip bar in the header swaps the whole guide (tabs, data, distances, favorites) between cities; your pick is remembered, and `?city=nyc` links directly
 - **Interest-focused tabs** per city:
-  - **Spots / Attractions** — date-worthy highlights, views, museums, walks, sorted by distance
+  - **Spots / Attractions** — date-worthy highlights and experiences, sorted by distance
   - **Nightlife** — dance floors and hip-hop/R&B nights first, then lounges, live music, speakeasies, and KTV
   - **Sushi & Eats** — omakase and sushi across price points, plus standout Japanese/Korean/SEA spots
   - **Chinese 中华** — authentic Chinese food and culture: Sichuan restaurants, dim sum, hot pot, bakeries & tea, markets, temples, festivals (Flushing's is the deepest)
@@ -16,6 +16,13 @@ A single-page, fully client-side "field guide" web app — pick a city, get thin
   - **MTB** — real mountain-bike trails within a drive, labeled honestly (singletrack vs. greenway)
   - **Social** — recurring series where strangers actually talk: dance socials, run clubs, trivia, language exchanges, night markets — with a "today" badge on ones happening now
   - Philly additionally keeps its **weekend Events** tab
+- **Everyday-life tabs** on the five home guides (Forest Hills, NYC, Brooklyn, Queens, Flushing) — the stuff you actually look up when you live somewhere rather than visit it:
+  - **Museums** — museums and galleries, from the Met down to a museum inside a Tribeca freight elevator
+  - **Sights** — things worth looking at: observation decks, public art, architecture, World's Fair ruins, oddities like Grand Central's whispering gallery
+  - **Walks** — walking *routes*, not just parks: greenways, promenades, park loops, woodland trails, boardwalks, brownstone wanders
+  - **Shops** — bookstores, record shops, vintage, markets, department stores and the specialist places worth crossing town for
+  - **Essentials** — the errand layer: gas stations, pharmacies, hardware, laundromats, urgent care, licensed dispensaries, post offices, car washes, bike repair
+- **Forest Hills** is a *neighborhood* guide rather than a borough one — nearly everything in it is inside a two-mile walk of Austin Street
 - **☀ Tonight** — one tap shows everything happening today in the active city (events + recurring socials), with a live count badge; shareable via `#tonight=1`
 - **Smart search** — cross-tab hints ("also 10 in Sushi & Eats") that keep your query when you tap through
 - **Near-me city switch** — using 📍 in another covered city offers to swap you to that guide
@@ -27,7 +34,7 @@ A single-page, fully client-side "field guide" web app — pick a city, get thin
 - **Per-item permalinks** — every row's detail panel has a Share button (native share sheet on phones, copy-link elsewhere); the link opens the app with that item expanded and scrolled into view
 - **Sortable columns** — click any header to sort, click again to reverse; a sort dropdown appears on mobile
 - **Live search** across name, category, summary, and event times
-- **Filters** — category dropdown and max-drive-time dropdown (≤10/20/30/45/60 min)
+- **Filters** — a category chip bar with live per-category counts (tap the active chip to clear it), and one distance control covering both walking bands (≤ ½ mi / 1 mi / 2 mi) and drive times (≤10/20/30/45/60/90 min and up); a "clear: …" button appears whenever anything is filtering
 - **Expandable rows** — tap any row to reveal a detail panel with an embedded Google Map, directions, and website links
 - **Responsive** — full table on desktop, stacked cards below 760px; visible keyboard focus; respects `prefers-reduced-motion`
 - **Installable PWA** — add it to your phone's home screen via the ☰ menu → "Install app" (manifest + service worker; works offline with last-fetched data)

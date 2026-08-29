@@ -55,6 +55,14 @@ const INTENTIONAL_CROSS_TAB = new Set([
   'data.json|French Creek State Park|attractions,biking',
   'data.json|Philadelphia Chinese Lantern Festival|events,chinese', // event + 中华 culture
   'data.json|Lake Nockamixon|biking,fishing',               // trails + fishing lake
+  // NYC-area: routes that are genuinely both a walk and a ride, listed in each tab
+  // because the reason you'd pick them differs (pace, surface, where you start).
+  'data-nyc.json|Hudson River Greenway|walks,biking',
+  'data-nyc.json|Central Park Loop|walks,biking',
+  'data-brooklyn.json|Prospect Park Loop|walks,biking',
+  'data-brooklyn.json|Shirley Chisholm State Park|walks,biking',
+  'data-queens.json|Rockaway Boardwalk|walks,biking',
+  'data-flushing.json|Kissena Velodrome|sights,biking',   // landmark + the track itself
 ]);
 
 test('no unvetted duplicate rows across tabs of one city', () => {
