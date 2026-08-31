@@ -97,6 +97,23 @@ test('BUILD constant format', () => {
   assert.match(indexHtml, /const BUILD = "\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z"/);
 });
 
+// A deploy once shipped a blank site: a careless BUILD bump also rewrote the regex
+// literal that reads BUILD back, leaving an unmatched ')' that killed the whole
+// <script> at parse time. Every test above still passed, because none of them ever
+// parsed the page's JavaScript. This one does.
+test('index.html inline script parses as JavaScript', () => {
+  const scripts = [...indexHtml.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1]);
+  assert.ok(scripts.length, 'index.html has at least one inline script');
+  for (const [i, body] of scripts.entries()) {
+    assert.doesNotThrow(() => new Function(body), `inline <script> #${i + 1} must parse`);
+  }
+});
+
+test('BUILD is declared exactly once', () => {
+  const decls = indexHtml.match(/^const BUILD = "[^"]*";$/gm) || [];
+  assert.equal(decls.length, 1, `one BUILD declaration (found ${decls.length})`);
+});
+
 test('CI runs on a schedule (freshness rots with time, not commits)', () => {
   const ci = fs.readFileSync(path.join(ROOT, '.github', 'workflows', 'ci.yml'), 'utf8');
   assert.ok(ci.includes('schedule:'), 'ci.yml needs a schedule trigger');
