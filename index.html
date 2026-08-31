@@ -421,7 +421,7 @@ footer a{color:var(--accent-soft)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-08-31T04:57Z";
+const BUILD = "2026-08-31T14:20Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -481,6 +481,8 @@ const T_WALKS   = {key:"walks",     label:"Walks",        sort:["d",1],    cols:
 const T_SHOPS   = {key:"shops",     label:"Shops",        sort:["d",1],    cols:C_STD};
 const T_DAILY   = {key:"essentials",label:"Essentials",   sort:["d",1],    cols:C_STD};
 const T_EVENTS  = {key:"events",    label:"Events",       sort:["d",1],    cols:C_WHEN};
+// Coffee is its own tab only where the day is actually spent in cafes — a campus guide.
+const T_COFFEE  = {key:"coffee",    label:"Coffee",       sort:["pop",-1], cols:C_STD};
 // NYC-area layout: the seven interest tabs plus the five everyday ones, ordered so the
 // things you browse for fun come before the things you only look up when you need them.
 const HOME_TABS = [T_SPOTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY,
@@ -490,6 +492,11 @@ const HOME_TABS = [T_SPOTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAIL
 // tabs. Boston keeps HOME_TABS until its events are curated too.
 const NYC_TABS = [T_SPOTS, T_EVENTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY,
                   T_NIGHT, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
+
+// A campus guide: you live on the hill for a term, so the everyday tabs earn their place,
+// and Coffee sits third because that is genuinely how the days go.
+const CAMPUS_TABS = [T_SPOTS, T_EVENTS, T_COFFEE, T_EATS, T_NIGHT, T_SIGHTS, T_WALKS,
+                     T_MUSEUM, T_SHOPS, T_DAILY, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
 const NY_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
@@ -544,6 +551,14 @@ const CONFIG = {
       blurb:"Flushing \u4e2d\u534e: the deepest Chinese-culture guide here \u2014 Sichuan, dim sum, KTV, tea / plus museums, sights, walks, shops &amp; essentials",
       note:NY_NOTE, sources:NY_SOURCES,
       tabs:NYC_TABS },
+    { id:"ithaca", chip:"ITHACA",
+      place:"Cornell University, Ithaca, NY", placeShort:"Ithaca", originLabel:"central campus",
+      ns:"ith", data:"data-ithaca.json",
+      trip:"\u22484 hr drive from home base",
+      blurb:"Cornell &amp; Ithaca, measured from central campus: gorges &amp; waterfalls / campus coffee / Collegetown nights / Lynah &amp; the Commons / Sichuan \u4e2d\u534e / Cayuga fishing / Shindagin MTB / essentials",
+      note:"NY freshwater fishing needs a license; the state-park gorge trails close Nov\u2013Mar.",
+      sources:"Data gathered Aug 2026 from Cornell and NY State Parks sites, the Hangar Theatre &amp; State Theatre calendars, Cornell Athletics, Downtown Ithaca Alliance, Visit Ithaca, NYSDEC &amp; Google Places; venue coordinates verified against OpenStreetMap.",
+      tabs:CAMPUS_TABS },
     { id:"ac", chip:"AC",
       place:"Atlantic City, NJ", placeShort:"Atlantic City", originLabel:"the AC Boardwalk",
       ns:"ac", data:"data-ac.json",
@@ -687,6 +702,7 @@ const CONFIG = {
 const REGIONS = [
   ["HOME",        ["philly"]],
   ["NYC",         ["foresthills","nyc","brooklyn","queens","flushing"]],
+  ["UPSTATE NY",  ["ithaca"]],
   ["EAST",        ["ac","baltimore","dc","richmond","vb","boston","pittsburgh"]],
   ["GREAT LAKES", ["buffalo","cleveland","chicago","toronto"]],
   ["SOUTH",       ["raleigh","nashville"]],

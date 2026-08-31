@@ -129,7 +129,7 @@ async function snapshot(page) {
     booted && off.rows > 0
       ? `offline reload renders the active city's rows (${off.rows} rows, city=${off.storedCity})`
       : `offline reload rendered ZERO rows — the app did not come back up offline (rows=${off.rows}, city=${off.storedCity}, sw controller=${off.controlled})`);
-  check(off.cityGroups === 6, `city picker renders its regions offline (${off.cityGroups} optgroups, expected 6)`);
+  check(off.cityGroups === 7, `city picker renders its regions offline (${off.cityGroups} optgroups, expected 7)`);
   check(off.cityOptions > 0, `city picker renders its cities offline (${off.cityOptions} options)`);
   check(off.activeCityChip !== null, `active city chip still marked offline (${off.activeCityChip})`);
   check(off.storedCity === 'nyc' && /new york|nyc|manhattan|union/i.test(off.place),

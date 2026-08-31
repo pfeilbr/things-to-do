@@ -1,0 +1,2923 @@
+{
+ "spots": [
+  {
+   "n": "Cornell Botanic Gardens",
+   "c": "Garden",
+   "s": "Free 25-acre botanical garden plus the 150-acre Newman Arboretum and 3,500 acres of gorges and natural areas — the Nevin Welcome Center is the trailhead for all of it.",
+   "d": 0.8,
+   "t": 2,
+   "u": "https://cornellbotanicgardens.cornell.edu/",
+   "r": 4.8,
+   "rc": 1500,
+   "ll": [
+    42.44951,
+    -76.4725
+   ]
+  },
+  {
+   "n": "Herbert F. Johnson Museum of Art",
+   "c": "Museum",
+   "s": "I.M. Pei's concrete monolith on the Arts Quad rim — 40,000 works, free admission, and a fifth-floor gallery with a 360° view down Cayuga Lake.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://museum.cornell.edu/",
+   "r": 4.7,
+   "rc": 800,
+   "ll": [
+    42.45072,
+    -76.48621
+   ]
+  },
+  {
+   "n": "Cornell Lab of Ornithology",
+   "c": "Nature center",
+   "s": "Free visitor center at Sapsucker Woods with live bird cams, a two-story window on the pond, and four miles of boardwalk trails; open Tue–Sun 10–4, trails dawn to dusk.",
+   "d": 3.6,
+   "t": 8,
+   "u": "https://www.birds.cornell.edu/home/visit/",
+   "r": 4.8,
+   "rc": 1300,
+   "ll": [
+    42.479,
+    -76.451
+   ]
+  },
+  {
+   "n": "Cornell Dairy Bar",
+   "c": "Ice cream",
+   "s": "Ice cream made a few feet away in Stocking Hall by the food-science department — the campus ritual, and the cheapest good thing on the hill.",
+   "d": 0.9,
+   "t": 2,
+   "u": "https://cornelldairy.cornell.edu/",
+   "r": 4.6,
+   "rc": 600,
+   "ll": [
+    42.44728,
+    -76.47056
+   ]
+  },
+  {
+   "n": "Taughannock Falls State Park",
+   "c": "State Park",
+   "s": "215 feet in a single plunge — taller than Niagara and the tallest free-falling waterfall east of the Rockies. Flat 0.75-mi gorge trail to the base, or drive to the overlook.",
+   "d": 11.6,
+   "t": 24,
+   "u": "https://parks.ny.gov/visit/state-parks/taughannock-falls-state-park",
+   "r": 4.8,
+   "rc": 7000,
+   "ll": [
+    42.54603,
+    -76.59932
+   ]
+  },
+  {
+   "n": "Buttermilk Falls State Park",
+   "c": "State Park",
+   "s": "Ten waterfalls stacked up a 0.75-mi gorge trail at the edge of the city, with a natural swimming hole at the bottom in summer.",
+   "d": 4.1,
+   "t": 10,
+   "u": "https://parks.ny.gov/visit/state-parks/buttermilk-falls-state-park",
+   "r": 4.8,
+   "rc": 4000,
+   "ll": [
+    42.40633,
+    -76.51192
+   ]
+  },
+  {
+   "n": "Robert H. Treman State Park",
+   "c": "State Park",
+   "s": "Lucifer Falls drops 115 feet into a mile of stone-carved gorge trail; the lower park has the best swimming hole in the county, right below a waterfall.",
+   "d": 8.0,
+   "t": 17,
+   "u": "https://parks.ny.gov/visit/state-parks/robert-h-treman-state-park",
+   "r": 4.8,
+   "rc": 3500,
+   "ll": [
+    42.402,
+    -76.5881
+   ]
+  },
+  {
+   "n": "Ithaca Falls Natural Area",
+   "c": "Waterfall",
+   "s": "150 feet wide, 100 feet tall, and a two-minute walk from the car — the easiest big waterfall in Ithaca, at the bottom of the Fall Creek gorge below campus.",
+   "d": 0.7,
+   "t": 2,
+   "u": "https://www.cityofithacany.gov/",
+   "r": 4.7,
+   "rc": 1400,
+   "ll": [
+    42.45282,
+    -76.49164
+   ]
+  },
+  {
+   "n": "Ithaca Commons",
+   "c": "Pedestrian district",
+   "s": "Four car-free blocks of independent shops, patios, buskers and the State Theatre marquee — downtown's living room, ten minutes down the hill from campus.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://www.downtownithaca.com/visit-downtown/the-commons/",
+   "r": 4.5,
+   "rc": 1800,
+   "ll": [
+    42.43957,
+    -76.49793
+   ]
+  },
+  {
+   "n": "Cornell Chimes at McGraw Tower",
+   "c": "Campus landmark",
+   "s": "21 bells rung live by student chimesmasters three times a day since 1868. Climb the 161 steps and watch from the chamber — no reservation, just show up.",
+   "d": 0.0,
+   "t": 0,
+   "u": "https://chimes.cornell.edu/",
+   "r": 4.8,
+   "rc": 400,
+   "ll": [
+    42.4476,
+    -76.4848
+   ]
+  },
+  {
+   "n": "A.D. White Library",
+   "c": "Library",
+   "s": "A cast-iron, two-tier Victorian reading room inside Uris Library that looks like a film set — open to visitors when the library is, and worth the detour.",
+   "d": 0.0,
+   "t": 0,
+   "u": "https://rare.library.cornell.edu/",
+   "r": 4.9,
+   "rc": 250,
+   "ll": [
+    42.4478,
+    -76.4843
+   ]
+  },
+  {
+   "n": "Museum of the Earth",
+   "c": "Museum",
+   "s": "The Paleontological Research Institution's museum — a 44-foot right whale skeleton, a mastodon, and a genuinely good walk through deep time.",
+   "d": 3.8,
+   "t": 9,
+   "u": "https://www.museumoftheearth.org/",
+   "r": 4.6,
+   "rc": 1000,
+   "ll": [
+    42.46648,
+    -76.53581
+   ]
+  },
+  {
+   "n": "Sciencenter",
+   "c": "Science museum",
+   "s": "Hands-on science museum with a 250-piece outdoor Sagan Planet Walk that scales the solar system across downtown Ithaca.",
+   "d": 1.3,
+   "t": 3,
+   "u": "https://www.sciencenter.org/",
+   "r": 4.6,
+   "rc": 800,
+   "ll": [
+    42.44972,
+    -76.50405
+   ]
+  },
+  {
+   "n": "Cayuga Nature Center",
+   "c": "Nature center",
+   "s": "Six miles of trails, a six-story treehouse and rescued local wildlife on a hillside above the lake — the PRI's outdoor half.",
+   "d": 8.0,
+   "t": 17,
+   "u": "https://www.cayuganaturecenter.org/",
+   "r": 4.5,
+   "rc": 400,
+   "ll": [
+    42.51833,
+    -76.55712
+   ]
+  },
+  {
+   "n": "Stewart Park",
+   "c": "Lakefront park",
+   "s": "The south shore of Cayuga Lake: a restored 1890s carousel, huge lawns, the best swan-and-sunset walk in town, and the start of the Waterfront Trail.",
+   "d": 1.8,
+   "t": 4,
+   "u": "https://www.cityofithacany.gov/",
+   "r": 4.6,
+   "rc": 1100,
+   "ll": [
+    42.46167,
+    -76.50336
+   ]
+  },
+  {
+   "n": "Ithaca Beer Company",
+   "c": "Brewery",
+   "s": "Farm brewery on 12 acres south of town — Flower Power IPA on the source, a real kitchen, and lawn tables that stay full until frost.",
+   "d": 3.6,
+   "t": 8,
+   "u": "https://ithacabeer.com/",
+   "r": 4.5,
+   "rc": 2600,
+   "ll": [
+    42.4258,
+    -76.5297
+   ]
+  },
+  {
+   "n": "Cornell Orchards Farm Store",
+   "c": "Farm store",
+   "s": "The university's own orchard sells its apples, cider and cider donuts straight off the research plots on Route 366 — peak season is exactly when you'd be here.",
+   "d": 1.5,
+   "t": 4,
+   "u": "https://cals.cornell.edu/cornell-orchards",
+   "r": 4.7,
+   "rc": 500,
+   "ll": [
+    42.44486,
+    -76.46228
+   ]
+  },
+  {
+   "n": "Finger Lakes Cider House",
+   "c": "Cidery",
+   "s": "Tasting room and 'Cider Bar' on a hill farm north of town pouring the region's best dry ciders, with a view over Cayuga that justifies the drive.",
+   "d": 20.2,
+   "t": 37,
+   "u": "https://fingerlakesciderhouse.com/",
+   "r": 4.7,
+   "rc": 700,
+   "ll": [
+    42.60823,
+    -76.69908
+   ]
+  },
+  {
+   "n": "Six Mile Creek Vineyard",
+   "c": "Winery",
+   "s": "The closest winery to campus — ten minutes out Route 79, small tasting room, and a lawn that faces the vines at sunset.",
+   "d": 3.4,
+   "t": 8,
+   "u": "https://sixmilecreek.com/",
+   "r": 4.6,
+   "rc": 600,
+   "ll": [
+    42.41579,
+    -76.4566
+   ]
+  },
+  {
+   "n": "Buttermilk Falls Gorge swim hole",
+   "c": "Swimming",
+   "s": "The plunge pool at the base of Buttermilk's main cascade is a lifeguarded swimming area in summer — the single best free thing to do in Ithaca in August.",
+   "d": 3.7,
+   "t": 9,
+   "u": "https://parks.ny.gov/visit/state-parks/buttermilk-falls-state-park",
+   "r": 4.7,
+   "rc": 900,
+   "ll": [
+    42.4166,
+    -76.5216
+   ]
+  },
+  {
+   "n": "Discover Cayuga Lake boat tours",
+   "c": "Boat tour",
+   "s": "Nonprofit tour boat out of the Ithaca inlet — narrated lake ecology cruises, sunset trips, and a floating classroom you can just buy a ticket for.",
+   "d": 2.2,
+   "t": 5,
+   "u": "https://www.discovercayugalake.org/",
+   "r": 4.7,
+   "rc": 300,
+   "ll": [
+    42.457,
+    -76.5155
+   ]
+  },
+  {
+   "n": "Allan H. Treman State Marine Park",
+   "c": "Marina park",
+   "s": "The largest inland marina in New York, at the lake's south end — boat launch, the Waterfront Trail, and the best flat sunset view over Cayuga.",
+   "d": 2.3,
+   "t": 6,
+   "u": "https://parks.ny.gov/visit/state-parks/allan-h-treman-state-marine-park",
+   "r": 4.7,
+   "rc": 900,
+   "ll": [
+    42.4591,
+    -76.51636
+   ]
+  },
+  {
+   "n": "Cornell Cinema",
+   "c": "Cinema",
+   "s": "One of the best college film programs in the country, in Willard Straight Hall — 35mm repertory, new international releases, and $5-ish student tickets.",
+   "d": 0.1,
+   "t": 0,
+   "u": "https://cinema.cornell.edu/",
+   "r": 4.7,
+   "rc": 200,
+   "ll": [
+    42.44636,
+    -76.48581
+   ]
+  },
+  {
+   "n": "Hangar Theatre",
+   "c": "Theater",
+   "s": "Professional summer-and-fall theater in a converted airplane hangar by the lake, plus touring comedy, indie shows and circus nights.",
+   "d": 2.3,
+   "t": 6,
+   "u": "https://hangartheatre.org/",
+   "r": 4.6,
+   "rc": 500,
+   "ll": [
+    42.45533,
+    -76.51737
+   ]
+  },
+  {
+   "n": "State Theatre of Ithaca",
+   "c": "Concert hall",
+   "s": "A restored 1928 movie palace on West State St, 1,600 seats — the room that catches national touring acts on their way between cities.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://stateofithaca.org/",
+   "r": 4.7,
+   "rc": 1200,
+   "ll": [
+    42.43924,
+    -76.49957
+   ]
+  }
+ ],
+ "events": [
+  {
+   "n": "44th Annual Apple Harvest Festival",
+   "c": "Festival",
+   "s": "Three days of cider, apple everything, 150 vendors and live music filling the Commons and the surrounding streets. Free.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://www.downtownithaca.com/apple-harvest-festival/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4396,
+    -76.4966
+   ],
+   "w": "Fri–Sun 9/25–27"
+  },
+  {
+   "n": "Bennie and the Rest",
+   "c": "Concert",
+   "s": "Elton John tribute at the Hangar Theatre.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://hangartheatre.org/buy-tickets/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4653,
+    -76.5174
+   ],
+   "w": "Thu 10/22 · 7:30p"
+  },
+  {
+   "n": "Brad Williams",
+   "c": "Comedy",
+   "s": "Stand-up at the State Theatre's 1,600-seat 1928 movie palace.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.songkick.com/venues/4390-state-theatre-of-ithaca",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4988
+   ],
+   "w": "Sat 9/12 · 8p"
+  },
+  {
+   "n": "Cornell Football vs Lehigh — Homecoming",
+   "c": "College football",
+   "s": "Homecoming at Schoellkopf Field — the tailgate on the Crescent starts hours before kickoff and the whole campus turns out.",
+   "d": 0.6,
+   "t": 1,
+   "u": "https://events.cornell.edu/event/cornell-football-vs-lehigh-university-homecoming-2026",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4453,
+    -76.4757
+   ],
+   "w": "Sat 10/17 · 2p"
+  },
+  {
+   "n": "Cornell Hockey vs Clarkson",
+   "c": "College hockey",
+   "s": "North Country rival at Lynah on a Friday night in November — the Cornell hockey experience in its purest form.",
+   "d": 0.7,
+   "t": 2,
+   "u": "https://cornellbigred.com/sports/mens-ice-hockey/schedule",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4462,
+    -76.4737
+   ],
+   "w": "Fri 11/20 · 7p"
+  },
+  {
+   "n": "Cornell Hockey vs Princeton",
+   "c": "College hockey",
+   "s": "Ivy League hockey at Lynah Rink, where the student section has a script and uses it.",
+   "d": 0.7,
+   "t": 2,
+   "u": "https://cornellbigred.com/sports/mens-ice-hockey/schedule",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4462,
+    -76.4737
+   ],
+   "w": "Sat 11/7 · 7p"
+  },
+  {
+   "n": "Cornell Hockey vs Quinnipiac",
+   "c": "College hockey",
+   "s": "ECAC opener at Lynah against the league's heavyweight — the hardest ticket of the fall.",
+   "d": 0.7,
+   "t": 2,
+   "u": "https://cornellbigred.com/sports/mens-ice-hockey/schedule",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4462,
+    -76.4737
+   ],
+   "w": "Fri 11/6 · 7p"
+  },
+  {
+   "n": "Cornell Hockey vs Sacred Heart",
+   "c": "College hockey",
+   "s": "Two nights of exhibition hockey at Lynah Rink to open the home season.",
+   "d": 0.7,
+   "t": 2,
+   "u": "https://cornellbigred.com/sports/mens-ice-hockey/schedule",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4462,
+    -76.4737
+   ],
+   "w": "Fri–Sat 10/30–31 · 7p"
+  },
+  {
+   "n": "Cornell Hockey vs St. Lawrence",
+   "c": "College hockey",
+   "s": "The Saturday half of the North Country weekend at Lynah Rink.",
+   "d": 0.7,
+   "t": 2,
+   "u": "https://cornellbigred.com/sports/mens-ice-hockey/schedule",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4462,
+    -76.4737
+   ],
+   "w": "Sat 11/21 · 7p"
+  },
+  {
+   "n": "Cornell Hockey vs Waterloo (exhibition)",
+   "c": "College hockey",
+   "s": "The first skate at Lynah — the exhibition where you find out what the team has, in the loudest small rink in college hockey.",
+   "d": 0.7,
+   "t": 2,
+   "u": "https://cornellbigred.com/sports/mens-ice-hockey/schedule",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4462,
+    -76.4737
+   ],
+   "w": "Sat 10/17 · 7p"
+  },
+  {
+   "n": "Destroyer (solo)",
+   "c": "Concert",
+   "s": "Dan Bejar solo at the Hangar Theatre — a small room for a songwriter who usually plays bigger ones.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://hangartheatre.org/buy-tickets/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4653,
+    -76.5174
+   ],
+   "w": "Mon 9/28 · 8p"
+  },
+  {
+   "n": "FLEX Wrestling: Hangar Havoc",
+   "c": "Live event",
+   "s": "Independent pro wrestling in a theater, which is exactly as good as it sounds.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://hangartheatre.org/buy-tickets/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4653,
+    -76.5174
+   ],
+   "w": "Sat 9/12 · 6p"
+  },
+  {
+   "n": "Garrison Keillor Tonight",
+   "c": "Spoken word",
+   "s": "An evening of stories, sonnets and audience singalongs at the Hangar.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://hangartheatre.org/buy-tickets/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4653,
+    -76.5174
+   ],
+   "w": "Fri 9/18 · 8p"
+  },
+  {
+   "n": "Ithaca Porchfest",
+   "c": "Music Festival",
+   "s": "Up to 150 bands playing on the porches of the Fall Creek and Northside neighborhoods, free, all afternoon — the best day of the Ithaca year. Makers Market too.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.porchfest.org/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4525,
+    -76.501
+   ],
+   "w": "Sun 9/20 · 12p–6p"
+  },
+  {
+   "n": "Judy Collins",
+   "c": "Concert",
+   "s": "The folk singer at the State Theatre, six decades into the catalogue.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.songkick.com/venues/4390-state-theatre-of-ithaca",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4988
+   ],
+   "w": "Fri 10/9 · 8p"
+  },
+  {
+   "n": "Marcus King",
+   "c": "Concert",
+   "s": "Blues-rock guitarist and songwriter at the State Theatre, with Penelope Road opening.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.songkick.com/venues/4390-state-theatre-of-ithaca",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4988
+   ],
+   "w": "Sun 9/13 · 8p"
+  },
+  {
+   "n": "Natural Causes — Hupstate Circus Festival",
+   "c": "Circus",
+   "s": "Contemporary circus at the Hangar as part of the Hupstate festival — aerial and acrobatic work, one afternoon only.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://hangartheatre.org/buy-tickets/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4653,
+    -76.5174
+   ],
+   "w": "Sat 9/5 · 4p"
+  },
+  {
+   "n": "Of Monsters and Men",
+   "c": "Concert",
+   "s": "The Icelandic indie-folk band at the State Theatre.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.songkick.com/venues/4390-state-theatre-of-ithaca",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4988
+   ],
+   "w": "Tue 9/22 · 8p"
+  },
+  {
+   "n": "Steve Gonsalves: A Life With Ghosts",
+   "c": "Live event",
+   "s": "The Ghost Hunters investigator's touring show at the Hangar.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://hangartheatre.org/buy-tickets/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4653,
+    -76.5174
+   ],
+   "w": "Sat 10/10 · 6:30p"
+  },
+  {
+   "n": "The Pomarium (drag show)",
+   "c": "Drag",
+   "s": "In Flight Entertainment's drag revue at the Hangar, hosted by Tilia Cordata.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://hangartheatre.org/buy-tickets/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4653,
+    -76.5174
+   ],
+   "w": "Fri 9/25 · 7:30p"
+  },
+  {
+   "n": "The Seven Wonders (Fleetwood Mac tribute)",
+   "c": "Concert",
+   "s": "A full-band live tribute to Fleetwood Mac at the Hangar.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://hangartheatre.org/buy-tickets/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4653,
+    -76.5174
+   ],
+   "w": "Fri 10/23 · 7p"
+  },
+  {
+   "n": "Trampled by Turtles",
+   "c": "Concert",
+   "s": "Duluth string band at the State Theatre, with Wild Horses.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.songkick.com/venues/4390-state-theatre-of-ithaca",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4988
+   ],
+   "w": "Wed 9/16 · 8p"
+  },
+  {
+   "n": "Trivia Under the Tent (Hangar Theatre)",
+   "c": "Trivia",
+   "s": "The Hangar's annual fundraiser quiz under the tent by the lake — teams, prizes, and a bar.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://hangartheatre.org/buy-tickets/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4653,
+    -76.5174
+   ],
+   "w": "Fri 9/4 · 7p"
+  },
+  {
+   "n": "Whiskey Tango Sideshow",
+   "c": "Variety show",
+   "s": "Vaudeville-and-sideshow variety night at the Hangar Theatre.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://hangartheatre.org/buy-tickets/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4653,
+    -76.5174
+   ],
+   "w": "Sat 11/14 · 7:30p"
+  }
+ ],
+ "coffee": [
+  {
+   "n": "Temple of Zeus",
+   "c": "Campus cafe",
+   "s": "The classicists' cafe in Klarman Hall — soup, espresso and busts of Greek philosophers watching you write your paper. The most Cornell room on campus.",
+   "d": 0.2,
+   "t": 0,
+   "u": "https://as.cornell.edu/",
+   "r": 4.7,
+   "rc": 300,
+   "ll": [
+    42.44907,
+    -76.48332
+   ]
+  },
+  {
+   "n": "Green Dragon Cafe",
+   "c": "Campus cafe",
+   "s": "The architecture school's cafe in the basement of Sibley Hall — plywood, drafting refugees, and coffee served to people who have not slept.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://aap.cornell.edu/",
+   "r": 4.6,
+   "rc": 200,
+   "ll": [
+    42.45087,
+    -76.48421
+   ]
+  },
+  {
+   "n": "Manndible Cafe",
+   "c": "Campus cafe",
+   "s": "Mann Library's independent cafe on the Ag Quad — local beans, real breakfast sandwiches, and the friendliest counter on campus.",
+   "d": 0.6,
+   "t": 1,
+   "u": null,
+   "r": 4.7,
+   "rc": 300,
+   "ll": [
+    42.4487,
+    -76.4762
+   ]
+  },
+  {
+   "n": "Libe Cafe",
+   "c": "Campus cafe",
+   "s": "Olin Library's ground-floor cafe, open late in term — where you go when the reading room wins and you need another hour.",
+   "d": 0.0,
+   "t": 0,
+   "u": "https://www.library.cornell.edu/",
+   "r": 4.4,
+   "rc": 200,
+   "ll": [
+    42.44795,
+    -76.48469
+   ]
+  },
+  {
+   "n": "Mattin's Cafe",
+   "c": "Campus cafe",
+   "s": "Duffield Hall's atrium cafe under the glass roof — the engineering quad's meeting point and the easiest coffee on north-central campus.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://scl.cornell.edu/residential-life/dining",
+   "r": 4.4,
+   "rc": 200,
+   "ll": [
+    42.44473,
+    -76.48242
+   ]
+  },
+  {
+   "n": "Goldie's Cafe",
+   "c": "Campus cafe",
+   "s": "In the Physical Sciences Building — espresso, bahn mi and a quiet upstairs table when Libe is full.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://scl.cornell.edu/residential-life/dining",
+   "r": 4.4,
+   "rc": 150,
+   "ll": [
+    42.4497,
+    -76.4816
+   ]
+  },
+  {
+   "n": "Cafe Jennie",
+   "c": "Campus cafe",
+   "s": "The Cornell Store's cafe in the Cornell Center — the default meet-someone-for-coffee spot on Ho Plaza.",
+   "d": 0.1,
+   "t": 0,
+   "u": "https://scl.cornell.edu/residential-life/dining",
+   "r": 4.3,
+   "rc": 250,
+   "ll": [
+    42.44666,
+    -76.48423
+   ]
+  },
+  {
+   "n": "Gimme! Coffee",
+   "c": "Roaster",
+   "s": "The roaster that put Ithaca on the third-wave map in 2000 and now supplies half of New York. The North Cayuga St shop is the original bar.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://gimmecoffee.com/",
+   "r": 4.6,
+   "rc": 700,
+   "ll": [
+    42.44446,
+    -76.49945
+   ]
+  },
+  {
+   "n": "Collegetown Bagels",
+   "c": "Bakery cafe",
+   "s": "CTB since 1976 — the bagel, the coffee and the 7am line that every Cornell generation has stood in. The College Ave store is the Collegetown one.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://www.collegetownbagels.com/",
+   "r": 4.5,
+   "rc": 1600,
+   "ll": [
+    42.44225,
+    -76.48547
+   ]
+  },
+  {
+   "n": "Press Cafe",
+   "c": "Cafe",
+   "s": "Sun-filled minimalist cafe in Press Bay Alley behind the Commons — the quietest good coffee downtown and a fine place to actually work.",
+   "d": 1.3,
+   "t": 3,
+   "u": "https://www.pressbayalley.com/",
+   "r": 4.6,
+   "rc": 400,
+   "ll": [
+    42.43873,
+    -76.50006
+   ]
+  },
+  {
+   "n": "Forty Weight Coffee Roasters",
+   "c": "Roaster",
+   "s": "Ithaca-roasted beans poured at their own bar — heavier, darker profile than Gimme, and the local's counter-argument.",
+   "d": 1.7,
+   "t": 4,
+   "u": "https://fortyweightcoffee.com/",
+   "r": 4.6,
+   "rc": 300,
+   "ll": [
+    42.44527,
+    -76.50978
+   ]
+  },
+  {
+   "n": "Ithaca Coffee Company",
+   "c": "Roaster",
+   "s": "Roaster, bottle shop and cafe in one — the Press Bay location does espresso and a serious beer wall from the same counter.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://ithacacoffee.com/",
+   "r": 4.5,
+   "rc": 700,
+   "ll": [
+    42.4392,
+    -76.4998
+   ]
+  },
+  {
+   "n": "Chatty Cathy",
+   "c": "Cafe bar",
+   "s": "Collegetown's coffee-by-day, cocktails-by-night hybrid — the rare Collegetown room that works for a first date and a 9am espresso alike.",
+   "d": 0.4,
+   "t": 1,
+   "u": null,
+   "r": 4.5,
+   "rc": 300,
+   "ll": [
+    42.4426,
+    -76.4851
+   ]
+  },
+  {
+   "n": "Ithaca Bakery",
+   "c": "Bakery cafe",
+   "s": "The Meadow St mothership of the CTB family — full bakery counter, deli, and the biggest coffee-and-a-sandwich operation in town.",
+   "d": 1.6,
+   "t": 4,
+   "u": "https://www.ithacabakery.com/",
+   "r": 4.5,
+   "rc": 1200,
+   "ll": [
+    42.44266,
+    -76.50875
+   ]
+  }
+ ],
+ "eats": [
+  {
+   "n": "Moosewood Restaurant",
+   "c": "Vegetarian",
+   "s": "The 1973 collective that wrote the vegetarian cookbook your parents own — still a co-op, still changing the menu daily, still worth going once.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://www.moosewoodrestaurant.com/",
+   "r": 4.3,
+   "rc": 1100,
+   "ll": [
+    42.44063,
+    -76.49863
+   ]
+  },
+  {
+   "n": "Just A Taste",
+   "c": "Tapas & wine",
+   "s": "Spanish-leaning small plates and a 100-bottle-by-the-glass list on a Commons side street — the best date-night table downtown, and it has been for 30 years.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://www.just-a-taste.com/",
+   "r": 4.6,
+   "rc": 1200,
+   "ll": [
+    42.44,
+    -76.4972
+   ]
+  },
+  {
+   "n": "Coltivare",
+   "c": "Farm-to-table",
+   "s": "The county college's culinary program running a real downtown bistro — wood-fired, sourced from their own farm, and better than that description sounds.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://coltivareithaca.com/",
+   "r": 4.5,
+   "rc": 1200,
+   "ll": [
+    42.4392,
+    -76.4972
+   ]
+  },
+  {
+   "n": "Maru Ramen",
+   "c": "Ramen",
+   "s": "The tonkotsu bowl Cornell students actually queue for — thin noodles, long-cooked broth, and a small room that fills by 6.",
+   "d": 1.6,
+   "t": 4,
+   "u": "https://www.maruramen.com/",
+   "r": 4.5,
+   "rc": 600,
+   "ll": [
+    42.43946,
+    -76.50684
+   ]
+  },
+  {
+   "n": "Plum Tree Japanese Restaurant",
+   "c": "Sushi",
+   "s": "Collegetown's sushi standby — a long nigiri list, a quiet minimalist room, and the closest decent raw fish to campus.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://www.plumtreeny.com/",
+   "r": 4.4,
+   "rc": 700,
+   "ll": [
+    42.4423,
+    -76.4841
+   ]
+  },
+  {
+   "n": "Miyake Japanese Restaurant",
+   "c": "Sushi",
+   "s": "Small Collegetown sushi bar doing chirashi and omakase-ish specials better than its storefront suggests.",
+   "d": 0.5,
+   "t": 1,
+   "u": null,
+   "r": 4.5,
+   "rc": 400,
+   "ll": [
+    42.4426,
+    -76.4859
+   ]
+  },
+  {
+   "n": "Mia Restaurant",
+   "c": "Pan-Asian",
+   "s": "High-end pan-Asian small plates on the Commons — the pork buns and the sushi list are the reason, the cocktail program is the surprise.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.miaithaca.com/",
+   "r": 4.5,
+   "rc": 700,
+   "ll": [
+    42.4398,
+    -76.4959
+   ]
+  },
+  {
+   "n": "Simeon's on the Commons",
+   "c": "American bistro",
+   "s": "The Commons' anchor restaurant, rebuilt after a truck drove through it — long bar, raw bar, and the best people-watching window in Ithaca.",
+   "d": 1.0,
+   "t": 2,
+   "u": null,
+   "r": 4.5,
+   "rc": 1400,
+   "ll": [
+    42.4397,
+    -76.496
+   ]
+  },
+  {
+   "n": "Ithaca Ale House",
+   "c": "Gastropub",
+   "s": "Big burgers, 20 taps and a room loud enough to bring a group to — downtown's dependable Friday.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://ithacaalehouse.com/",
+   "r": 4.4,
+   "rc": 1300,
+   "ll": [
+    42.43936,
+    -76.4952
+   ]
+  },
+  {
+   "n": "Thompson & Bleecker",
+   "c": "Pizza",
+   "s": "Blistered NY-style pies and a proper Caesar in a bright downtown room — the pizza locals name first.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://thompsonandbleecker.com/",
+   "r": 4.6,
+   "rc": 800,
+   "ll": [
+    42.4392,
+    -76.499
+   ]
+  },
+  {
+   "n": "Luna Inspired Street Food",
+   "c": "Latin American",
+   "s": "Arepas, tacos and a mezcal list at two locations (Collegetown and downtown) — fast, cheap and genuinely good.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://www.lunastreetfood.com/",
+   "r": 4.5,
+   "rc": 900,
+   "ll": [
+    42.4427,
+    -76.4866
+   ]
+  },
+  {
+   "n": "Viva Taqueria & Cantina",
+   "c": "Mexican",
+   "s": "Commons-corner Mexican with a big margarita program and a patio that runs late — the default group dinner.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.vivataqueria.com/",
+   "r": 4.3,
+   "rc": 1100,
+   "ll": [
+    42.43949,
+    -76.49586
+   ]
+  },
+  {
+   "n": "Saigon Kitchen",
+   "c": "Vietnamese",
+   "s": "Pho and bun cha done properly, a short walk off the Commons — Ithaca's best cheap dinner when it's cold.",
+   "d": 1.7,
+   "t": 4,
+   "u": "https://www.saigonkitchenithaca.com/",
+   "r": 4.4,
+   "rc": 700,
+   "ll": [
+    42.43944,
+    -76.50753
+   ]
+  },
+  {
+   "n": "Taste of Thai Express",
+   "c": "Thai",
+   "s": "The counter-service half of Ithaca's Thai institution — fast, fiery, and open when Collegetown gets out.",
+   "d": 1.8,
+   "t": 4,
+   "u": "https://www.tasteofthaiexpress.com/",
+   "r": 4.4,
+   "rc": 900,
+   "ll": [
+    42.4378,
+    -76.50794
+   ]
+  },
+  {
+   "n": "Aladdin's Natural Eatery",
+   "c": "Mediterranean",
+   "s": "Thirty-plus years of Lebanese-leaning plates on the Commons — the vegetarian-friendly option that isn't Moosewood.",
+   "d": 1.1,
+   "t": 3,
+   "u": null,
+   "r": 4.4,
+   "rc": 800,
+   "ll": [
+    42.4396,
+    -76.4965
+   ]
+  },
+  {
+   "n": "Glenwood Pines",
+   "c": "Roadhouse",
+   "s": "The Pinesburger on English muffin bread, eaten in a wood-panelled roadhouse above Cayuga Lake — an Ithaca rite of passage.",
+   "d": 5.7,
+   "t": 13,
+   "u": "https://www.glenwoodpines.com/",
+   "r": 4.5,
+   "rc": 1500,
+   "ll": [
+    42.49568,
+    -76.54124
+   ]
+  },
+  {
+   "n": "Purity Ice Cream",
+   "c": "Ice cream",
+   "s": "Making ice cream in Ithaca since 1936 — the counter, the sundaes, and the line out the door every warm evening.",
+   "d": 1.6,
+   "t": 4,
+   "u": "https://www.purityicecream.com/",
+   "r": 4.7,
+   "rc": 1600,
+   "ll": [
+    42.44449,
+    -76.5091
+   ]
+  },
+  {
+   "n": "Louie's Lunch",
+   "c": "Food truck",
+   "s": "A lunch wagon that has parked near campus since 1918 — late-night subs and dogs, cash-friendly, an actual piece of Cornell history.",
+   "d": 0.6,
+   "t": 1,
+   "u": "https://www.facebook.com/LouiesLunchIthaca/",
+   "r": 4.6,
+   "rc": 400,
+   "ll": [
+    42.45336,
+    -76.48122
+   ]
+  },
+  {
+   "n": "Northstar House",
+   "c": "Neighborhood pub",
+   "s": "Fall Creek's corner restaurant — fried chicken, a fireplace, and the neighborhood table that isn't downtown or Collegetown.",
+   "d": 1.0,
+   "t": 2,
+   "u": null,
+   "r": 4.5,
+   "rc": 800,
+   "ll": [
+    42.45306,
+    -76.49726
+   ]
+  },
+  {
+   "n": "Kilpatrick's Publick House",
+   "c": "Irish pub",
+   "s": "Big Irish room off the Commons — a fireplace, a whiskey list, and where the graduate students end up.",
+   "d": 1.0,
+   "t": 2,
+   "u": null,
+   "r": 4.4,
+   "rc": 900,
+   "ll": [
+    42.4399,
+    -76.4952
+   ]
+  },
+  {
+   "n": "Hound & Mare",
+   "c": "New American",
+   "s": "Seasonal, ambitious plates in a small downtown dining room — the reservation to make when someone visits.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.houndandmare.com/",
+   "r": 4.6,
+   "rc": 300,
+   "ll": [
+    42.44023,
+    -76.49581
+   ]
+  },
+  {
+   "n": "Sangam Indian Cuisine",
+   "c": "Indian",
+   "s": "Collegetown Indian with a lunch buffet that has fed generations of Cornell students, and a curry list that holds up at dinner.",
+   "d": 0.4,
+   "t": 1,
+   "u": null,
+   "r": 4.3,
+   "rc": 600,
+   "ll": [
+    42.4432,
+    -76.4874
+   ]
+  },
+  {
+   "n": "Ithaca Farmers Market food row",
+   "c": "Market food",
+   "s": "The pavilion's international food stalls — Cambodian, Ethiopian, Vietnamese, wood-fired pizza — eaten at picnic tables over the water.",
+   "d": 1.9,
+   "t": 5,
+   "u": "https://ithacamarket.com/",
+   "r": 4.8,
+   "rc": 3000,
+   "ll": [
+    42.4595,
+    -76.5087
+   ]
+  }
+ ],
+ "nightlife": [
+  {
+   "n": "The Chapter House",
+   "c": "Beer pub",
+   "s": "Stewart Ave legend rebuilt after the 2019 fire — a deep tap list, wooden booths, and professors drinking next to lifers and students.",
+   "d": 0.4,
+   "t": 1,
+   "u": "https://www.chapterhouseithaca.com/",
+   "r": 4.5,
+   "rc": 700,
+   "ll": [
+    42.4442,
+    -76.4879
+   ]
+  },
+  {
+   "n": "Level B",
+   "c": "Dance club",
+   "s": "The basement dance floor under College Ave — Collegetown's actual club, hip-hop-heavy and packed after midnight on a Thursday.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://www.instagram.com/levelbithaca/",
+   "r": 4.0,
+   "rc": 400,
+   "ll": [
+    42.4424,
+    -76.4856
+   ]
+  },
+  {
+   "n": "The Hideaway",
+   "c": "College bar",
+   "s": "Dryden Rd's patio bar — the summer and early-fall Collegetown default when nobody wants to be inside yet.",
+   "d": 0.4,
+   "t": 1,
+   "u": "https://www.instagram.com/hideawayithaca/",
+   "r": 4.2,
+   "rc": 400,
+   "ll": [
+    42.4426,
+    -76.4849
+   ]
+  },
+  {
+   "n": "Dunbar's",
+   "c": "Dive bar",
+   "s": "The Collegetown dive, unchanged and unbothered — cheap pitchers, a jukebox, and the bar every Cornell alum asks about.",
+   "d": 0.4,
+   "t": 1,
+   "u": "https://www.facebook.com/DunbarsIthaca/",
+   "r": 4.4,
+   "rc": 400,
+   "ll": [
+    42.4429,
+    -76.4846
+   ]
+  },
+  {
+   "n": "Bar Argos",
+   "c": "Cocktail bar",
+   "s": "The Argos Inn's bar: antique furniture, a chandelier, serious cocktails, and a Carriagehouse patio out back in warm months. Jazz on Wednesdays.",
+   "d": 0.9,
+   "t": 2,
+   "u": "https://argosinn.com/",
+   "r": 4.6,
+   "rc": 600,
+   "ll": [
+    42.4397,
+    -76.49317
+   ]
+  },
+  {
+   "n": "Argos Warehouse",
+   "c": "Music Venue",
+   "s": "The Argos annex, Thursday through Saturday — DJs, dancing and a room that runs later than the rest of downtown.",
+   "d": 0.9,
+   "t": 2,
+   "u": "https://argosinn.com/",
+   "r": 4.5,
+   "rc": 300,
+   "ll": [
+    42.439,
+    -76.4926
+   ]
+  },
+  {
+   "n": "The Range",
+   "c": "Live music",
+   "s": "The Commons' live-music room — local bands most nights, a real stage, and a bar you can still hear yourself at between sets.",
+   "d": 1.1,
+   "t": 3,
+   "u": null,
+   "r": 4.4,
+   "rc": 700,
+   "ll": [
+    42.4398,
+    -76.4966
+   ]
+  },
+  {
+   "n": "Deep Dive",
+   "c": "Live music",
+   "s": "Minimalist inlet-side venue with the best sound system in the county, booking touring indie, jam and hip-hop acts.",
+   "d": 1.8,
+   "t": 4,
+   "u": "https://www.deepdiveithaca.com/",
+   "r": 4.7,
+   "rc": 400,
+   "ll": [
+    42.4487,
+    -76.5122
+   ]
+  },
+  {
+   "n": "Silky Jones",
+   "c": "Cocktail bar",
+   "s": "Small, dark, deliberate cocktail bar downtown — the grown-up drink after dinner on the Commons.",
+   "d": 1.1,
+   "t": 3,
+   "u": null,
+   "r": 4.6,
+   "rc": 300,
+   "ll": [
+    42.4394,
+    -76.4972
+   ]
+  },
+  {
+   "n": "Liquid State Brewing Company",
+   "c": "Brewery",
+   "s": "Inlet-side taproom with a garage-door wall, rotating sours and IPAs, and food trucks parked outside most nights.",
+   "d": 1.7,
+   "t": 4,
+   "u": "https://www.liquidstatebeer.com/",
+   "r": 4.7,
+   "rc": 900,
+   "ll": [
+    42.43898,
+    -76.50755
+   ]
+  },
+  {
+   "n": "Personal Best Brewing",
+   "c": "Brewery",
+   "s": "Small, sharp brewery on the west end — clean lagers, a patio, and a quieter alternative to the Ithaca Beer lawn.",
+   "d": 1.4,
+   "t": 3,
+   "u": "https://www.personalbestbrewing.com/",
+   "r": 4.7,
+   "rc": 500,
+   "ll": [
+    42.43916,
+    -76.50294
+   ]
+  },
+  {
+   "n": "Loco Cantina",
+   "c": "Bar & club",
+   "s": "Late tequila bar off the Commons where the dance floor opens up after 11 on weekends.",
+   "d": 1.0,
+   "t": 2,
+   "u": null,
+   "r": 4.2,
+   "rc": 500,
+   "ll": [
+    42.44,
+    -76.4956
+   ]
+  },
+  {
+   "n": "The Bar at Statler",
+   "c": "Hotel bar",
+   "s": "The Statler Hotel's bar on campus — run in part by hotel-school students, with a terrace that looks straight down the lake at sunset.",
+   "d": 0.2,
+   "t": 0,
+   "u": "https://statlerhotel.cornell.edu/",
+   "r": 4.5,
+   "rc": 400,
+   "ll": [
+    42.44638,
+    -76.48223
+   ]
+  },
+  {
+   "n": "Trumansburg's Rongovian Embassy",
+   "c": "Roadhouse bar",
+   "s": "'The Rongo' — a resurrected 1970s roadhouse 12 miles up the lake, live music, and the county's most beloved bar-in-a-village.",
+   "d": 14.6,
+   "t": 29,
+   "u": "https://www.rongovianembassy.com/",
+   "r": 4.5,
+   "rc": 500,
+   "ll": [
+    42.5424,
+    -76.6633
+   ]
+  }
+ ],
+ "sights": [
+  {
+   "n": "Libe Slope at sunset",
+   "c": "Viewpoint",
+   "s": "The lawn below the Arts Quad falls away toward the lake — the whole west side of campus sits on it at 7pm in September, and it earns the reputation.",
+   "d": 0.1,
+   "t": 0,
+   "u": "https://www.cornell.edu/",
+   "r": 4.9,
+   "rc": 500,
+   "ll": [
+    42.4478,
+    -76.487
+   ]
+  },
+  {
+   "n": "Cornell Arts Quad",
+   "c": "Architecture",
+   "s": "The oldest quad on campus: Morrill, McGraw and White halls in 1860s stone, plus the two statues students argue about at midnight.",
+   "d": 0.1,
+   "t": 0,
+   "u": "https://www.cornell.edu/",
+   "r": 4.8,
+   "rc": 600,
+   "ll": [
+    42.449,
+    -76.4845
+   ]
+  },
+  {
+   "n": "Sage Chapel",
+   "c": "Architecture",
+   "s": "Cornell's nondenominational chapel — Tiffany-era glass, a painted ceiling, and Ezra Cornell's tomb in the apse. Free, usually open, almost always empty.",
+   "d": 0.0,
+   "t": 0,
+   "u": "https://sage-chapel.cornell.edu/",
+   "r": 4.7,
+   "rc": 300,
+   "ll": [
+    42.4472,
+    -76.48446
+   ]
+  },
+  {
+   "n": "Milstein Hall cantilever",
+   "c": "Architecture",
+   "s": "OMA's 2011 slab hanging unsupported over University Ave — the most argued-about building on campus, best seen from the sidewalk underneath.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://aap.cornell.edu/",
+   "r": 4.4,
+   "rc": 200,
+   "ll": [
+    42.4511,
+    -76.4838
+   ]
+  },
+  {
+   "n": "Fall Creek Suspension Bridge",
+   "c": "Bridge",
+   "s": "A swaying 1960s footbridge 140 feet above the Fall Creek gorge — the shortest walk on campus that will make your stomach drop.",
+   "d": 0.4,
+   "t": 1,
+   "u": "https://www.cornell.edu/",
+   "r": 4.8,
+   "rc": 400,
+   "ll": [
+    42.4516,
+    -76.4834
+   ]
+  },
+  {
+   "n": "Triphammer Falls",
+   "c": "Waterfall",
+   "s": "The falls and stone dam at the west end of Beebe Lake, right on campus — thirty seconds off the path between north and central campus.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://www.cornell.edu/",
+   "r": 4.7,
+   "rc": 400,
+   "ll": [
+    42.45185,
+    -76.47968
+   ]
+  },
+  {
+   "n": "Newman Overlook",
+   "c": "Viewpoint",
+   "s": "The high point of the Newman Arboretum: a bench, a stand of conifers, and the best foliage view of the whole valley in mid-October.",
+   "d": 1.5,
+   "t": 4,
+   "u": "https://cornellbotanicgardens.cornell.edu/",
+   "r": 4.8,
+   "rc": 200,
+   "ll": [
+    42.456,
+    -76.465
+   ]
+  },
+  {
+   "n": "Taughannock Falls Overlook",
+   "c": "Viewpoint",
+   "s": "Drive-up platform at the gorge rim — the postcard shot of a 215-foot fall with no hiking at all, five minutes off Route 89.",
+   "d": 11.2,
+   "t": 23,
+   "u": "https://parks.ny.gov/visit/state-parks/taughannock-falls-state-park",
+   "r": 4.8,
+   "rc": 2000,
+   "ll": [
+    42.5352,
+    -76.6043
+   ]
+  },
+  {
+   "n": "Wells Falls (Businessman's Lunch Falls)",
+   "c": "Waterfall",
+   "s": "A 40-foot ledge on Six Mile Creek behind the Van Natta dam, minutes from downtown and known mostly to locals.",
+   "d": 0.9,
+   "t": 2,
+   "u": "https://www.cityofithacany.gov/",
+   "r": 4.6,
+   "rc": 300,
+   "ll": [
+    42.4372,
+    -76.4859
+   ]
+  },
+  {
+   "n": "Cornell's Big Red Barn",
+   "c": "Architecture",
+   "s": "The 1878 octagonal-roofed carriage house that is now the graduate student center — and the nicest porch on campus.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://gradschool.cornell.edu/",
+   "r": 4.6,
+   "rc": 150,
+   "ll": [
+    42.4477,
+    -76.4805
+   ]
+  },
+  {
+   "n": "Sagan Planet Walk",
+   "c": "Public art",
+   "s": "A 1.2-billion-to-1 scale model of the solar system laid across downtown Ithaca, from the Commons to the Sciencenter, in memory of Carl Sagan.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.sciencenter.org/",
+   "r": 4.7,
+   "rc": 400,
+   "ll": [
+    42.4396,
+    -76.4958
+   ]
+  },
+  {
+   "n": "Cornell Botanic Gardens Bioswale Garden",
+   "c": "Landscape",
+   "s": "The engineered wetland garden below the Nevin Center — an unglamorous idea done beautifully, and full of birds at dusk.",
+   "d": 0.9,
+   "t": 2,
+   "u": "https://cornellbotanicgardens.cornell.edu/",
+   "r": 4.7,
+   "rc": 150,
+   "ll": [
+    42.4489,
+    -76.4707
+   ]
+  }
+ ],
+ "walks": [
+  {
+   "n": "Cascadilla Gorge Trail",
+   "c": "Gorge trail",
+   "s": "The stone staircase that connects campus to downtown past nine waterfalls — a 20-minute walk that is the single best thing about living on this hill. Closed in winter.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://cornellbotanicgardens.cornell.edu/",
+   "r": 4.9,
+   "rc": 1500,
+   "ll": [
+    42.4426,
+    -76.48245
+   ]
+  },
+  {
+   "n": "Fall Creek Gorge Trail",
+   "c": "Gorge trail",
+   "s": "From the suspension bridge down along the north rim to Ithaca Falls — campus's other gorge, steeper and emptier than Cascadilla.",
+   "d": 0.4,
+   "t": 1,
+   "u": "https://cornellbotanicgardens.cornell.edu/",
+   "r": 4.8,
+   "rc": 700,
+   "ll": [
+    42.452,
+    -76.4855
+   ]
+  },
+  {
+   "n": "Beebe Lake Loop",
+   "c": "Campus loop",
+   "s": "A 1.2-mile flat loop around the campus lake, past Triphammer Falls and the Sackett footbridge — the run or think-walk you'll do most often.",
+   "d": 0.7,
+   "t": 2,
+   "u": "https://cornellbotanicgardens.cornell.edu/",
+   "r": 4.8,
+   "rc": 600,
+   "ll": [
+    42.45125,
+    -76.47576
+   ]
+  },
+  {
+   "n": "Cayuga Waterfront Trail",
+   "c": "Paved path",
+   "s": "Six flat, paved miles from Stewart Park around the inlet to Cass Park — walk it, run it or ride it; the lake is on your shoulder the whole way.",
+   "d": 1.9,
+   "t": 5,
+   "u": null,
+   "r": 4.7,
+   "rc": 900,
+   "ll": [
+    42.462,
+    -76.506
+   ]
+  },
+  {
+   "n": "Six Mile Creek / Mulholland Wildflower Preserve",
+   "c": "Nature trail",
+   "s": "The city's own gorge: creek-level trail from Giles St up to the old dams and the reservoir, ten minutes from the Commons.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.cityofithacany.gov/",
+   "r": 4.7,
+   "rc": 500,
+   "ll": [
+    42.4362,
+    -76.4874
+   ]
+  },
+  {
+   "n": "Taughannock Gorge Trail",
+   "c": "Gorge trail",
+   "s": "Three-quarters of a flat mile up the streambed to the base of the tallest single-drop waterfall in the northeast. Do it in October.",
+   "d": 11.4,
+   "t": 23,
+   "u": "https://parks.ny.gov/visit/state-parks/taughannock-falls-state-park",
+   "r": 4.9,
+   "rc": 3000,
+   "ll": [
+    42.5399,
+    -76.6035
+   ]
+  },
+  {
+   "n": "Buttermilk Falls Gorge Trail",
+   "c": "Gorge trail",
+   "s": "0.75 miles and 600 steps up past ten cascades — short, steep, and the closest big gorge hike to the city.",
+   "d": 3.6,
+   "t": 8,
+   "u": "https://parks.ny.gov/visit/state-parks/buttermilk-falls-state-park",
+   "r": 4.8,
+   "rc": 2000,
+   "ll": [
+    42.417,
+    -76.521
+   ]
+  },
+  {
+   "n": "Treman Gorge Trail to Lucifer Falls",
+   "c": "Gorge trail",
+   "s": "The county's best gorge walk: two and a half miles of hand-cut stone stairs and tunnels through a narrow gorge to a 115-foot fall.",
+   "d": 6.8,
+   "t": 15,
+   "u": "https://parks.ny.gov/visit/state-parks/robert-h-treman-state-park",
+   "r": 4.9,
+   "rc": 1800,
+   "ll": [
+    42.3963,
+    -76.561
+   ]
+  },
+  {
+   "n": "Sapsucker Woods Trails",
+   "c": "Boardwalk",
+   "s": "Four miles of flat boardwalk and woods trails around a pond at the Lab of Ornithology — the best easy birding walk in the county, free, open dawn to dusk.",
+   "d": 3.6,
+   "t": 8,
+   "u": "https://www.birds.cornell.edu/home/visit/",
+   "r": 4.8,
+   "rc": 700,
+   "ll": [
+    42.4792,
+    -76.4507
+   ]
+  },
+  {
+   "n": "F. R. Newman Arboretum loop",
+   "c": "Arboretum",
+   "s": "A rolling three-mile loop through 150 acres of collections above campus — drivable, walkable, and unbeatable in the third week of October.",
+   "d": 1.5,
+   "t": 4,
+   "u": "https://cornellbotanicgardens.cornell.edu/",
+   "r": 4.8,
+   "rc": 500,
+   "ll": [
+    42.4557,
+    -76.4655
+   ]
+  },
+  {
+   "n": "Lick Brook at Sweedler Preserve",
+   "c": "Hiking trail",
+   "s": "A steep, unmanicured mile up to a 140-foot two-tier waterfall on the Finger Lakes Trail — the wildest falls hike near town.",
+   "d": 6.0,
+   "t": 13,
+   "u": "https://www.fllt.org/",
+   "r": 4.7,
+   "rc": 400,
+   "ll": [
+    42.3853,
+    -76.517
+   ]
+  },
+  {
+   "n": "Black Diamond Trail",
+   "c": "Rail trail",
+   "s": "Eight miles of crushed-stone rail trail from Cass Park to Taughannock Falls, flat the whole way — the county's best walk-or-ride out of town.",
+   "d": 3.1,
+   "t": 7,
+   "u": "https://parks.ny.gov/visit/state-parks/black-diamond-trail",
+   "r": 4.8,
+   "rc": 800,
+   "ll": [
+    42.468,
+    -76.523
+   ]
+  },
+  {
+   "n": "South Hill Recreation Way",
+   "c": "Rail trail",
+   "s": "A gentle three-mile former rail bed climbing out of the city past Ithaca College — the flattest long walk on the south side.",
+   "d": 1.5,
+   "t": 4,
+   "u": "https://www.cityofithacany.gov/",
+   "r": 4.6,
+   "rc": 300,
+   "ll": [
+    42.431,
+    -76.488
+   ]
+  },
+  {
+   "n": "Monkey Run (Fall Creek Natural Area)",
+   "c": "Nature trail",
+   "s": "Cornell's natural area on the Fall Creek flats — quiet loops through floodplain forest and the best cross-country ski track near campus.",
+   "d": 3.0,
+   "t": 7,
+   "u": "https://cornellbotanicgardens.cornell.edu/",
+   "r": 4.7,
+   "rc": 250,
+   "ll": [
+    42.47,
+    -76.452
+   ]
+  }
+ ],
+ "museums": [
+  {
+   "n": "The History Center in Tompkins County",
+   "c": "Local history",
+   "s": "Downtown local-history museum in the Tompkins Center for History and Culture — the room to visit before you walk the Commons.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://thehistorycenter.net/",
+   "r": 4.6,
+   "rc": 300,
+   "ll": [
+    42.4394,
+    -76.4972
+   ]
+  },
+  {
+   "n": "Johnson Museum Asian Art galleries",
+   "c": "Art collection",
+   "s": "The Johnson's fifth floor holds one of the strongest university Asian art collections in the US — Chinese bronzes and painting, with the valley through the window behind them.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://museum.cornell.edu/",
+   "r": 4.8,
+   "rc": 250,
+   "ll": [
+    42.4507,
+    -76.4855
+   ]
+  },
+  {
+   "n": "Cornell Fine Arts Library / Rare & Manuscript Collections",
+   "c": "Archive",
+   "s": "The Kroch Library's rotating exhibitions from the rare books vault — Lincoln's Gettysburg Address draft, Wordsworth, the Hip Hop Collection. Free.",
+   "d": 0.1,
+   "t": 0,
+   "u": "https://rare.library.cornell.edu/",
+   "r": 4.8,
+   "rc": 200,
+   "ll": [
+    42.447,
+    -76.4844
+   ]
+  },
+  {
+   "n": "Handwerker Gallery",
+   "c": "Gallery",
+   "s": "Ithaca College's contemporary gallery — small, sharp, free, and a reason to cross to South Hill.",
+   "d": 2.7,
+   "t": 6,
+   "u": "https://www.ithaca.edu/handwerker-gallery",
+   "r": 4.5,
+   "rc": 120,
+   "ll": [
+    42.4197,
+    -76.49833
+   ]
+  },
+  {
+   "n": "Ink Shop Printmaking Center",
+   "c": "Gallery",
+   "s": "Working print studio and gallery downtown — shows by member printmakers, plus classes you can drop into.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.ink-shop.org/",
+   "r": 4.7,
+   "rc": 100,
+   "ll": [
+    42.4395,
+    -76.495
+   ]
+  },
+  {
+   "n": "Community School of Music and Arts",
+   "c": "Arts center",
+   "s": "CSMA's downtown building — three floors of studios and galleries, and the town's most consistent free show openings.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.csma-ithaca.org/",
+   "r": 4.6,
+   "rc": 150,
+   "ll": [
+    42.43978,
+    -76.49446
+   ]
+  },
+  {
+   "n": "Corning Museum of Glass",
+   "c": "Museum",
+   "s": "World-class glass museum an hour southwest — 50 centuries of objects, live hot-glass shows, and a make-your-own studio. The best rainy-Saturday drive from Ithaca.",
+   "d": 46.3,
+   "t": 62,
+   "u": "https://www.cmog.org/",
+   "r": 4.8,
+   "rc": 12000,
+   "ll": [
+    42.14975,
+    -77.05416
+   ]
+  },
+  {
+   "n": "The Rockwell Museum",
+   "c": "Art museum",
+   "s": "Smithsonian-affiliate American art museum in downtown Corning — pair it with the glass museum and make a day of it.",
+   "d": 46.6,
+   "t": 62,
+   "u": "https://rockwellmuseum.org/",
+   "r": 4.7,
+   "rc": 1200,
+   "ll": [
+    42.14263,
+    -77.05288
+   ]
+  }
+ ],
+ "shops": [
+  {
+   "n": "The Cornell Store",
+   "c": "Campus store",
+   "s": "Ho Plaza's bookstore — textbooks, Big Red everything, a cafe, and the shipping counter you will end up needing.",
+   "d": 0.1,
+   "t": 0,
+   "u": "https://store.cornell.edu/",
+   "r": 4.4,
+   "rc": 600,
+   "ll": [
+    42.44666,
+    -76.48423
+   ]
+  },
+  {
+   "n": "Buffalo Street Books",
+   "c": "Bookstore",
+   "s": "A cooperatively owned bookstore on the Commons — the town's reading list, plus author nights most weeks.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://buffalostreetbooks.com/",
+   "r": 4.8,
+   "rc": 500,
+   "ll": [
+    42.44119,
+    -76.49833
+   ]
+  },
+  {
+   "n": "Autumn Leaves Used Books",
+   "c": "Bookstore",
+   "s": "Two floors of used books on the Commons, deep in scholarly leftovers from two campuses — the best used shelf between Syracuse and Binghamton.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.autumnleavesithaca.com/",
+   "r": 4.8,
+   "rc": 500,
+   "ll": [
+    42.43942,
+    -76.49829
+   ]
+  },
+  {
+   "n": "Angry Mom Records",
+   "c": "Record store",
+   "s": "In the basement under Autumn Leaves — a tight, well-curated vinyl room run by people who will actually talk to you about it.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://www.angrymomrecords.com/",
+   "r": 4.8,
+   "rc": 300,
+   "ll": [
+    42.4396,
+    -76.4964
+   ]
+  },
+  {
+   "n": "Petrune",
+   "c": "Vintage clothing",
+   "s": "Curated vintage on the Commons, decades deep and priced honestly — Ithaca's best-known clothing shop.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://www.petrune.com/",
+   "r": 4.7,
+   "rc": 250,
+   "ll": [
+    42.43967,
+    -76.49807
+   ]
+  },
+  {
+   "n": "Trader K's",
+   "c": "Consignment",
+   "s": "Used and consigned clothing on the Commons — the student-budget half of Ithaca's vintage scene.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.facebook.com/traderks/",
+   "r": 4.4,
+   "rc": 200,
+   "ll": [
+    42.4396,
+    -76.4958
+   ]
+  },
+  {
+   "n": "GreenStar Food Co-op",
+   "c": "Grocery co-op",
+   "s": "Member-owned natural grocery with a hot bar, a good cheese counter and the west-end store that's bigger than you expect.",
+   "d": 1.7,
+   "t": 4,
+   "u": "https://www.greenstar.coop/",
+   "r": 4.5,
+   "rc": 900,
+   "ll": [
+    42.44548,
+    -76.50965
+   ]
+  },
+  {
+   "n": "Press Bay Alley",
+   "c": "Shopping alley",
+   "s": "A restored service alley of tiny storefronts behind the Commons — coffee, books, a barber, a bottle shop, all in about 200 feet.",
+   "d": 1.3,
+   "t": 3,
+   "u": "https://www.pressbayalley.com/",
+   "r": 4.7,
+   "rc": 400,
+   "ll": [
+    42.43884,
+    -76.49999
+   ]
+  },
+  {
+   "n": "Ithaca Guitar Works",
+   "c": "Music store",
+   "s": "Guitars, amps and repairs in the DeWitt Mall — where every band in this town gets its strings.",
+   "d": 1.1,
+   "t": 3,
+   "u": null,
+   "r": 4.7,
+   "rc": 200,
+   "ll": [
+    42.44062,
+    -76.49885
+   ]
+  },
+  {
+   "n": "Ithaca ReUse Center",
+   "c": "Thrift",
+   "s": "Enormous nonprofit reuse warehouse on Elmira Rd — furniture, tools, books, and the place students furnish an apartment from in one trip.",
+   "d": 2.1,
+   "t": 5,
+   "u": "https://ithacareuse.org/",
+   "r": 4.5,
+   "rc": 600,
+   "ll": [
+    42.43029,
+    -76.50509
+   ]
+  },
+  {
+   "n": "Mockingbird Paperie",
+   "c": "Stationery",
+   "s": "Paper, pens and cards on the Commons — the shop for when you need a real card and not a text.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://www.mockingbirdpaperie.com/",
+   "r": 4.8,
+   "rc": 150,
+   "ll": [
+    42.4397,
+    -76.49759
+   ]
+  },
+  {
+   "n": "Home Green Home",
+   "c": "Home goods",
+   "s": "Sustainable housewares in the DeWitt Mall — the local answer for anything you'd otherwise order in a cardboard box.",
+   "d": 1.1,
+   "t": 3,
+   "u": null,
+   "r": 4.7,
+   "rc": 150,
+   "ll": [
+    42.4406,
+    -76.4979
+   ]
+  }
+ ],
+ "essentials": [
+  {
+   "n": "Wegmans Ithaca",
+   "c": "Supermarket",
+   "s": "The big Route 13 Wegmans — the default grocery run for anyone with a car, open late, with a pharmacy and a sub counter inside.",
+   "d": 2.0,
+   "t": 5,
+   "u": "https://www.wegmans.com/",
+   "r": 4.6,
+   "rc": 3000,
+   "ll": [
+    42.43556,
+    -76.51055
+   ]
+  },
+  {
+   "n": "Cornell Health",
+   "c": "Health center",
+   "s": "The campus health center on Ho Plaza — same-day care, pharmacy and after-hours phone triage for anyone with a Cornell ID.",
+   "d": 0.2,
+   "t": 0,
+   "u": "https://health.cornell.edu/",
+   "r": 3.9,
+   "rc": 200,
+   "ll": [
+    42.44563,
+    -76.48564
+   ]
+  },
+  {
+   "n": "Cayuga Medical Center",
+   "c": "Hospital",
+   "s": "The county hospital on the northwest hill — the emergency department for anything Cornell Health can't take.",
+   "d": 4.0,
+   "t": 9,
+   "u": "https://www.cayugahealth.org/",
+   "r": 3.8,
+   "rc": 400,
+   "ll": [
+    42.46887,
+    -76.53807
+   ]
+  },
+  {
+   "n": "Cayuga Health Urgent Care",
+   "c": "Urgent care",
+   "s": "Walk-in urgent care on Route 13 — stitches, X-rays and strep tests without the ER wait.",
+   "d": 2.5,
+   "t": 6,
+   "u": "https://www.cayugahealth.org/",
+   "r": 3.9,
+   "rc": 300,
+   "ll": [
+    42.4288,
+    -76.5117
+   ]
+  },
+  {
+   "n": "CVS Pharmacy",
+   "c": "Pharmacy",
+   "s": "The 24-hour-ish Route 13 CVS — the prescription and cold-medicine fallback when campus is closed.",
+   "d": 1.8,
+   "t": 4,
+   "u": "https://www.cvs.com/",
+   "r": 3.5,
+   "rc": 200,
+   "ll": [
+    42.4362,
+    -76.5074
+   ]
+  },
+  {
+   "n": "Kinney Drugs",
+   "c": "Pharmacy",
+   "s": "Upstate's own drugstore chain, on the west end — a friendlier pharmacy counter than the big two.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.kinneydrugs.com/",
+   "r": 4.0,
+   "rc": 150,
+   "ll": [
+    42.44554,
+    -76.49909
+   ]
+  },
+  {
+   "n": "Ithaca Agway",
+   "c": "Hardware & garden",
+   "s": "Route 13 farm-and-garden store — hardware, work boots, firewood, salt, and everything a rural county needs in November.",
+   "d": 1.8,
+   "t": 4,
+   "u": null,
+   "r": 4.6,
+   "rc": 400,
+   "ll": [
+    42.43765,
+    -76.50885
+   ]
+  },
+  {
+   "n": "Lowe's Home Improvement",
+   "c": "Hardware",
+   "s": "The big-box hardware store on Route 13 for anything Agway doesn't stock.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.lowes.com/",
+   "r": 4.1,
+   "rc": 700,
+   "ll": [
+    42.43097,
+    -76.51404
+   ]
+  },
+  {
+   "n": "Ithaca Laundry",
+   "c": "Laundromat",
+   "s": "Big card-operated laundromat on the west end with wash-and-fold service — the fix when the dorm machines are all taken.",
+   "d": 1.4,
+   "t": 3,
+   "u": null,
+   "r": 4.2,
+   "rc": 150,
+   "ll": [
+    42.4359,
+    -76.49862
+   ]
+  },
+  {
+   "n": "Ithaca Post Office",
+   "c": "Post office",
+   "s": "The main downtown branch on North Tioga — passports, packages, and the counter that actually knows how to ship a bike.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.usps.com/",
+   "r": 3.8,
+   "rc": 150,
+   "ll": [
+    42.4406,
+    -76.4956
+   ]
+  },
+  {
+   "n": "TCAT Ithaca Transit",
+   "c": "Transit",
+   "s": "The county bus system, free with a Cornell ID on most routes — Route 30 and 10 connect campus, Collegetown and downtown all day.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.tcatbus.com/",
+   "r": 4.0,
+   "rc": 300,
+   "ll": [
+    42.4396,
+    -76.4959
+   ]
+  },
+  {
+   "n": "Mirabito (Route 13)",
+   "c": "Gas station",
+   "s": "24-hour gas and the late-night convenience stop on the Route 13 strip — the one that's always open on the way back from the trailhead.",
+   "d": 2.6,
+   "t": 6,
+   "u": "https://www.mirabito.com/",
+   "r": 4.0,
+   "rc": 200,
+   "ll": [
+    42.427,
+    -76.5122
+   ]
+  },
+  {
+   "n": "William Jane Dispensary",
+   "c": "Dispensary",
+   "s": "New York-licensed adult-use cannabis dispensary in Ithaca — legal, tested product and a staff that will actually explain the menu.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://cannabis.ny.gov/dispensary-location-verification",
+   "r": 4.6,
+   "rc": 300,
+   "ll": [
+    42.43937,
+    -76.49826
+   ]
+  },
+  {
+   "n": "Cayuga Ski & Cyclery",
+   "c": "Bike shop",
+   "s": "West End bike and ski shop at 624 W State St doing full tune-ups and repairs — the fix after one Ithaca winter, and good Shindagin advice over the counter.",
+   "d": 1.6,
+   "t": 4,
+   "u": "https://www.cayugaskiandcyclery.com/",
+   "r": 4.7,
+   "rc": 250,
+   "ll": [
+    42.44,
+    -76.5072
+   ]
+  },
+  {
+   "n": "Fall Creek Laundromat",
+   "c": "Laundromat",
+   "s": "Card-operated laundromat in the Fall Creek neighborhood with wash-and-fold — the fix when every dorm machine is taken on a Sunday.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://fallcreeklaundromat.com/",
+   "r": 4.3,
+   "rc": 150,
+   "ll": [
+    42.453,
+    -76.499
+   ]
+  }
+ ],
+ "chinese": [
+  {
+   "n": "De Tasty Hot Pot 得味火锅",
+   "c": "Hot pot",
+   "s": "The Cornell hot pot institution — individual induction pots, a real Sichuan broth, and a mapo tofu and spicy fish stew that stand on their own. 15% service is added automatically.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://www.detastyhotpotny.com/",
+   "r": 4.4,
+   "rc": 700,
+   "ll": [
+    42.44214,
+    -76.48761
+   ]
+  },
+  {
+   "n": "Jade Garden 翡翠园",
+   "c": "Sichuan",
+   "s": "The Szechuan kitchen Flushing expats grudgingly admit is good — order off the Chinese menu, skip the hot pot, and get the dry-fried string beans.",
+   "d": 1.8,
+   "t": 4,
+   "u": null,
+   "r": 4.4,
+   "rc": 600,
+   "ll": [
+    42.43897,
+    -76.50863
+   ]
+  },
+  {
+   "n": "Hai Hong 海鸿",
+   "c": "Cantonese",
+   "s": "Small family-run Collegetown room that has fed Cornell for decades — the regional specials are the reason to come, not the sesame chicken.",
+   "d": 0.5,
+   "t": 1,
+   "u": null,
+   "r": 4.2,
+   "rc": 500,
+   "ll": [
+    42.4424,
+    -76.4857
+   ]
+  },
+  {
+   "n": "Xi'an Street Food 西安小吃",
+   "c": "Northwestern Chinese",
+   "s": "Hand-pulled biang biang noodles and cumin lamb burgers done properly — the closest thing Ithaca has to a Xi'an Famous Foods.",
+   "d": 0.6,
+   "t": 1,
+   "u": null,
+   "r": 4.5,
+   "rc": 400,
+   "ll": [
+    42.44151,
+    -76.4857
+   ]
+  },
+  {
+   "n": "Asia Cuisine 亚洲美食",
+   "c": "Chinese",
+   "s": "Collegetown's late-night Chinese counter — the one open when everything else on College Ave has closed, and better than it has to be.",
+   "d": 1.0,
+   "t": 2,
+   "u": null,
+   "r": 4.2,
+   "rc": 400,
+   "ll": [
+    42.44037,
+    -76.49583
+   ]
+  },
+  {
+   "n": "Spicy Asian 辣味屋",
+   "c": "Sichuan",
+   "s": "Numbing-hot Sichuan on the west end — the chili oil dishes and the cold appetizer case are where the kitchen shows off.",
+   "d": 2.7,
+   "t": 6,
+   "u": null,
+   "r": 4.4,
+   "rc": 300,
+   "ll": [
+    42.42556,
+    -76.51228
+   ]
+  },
+  {
+   "n": "Ling Ling Kitchen 玲玲小厨",
+   "c": "Chinese",
+   "s": "No-frills kitchen doing homestyle dishes for the Chinese student crowd — cheap, fast, and consistently the real thing.",
+   "d": 0.4,
+   "t": 1,
+   "u": null,
+   "r": 4.3,
+   "rc": 250,
+   "ll": [
+    42.4427,
+    -76.486
+   ]
+  },
+  {
+   "n": "Ren's Mart Asian Groceries 任家超市",
+   "c": "Asian grocery",
+   "s": "Father-and-daughter Asian grocery on West Buffalo St — fresh greens, live seafood tanks, Sichuan pantry staples and the hot pot shopping list.",
+   "d": 1.9,
+   "t": 5,
+   "u": "https://www.yelp.com/biz/ren-s-mart-asian-groceries-ithaca",
+   "r": 4.6,
+   "rc": 300,
+   "ll": [
+    42.44067,
+    -76.51109
+   ]
+  },
+  {
+   "n": "Win Li Supermarket 永利超市",
+   "c": "Asian grocery",
+   "s": "The other Ithaca Asian market — broader Chinese and Korean dry goods, frozen dumplings and the noodle wall.",
+   "d": 1.5,
+   "t": 4,
+   "u": null,
+   "r": 4.4,
+   "rc": 200,
+   "ll": [
+    42.4404,
+    -76.5052
+   ]
+  },
+  {
+   "n": "Green Castle Asian Market 翠堡",
+   "c": "Asian grocery",
+   "s": "Small pan-Asian market near downtown — the quick stop for chili crisp, tofu and the one ingredient the other two are out of.",
+   "d": 0.6,
+   "t": 1,
+   "u": null,
+   "r": 4.3,
+   "rc": 150,
+   "ll": [
+    42.44155,
+    -76.48725
+   ]
+  },
+  {
+   "n": "Ithaca Tofu 美味豆腐",
+   "c": "Tofu maker",
+   "s": "Locally made fresh tofu and soy products, sold at the farmers market and in local groceries — silken tofu worth planning a meal around.",
+   "d": 1.9,
+   "t": 5,
+   "u": "https://www.ithacatofu.com/",
+   "r": 4.7,
+   "rc": 150,
+   "ll": [
+    42.4595,
+    -76.509
+   ]
+  },
+  {
+   "n": "Kung Fu Tea Collegetown",
+   "c": "Bubble tea",
+   "s": "Collegetown's boba counter and the default study-break run for the Chinese student community on College Ave.",
+   "d": 0.6,
+   "t": 1,
+   "u": "https://www.kungfutea.com/",
+   "r": 4.3,
+   "rc": 300,
+   "ll": [
+    42.4415,
+    -76.48597
+   ]
+  },
+  {
+   "n": "Cornell East Asia Program at the Kahin Center",
+   "c": "Culture",
+   "s": "Cornell's East Asia Program runs public lectures, film nights and Chinese-language events out of the Kahin Center all term — free, and open to anyone.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://eap.einaudi.cornell.edu/",
+   "r": 4.7,
+   "rc": 80,
+   "ll": [
+    42.4445,
+    -76.487
+   ]
+  }
+ ],
+ "fishing": [
+  {
+   "n": "Cayuga Lake south end",
+   "c": "Lake",
+   "s": "The deep end of a 435-foot lake — lake trout and landlocked Atlantic salmon on the troll spring and fall, smallmouth and pike along the shallows.",
+   "d": 2.3,
+   "t": 6,
+   "u": "https://dec.ny.gov/places/cayuga-lake",
+   "r": 4.7,
+   "rc": 900,
+   "ll": [
+    42.465,
+    -76.51
+   ]
+  },
+  {
+   "n": "Fall Creek below Ithaca Falls",
+   "c": "Tributary",
+   "s": "The classic Finger Lakes tributary run: lake-run rainbows, browns and Atlantic salmon stack below the falls in spring and again in fall. 10.9 miles of public fishing rights upstream.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://dec.ny.gov/places/fall-creek",
+   "r": 4.6,
+   "rc": 500,
+   "ll": [
+    42.4527,
+    -76.488
+   ]
+  },
+  {
+   "n": "Cayuga Inlet",
+   "c": "Tributary",
+   "s": "The inlet channel through the west end — rainbows in April, carp and pike in summer, and shore access the whole length of the flood-control channel.",
+   "d": 1.9,
+   "t": 5,
+   "u": "https://dec.ny.gov/places/cayuga-lake",
+   "r": 4.5,
+   "rc": 400,
+   "ll": [
+    42.4478,
+    -76.514
+   ]
+  },
+  {
+   "n": "Allan H. Treman Marine Park shoreline",
+   "c": "Shore access",
+   "s": "Break wall, launch ramps and shoreline you can fish without a boat, right where the lake meets the inlet — the easy default after class.",
+   "d": 2.6,
+   "t": 6,
+   "u": "https://parks.ny.gov/visit/state-parks/allan-h-treman-state-marine-park",
+   "r": 4.6,
+   "rc": 500,
+   "ll": [
+    42.4629,
+    -76.5178
+   ]
+  },
+  {
+   "n": "Salmon Creek at Ludlowville",
+   "c": "Tributary",
+   "s": "Fifteen minutes up the east side: a waterfall pool and a run that fills with lake-run rainbows in spring and Atlantics in the fall.",
+   "d": 10.3,
+   "t": 22,
+   "u": "https://dec.ny.gov/places/cayuga-lake",
+   "r": 4.6,
+   "rc": 300,
+   "ll": [
+    42.5473,
+    -76.5602
+   ]
+  },
+  {
+   "n": "Six Mile Creek Reservoir",
+   "c": "Reservoir",
+   "s": "The city's water supply above Ithaca — smallmouth, panfish and a quiet shoreline walk-in, with no boats to compete with.",
+   "d": 2.5,
+   "t": 6,
+   "u": "https://www.cityofithacany.gov/",
+   "r": 4.4,
+   "rc": 250,
+   "ll": [
+    42.4245,
+    -76.465
+   ]
+  },
+  {
+   "n": "Beebe Lake",
+   "c": "Campus water",
+   "s": "Yes, you can fish the campus lake — bass, panfish and the occasional trout below Triphammer, five minutes from a lecture hall.",
+   "d": 0.6,
+   "t": 1,
+   "u": "https://cornellbotanicgardens.cornell.edu/",
+   "r": 4.3,
+   "rc": 200,
+   "ll": [
+    42.4521,
+    -76.4787
+   ]
+  },
+  {
+   "n": "Dryden Lake",
+   "c": "Lake",
+   "s": "A shallow warmwater lake 20 minutes east — largemouth, pickerel and crappie, with a fishing pier and the rail trail around it.",
+   "d": 14.1,
+   "t": 28,
+   "u": "https://dec.ny.gov/",
+   "r": 4.5,
+   "rc": 300,
+   "ll": [
+    42.46144,
+    -76.27239
+   ]
+  },
+  {
+   "n": "Taughannock Creek",
+   "c": "Tributary",
+   "s": "The creek below the state park's falls — a short, steep tributary that gets a genuine spring rainbow run and almost no pressure.",
+   "d": 11.6,
+   "t": 24,
+   "u": "https://parks.ny.gov/visit/state-parks/taughannock-falls-state-park",
+   "r": 4.5,
+   "rc": 200,
+   "ll": [
+    42.5432,
+    -76.6015
+   ]
+  },
+  {
+   "n": "Cobble Creek Outfitters charters",
+   "c": "Charter",
+   "s": "Guided Cayuga Lake trips out of Ithaca — lake trout and salmon on downriggers, gear included, for when you want the deep water without a boat.",
+   "d": 2.3,
+   "t": 6,
+   "u": "https://www.cobblecreekoutfitters.com/",
+   "r": 4.9,
+   "rc": 150,
+   "ll": [
+    42.46,
+    -76.515
+   ]
+  }
+ ],
+ "biking": [
+  {
+   "n": "Shindagin Hollow State Forest",
+   "c": "Singletrack",
+   "s": "Twenty miles of the best singletrack east of the Mississippi, ten miles east of campus — shale, roots, berms and long descents, maintained by Cycle-CNY.",
+   "d": 13.1,
+   "t": 26,
+   "u": "https://www.shindagin.com/",
+   "r": 4.9,
+   "rc": 600,
+   "ll": [
+    42.362,
+    -76.3255
+   ]
+  },
+  {
+   "n": "Hammond Hill State Forest",
+   "c": "Singletrack",
+   "s": "Shindagin's north sibling — flowier, faster-drying, with a big loop network and a parking lot 20 minutes from campus.",
+   "d": 13.0,
+   "t": 26,
+   "u": "https://ithacatrails.org/",
+   "r": 4.7,
+   "rc": 400,
+   "ll": [
+    42.4494,
+    -76.288
+   ]
+  },
+  {
+   "n": "Yellow Barn State Forest",
+   "c": "Singletrack",
+   "s": "The quieter third forest in the Dryden cluster — fewer people, more moss, and a good rainy-week alternative.",
+   "d": 11.6,
+   "t": 24,
+   "u": "https://ithacatrails.org/",
+   "r": 4.5,
+   "rc": 150,
+   "ll": [
+    42.4778,
+    -76.314
+   ]
+  },
+  {
+   "n": "Danby State Forest",
+   "c": "Singletrack",
+   "s": "Steep, technical Finger Lakes Trail riding south of town — the climb is the point, and the descent is the reward.",
+   "d": 9.5,
+   "t": 20,
+   "u": "https://ithacatrails.org/",
+   "r": 4.6,
+   "rc": 200,
+   "ll": [
+    42.3428,
+    -76.461
+   ]
+  },
+  {
+   "n": "Black Diamond Trail (ride)",
+   "c": "Rail trail",
+   "s": "Eight flat crushed-stone miles from Cass Park to Taughannock Falls — the gravel-bike and beginner ride, with the lake alongside.",
+   "d": 3.3,
+   "t": 8,
+   "u": "https://parks.ny.gov/visit/state-parks/black-diamond-trail",
+   "r": 4.8,
+   "rc": 800,
+   "ll": [
+    42.47,
+    -76.525
+   ]
+  },
+  {
+   "n": "Jim Schug Trail",
+   "c": "Rail trail",
+   "s": "A quiet four-mile rail trail through Dryden past the lake — a flat spin when the forests are too wet to ride.",
+   "d": 13.0,
+   "t": 26,
+   "u": "https://ithacatrails.org/",
+   "r": 4.6,
+   "rc": 200,
+   "ll": [
+    42.488,
+    -76.296
+   ]
+  },
+  {
+   "n": "Cornell Cycling Club rides",
+   "c": "Club rides",
+   "s": "The student club runs road and mountain group rides out of campus all term — the fastest way to find the good lines at Shindagin.",
+   "d": 0.2,
+   "t": 0,
+   "u": "https://cornellcycling.com/mountain/",
+   "r": 4.8,
+   "rc": 100,
+   "ll": [
+    42.4468,
+    -76.482
+   ]
+  }
+ ],
+ "social": [
+  {
+   "n": "Ithaca Farmers Market",
+   "c": "Farmers market",
+   "s": "160 vendors under a lakeside pavilion at Steamboat Landing, all from within 30 miles — produce, crafts and a food row worth going hungry for.",
+   "d": 1.7,
+   "t": 4,
+   "u": "https://ithacamarket.com/",
+   "r": 4.8,
+   "rc": 3500,
+   "ll": [
+    42.45071,
+    -76.50962
+   ],
+   "w": "Saturdays · 9a–3p · Sundays 10a–3p"
+  },
+  {
+   "n": "Salsa Ithaca Latin Night",
+   "c": "Salsa social",
+   "s": "Salsa Ithaca's weekly Latin night — a lesson first, then salsa, bachata and Cuban casino until late. No partner needed, all levels.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://salsaithaca.com/",
+   "r": 4.8,
+   "rc": 150,
+   "ll": [
+    42.4396,
+    -76.497
+   ],
+   "w": "Fridays · 8p–midnight"
+  },
+  {
+   "n": "Afro-Cuban Dance with Live Music",
+   "c": "Dance class",
+   "s": "Salsa Ithaca's weekly Afro-Cuban class with live percussion — the most joyful room in the county on a Tuesday.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://salsaithaca.com/",
+   "r": 4.9,
+   "rc": 100,
+   "ll": [
+    42.4396,
+    -76.497
+   ],
+   "w": "Tuesdays · 7p–9p"
+  },
+  {
+   "n": "West Coast Swing at Seven of Jazz",
+   "c": "Swing social",
+   "s": "Weekly West Coast swing lesson and social at the Seven of Jazz Lounge on South Cayuga — beginners taught first, then dancing.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://bothleftfeet.com/cindyWP/?page_id=30",
+   "r": 4.8,
+   "rc": 80,
+   "ll": [
+    42.43913,
+    -76.49919
+   ],
+   "w": "Thursdays · 7:30p–10p"
+  },
+  {
+   "n": "Hands Four contra dance",
+   "c": "Contra dance",
+   "s": "Ithaca's contra dance crew — live band, called every dance, no partner and no experience required. The friendliest way to meet 60 people in one night.",
+   "d": 0.9,
+   "t": 2,
+   "u": "https://www.hands4dancers.org/upcoming-dances",
+   "r": 4.9,
+   "rc": 120,
+   "ll": [
+    42.4407,
+    -76.4952
+   ],
+   "w": "Second & fourth Sundays · 7p–10p"
+  },
+  {
+   "n": "Ithaca Swing Dance Network social",
+   "c": "Swing social",
+   "s": "Lindy and balboa socials run by the local swing network, with a beginner lesson before each — venues rotate, the crowd doesn't.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://ithacaswing.org/wheretodance/",
+   "r": 4.8,
+   "rc": 100,
+   "ll": [
+    42.4396,
+    -76.4955
+   ],
+   "w": "Wednesdays · 8p–11p"
+  },
+  {
+   "n": "Trivia at The Embassy",
+   "c": "Trivia night",
+   "s": "Downtown's Monday trivia — two floors, a full bar, and a quiz that draws grad students who take it far too seriously.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.instagram.com/embassyithaca/",
+   "r": 4.4,
+   "rc": 300,
+   "ll": [
+    42.4398,
+    -76.4955
+   ],
+   "w": "Mondays · 8p"
+  },
+  {
+   "n": "Jazz Night at Bar Argos",
+   "c": "Live jazz",
+   "s": "Early-evening live jazz in the Argos Inn's front room every Wednesday — free, no cover, and the best-dressed hour in Ithaca.",
+   "d": 0.9,
+   "t": 2,
+   "u": "https://argosinn.com/",
+   "r": 4.7,
+   "rc": 200,
+   "ll": [
+    42.439,
+    -76.493
+   ],
+   "w": "Wednesdays · 5:30p–7:30p"
+  },
+  {
+   "n": "Cornell Chimes daily concerts",
+   "c": "Campus tradition",
+   "s": "Student chimesmasters play the 21 bells three times every weekday — climb the tower and watch from inside the bell chamber.",
+   "d": 0.0,
+   "t": 0,
+   "u": "https://chimes.cornell.edu/",
+   "r": 4.8,
+   "rc": 300,
+   "ll": [
+    42.4476,
+    -76.4848
+   ],
+   "w": "Weekdays · 7:45a, 1:10p & 6p"
+  },
+  {
+   "n": "Second Saturday Gallery Night",
+   "c": "Art walk",
+   "s": "Downtown galleries and studios open late together on the second Saturday — free, walkable, and the easiest low-pressure evening out.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://www.downtownithaca.com/",
+   "r": 4.6,
+   "rc": 200,
+   "ll": [
+    42.4396,
+    -76.4962
+   ],
+   "w": "Second Saturdays · 5p–8p"
+  },
+  {
+   "n": "Finger Lakes Runners Club group runs",
+   "c": "Run club",
+   "s": "The county running club's weekly no-drop group runs from rotating trailheads — the fastest way into the local trail scene on foot.",
+   "d": 1.9,
+   "t": 5,
+   "u": "https://fingerlakesrunners.org/",
+   "r": 4.8,
+   "rc": 150,
+   "ll": [
+    42.462,
+    -76.506
+   ],
+   "w": "Tuesdays · 6p"
+  },
+  {
+   "n": "Cornell Cinema screenings",
+   "c": "Film series",
+   "s": "Willard Straight's repertory program — 35mm classics, new international releases and director visits, several nights a week during term.",
+   "d": 0.1,
+   "t": 0,
+   "u": "https://cinema.cornell.edu/",
+   "r": 4.8,
+   "rc": 200,
+   "ll": [
+    42.4464,
+    -76.4854
+   ],
+   "w": "Wed–Sun · evenings in term"
+  },
+  {
+   "n": "Ithaca Beer Co. run & trivia nights",
+   "c": "Brewery social",
+   "s": "The taproom's weekday programming — a group run out the Black Diamond and trivia on the lawn when the weather holds.",
+   "d": 3.3,
+   "t": 8,
+   "u": "https://ithacabeer.com/",
+   "r": 4.5,
+   "rc": 400,
+   "ll": [
+    42.4272,
+    -76.5259
+   ],
+   "w": "Thursdays · 6p"
+  }
+ ]
+}

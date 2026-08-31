@@ -23,6 +23,8 @@ const LAYOUTS = {
   'data-flushing.json': [...CITY_TABS, ...NYC_EXTRA],
   'data-boston.json': [...CITY_TABS, ...DAILY_TABS],
   'data-foresthills.json': ['spots', 'nightlife', 'eats', 'chinese', 'social', ...NYC_EXTRA],
+  // Ithaca is a campus guide: the everyday tabs plus a Coffee tab of its own.
+  'data-ithaca.json': [...CITY_TABS, ...NYC_EXTRA, 'coffee'],
 };
 
 const dataFiles = fs.readdirSync(ROOT).filter(f => /^data.*\.json$/.test(f)).sort();

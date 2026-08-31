@@ -1,6 +1,6 @@
 # Things To Do
 
-A single-page, fully client-side web app — pick a city from the dropdown, get things to do in one sortable, searchable table. Ships with twenty-three guides: **Philly (Willow Grove) · Forest Hills · NYC · Brooklyn · Queens · Flushing · Atlantic City · Baltimore · Washington DC · Pittsburgh · Richmond · Boston · Virginia Beach · Buffalo · Cleveland · Raleigh-Durham · Chicago · Toronto · Nashville · Los Angeles · San Francisco · Seattle · San Diego**.
+A single-page, fully client-side web app — pick a city from the dropdown, get things to do in one sortable, searchable table. Ships with twenty-four guides: **Philly (Willow Grove) · Forest Hills · NYC · Brooklyn · Queens · Flushing · Ithaca (Cornell) · Atlantic City · Baltimore · Washington DC · Pittsburgh · Richmond · Boston · Virginia Beach · Buffalo · Cleveland · Raleigh-Durham · Chicago · Toronto · Nashville · Los Angeles · San Francisco · Seattle · San Diego**.
 
 **Live site:** https://pfeilbr.github.io/things-to-do/
 
@@ -15,14 +15,16 @@ A single-page, fully client-side web app — pick a city from the dropdown, get 
   - **Fishing** — piers, lakes, party boats, and surf spots with license notes
   - **MTB** — real mountain-bike trails within a drive, labeled honestly (singletrack vs. greenway)
   - **Social** — recurring series where strangers actually talk: dance socials, run clubs, trivia, language exchanges, night markets — with a "today" badge on ones happening now
-  - **Events** — dated, source-verified listings for the next few weeks, on Philly and the five NYC-area guides; the ones happening today get a TODAY badge
-- **Everyday-life tabs** on the six home guides (Forest Hills, NYC, Brooklyn, Queens, Flushing, Boston) — the stuff you actually look up when you live somewhere rather than visit it:
+  - **Events** — dated, source-verified listings for the next few weeks, on Philly, Ithaca and the five NYC-area guides; the ones happening today get a TODAY badge
+  - **Coffee** — on the Ithaca/Cornell guide only: campus cafés and Ithaca's roasters, sorted by popularity
+- **Everyday-life tabs** on the seven guides for places actually lived in (Forest Hills, NYC, Brooklyn, Queens, Flushing, Boston, Ithaca) — the stuff you actually look up when you live somewhere rather than visit it:
   - **Museums** — museums and galleries, from the Met down to a museum inside a Tribeca freight elevator
   - **Sights** — things worth looking at: observation decks, public art, architecture, World's Fair ruins, oddities like Grand Central's whispering gallery
   - **Walks** — walking *routes*, not just parks: greenways, promenades, park loops, woodland trails, boardwalks, brownstone wanders
   - **Shops** — bookstores, record shops, vintage, markets, department stores and the specialist places worth crossing town for
   - **Essentials** — the errand layer: gas stations, pharmacies, hardware, laundromats, urgent care, licensed dispensaries, post offices, car washes, bike repair
 - **Forest Hills** is a *neighborhood* guide rather than a borough one — nearly everything in it is inside a two-mile walk of Austin Street
+- **Ithaca** is a campus guide — everything is measured from central campus at Cornell, and it carries a Coffee tab of its own alongside the gorges, Collegetown and the Finger Lakes around it
 - **Boston** covers the whole metro: Cambridge, Somerville, Brookline, Charlestown, Quincy, Salem and the Blue Hills, not just the peninsula
 - **☀ Tonight** — one tap shows everything happening today in the active city (events + recurring socials), with a live count badge; shareable via `#tonight=1`
 - **Smart search** — cross-tab hints ("also 10 in Sushi & Eats") that keep your query when you tap through

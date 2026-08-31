@@ -6,7 +6,7 @@
 const { serve, launch, check, fatal, done } = require('./_lib');
 const PORT = 8931, URL = `http://localhost:${PORT}/`;
 
-const REGIONS = ['HOME', 'NYC', 'EAST', 'GREAT LAKES', 'SOUTH', 'WEST'];
+const REGIONS = ['HOME', 'NYC', 'UPSTATE NY', 'EAST', 'GREAT LAKES', 'SOUTH', 'WEST'];
 
 (async () => {
   const server = await serve(PORT);
@@ -27,7 +27,7 @@ const REGIONS = ['HOME', 'NYC', 'EAST', 'GREAT LAKES', 'SOUTH', 'WEST'];
 
   // --- regions survive as optgroups, in order --------------------------------------
   const groups = await page.$$eval('#citySelect optgroup', gs => gs.map(g => g.label));
-  check(JSON.stringify(groups) === JSON.stringify(REGIONS), `6 optgroups in order (got ${groups.join(',')})`);
+  check(JSON.stringify(groups) === JSON.stringify(REGIONS), `${REGIONS.length} optgroups in order (got ${groups.join(',')})`);
 
   // every city in CONFIG is selectable, exactly once
   const { optionCount, cityCount, missing } = await page.evaluate(() => {
