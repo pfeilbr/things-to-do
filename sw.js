@@ -1,6 +1,6 @@
 // Network-first service worker: always try the network so new deploys land
 // immediately; fall back to cache only when offline.
-const CACHE = "wg-guide-v12";
+const CACHE = "wg-guide-v13";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -10,6 +10,7 @@ const PRECACHE = [
   "./data-queens.json",
   "./data-foresthills.json",
   "./data-flushing.json",
+  "./data-ithaca.json",
   "./data-ac.json",
   "./data-baltimore.json",
   "./data-dc.json",
