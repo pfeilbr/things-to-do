@@ -57,6 +57,11 @@ const cases = [
   ['2nd Fri · 5p–9p (May–Oct)',       '2026-08-14T12:00:00', true],
   ['2nd Fri · 5p–9p (May–Oct)',       '2026-08-15T12:00:00', false],
   ['TBA',                             '2026-08-15T12:00:00', false],
+  // holiday runs that wrap past New Year
+  ['Sat 11/21 – Mon 1/4',             '2026-12-25T12:00:00', true],
+  ['Sat 11/21 – Mon 1/4',             '2027-01-02T12:00:00', true],
+  ['Sat 11/21 – Mon 1/4',             '2026-11-20T12:00:00', false],
+  ['Sat 11/21 – Mon 1/4',             '2027-01-05T12:00:00', false],
 ];
 for (const [w, now, expected] of cases) {
   test(`happensToday("${w}") @ ${now.slice(0, 10)} -> ${expected}`, () => {

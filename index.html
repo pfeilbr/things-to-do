@@ -421,7 +421,7 @@ footer a{color:var(--accent-soft)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-09-03T07:41Z";
+const BUILD = "2026-10-10T21:41Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -498,6 +498,10 @@ const NYC_TABS = [T_SPOTS, T_EVENTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOP
 const CAMPUS_TABS = [T_SPOTS, T_EVENTS, T_COFFEE, T_EATS, T_NIGHT, T_SIGHTS, T_WALKS,
                      T_MUSEUM, T_SHOPS, T_DAILY, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
+// A visitor guide with dated Events: the casino town books a weekly showroom calendar, so
+// the interest tabs alone would miss most of why you'd go.
+const EVENT_CITY_TABS = [T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
+
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
 const NY_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
 const MID_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, local press &amp; event calendars.";
@@ -559,6 +563,14 @@ const CONFIG = {
       note:"NY freshwater fishing needs a license; the state-park gorge trails close Nov\u2013Mar.",
       sources:"Data gathered Aug 2026 from Cornell and NY State Parks sites, the Hangar Theatre &amp; State Theatre calendars, Cornell Athletics, Downtown Ithaca Alliance, Visit Ithaca, NYSDEC &amp; Google Places; venue coordinates verified against OpenStreetMap.",
       tabs:CAMPUS_TABS },
+    { id:"verona", chip:"VERONA",
+      place:"Verona, NY", placeShort:"Verona", originLabel:"Verona",
+      ns:"ver", data:"data-verona.json",
+      trip:"\u22484\u00bc hr drive from home base",
+      blurb:"Verona &amp; the Mohawk Valley: Turning Stone shows &amp; casino nights / Oneida Lake walleye / Utica &amp; Syracuse dance floors / sushi / Syracuse \u4e2d\u534e / Salmon River runs / Highland Forest MTB / socials",
+      note:"NY freshwater fishing needs a license; Salmon River tributary rules change by season.",
+      sources:"Data gathered Oct 2026 from the Turning Stone, Landmark Theatre &amp; Stanley Theatre calendars, Syracuse Athletics, the Utica Comets, NY State Parks, NYSDEC, local press &amp; Google Places; venue coordinates via OpenStreetMap.",
+      tabs:EVENT_CITY_TABS },
     { id:"ac", chip:"AC",
       place:"Atlantic City, NJ", placeShort:"Atlantic City", originLabel:"the AC Boardwalk",
       ns:"ac", data:"data-ac.json",
@@ -702,7 +714,7 @@ const CONFIG = {
 const REGIONS = [
   ["HOME",        ["philly"]],
   ["NYC",         ["foresthills","nyc","brooklyn","queens","flushing"]],
-  ["UPSTATE NY",  ["ithaca"]],
+  ["UPSTATE NY",  ["ithaca","verona"]],
   ["EAST",        ["ac","baltimore","dc","richmond","vb","boston","pittsburgh"]],
   ["GREAT LAKES", ["buffalo","cleveland","chicago","toronto"]],
   ["SOUTH",       ["raleigh","nashville"]],
@@ -870,10 +882,12 @@ function happensToday(w){
   if(m) return T <= md(m[1],m[2]) && dayOK(daysIn(s.slice(0,m.index)));
   m = s.match(/thru\s+([a-z]{3,})/);
   if(m && MONNUM[m[1].slice(0,3)]) return T <= md(MONNUM[m[1].slice(0,3)],31) && dayOK(daysIn(s.slice(0,m.index)));
-  // explicit dates: cross-month ranges ("7/31 – Sun 8/9"), same-month ("8/10–16"), singles
+  // explicit dates: cross-month ranges ("7/31 – Sun 8/9", or "11/21 – 1/4" across New Year),
+  // same-month ("8/10–16"), singles
   let rest = s, hit = false, any = false;
   rest = rest.replace(/(\d{1,2})\/(\d{1,2})\s*[–-]\s*(?:[a-z]{3,4}\s+)?(\d{1,2})\/(\d{1,2})/g,
-    (_,a,b,c,d) => { any = true; if(T >= md(a,b) && T <= md(c,d)) hit = true; return " "; });
+    (_,a,b,c,d) => { any = true; const lo = md(a,b), hi = md(c,d);
+      if(lo <= hi ? (T >= lo && T <= hi) : (T >= lo || T <= hi)) hit = true; return " "; });
   rest = rest.replace(/(\d{1,2})\/(\d{1,2})\s*[–-]\s*(\d{1,2})/g,
     (_,a,b,c) => { any = true; if(T >= md(a,b) && T <= md(a,c)) hit = true; return " "; });
   rest.replace(/(\d{1,2})\/(\d{1,2})/g,

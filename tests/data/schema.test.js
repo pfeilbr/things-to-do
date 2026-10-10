@@ -25,6 +25,8 @@ const LAYOUTS = {
   'data-foresthills.json': ['spots', 'nightlife', 'eats', 'chinese', 'social', ...NYC_EXTRA],
   // Ithaca is a campus guide: the everyday tabs plus a Coffee tab of its own.
   'data-ithaca.json': [...CITY_TABS, ...NYC_EXTRA, 'coffee'],
+  // Verona is a visitor guide that also carries dated Events (Turning Stone's calendar).
+  'data-verona.json': [...CITY_TABS, 'events'],
 };
 
 const dataFiles = fs.readdirSync(ROOT).filter(f => /^data.*\.json$/.test(f)).sort();

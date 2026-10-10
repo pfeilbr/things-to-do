@@ -64,6 +64,10 @@ const INTENTIONAL_CROSS_TAB = new Set([
   'data-queens.json|Rockaway Boardwalk|walks,biking',
   'data-flushing.json|Kissena Velodrome|sights,biking',   // landmark + the track itself
   'data-boston.json|Minuteman Bikeway|walks,biking',
+  // Verona: state parks that are both the outing and the trail system / fishing water
+  'data-verona.json|Green Lakes State Park|spots,biking',
+  'data-verona.json|Verona Beach State Park|spots,fishing',
+  'data-verona.json|Delta Lake State Park|spots,fishing',
 ]);
 
 test('no unvetted duplicate rows across tabs of one city', () => {

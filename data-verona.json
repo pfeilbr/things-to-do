@@ -1,0 +1,1779 @@
+{
+ "spots": [
+  {
+   "n": "Skana The Spa at Turning Stone",
+   "c": "Spa",
+   "s": "The resort's serious spa, with Oneida-inspired treatments and a quiet pool lounge; book a couples' massage and make a whole afternoon of it.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/spa/skana",
+   "r": 4.5,
+   "rc": 900,
+   "ll": [
+    43.1151,
+    -75.5888
+   ]
+  },
+  {
+   "n": "Turning Stone golf (Atunyote, Shenendoah, Kaluhyat)",
+   "c": "Golf",
+   "s": "Three championship courses on resort grounds, PGA Tour pedigree included; Shenendoah is the easiest to get a tee time on and still a real test.",
+   "d": 1.9,
+   "t": 5,
+   "u": "https://www.turningstone.com/golf",
+   "r": 4.7,
+   "rc": 400,
+   "ll": [
+    43.1185,
+    -75.5794
+   ]
+  },
+  {
+   "n": "Turning Stone Event Center",
+   "c": "Concerts",
+   "s": "A 5,000-seat arena that books touring headliners, comedy and boxing; dinner downstairs, show upstairs, no driving in between.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/",
+   "r": 4.6,
+   "rc": 1500,
+   "ll": [
+    43.1151,
+    -75.5888
+   ]
+  },
+  {
+   "n": "Sylvan Beach Amusement Park",
+   "c": "Amusement Park",
+   "s": "An old-school lakeside midway with the Laffland dark ride and a Ferris wheel over Oneida Lake; ride at sunset, then walk the beach.",
+   "d": 11.6,
+   "t": 24,
+   "u": "https://www.sylvanbeachamusementpark.com/",
+   "r": 4.4,
+   "rc": 2600,
+   "ll": [
+    43.1961,
+    -75.7299
+   ]
+  },
+  {
+   "n": "Verona Beach State Park",
+   "c": "Beach / park",
+   "s": "A long sand beach on Oneida Lake's east end with woodland trails behind it, the closest real beach day to Turning Stone.",
+   "d": 10.0,
+   "t": 21,
+   "u": "https://parks.ny.gov/visit/state-parks/verona-beach-state-park",
+   "r": 4.5,
+   "rc": 1400,
+   "ll": [
+    43.1778,
+    -75.7133
+   ]
+  },
+  {
+   "n": "Green Lakes State Park",
+   "c": "Park / hike",
+   "s": "Two glacial lakes so turquoise they look filtered; the 3-mile loop around Green Lake is CNY's classic walk-and-talk date.",
+   "d": 28.3,
+   "t": 46,
+   "u": "https://parks.ny.gov/visit/state-parks/green-lakes-state-park",
+   "r": 4.8,
+   "rc": 6500,
+   "ll": [
+    43.0466,
+    -75.9834
+   ]
+  },
+  {
+   "n": "Chittenango Falls State Park",
+   "c": "Waterfall",
+   "s": "A 167-foot cascade over Onondaga limestone with a short gorge trail and footbridge; at its best after rain or in October color.",
+   "d": 23.0,
+   "t": 40,
+   "u": "https://parks.ny.gov/visit/state-parks/chittenango-falls-state-park",
+   "r": 4.7,
+   "rc": 2700,
+   "ll": [
+    42.9826,
+    -75.8492
+   ]
+  },
+  {
+   "n": "Old Erie Canal State Historic Park",
+   "c": "Trail / canal",
+   "s": "Thirty-six flat miles of towpath from DeWitt to Rome along the original 1825 canal; rent bikes or just walk the Chittenango Landing stretch.",
+   "d": 23.8,
+   "t": 41,
+   "u": "https://parks.ny.gov/visit/state-parks/old-erie-canal-state-historic-park",
+   "r": 4.6,
+   "rc": 900,
+   "ll": [
+    43.0736,
+    -75.923
+   ]
+  },
+  {
+   "n": "Fort Stanwix National Monument",
+   "c": "History",
+   "s": "A full-scale rebuilt Revolutionary War fort in downtown Rome, free to enter, with rangers in period dress and a good museum below.",
+   "d": 10.0,
+   "t": 21,
+   "u": "https://www.nps.gov/fost/",
+   "r": 4.7,
+   "rc": 1700,
+   "ll": [
+    43.2106,
+    -75.4555
+   ]
+  },
+  {
+   "n": "Munson",
+   "c": "Art museum",
+   "s": "Utica's Philip Johnson-designed art museum, with Pollock, Picasso and Cole in the galleries and the Fountain Elms mansion next door.",
+   "d": 21.9,
+   "t": 39,
+   "u": "https://www.munson.art/",
+   "r": 4.7,
+   "rc": 1200,
+   "ll": [
+    43.0981,
+    -75.2411
+   ]
+  },
+  {
+   "n": "Utica Zoo",
+   "c": "Zoo",
+   "s": "A small, walkable hillside zoo in Roscoe Conkling Park, red pandas and all; an easy, low-pressure daytime date.",
+   "d": 21.9,
+   "t": 39,
+   "u": "https://www.uticazoo.org/",
+   "r": 4.5,
+   "rc": 3800,
+   "ll": [
+    43.0823,
+    -75.2454
+   ]
+  },
+  {
+   "n": "Saranac Brewery tour (F.X. Matt)",
+   "c": "Brewery tour",
+   "s": "America's second-oldest family brewery; the tour ends with tastings, and the 1888 Biergarten next door handles round two.",
+   "d": 21.5,
+   "t": 38,
+   "u": "https://www.saranac.com/",
+   "r": 4.7,
+   "rc": 1600,
+   "ll": [
+    43.1046,
+    -75.2457
+   ]
+  },
+  {
+   "n": "Oneida Community Mansion House",
+   "c": "History",
+   "s": "The 93-room home of a 19th-century utopian commune that famously went on to make silverware; the guided tours are full of odd stories.",
+   "d": 7.3,
+   "t": 16,
+   "u": "https://www.oneidacommunity.org/",
+   "r": 4.7,
+   "rc": 350,
+   "ll": [
+    43.0603,
+    -75.6046
+   ]
+  },
+  {
+   "n": "Shako:wi Cultural Center",
+   "c": "Culture",
+   "s": "The Oneida Indian Nation's hand-hewn white pine cultural center, with free exhibits on Oneida history and work by Haudenosaunee artisans.",
+   "d": 9.4,
+   "t": 20,
+   "u": "https://www.oneidaindiannation.com/shakowi-cultural-center",
+   "r": 4.8,
+   "rc": 150,
+   "ll": [
+    43.0399,
+    -75.6214
+   ]
+  },
+  {
+   "n": "Destiny USA",
+   "c": "Mall / entertainment",
+   "s": "One of the country's biggest malls, with go-karts, ropes courses, an IMAX and late-night restaurants for the rainy-day plan.",
+   "d": 39.9,
+   "t": 57,
+   "u": "https://www.destinyusa.com/",
+   "r": 4.4,
+   "rc": 30000,
+   "ll": [
+    43.0692,
+    -76.1725
+   ]
+  },
+  {
+   "n": "Armory Square",
+   "c": "Neighborhood",
+   "s": "Syracuse's brick-warehouse district of restaurants, cocktail bars and boutiques; dinner, a speakeasy and a stroll, all on a few blocks.",
+   "d": 39.2,
+   "t": 56,
+   "u": "https://www.downtownsyracuse.com/",
+   "r": 4.6,
+   "rc": 1500,
+   "ll": [
+    43.0474,
+    -76.1551
+   ]
+  },
+  {
+   "n": "Clark Reservation State Park",
+   "c": "Park / hike",
+   "s": "A plunge-basin meromictic lake ringed by limestone cliffs, with short, dramatic trails just south of Syracuse.",
+   "d": 36.6,
+   "t": 54,
+   "u": "https://parks.ny.gov/visit/state-parks/clark-reservation-state-park",
+   "r": 4.7,
+   "rc": 2600,
+   "ll": [
+    42.9977,
+    -76.0941
+   ]
+  },
+  {
+   "n": "Rome Fish Hatchery",
+   "c": "Hatchery",
+   "s": "One of the state's largest trout hatcheries, free to tour; see the raceways, feed the brookies, then fish the stocked water nearby.",
+   "d": 14.1,
+   "t": 28,
+   "u": null,
+   "r": 4.6,
+   "rc": 250,
+   "ll": [
+    43.2611,
+    -75.4369
+   ]
+  },
+  {
+   "n": "Delta Lake State Park",
+   "c": "Lake / park",
+   "s": "A peninsula park on a quiet reservoir north of Rome with a beach, lakeside campsites and good shore fishing for bass and walleye.",
+   "d": 16.9,
+   "t": 32,
+   "u": "https://parks.ny.gov/visit/state-parks/delta-lake-state-park",
+   "r": 4.6,
+   "rc": 1500,
+   "ll": [
+    43.2909,
+    -75.4204
+   ]
+  },
+  {
+   "n": "Beak & Skiff Apple Farms",
+   "c": "Orchard / cidery",
+   "s": "U-pick apples in season and the 1911 cider and spirits tasting room up the hill; fall's most reliable afternoon date in CNY.",
+   "d": 47.6,
+   "t": 63,
+   "u": "https://beakandskiff.com/",
+   "r": 4.5,
+   "rc": 5500,
+   "ll": [
+    42.9056,
+    -76.2221
+   ]
+  },
+  {
+   "n": "Stanley Theatre",
+   "c": "Theater",
+   "s": "Utica's restored 1928 Mexican Baroque movie palace, now hosting Broadway tours, concerts and comedy; the lobby alone is worth dressing up for.",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.thestanley.org/",
+   "r": 4.8,
+   "rc": 1800,
+   "ll": [
+    43.0989,
+    -75.2353
+   ]
+  },
+  {
+   "n": "Lorenzo State Historic Site & Cazenovia",
+   "c": "Village / history",
+   "s": "An 1807 Federal-style mansion and gardens on Cazenovia Lake, steps from a postcard village of cafes and shops made for an unhurried afternoon.",
+   "d": 27.3,
+   "t": 45,
+   "u": "https://parks.ny.gov/visit/historic-sites/lorenzo-state-historic-site",
+   "r": 4.7,
+   "rc": 400,
+   "ll": [
+    42.9234,
+    -75.8658
+   ]
+  },
+  {
+   "n": "All Things Oz Museum",
+   "c": "Museum",
+   "s": "L. Frank Baum's birthplace pays tribute with a gloriously nerdy Oz collection; follow the actual yellow-brick sidewalk to get there.",
+   "d": 21.2,
+   "t": 38,
+   "u": "https://allthingsoz.org/",
+   "r": 4.8,
+   "rc": 400,
+   "ll": [
+    43.0449,
+    -75.8669
+   ]
+  },
+  {
+   "n": "National Baseball Hall of Fame",
+   "c": "Museum",
+   "s": "At the far edge of the map but worth the drive; pair it with Cooperstown's Main Street and a lakeside dinner on Otsego Lake.",
+   "d": 58.0,
+   "t": 69,
+   "u": "https://baseballhall.org/",
+   "r": 4.8,
+   "rc": 9000,
+   "ll": [
+    42.6999,
+    -74.9231
+   ]
+  }
+ ],
+ "events": [
+  {
+   "n": "The Black Keys",
+   "c": "Concert",
+   "s": "The Akron blues-rock duo brings its Peaches 'n Kream World Tour to Turning Stone's Event Center.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-10-10/the-black-keys",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Sat 10/10 · 8p"
+  },
+  {
+   "n": "LaFayette Apple Festival",
+   "c": "Festival",
+   "s": "Central New York's big apple harvest fair: hundreds of craft and food vendors, cider and an apple pancake breakfast from 7a, on the festival grounds in LaFayette.",
+   "d": 44.4,
+   "t": 61,
+   "u": "https://www.lafayetteapplefest.org/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.89,
+    -76.156
+   ],
+   "w": "Sat–Sun 10/10–11"
+  },
+  {
+   "n": "Jamey Johnson",
+   "c": "Concert",
+   "s": "Outlaw-country songwriter Jamey Johnson plays the Event Center on his Traveling Truebadour Tour.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-10-11/jamey-johnson",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Sun 10/11 · 8p"
+  },
+  {
+   "n": "Bert Kreischer: Permission to Party",
+   "c": "Comedy",
+   "s": "The shirtless storyteller brings his Permission to Party World Tour to the ornate 1928 Landmark Theatre.",
+   "d": 39.0,
+   "t": 56,
+   "u": "https://landmarktheatre.org/event/bert-kreischer-permission-to-party-world-tour/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0473,
+    -76.1526
+   ],
+   "w": "Sun 10/11 · 7p"
+  },
+  {
+   "n": "Jersey Boys",
+   "c": "Theatre",
+   "s": "The Tony-winning Frankie Valli & the Four Seasons musical plays two nights (7:30p) at Utica's restored 1928 Stanley Theatre.",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.thestanley.org/events/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0989,
+    -75.2353
+   ],
+   "w": "Wed–Thu 10/14–15"
+  },
+  {
+   "n": "Steve Treviño",
+   "c": "Comedy",
+   "s": "An evening of clean, family-and-marriage stand-up from Steve Treviño in Turning Stone's intimate Showroom.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-10-16/steve-trevino",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Fri 10/16 · 8p"
+  },
+  {
+   "n": "Syracuse vs. Louisville",
+   "c": "Sports",
+   "s": "Night ACC football under the roof at the JMA Wireless Dome as the Orange host Louisville.",
+   "d": 38.2,
+   "t": 56,
+   "u": "https://cuse.com/sports/football/schedule/2026",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0363,
+    -76.1364
+   ],
+   "w": "Sat 10/17 · 7:30p"
+  },
+  {
+   "n": "Alana Springsteen at Tin Rooster",
+   "c": "Nightlife",
+   "s": "Rising country singer-songwriter Alana Springsteen plays Turning Stone's Tin Rooster honky-tonk dancehall — boots and line dancing encouraged.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-10-17/alana-springsteen",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Sat 10/17 · 8p"
+  },
+  {
+   "n": "Neil deGrasse Tyson: Cosmic Collisions",
+   "c": "Talk",
+   "s": "The astrophysicist's live talk on what happens when things smash together in space, at the Landmark Theatre.",
+   "d": 39.0,
+   "t": 56,
+   "u": "https://landmarktheatre.org/event/dr-neil-degrasse-tyson-cosmic-collisions/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0473,
+    -76.1526
+   ],
+   "w": "Wed 10/21 · 7:30p"
+  },
+  {
+   "n": "The Rocky Horror Picture Show",
+   "c": "Nightlife",
+   "s": "A pre-Halloween costume-and-callback screening of the cult classic at the Stanley Theatre.",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.thestanley.org/events/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0989,
+    -75.2353
+   ],
+   "w": "Fri 10/23 · 8p"
+  },
+  {
+   "n": "Jordan Davis",
+   "c": "Concert",
+   "s": "Country hitmaker Jordan Davis (\"Buy Dirt\") headlines the Event Center.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-10-24/jordan-davis",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Sat 10/24 · 8p"
+  },
+  {
+   "n": "Utica Comets vs. Syracuse Crunch",
+   "c": "Sports",
+   "s": "The Thruway rivalry: AHL hockey between the Comets and the Crunch at the Adirondack Bank Center (the Utica Aud).",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.uticacomets.com/schedule",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1049,
+    -75.2334
+   ],
+   "w": "Fri 11/6 · 7p"
+  },
+  {
+   "n": "Hell's Kitchen",
+   "c": "Theatre",
+   "s": "Alicia Keys' Broadway musical about coming of age in 1990s Manhattan, on tour at the Landmark Theatre.",
+   "d": 39.0,
+   "t": 56,
+   "u": "https://landmarktheatre.org/series/hells-kitchen/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0473,
+    -76.1526
+   ],
+   "w": "Tue–Sun 11/10–15"
+  },
+  {
+   "n": "Samantha Fish",
+   "c": "Concert",
+   "s": "Blues-rock guitar slinger Samantha Fish brings her Paper Doll tour, with Sgt. Splendor, to the Showroom.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-11-14/samantha-fish",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Sat 11/14 · 8p"
+  },
+  {
+   "n": "Utica Comets vs. Syracuse Crunch (rematch)",
+   "c": "Sports",
+   "s": "Round two of the I-90 rivalry eight days later, back at the Adirondack Bank Center.",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.uticacomets.com/schedule",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1049,
+    -75.2334
+   ],
+   "w": "Sat 11/14 · 6p"
+  },
+  {
+   "n": "Syracuse vs. Cornell (men's basketball)",
+   "c": "Sports",
+   "s": "An in-state nonconference matchup as the Orange host Cornell at the JMA Wireless Dome.",
+   "d": 38.2,
+   "t": 56,
+   "u": "https://cuse.com/sports/mens-basketball/schedule/2026-27",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0363,
+    -76.1364
+   ],
+   "w": "Wed 11/18 · 8p"
+  },
+  {
+   "n": "Jeff Dunham",
+   "c": "Comedy",
+   "s": "The ventriloquist and his cast of puppets play Utica's Stanley Theatre.",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.thestanley.org/events/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0989,
+    -75.2353
+   ],
+   "w": "Fri 11/20 · 7p"
+  },
+  {
+   "n": "New York State Craft Brewers Festival",
+   "c": "Festival",
+   "s": "A tasting session pouring beers from craft breweries around the state, inside the Landmark Theatre.",
+   "d": 39.0,
+   "t": 56,
+   "u": "https://landmarktheatre.org/event/new-york-state-craft-brewers-festival/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0473,
+    -76.1526
+   ],
+   "w": "Sat 11/21 · 4p–8p"
+  },
+  {
+   "n": "Lights on the Lake",
+   "c": "Holiday",
+   "s": "Central New York's two-mile drive-through holiday light show along Onondaga Lake, nightly 5–10p; buy tickets online ahead.",
+   "d": 42.5,
+   "t": 59,
+   "u": "https://www.lightsonthelake.com/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1039,
+    -76.2172
+   ],
+   "w": "Sat 11/21 – Mon 1/4"
+  },
+  {
+   "n": "Les Misérables at Syracuse Stage",
+   "c": "Theatre",
+   "s": "Syracuse Stage's holiday-season production of the epic musical, directed by Robert Hupp.",
+   "d": 38.1,
+   "t": 56,
+   "u": "https://news.syr.edu/2026/03/05/syracuse-stage-announces-2026-27-season/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0466,
+    -76.1382
+   ],
+   "w": "Fri 11/27 – Sun 1/3"
+  },
+  {
+   "n": "Syracuse vs. Notre Dame",
+   "c": "Sports",
+   "s": "Thanksgiving-weekend season finale as the Orange host Notre Dame at the JMA Wireless Dome; kickoff time set 12 days out.",
+   "d": 38.2,
+   "t": 56,
+   "u": "https://cuse.com/sports/football/schedule/2026",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0363,
+    -76.1364
+   ],
+   "w": "Sat 11/28"
+  },
+  {
+   "n": "Lindsey Stirling: The Snow Waltz Tour",
+   "c": "Concert",
+   "s": "The dancing violinist's holiday show of electronic-meets-classical arrangements at the Landmark Theatre.",
+   "d": 39.0,
+   "t": 56,
+   "u": "https://landmarktheatre.org/event/lindsey-stirling-the-snow-waltz-tour/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0473,
+    -76.1526
+   ],
+   "w": "Mon 11/30 · 7p"
+  },
+  {
+   "n": "Straight No Chaser: Making Spirits Bright",
+   "c": "Concert",
+   "s": "The a cappella group's holiday tour stops at the Landmark Theatre.",
+   "d": 39.0,
+   "t": 56,
+   "u": "https://landmarktheatre.org/event/straight-no-chaser-making-spirits-bright-tour/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0473,
+    -76.1526
+   ],
+   "w": "Tue 12/1 · 8p"
+  },
+  {
+   "n": "The Nutcracker at the Stanley",
+   "c": "Holiday",
+   "s": "Three performances of the holiday ballet at the Stanley Theatre (7p Fri–Sat, 2p Sun).",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.thestanley.org/events/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0989,
+    -75.2353
+   ],
+   "w": "Fri–Sun 12/4–6"
+  },
+  {
+   "n": "Derek Hough: Dance for the Holidays",
+   "c": "Holiday",
+   "s": "The Dancing with the Stars pro's holiday dance spectacular in Turning Stone's Event Center.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-12-05/derek-hough",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Sat 12/5 · 8p"
+  },
+  {
+   "n": "Syracuse vs. Colgate (men's basketball)",
+   "c": "Sports",
+   "s": "A Central New York neighbor comes to the JMA Wireless Dome for nonconference basketball.",
+   "d": 38.2,
+   "t": 56,
+   "u": "https://cuse.com/sports/mens-basketball/schedule/2026-27",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0363,
+    -76.1364
+   ],
+   "w": "Tue 12/8 · 7p"
+  },
+  {
+   "n": "The Wizards of Winter",
+   "c": "Holiday",
+   "s": "A holiday rock-opera show in the Trans-Siberian Orchestra vein, in the Showroom.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-12-11/the-wizards-of-winter",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Fri 12/11 · 8p"
+  },
+  {
+   "n": "Sound of Music",
+   "c": "Theatre",
+   "s": "The Rodgers & Hammerstein classic on tour for a week of holiday-season shows at the Landmark Theatre.",
+   "d": 39.0,
+   "t": 56,
+   "u": "https://landmarktheatre.org/series/sound-of-music/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0473,
+    -76.1526
+   ],
+   "w": "Tue–Sun 12/15–20"
+  },
+  {
+   "n": "Mark Normand: Mumbo Jumbo Tour",
+   "c": "Comedy",
+   "s": "New York club comic Mark Normand headlines the Event Center.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-12-18/mark-normand",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Fri 12/18 · 8p"
+  },
+  {
+   "n": "Aaron Lewis and The Stateliners",
+   "c": "Concert",
+   "s": "The former Staind frontman's country project closes out the year at the Event Center.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-12-19/aaron-lewis-and-the-stateliners",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Sat 12/19 · 8p"
+  }
+ ],
+ "nightlife": [
+  {
+   "n": "Turning Stone casino floor",
+   "c": "Casino",
+   "s": "The region's big night out: table games, poker room and slots under one roof, with the Exit 33 bars a short walk away.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/",
+   "r": 4.4,
+   "rc": 16000,
+   "ll": [
+    43.1151,
+    -75.5888
+   ]
+  },
+  {
+   "n": "The Gig at Exit 33",
+   "c": "Live music / DJs",
+   "s": "Turning Stone's main nightlife room for cover bands and touring DJs, with the biggest dance floor in the building on weekends.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/nightlife-lounges/the-gig/",
+   "r": 4.4,
+   "rc": 300,
+   "ll": [
+    43.1151,
+    -75.5888
+   ]
+  },
+  {
+   "n": "Turquoise Tiger",
+   "c": "Cocktail lounge",
+   "s": "A film-noir lounge at Exit 33 with handcrafted cocktails and live sets; the move for a dressed-up drink before the tables.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/nightlife-lounges/turquoise-tiger/",
+   "r": 4.5,
+   "rc": 450,
+   "ll": [
+    43.1151,
+    -75.5888
+   ]
+  },
+  {
+   "n": "Tin Rooster Honky Tonk",
+   "c": "Dance hall",
+   "s": "Nashville-style honky tonk with live country, line dancing and pit-fired BBQ; even skeptics end up on the floor.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/nightlife-lounges/tin-rooster-dancehall-and-bbq/",
+   "r": 4.5,
+   "rc": 1800,
+   "ll": [
+    43.1151,
+    -75.5888
+   ]
+  },
+  {
+   "n": "NY Rec & Social Club",
+   "c": "Sports lounge",
+   "s": "Lava's old space reborn as a sportsbook lounge with a wall of LED screens, pool and darts, and resident DJs on weekends.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/nightlife-lounges/venue/ny-rec-and-social-club/",
+   "r": 4.3,
+   "rc": 500,
+   "ll": [
+    43.1151,
+    -75.5888
+   ]
+  },
+  {
+   "n": "Yellow Brick Road Casino",
+   "c": "Casino",
+   "s": "The Oneida Nation's Oz-themed casino in Chittenango, with the Winged Monkey bar open till 2 on weekends and a big sportsbook lounge.",
+   "d": 23.1,
+   "t": 40,
+   "u": "https://www.ybrcasinoandsportsbook.com/",
+   "r": 4.3,
+   "rc": 3000,
+   "ll": [
+    43.0494,
+    -75.9009
+   ]
+  },
+  {
+   "n": "Point Place Casino",
+   "c": "Casino",
+   "s": "Oneida Lake's casino, freshly doubled in size with a new hotel and The Lounge with Caesars Sports; a low-key pairing with a Sylvan Beach day.",
+   "d": 26.0,
+   "t": 44,
+   "u": "https://www.pointplacecasino.com/",
+   "r": 4.3,
+   "rc": 2200,
+   "ll": [
+    43.1534,
+    -75.967
+   ]
+  },
+  {
+   "n": "Vernon Downs Casino",
+   "c": "Casino / racing",
+   "s": "Harness racing out back and slots inside; summer race nights with a drink trackside are a fun, unpretentious date.",
+   "d": 6.8,
+   "t": 15,
+   "u": "https://www.vernondowns.com/",
+   "r": 4.1,
+   "rc": 3500,
+   "ll": [
+    43.0679,
+    -75.5345
+   ]
+  },
+  {
+   "n": "Orbis Lounge",
+   "c": "DJ lounge",
+   "s": "A Hanover Square lounge with DJs Thursday through Saturday, cocktails and tacos, and a dance floor that fills after 11.",
+   "d": 38.9,
+   "t": 56,
+   "u": null,
+   "r": 4.3,
+   "rc": 250,
+   "ll": [
+    43.0501,
+    -76.1512
+   ]
+  },
+  {
+   "n": "Benjamin's on Franklin",
+   "c": "Dance club",
+   "s": "Armory Square's dance club in the neighborhood's original nightclub building, with weekend DJs, bottle service and a dress code to match.",
+   "d": 39.2,
+   "t": 56,
+   "u": null,
+   "r": 3.9,
+   "rc": 300,
+   "ll": [
+    43.0483,
+    -76.1557
+   ]
+  },
+  {
+   "n": "The York",
+   "c": "Restaurant / lounge",
+   "s": "Industrial-chic raw bar and steakhouse that dims the lights and brings in DJs as the night goes on; dinner and drinks without moving.",
+   "d": 39.2,
+   "t": 56,
+   "u": "https://yorkcny.com/",
+   "r": 4.4,
+   "rc": 800,
+   "ll": [
+    43.0486,
+    -76.155
+   ]
+  },
+  {
+   "n": "Tallman Cocktail Club",
+   "c": "Speakeasy",
+   "s": "Through a back corridor off The Hops Spot: fish-scale tile bar, tufted booths, fresh-juice cocktails and live music on weekends.",
+   "d": 39.1,
+   "t": 56,
+   "u": null,
+   "r": 4.7,
+   "rc": 150,
+   "ll": [
+    43.0481,
+    -76.1544
+   ]
+  },
+  {
+   "n": "The Fitz",
+   "c": "Speakeasy",
+   "s": "An Art Deco basement bar beneath Oh My Darling, across from the Landmark Theatre, with live jazz and soul on Friday and Saturday nights.",
+   "d": 39.0,
+   "t": 56,
+   "u": null,
+   "r": 4.6,
+   "rc": 200,
+   "ll": [
+    43.0481,
+    -76.1518
+   ]
+  },
+  {
+   "n": "The Song & Dance",
+   "c": "Club/venue",
+   "s": "Downtown's newer club and concert room, mixing touring acts with themed dance nights and raves; check the calendar and go.",
+   "d": 39.0,
+   "t": 56,
+   "u": "https://www.thesonganddance.com/",
+   "r": 4.5,
+   "rc": 300,
+   "ll": [
+    43.0473,
+    -76.1519
+   ]
+  },
+  {
+   "n": "The Westcott Theater",
+   "c": "Live music",
+   "s": "A converted 1919 movie house that books hip-hop, R&B and dancehall acts alongside jam bands; general admission, so get close.",
+   "d": 37.0,
+   "t": 55,
+   "u": "https://thewestcotttheater.com/",
+   "r": 4.6,
+   "rc": 1000,
+   "ll": [
+    43.0411,
+    -76.1197
+   ]
+  },
+  {
+   "n": "Funk 'n Waffles",
+   "c": "Live music",
+   "s": "Armory Square's funk, soul and indie room, with chicken and waffles served until the band starts.",
+   "d": 39.1,
+   "t": 56,
+   "u": "https://funknwaffles.com/",
+   "r": 4.5,
+   "rc": 2000,
+   "ll": [
+    43.0484,
+    -76.1534
+   ]
+  },
+  {
+   "n": "Nail Creek Pub & Brewery",
+   "c": "Brewpub",
+   "s": "Utica's original craft beer pub, anchoring the Varick Street bar crawl; busiest around 10 on a Saturday.",
+   "d": 21.7,
+   "t": 39,
+   "u": "https://www.nailcreekpub.com/",
+   "r": 4.6,
+   "rc": 700,
+   "ll": [
+    43.1037,
+    -75.2437
+   ]
+  }
+ ],
+ "eats": [
+  {
+   "n": "Sushi Sushi",
+   "c": "Sushi",
+   "s": "Turning Stone's only full-time sushi bar: nigiri, maki and sushi stacks, plus shoyu ramen and pho. Dinner only, Thu–Sun.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/dining/sushi-sushi",
+   "r": 4.2,
+   "rc": 600,
+   "ll": [
+    43.1151,
+    -75.5888
+   ]
+  },
+  {
+   "n": "AT Sushi",
+   "c": "Sushi",
+   "s": "Plain strip-mall room, but locals call it Syracuse's best sushi. Fish quality beats the decor, so sit at the bar and order nigiri.",
+   "d": 34.6,
+   "t": 52,
+   "u": null,
+   "r": 4.7,
+   "rc": 500,
+   "ll": [
+    43.0551,
+    -76.0857
+   ]
+  },
+  {
+   "n": "Sakana-Ya",
+   "c": "Sushi",
+   "s": "Armory Square kaiten bar since 2007: grab plates off the conveyor, with half-price belt sushi on many days.",
+   "d": 39.2,
+   "t": 56,
+   "u": null,
+   "r": 4.3,
+   "rc": 1300,
+   "ll": [
+    43.0479,
+    -76.1562
+   ]
+  },
+  {
+   "n": "Mitsuba Sushi & Hibachi",
+   "c": "Sushi",
+   "s": "The Utica area's go-to sushi bar, known for spicy crab rolls and a hibachi side for birthdays.",
+   "d": 17.3,
+   "t": 33,
+   "u": "https://www.mitsubany.com",
+   "r": 4.5,
+   "rc": 900,
+   "ll": [
+    43.0918,
+    -75.3142
+   ]
+  },
+  {
+   "n": "TS Steakhouse",
+   "c": "Steakhouse · Date night",
+   "s": "Penthouse steakhouse on top of the Turning Stone tower, with a sky-view balcony bar. It's a Forbes Four-Star and has been named the most romantic restaurant in NY.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/dining/ts-steakhouse",
+   "r": 4.5,
+   "rc": 900,
+   "ll": [
+    43.1151,
+    -75.5888
+   ]
+  },
+  {
+   "n": "Wildflowers",
+   "c": "Fine dining · Date night",
+   "s": "Intimate farm-to-table room inside The Lodge at Turning Stone. It's Forbes Four-Star (2026) with a dress-up dress code, so it's the special-occasion pick.",
+   "d": 2.3,
+   "t": 6,
+   "u": "https://www.turningstone.com/dining/wildflowers",
+   "r": 4.6,
+   "rc": 400,
+   "ll": [
+    43.1154,
+    -75.5866
+   ]
+  },
+  {
+   "n": "Ancora!",
+   "c": "Italian-Mediterranean · Date night",
+   "s": "Next to the Stanley Theatre, with a wine-tower bar, open kitchen, tapas and handmade gnocchi. The obvious pre-show dinner.",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.ancorautica.com",
+   "r": 4.6,
+   "rc": 900,
+   "ll": [
+    43.0989,
+    -75.2353
+   ]
+  },
+  {
+   "n": "Delmonico's Italian Steakhouse",
+   "c": "Steakhouse",
+   "s": "Utica's most-reviewed restaurant: a 24-oz Delmonico, red-sauce classics and house cannoli, served in a loud, big-city room.",
+   "d": 23.2,
+   "t": 40,
+   "u": "https://www.opentable.com/r/delmonicos-italian-steakhouse-utica",
+   "r": 4.4,
+   "rc": 2500,
+   "ll": [
+    43.1093,
+    -75.2197
+   ]
+  },
+  {
+   "n": "Chesterfield's Tavolo",
+   "c": "Utica classics",
+   "s": "The family behind Utica greens (1987) and an early claim to chicken riggies, now in a modern room on North Genesee. Order both.",
+   "d": 23.1,
+   "t": 40,
+   "u": null,
+   "r": 4.4,
+   "rc": 1000,
+   "ll": [
+    43.1091,
+    -75.2201
+   ]
+  },
+  {
+   "n": "O'Scugnizzo Pizzeria",
+   "c": "Tomato pie · Icon",
+   "s": "Utica's oldest pizzeria (1914) and one of the oldest in the US. Come for upside-down pies and room-temp tomato pie on Bleecker St.",
+   "d": 23.2,
+   "t": 40,
+   "u": "https://uticapizza.com",
+   "r": 4.5,
+   "rc": 1100,
+   "ll": [
+    43.0988,
+    -75.2204
+   ]
+  },
+  {
+   "n": "Holland Farms Bakery & Deli",
+   "c": "Bakery · Half-moons",
+   "s": "The half-moon cookie headquarters since 1955, with 10+ flavors and Utica-style tomato pie by the sheet.",
+   "d": 19.8,
+   "t": 36,
+   "u": "https://www.hollandfarms.com",
+   "r": 4.7,
+   "rc": 1500,
+   "ll": [
+    43.1136,
+    -75.2714
+   ]
+  },
+  {
+   "n": "Tailor and the Cook",
+   "c": "Farm-to-table · Date night",
+   "s": "Bagg's Square farm-to-table cooking with a seasonal, locally sourced menu, now on Main St. Pair it with a show at the Capitol or Stanley.",
+   "d": 22.9,
+   "t": 40,
+   "u": "https://www.thetailorandthecook.com",
+   "r": 4.6,
+   "rc": 700,
+   "ll": [
+    43.1043,
+    -75.224
+   ]
+  },
+  {
+   "n": "Dinosaur Bar-B-Que",
+   "c": "BBQ · Icon",
+   "s": "The 1988 Willow St. original: pit-smoked ribs and brisket, a biker-bar room, and live blues most nights.",
+   "d": 39.1,
+   "t": 56,
+   "u": "https://www.dinosaurbarbque.com/syracuse",
+   "r": 4.5,
+   "rc": 9000,
+   "ll": [
+    43.0526,
+    -76.1547
+   ]
+  },
+  {
+   "n": "Eden",
+   "c": "Wood-fired · Date night",
+   "s": "Wood-fired, all-local seasonal cooking from James Beard–nominated chef Rich Strub, downtown Syracuse's top date-night table.",
+   "d": 38.9,
+   "t": 56,
+   "u": null,
+   "r": 4.7,
+   "rc": 600,
+   "ll": [
+    43.0502,
+    -76.1515
+   ]
+  },
+  {
+   "n": "Pastabilities",
+   "c": "Italian · Icon",
+   "s": "Armory Square institution famous for its hot tomato oil and stretch bread, with handmade pasta in a buzzy room.",
+   "d": 39.2,
+   "t": 56,
+   "u": "https://www.pastabilities.com",
+   "r": 4.5,
+   "rc": 3000,
+   "ll": [
+    43.0483,
+    -76.1554
+   ]
+  },
+  {
+   "n": "The Brewster Inn",
+   "c": "Fine dining · Date night",
+   "s": "Gilded Age mansion on Cazenovia Lake: scallops, octopus and a Wine Spectator–awarded list, with a lakeside terrace at sunset.",
+   "d": 26.9,
+   "t": 45,
+   "u": "https://www.thebrewsterinn.com",
+   "r": 4.6,
+   "rc": 600,
+   "ll": [
+    42.9276,
+    -75.8615
+   ]
+  },
+  {
+   "n": "Lincklaen House",
+   "c": "Historic tavern",
+   "s": "Cazenovia's 1835 inn, with fireplace dining upstairs and a stone-stepped tavern below for steaks and beef on weck.",
+   "d": 26.3,
+   "t": 44,
+   "u": "https://lincklaenhouse.com",
+   "r": 4.4,
+   "rc": 500,
+   "ll": [
+    42.9302,
+    -75.853
+   ]
+  }
+ ],
+ "chinese": [
+  {
+   "n": "Red Chili 红辣椒",
+   "c": "Sichuan hot pot",
+   "s": "Syracuse's Sichuan standard-bearer since 2012, with mala everything, hot pot burners built into the tables, and signature boiled fish in chili oil 水煮鱼.",
+   "d": 35.3,
+   "t": 53,
+   "u": "https://www.redchilisyracuse.com",
+   "r": 4.3,
+   "rc": 700,
+   "ll": [
+    43.054,
+    -76.0962
+   ]
+  },
+  {
+   "n": "Old Chengdu Cafe 老成都",
+   "c": "Sichuan noodles",
+   "s": "Chengdu home cooking that's about more than heat. Get the hand-pulled pork dry noodles 干拌面 with egg-tomato.",
+   "d": 37.8,
+   "t": 55,
+   "u": "https://www.thisiscny.com/food/2025/03/sichuan-food-is-more-than-heat-at-old-chengdu-cafe-in-syracuse-dining-out-review.html",
+   "r": 4.6,
+   "rc": 200,
+   "ll": [
+    43.0487,
+    -76.1334
+   ]
+  },
+  {
+   "n": "Su Su Dim Sum 点心",
+   "c": "Dim sum · Noodles",
+   "s": "Family-run since 2024 on East Brighton: dumplings, bao and crispy duck noodle soup over hand-pulled noodles in house duck broth.",
+   "d": 38.7,
+   "t": 56,
+   "u": "https://www.susudimsum.com",
+   "r": 4.7,
+   "rc": 250,
+   "ll": [
+    43.0125,
+    -76.1342
+   ]
+  },
+  {
+   "n": "Hotpot Lulu 火锅",
+   "c": "Hot pot · Sichuan",
+   "s": "University Hill hot pot and Sichuan kitchen: hot pot noodles, xiao long bao 小笼包, twice-cooked pork 回锅肉 and braised trotters.",
+   "d": 38.1,
+   "t": 56,
+   "u": "https://order.online/store/-25856661/",
+   "r": 4.6,
+   "rc": 100,
+   "ll": [
+    43.0423,
+    -76.1364
+   ]
+  },
+  {
+   "n": "Mr. Noodle & Ms. Dumpling",
+   "c": "Noodles · Dumplings",
+   "s": "Big round tables with lazy Susans, handmade dumplings and noodle bowls. Built for a group dinner, family style.",
+   "d": 35.1,
+   "t": 53,
+   "u": "https://dailyorange.com/2023/01/mr-noodle-and-ms-dumpling-want-to-offer-asian-fusion-cuisine-share-chinese-culture/",
+   "r": 4.4,
+   "rc": 400,
+   "ll": [
+    43.0556,
+    -76.0932
+   ]
+  },
+  {
+   "n": "Asia Food Market 亚洲超市",
+   "c": "Asian grocery",
+   "s": "The region's big Chinese supermarket: live seafood tanks, roast duck and pig 烧腊, produce, sauces and hot-pot fixings.",
+   "d": 37.2,
+   "t": 55,
+   "u": "https://www.cnybj.com/?p=40685",
+   "r": 4.4,
+   "rc": 1500,
+   "ll": [
+    43.0503,
+    -76.1257
+   ]
+  },
+  {
+   "n": "Gong Cha 貢茶",
+   "c": "Bubble tea",
+   "s": "Taiwanese milk tea and milk-foam teas on the corner of Walton & Franklin in Armory Square.",
+   "d": 39.1,
+   "t": 56,
+   "u": null,
+   "r": 4.4,
+   "rc": 200,
+   "ll": [
+    43.048,
+    -76.1544
+   ]
+  },
+  {
+   "n": "Abundant Grace Asian Market",
+   "c": "Asian grocery · Boba",
+   "s": "Renovated pan-Asian market on Oneida St. serving Utica's Burmese, Chinese and SE Asian community, with a hot bar and taro or Thai-tea boba.",
+   "d": 21.6,
+   "t": 38,
+   "u": "https://www.wktv.com/news/local/abundant-grace-asian-market-now-open-in-utica/article_8e7de255-2413-4c54-87ad-4aa4d7adbf92.html",
+   "r": 4.5,
+   "rc": 60,
+   "ll": [
+    43.0886,
+    -75.248
+   ]
+  },
+  {
+   "n": "SU Spring Festival Gala 春晚",
+   "c": "Lunar New Year · Annual",
+   "s": "Syracuse University's Chinese Students & Scholars Association stages a Lunar New Year gala every February, with song, dance and xiangsheng 相声.",
+   "d": 38.0,
+   "t": 55,
+   "u": "https://news.syr.edu/?p=183775",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.04,
+    -76.1336
+   ]
+  }
+ ],
+ "fishing": [
+  {
+   "n": "Verona Beach State Park",
+   "c": "Walleye lake",
+   "s": "Oneida Lake's east-end shore: wade or cast the sand flats for walleye, perch and bass, and it's the go-to spot for ice fishing in winter. NY license required.",
+   "d": 10.0,
+   "t": 21,
+   "u": "https://parks.ny.gov/visit/state-parks/verona-beach-state-park",
+   "r": 4.5,
+   "rc": 1900,
+   "ll": [
+    43.1778,
+    -75.7133
+   ]
+  },
+  {
+   "n": "Sylvan Beach canal piers",
+   "c": "Walleye lake",
+   "s": "Walls and jetties where the Barge Canal and Fish Creek meet Oneida Lake. Walleye at dusk, perch and bass all summer, and the arcade and clam shacks a block away.",
+   "d": 11.7,
+   "t": 24,
+   "u": "https://sylvanbeachny.com/",
+   "r": 4.5,
+   "rc": 1200,
+   "ll": [
+    43.1967,
+    -75.7305
+   ]
+  },
+  {
+   "n": "Godfrey Point boat launch",
+   "c": "Walleye lake",
+   "s": "DEC's big hard-surface ramp on Oneida Lake's north shore (56 trailer spots, restrooms). Jig the shoals for walleye or work the weed edges for smallmouth and largemouth.",
+   "d": 19.6,
+   "t": 36,
+   "u": "https://dec.ny.gov/things-to-do/boating/launch-sites/oneida-county",
+   "r": 4.5,
+   "rc": 120,
+   "ll": [
+    43.2233,
+    -75.8466
+   ]
+  },
+  {
+   "n": "Oneida Shores Park",
+   "c": "Walleye lake",
+   "s": "Onondaga County's paved launch at Brewerton on the lake's west end (fee), with room for 100 rigs. Walleye, yellow perch and bass, plus a beach for anyone who'd rather swim.",
+   "d": 35.9,
+   "t": 54,
+   "u": "https://onondagacountyparks.com/parks/oneida-shores-park/",
+   "r": 4.6,
+   "rc": 1800,
+   "ll": [
+    43.2206,
+    -76.1079
+   ]
+  },
+  {
+   "n": "West Branch Fish Creek",
+   "c": "Trout stream",
+   "s": "Nearly 28 miles of public fishing rights from Williamstown down to Blossvale. Stocked browns, the odd wild brookie, and quiet water ten minutes from the casino. NY license required.",
+   "d": 14.3,
+   "t": 28,
+   "u": "https://dec.ny.gov/places/west-branch-fish-creek",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.2752,
+    -75.6829
+   ]
+  },
+  {
+   "n": "Salmon River (Pulaski to Altmar)",
+   "c": "Salmon & steelhead river",
+   "s": "The big one: king and coho salmon pack the river from mid-September into October, then steelhead and browns run all winter. Fly-fishing-only water up at Altmar. NY license required, and dress for crowds.",
+   "d": 53.0,
+   "t": 66,
+   "u": "https://dec.ny.gov/places/salmon-river",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.567,
+    -76.1277
+   ]
+  },
+  {
+   "n": "Douglaston Salmon Run",
+   "c": "Salmon & steelhead river",
+   "s": "About 2½ miles of private, fee-access river below Pulaski: elbow room in peak salmon season, plus fall-through-spring steelhead and browns. Day passes and lodging on site.",
+   "d": 54.6,
+   "t": 67,
+   "u": "https://www.douglastonsalmonrun.com/",
+   "r": 4.6,
+   "rc": 350,
+   "ll": [
+    43.57,
+    -76.16
+   ]
+  },
+  {
+   "n": "Delta Lake State Park",
+   "c": "Bass & pike lake",
+   "s": "Reservoir peninsula just north of Rome with a launch and shore access. Smallmouth, northern pike, walleye and bullhead, and campsites if you want a dawn start.",
+   "d": 16.9,
+   "t": 32,
+   "u": "https://parks.ny.gov/visit/state-parks/delta-lake-state-park",
+   "r": 4.5,
+   "rc": 1500,
+   "ll": [
+    43.2909,
+    -75.4204
+   ]
+  },
+  {
+   "n": "West Canada Creek",
+   "c": "Trout river",
+   "s": "Big tailwater trout river below Trenton Falls, with the Kast Bridge stretch near Herkimer the classic. Browns and rainbows on dries in spring, and it's floatable. NY license required.",
+   "d": 38.6,
+   "t": 56,
+   "u": "https://dec.ny.gov/places/fishing-the-west-canada-creek",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0701,
+    -74.9902
+   ]
+  },
+  {
+   "n": "Reel Naturalz Charters",
+   "c": "Fishing charter",
+   "s": "Capt. Jason runs Oneida Lake walleye and perch trips out of Constantia on a 21-ft Lund with LiveScope. Gear is included and he fillets your catch. Bring your own NY license.",
+   "d": 29.8,
+   "t": 48,
+   "u": "https://fishingbooker.com/charters/view/28303",
+   "r": 5.0,
+   "rc": 35,
+   "ll": [
+    43.2478,
+    -76.0002
+   ]
+  }
+ ],
+ "biking": [
+  {
+   "n": "Highland Forest",
+   "c": "MTB trail network",
+   "s": "Onondaga County's 2,700-acre hilltop forest in Fabius, nicknamed the Adirondacks of CNY: roughly 20 miles of club-maintained singletrack and doubletrack. Mud season is real.",
+   "d": 36.9,
+   "t": 55,
+   "u": "https://onondagacountyparks.com/parks/highland-forest/",
+   "r": 4.7,
+   "rc": 1600,
+   "ll": [
+    42.8154,
+    -75.9186
+   ]
+  },
+  {
+   "n": "Green Lakes State Park",
+   "c": "MTB trail network",
+   "s": "About 10 miles of multi-use trails through beech woods above two glacial meromictic lakes. Beginner-friendly, but stay off the hiker-only lake loops.",
+   "d": 28.3,
+   "t": 46,
+   "u": "https://parks.ny.gov/visit/state-parks/green-lakes-state-park",
+   "r": 4.8,
+   "rc": 9500,
+   "ll": [
+    43.0466,
+    -75.9834
+   ]
+  },
+  {
+   "n": "Morgan Hill State Forest",
+   "c": "MTB trail network",
+   "s": "25-plus miles of rugged multi-use trail around the high point of Onondaga County, including the singletrack Onondaga Trail. Long climbs and rocky, technical descents.",
+   "d": 42.9,
+   "t": 59,
+   "u": "https://dec.ny.gov/places/morgan-hill-state-forest",
+   "r": 4.7,
+   "rc": 180,
+   "ll": [
+    42.7758,
+    -75.9959
+   ]
+  },
+  {
+   "n": "Stoney Pond State Forest",
+   "c": "MTB singletrack",
+   "s": "About 13 miles of intermediate singletrack looping a pond near Nelson, just past Cazenovia. Rooty, flowy and usually quiet.",
+   "d": 24.7,
+   "t": 42,
+   "u": "https://dec.ny.gov/places/stoney-pond-state-forest",
+   "r": 4.6,
+   "rc": 160,
+   "ll": [
+    42.889,
+    -75.7307
+   ]
+  },
+  {
+   "n": "Sherrillbrook Park",
+   "c": "MTB singletrack",
+   "s": "New Hartford town park with about 8 miles of mostly singletrack: ravines, stream crossings and plenty of dead ends. Signage is thin, so load a map first.",
+   "d": 17.6,
+   "t": 33,
+   "u": "https://www.singletracks.com/bike-trails/sherrillbrook-park/",
+   "r": 4.6,
+   "rc": 650,
+   "ll": [
+    43.0668,
+    -75.3213
+   ]
+  },
+  {
+   "n": "McCauley Mountain",
+   "c": "MTB flow trails",
+   "s": "Old Forge ski hill with machine-built flow trails and rocky singletrack that link to Maple Ridge and town. The region's real descending, about 80 minutes north.",
+   "d": 63.9,
+   "t": 73,
+   "u": "https://mccauleyny.com/",
+   "r": 4.6,
+   "rc": 800,
+   "ll": [
+    43.6975,
+    -74.9644
+   ]
+  },
+  {
+   "n": "Old Erie Canal towpath (Durhamville)",
+   "c": "Gravel/towpath",
+   "s": "A 36-mile stone-dust towpath from DeWitt to Rome that runs right through Durhamville in the Town of Verona. Flat, easy gravel miles, and part of the Empire State Trail.",
+   "d": 6.4,
+   "t": 14,
+   "u": "https://parks.ny.gov/visit/state-parks/old-erie-canal-state-historic-park",
+   "r": 4.6,
+   "rc": 600,
+   "ll": [
+    43.1237,
+    -75.6658
+   ]
+  }
+ ],
+ "social": [
+  {
+   "n": "CNY Regional Market",
+   "c": "Farmers market",
+   "s": "Syracuse's huge year-round market sheds: farmers, Amish bakers, Asian produce stalls and a crowd worth people-watching. Thursdays too, May to November.",
+   "d": 39.6,
+   "t": 57,
+   "u": "https://cnyregionalmarket.com/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0744,
+    -76.1677
+   ],
+   "w": "Saturdays · 7a–2p"
+  },
+  {
+   "n": "Oneida County Public Market",
+   "c": "Farmers market",
+   "s": "Utica's year-round farmers market at Union Station: outdoors behind the station in summer, under the marble lobby's vaulted ceiling in winter.",
+   "d": 23.0,
+   "t": 40,
+   "u": "https://www.oneidacountypublicmarket.com/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1042,
+    -75.2232
+   ],
+   "w": "Saturdays · 9a–1p"
+  },
+  {
+   "n": "Boots at the Brewery line dancing",
+   "c": "Line dancing",
+   "s": "Wednesday line dancing in Middle Ages Brewing's upstairs Music Hall: a taught warm-up, then open floor to country, pop and hip-hop, with crowds near 200.",
+   "d": 39.5,
+   "t": 57,
+   "u": "https://www.middleagesbrewing.com/events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0511,
+    -76.1616
+   ],
+   "w": "Wednesdays · 7p–10p"
+  },
+  {
+   "n": "Trivia at Middle Ages Brewing",
+   "c": "Trivia",
+   "s": "Weekly taproom trivia at Syracuse's oldest brewery (since 1995). Grab a pint of Wailing Wench and a team.",
+   "d": 39.5,
+   "t": 57,
+   "u": "https://www.middleagesbrewing.com/events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0511,
+    -76.1616
+   ],
+   "w": "Tuesdays · 6p"
+  },
+  {
+   "n": "Woodland Farm Brewery trivia",
+   "c": "Trivia",
+   "s": "Thursday trivia at a farm brewery north of Utica, about 25 minutes from Verona. Easy-going and local.",
+   "d": 23.5,
+   "t": 41,
+   "u": "https://www.woodlandbeer.com/events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1512,
+    -75.2121
+   ],
+   "w": "Thursdays · 6:30p"
+  },
+  {
+   "n": "Lake Effect Run Club",
+   "c": "Run club",
+   "s": "Syracuse's all-paces social run club, out year-round in any weather. Start spots rotate around the city, so check before you go.",
+   "d": 38.9,
+   "t": 56,
+   "u": "https://www.lakeeffectrunclub.com/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0509,
+    -76.1524
+   ],
+   "w": "Wednesdays · 5:30p · Saturdays 8a"
+  },
+  {
+   "n": "Syracuse Track Club Green Lakes run",
+   "c": "Run club",
+   "s": "Thursday-evening group run from the Green Lakes disc-golf lot, on trails around the turquoise lakes. In winter it starts from Change of Pace on Grant Blvd instead.",
+   "d": 28.3,
+   "t": 46,
+   "u": "https://sites.google.com/view/syracuse-track-club/home",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0466,
+    -75.9834
+   ],
+   "w": "Thursdays · 6p (Apr–Nov)"
+  },
+  {
+   "n": "Sneaker Store Run Club",
+   "c": "Run club",
+   "s": "Open Wednesday-evening group run from New Hartford's local running shop, listed with the Utica Roadrunners. All paces welcome.",
+   "d": 19.5,
+   "t": 36,
+   "u": "https://www.uticaroadrunners.org/run-groups/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.074,
+    -75.2873
+   ],
+   "w": "Wednesdays · 6p"
+  },
+  {
+   "n": "Utica Roadrunners Saturday group run",
+   "c": "Run club",
+   "s": "Saturday-morning group run from Forte Strength & Fitness in New Hartford (back entrance), run by one of the most social running clubs in the Boilermaker's hometown.",
+   "d": 19.4,
+   "t": 36,
+   "u": "https://www.uticaroadrunners.org/run-groups/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0733,
+    -75.289
+   ],
+   "w": "Saturdays · 8a"
+  }
+ ]
+}
