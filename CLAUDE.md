@@ -62,15 +62,20 @@ Consequences to respect when editing:
 
 ## Updating events (recurring task)
 
-Three guides carry dated `events`: **Philly** (`data.json`), **Ithaca** (`data-ithaca.json`) and the **five NYC-area cities**
+Four guide groups carry dated `events`: **Philly** (`data.json`), **Ithaca** (`data-ithaca.json`), **Verona** (`data-verona.json`, Turning Stone / Utica / Syracuse) and the **five NYC-area cities**
 (`data-nyc/brooklyn/queens/flushing/foresthills.json`, tab list `NYC_TABS`). Boston does
-not yet. The routine is the same for both — the owner will ask to refresh a weekend or a
-month:
+not yet. A **daily scheduled task** (`refresh-things-to-do-events` in the Claude desktop app) runs this
+routine; the owner may also ask to refresh a weekend or a month by hand. `scripts/events.py`
+does the mechanical half (stdlib Python, tested by `tests/scripts/`):
+
+- `python3 scripts/events.py status` — events, past, and next-14-day counts per guide
+- `python3 scripts/events.py prune` — drop one-offs whose last date has passed (same date logic as `tests/data/freshness.test.js`; recurring `w` strings are never touched)
+- `python3 scripts/events.py add <data-file> <rows.json>` — append researched rows `{n,c,s,u,w,ll}`; it computes `d`/`t` from an origin **fitted to that guide's existing rows**, so no origin coordinate is ever needed or stored, and skips names already in the file
 
 1. Web-search for real events in the relevant area for the window asked for — Willow Grove / Montgomery / Bucks / Philadelphia for `data.json`; Manhattan, Brooklyn, Queens, Flushing and Forest Hills for the NYC set (festivals, parades, street fairs, concerts, sports, museum openings).
 2. **Only include events you can verify with a source URL** (`u` field). Never pad with guesses.
 3. Recurring weekly/seasonal entries (farmers markets, Friday food-truck nights, summer concert series) are wanted — keep them and refresh their `w` string; do not delete them just because a given weekend's listing page has rotated. This was an explicit owner correction.
-4. Estimate `d`/`t` per the formula below and keep the footer's "data gathered" month current.
+4. Let `scripts/events.py add` compute `d`/`t` (never hand-estimate), and keep the footer's "data gathered" / "events refreshed" month current.
 5. Attractions and fishing data change rarely — only touch them if asked or clearly stale.
 6. **Don't duplicate a recurring series into `events`.** If a market/night market/greenmarket already has a row in `social` (or `shops`), fix that row's `w` string instead — the consistency test only catches exact name collisions, so near-identical names ("Queens Night Market" vs "Queens Night Market fall season") have to be caught by eye.
 7. A one-off with no verifiable date does not belong in `events` at all; "check schedule" is not a `w` string.
@@ -83,6 +88,7 @@ Straight-line haversine miles from the city's origin place ×1.3 road factor = `
 
 `tests/` runs with node builtins only — no package.json, no dependencies:
 - `node --test 'tests/unit/*.test.js' 'tests/data/*.test.js'` — unit tests for the core logic (extracted from index.html into a vm sandbox with injectable dates) and the data-schema/consistency suite over every city dataset (per-file tab layouts live in `LAYOUTS` in `tests/data/schema.test.js` — add an entry there when a city's tab set differs from the default) (also run by `.github/workflows/ci.yml` on push/PR). Run these after ANY data or index.html edit.
+- `python3 -m unittest discover -s tests/scripts` — tests for `scripts/events.py` (also run by CI).
 - `node tests/e2e/run-all.js` (or `node tests/e2e/<name>.test.js` individually) — self-contained Playwright specs (region picker, tonight mode + count badge, map clustering, search hints, near-me city suggestion, trip notes, back-to-top, keyboard a11y). They need chromium + the playwright package; in sandboxes the browser can't reach CDNs, so `tests/e2e/_lib.js` routes unpkg/tile requests to `tests/e2e/vendor/` and blocks the service worker (which would otherwise shadow interception). CI runs the full e2e suite on every pull request.
 - The `w` when-strings power both the events "today" badge and Tonight mode — keep them in the formats `tests/unit/core.test.js` pins.
 
