@@ -756,6 +756,81 @@
     -76.4862
    ],
    "w": "Sat 7/18 – Sun 12/6"
+  },
+  {
+   "n": "Chris Fleming Live",
+   "c": "Comedy",
+   "s": "The surreal, high-energy comic behind Gayle brings his manic stand-up to the historic State Theatre stage.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://stateofithaca.org/events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Fri 10/23 · 8p"
+  },
+  {
+   "n": "Jessica Kirson",
+   "c": "Comedy",
+   "s": "A veteran club comic known for rapid-fire crowd work headlines a weeknight stand-up show downtown.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://stateofithaca.org/events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Thu 11/5 · 7p"
+  },
+  {
+   "n": "BenDeLaCreme Presents: The Jinkx & DeLa Holiday Show",
+   "c": "Holiday",
+   "s": "Two Drag Race favorites bring their campy, song-filled holiday revue to the State Theatre's ornate hall.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://stateofithaca.org/events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Sun 11/15 · 8p"
+  },
+  {
+   "n": "The Wailin' Jennys",
+   "c": "Concert",
+   "s": "The Canadian folk trio's close three-part harmonies fill the restored 1928 movie palace for an intimate date-night set.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://stateofithaca.org/events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Fri 11/20 · 8p"
+  },
+  {
+   "n": "Gillian Welch & David Rawlings: Grateful Dead Acoustic Reckoning",
+   "c": "Concert",
+   "s": "The Americana duo reworks Grateful Dead songs in stripped-down acoustic form for a pre-holiday State Theatre show.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://stateofithaca.org/events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Thu 12/17 · 7:30p"
   }
  ],
  "coffee": [

@@ -787,6 +787,96 @@
     -75.5888
    ],
    "w": "Sat 12/19 · 8p"
+  },
+  {
+   "n": "Women+ on the Edge of Democracy (play readings)",
+   "c": "Theatre",
+   "s": "A free evening of ten-minute play readings on American democracy in Syracuse Stage's Sutton Pavilion, reservations required.",
+   "d": 38.1,
+   "t": 56,
+   "u": "https://www.syracusestage.org/woteod",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0466,
+    -76.1382
+   ],
+   "w": "Thu 10/29 · 7p"
+  },
+  {
+   "n": "The Vampire Circus",
+   "c": "Theatre",
+   "s": "A gothic, Halloween-week circus spectacle of aerial and stunt acts inside the Stanley's Mexican-Baroque auditorium.",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.thestanley.org/events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0989,
+    -75.2353
+   ],
+   "w": "Thu 10/29 · 7:30p"
+  },
+  {
+   "n": "Syracuse Crunch Halloween Spooktacular vs. Hamilton",
+   "c": "Sports",
+   "s": "The Crunch host a Halloween-themed AHL night at the downtown War Memorial arena.",
+   "d": 38.8,
+   "t": 56,
+   "u": "https://syracusecrunch.com/sports/mens-ice-hockey/schedule",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0449,
+    -76.1482
+   ],
+   "w": "Fri 10/30 · 7p"
+  },
+  {
+   "n": "Utica Comets vs. Wilkes-Barre/Scranton Penguins",
+   "c": "Sports",
+   "s": "A Friday-night AHL home game in Utica's loud, packed downtown arena.",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.uticacomets.com/games",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1049,
+    -75.2334
+   ],
+   "w": "Fri 10/30 · 7p"
+  },
+  {
+   "n": "Utica Comets vs. Hamilton Hammers",
+   "c": "Sports",
+   "s": "A Sunday-matinee Comets home game against the Hamilton Hammers at the downtown arena.",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.uticacomets.com/games",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1049,
+    -75.2334
+   ],
+   "w": "Sun 11/1 · 3p"
+  },
+  {
+   "n": "Night Fever: The Best of the Bee Gees",
+   "c": "Concert",
+   "s": "A disco-era Bee Gees tribute in Turning Stone's Showroom, made for dancing in the aisles.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-11-07/night-fever",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Sat 11/7 · 8p"
   }
  ],
  "nightlife": [
