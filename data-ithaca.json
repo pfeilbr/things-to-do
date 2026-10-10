@@ -353,21 +353,6 @@
  ],
  "events": [
   {
-   "n": "44th Annual Apple Harvest Festival",
-   "c": "Festival",
-   "s": "Three days of cider, apple everything, 150 vendors and live music filling the Commons and the surrounding streets. Free.",
-   "d": 1.1,
-   "t": 3,
-   "u": "https://www.downtownithaca.com/apple-harvest-festival/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4396,
-    -76.4966
-   ],
-   "w": "Fri–Sun 9/25–27"
-  },
-  {
    "n": "Bennie and the Rest",
    "c": "Concert",
    "s": "Elton John tribute at the Hangar Theatre.",
@@ -381,21 +366,6 @@
     -76.5174
    ],
    "w": "Thu 10/22 · 7:30p"
-  },
-  {
-   "n": "Brad Williams",
-   "c": "Comedy",
-   "s": "Stand-up at the State Theatre's 1,600-seat 1928 movie palace.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://www.songkick.com/venues/4390-state-theatre-of-ithaca",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4392,
-    -76.4988
-   ],
-   "w": "Sat 9/12 · 8p"
   },
   {
    "n": "Cornell Football vs Lehigh — Homecoming",
@@ -503,126 +473,6 @@
    "w": "Sat 10/17 · 7p"
   },
   {
-   "n": "Destroyer (solo)",
-   "c": "Concert",
-   "s": "Dan Bejar solo at the Hangar Theatre — a small room for a songwriter who usually plays bigger ones.",
-   "d": 2.7,
-   "t": 6,
-   "u": "https://hangartheatre.org/buy-tickets/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4653,
-    -76.5174
-   ],
-   "w": "Mon 9/28 · 8p"
-  },
-  {
-   "n": "FLEX Wrestling: Hangar Havoc",
-   "c": "Live event",
-   "s": "Independent pro wrestling in a theater, which is exactly as good as it sounds.",
-   "d": 2.7,
-   "t": 6,
-   "u": "https://hangartheatre.org/buy-tickets/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4653,
-    -76.5174
-   ],
-   "w": "Sat 9/12 · 6p"
-  },
-  {
-   "n": "Garrison Keillor Tonight",
-   "c": "Spoken word",
-   "s": "An evening of stories, sonnets and audience singalongs at the Hangar.",
-   "d": 2.7,
-   "t": 6,
-   "u": "https://hangartheatre.org/buy-tickets/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4653,
-    -76.5174
-   ],
-   "w": "Fri 9/18 · 8p"
-  },
-  {
-   "n": "Ithaca Porchfest",
-   "c": "Music Festival",
-   "s": "Up to 150 bands playing on the porches of the Fall Creek and Northside neighborhoods, free, all afternoon — the best day of the Ithaca year. Makers Market too.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://www.porchfest.org/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4525,
-    -76.501
-   ],
-   "w": "Sun 9/20 · 12p–6p"
-  },
-  {
-   "n": "Judy Collins",
-   "c": "Concert",
-   "s": "The folk singer at the State Theatre, six decades into the catalogue.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://www.songkick.com/venues/4390-state-theatre-of-ithaca",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4392,
-    -76.4988
-   ],
-   "w": "Fri 10/9 · 8p"
-  },
-  {
-   "n": "Marcus King",
-   "c": "Concert",
-   "s": "Blues-rock guitarist and songwriter at the State Theatre, with Penelope Road opening.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://www.songkick.com/venues/4390-state-theatre-of-ithaca",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4392,
-    -76.4988
-   ],
-   "w": "Sun 9/13 · 8p"
-  },
-  {
-   "n": "Natural Causes — Hupstate Circus Festival",
-   "c": "Circus",
-   "s": "Contemporary circus at the Hangar as part of the Hupstate festival — aerial and acrobatic work, one afternoon only.",
-   "d": 2.7,
-   "t": 6,
-   "u": "https://hangartheatre.org/buy-tickets/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4653,
-    -76.5174
-   ],
-   "w": "Sat 9/5 · 4p"
-  },
-  {
-   "n": "Of Monsters and Men",
-   "c": "Concert",
-   "s": "The Icelandic indie-folk band at the State Theatre.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://www.songkick.com/venues/4390-state-theatre-of-ithaca",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4392,
-    -76.4988
-   ],
-   "w": "Tue 9/22 · 8p"
-  },
-  {
    "n": "Steve Gonsalves: A Life With Ghosts",
    "c": "Live event",
    "s": "The Ghost Hunters investigator's touring show at the Hangar.",
@@ -636,21 +486,6 @@
     -76.5174
    ],
    "w": "Sat 10/10 · 6:30p"
-  },
-  {
-   "n": "The Pomarium (drag show)",
-   "c": "Drag",
-   "s": "In Flight Entertainment's drag revue at the Hangar, hosted by Tilia Cordata.",
-   "d": 2.7,
-   "t": 6,
-   "u": "https://hangartheatre.org/buy-tickets/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4653,
-    -76.5174
-   ],
-   "w": "Fri 9/25 · 7:30p"
   },
   {
    "n": "The Seven Wonders (Fleetwood Mac tribute)",
@@ -668,36 +503,6 @@
    "w": "Fri 10/23 · 7p"
   },
   {
-   "n": "Trampled by Turtles",
-   "c": "Concert",
-   "s": "Duluth string band at the State Theatre, with Wild Horses.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://www.songkick.com/venues/4390-state-theatre-of-ithaca",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4392,
-    -76.4988
-   ],
-   "w": "Wed 9/16 · 8p"
-  },
-  {
-   "n": "Trivia Under the Tent (Hangar Theatre)",
-   "c": "Trivia",
-   "s": "The Hangar's annual fundraiser quiz under the tent by the lake — teams, prizes, and a bar.",
-   "d": 2.7,
-   "t": 6,
-   "u": "https://hangartheatre.org/buy-tickets/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4653,
-    -76.5174
-   ],
-   "w": "Fri 9/4 · 7p"
-  },
-  {
    "n": "Whiskey Tango Sideshow",
    "c": "Variety show",
    "s": "Vaudeville-and-sideshow variety night at the Hangar Theatre.",
@@ -711,6 +516,246 @@
     -76.5174
    ],
    "w": "Sat 11/14 · 7:30p"
+  },
+  {
+   "n": "Fred Armisen: Comedy for Musicians But Everyone Is Welcome",
+   "c": "Comedy",
+   "s": "The SNL and Portlandia veteran brings his music-nerd stand-up set to the restored 1928 State Theatre on the Commons.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.tixr.com/groups/stateofithaca/events/fred-armisen-comedy-for-musicians-but-everyone-is-welcome-186622",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Sun 10/11 · 7p"
+  },
+  {
+   "n": "Aziz Ansari: Hypothetical Tour",
+   "c": "Comedy",
+   "s": "Aziz Ansari brings his new hour of stand-up to the State Theatre, an easy pick for a big date night downtown.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.tixr.com/groups/stateofithaca/events/aziz-ansari-hypothetical-tour-201221",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Fri 10/16 · 7p"
+  },
+  {
+   "n": "Chucho Valdés 85th Birthday Celebration",
+   "c": "Concert",
+   "s": "The Cuban jazz piano legend marks his 85th with guests Joe Lovano and Etienne Charles on the Cornell Concert Series stage at Bailey Hall.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://cornellconcertseries.com/2627-season/chuchovaldes",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4493,
+    -76.4801
+   ],
+   "w": "Fri 10/23 · 7:30p"
+  },
+  {
+   "n": "FAUST at Sage Chapel – Live Score by Invincible Czars",
+   "c": "Film",
+   "s": "Cornell Cinema screens Murnau's 1926 silent Faust for its centennial inside Sage Chapel, with the Invincible Czars playing a new score live — an atmospheric Halloween-season date.",
+   "d": 0.0,
+   "t": 1,
+   "u": "https://cinema.cornell.edu/faust-sage-chapel-live-score-invincible-czars",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4472,
+    -76.4845
+   ],
+   "w": "Fri 10/23 · 7p"
+  },
+  {
+   "n": "Jeff Tweedy Solo",
+   "c": "Concert",
+   "s": "Wilco's frontman plays an intimate solo set at the State Theatre.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.tixr.com/groups/stateofithaca/events/jeff-tweedy-solo-193670",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Sat 10/24 · 7:30p"
+  },
+  {
+   "n": "Book Talk: Adrift in the South – Life and Art in China's Factories",
+   "c": "Talk",
+   "s": "Xiao Hai talks about art made by migrant workers in southern China's factories, a public talk in Kaufmann Auditorium at Goldwin Smith Hall.",
+   "d": 0.2,
+   "t": 1,
+   "u": "https://events.cornell.edu/event/book-talk-adrift-in-the-south",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4491,
+    -76.4835
+   ],
+   "w": "Mon 11/2 · 5p"
+  },
+  {
+   "n": "Cornell Men's Basketball vs Pepperdine",
+   "c": "Sports",
+   "s": "Big Red basketball opens its 2026-27 season against Pepperdine at Newman Arena in Bartels Hall.",
+   "d": 0.6,
+   "t": 1,
+   "u": "https://cornellbigred.com/sports/mens-basketball/schedule/2026-27",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4458,
+    -76.4763
+   ],
+   "w": "Mon 11/2 · 6p"
+  },
+  {
+   "n": "Cornell Football vs Penn",
+   "c": "Sports",
+   "s": "An Ivy League afternoon at Schoellkopf Field as the Big Red host Penn above the Cascadilla Gorge.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://cornellbigred.com/sports/football/schedule/2026",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.444,
+    -76.4784
+   ],
+   "w": "Sat 11/7 · 1p"
+  },
+  {
+   "n": "Sammy Rae & The Friends – the GET DOWN!",
+   "c": "Concert",
+   "s": "Sammy Rae's big-band, soul-pop tour stops at the State Theatre, with Melt opening — the floor is made for dancing.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.tixr.com/groups/stateofithaca/events/sammy-rae-the-friends-the-get-down--182290",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Mon 11/9 · 8p"
+  },
+  {
+   "n": "Cornell Women's Hockey vs Harvard",
+   "c": "Sports",
+   "s": "The Big Red women take on Harvard in ECAC play at Lynah Rink, Cornell's famously loud barn.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://cornellbigred.com/sports/womens-ice-hockey/schedule/2026-27",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4458,
+    -76.4775
+   ],
+   "w": "Fri 11/13 · 6p"
+  },
+  {
+   "n": "Punch Brothers",
+   "c": "Concert",
+   "s": "Chris Thile's virtuosic progressive-bluegrass quintet plays the State Theatre.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.tixr.com/groups/stateofithaca/events/punch-brothers-186653",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Sat 11/14 · 8p"
+  },
+  {
+   "n": "Cornell Football vs Dartmouth",
+   "c": "Sports",
+   "s": "The Big Red's last home game of the season at Schoellkopf Field.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://cornellbigred.com/sports/football/schedule/2026",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.444,
+    -76.4784
+   ],
+   "w": "Sat 11/14 · 1p"
+  },
+  {
+   "n": "Cayuga Wine Trail Jingle & Mingle",
+   "c": "Holiday",
+   "s": "Holiday tastings with a reindeer ornament at each of 10 Cayuga Lake wineries, including Six Mile Creek Vineyard just outside Ithaca. The trail repeats it Dec 4–6.",
+   "d": 3.3,
+   "t": 8,
+   "u": "https://cayugawinetrail.com/events/wine-trail-events/2026-jingle-and-mingle",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4178,
+    -76.4546
+   ],
+   "w": "Fri–Sun 11/20–22"
+  },
+  {
+   "n": "Time for Three with the Cornell Symphony Orchestra",
+   "c": "Concert",
+   "s": "The Grammy-winning string trio joins the Cornell Symphony Orchestra for an afternoon matinee at Bailey Hall.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://cornellconcertseries.com/2627-season/timeforthree",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4493,
+    -76.4801
+   ],
+   "w": "Sat 11/21 · 3p"
+  },
+  {
+   "n": "Béla Fleck: My Bluegrass Heart",
+   "c": "Concert",
+   "s": "The banjo master brings his bluegrass all-star band to the State Theatre on the Commons.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.tixr.com/groups/stateofithaca/events/b-la-fleck-my-bluegrass-heart-195289",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Sun 12/6 · 7:30p"
+  },
+  {
+   "n": "Ana Mendieta: Grass Breathing",
+   "c": "Exhibition",
+   "s": "The Johnson Museum's I.M. Pei building hosts an exhibition of Ana Mendieta's earth-and-body work, with gorge and lake views from the top floor.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://museum.cornell.edu/exhibition/ana-mendieta-grass-breathing/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4507,
+    -76.4862
+   ],
+   "w": "Sat 7/18 – Sun 12/6"
   }
  ],
  "coffee": [

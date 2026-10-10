@@ -421,7 +421,7 @@ footer a{color:var(--accent-soft)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-10-10T21:41Z";
+const BUILD = "2026-10-10T21:58Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -503,7 +503,7 @@ const CAMPUS_TABS = [T_SPOTS, T_EVENTS, T_COFFEE, T_EATS, T_NIGHT, T_SIGHTS, T_W
 const EVENT_CITY_TABS = [T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
-const NY_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
+const NY_SOURCES = "Data gathered Aug 2026 (events refreshed Oct 2026) from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
 const MID_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, local press &amp; event calendars.";
 
 const CONFIG = {
@@ -512,9 +512,9 @@ const CONFIG = {
     { id:"philly", chip:"PHILLY",
       place:"Willow Grove, PA", placeShort:"Willow Grove", originLabel:"central Willow Grove",
       ns:"wg", data:"data.json",
-      blurb:"Attractions within a ~3\u00bd-hr drive / weekend events (Sep 3 \u2013 Oct 26 2026) / nightlife &amp; dance floors / sushi / MTB / fishing / Chinese guide \u4e2d\u534e",
+      blurb:"Attractions within a ~3\u00bd-hr drive / events (Oct 10 \u2013 Dec 6 2026, holiday runs into Jan) / nightlife &amp; dance floors / sushi / MTB / fishing / Chinese guide \u4e2d\u534e",
       note:"Fishing requires a PA license (+ trout stamp on stocked water).",
-      sources:"Data gathered Sep 2026 from Google Places, VisitPhilly, Visit Bucks County, LevittownNow, FestivalsInPA, CarCruiseFinder, NPS, PA DCNR, NJ/NY/MD/DE state parks, PFBC stream guides &amp; local calendars; Chinese guide via Yelp, Philly Mag, The Infatuation &amp; PCDC.",
+      sources:"Data gathered Sep 2026 (events refreshed Oct 2026) from Google Places, VisitPhilly, Visit Bucks County, LevittownNow, FestivalsInPA, CarCruiseFinder, NPS, PA DCNR, NJ/NY/MD/DE state parks, PFBC stream guides &amp; local calendars; Chinese guide via Yelp, Philly Mag, The Infatuation &amp; PCDC.",
       tabs:[
         {key:"attractions", label:"Attractions", sort:["d",1], cols:C_STD},
         {key:"events",      label:"Events",      sort:["d",1], cols:C_WHEN},
@@ -561,7 +561,7 @@ const CONFIG = {
       trip:"\u22484 hr drive from home base",
       blurb:"Cornell &amp; Ithaca, measured from central campus: gorges &amp; waterfalls / campus coffee / Collegetown nights / Lynah &amp; the Commons / Sichuan \u4e2d\u534e / Cayuga fishing / Shindagin MTB / essentials",
       note:"NY freshwater fishing needs a license; the state-park gorge trails close Nov\u2013Mar.",
-      sources:"Data gathered Aug 2026 from Cornell and NY State Parks sites, the Hangar Theatre &amp; State Theatre calendars, Cornell Athletics, Downtown Ithaca Alliance, Visit Ithaca, NYSDEC &amp; Google Places; venue coordinates verified against OpenStreetMap.",
+      sources:"Data gathered Aug 2026 (events refreshed Oct 2026) from Cornell and NY State Parks sites, the Hangar Theatre &amp; State Theatre calendars, Cornell Athletics, Downtown Ithaca Alliance, Visit Ithaca, NYSDEC &amp; Google Places; venue coordinates verified against OpenStreetMap.",
       tabs:CAMPUS_TABS },
     { id:"verona", chip:"VERONA",
       place:"Verona, NY", placeShort:"Verona", originLabel:"Verona",
