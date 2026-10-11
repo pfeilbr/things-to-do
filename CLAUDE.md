@@ -32,7 +32,7 @@ This is a public repo. Never add personal information: no addresses, no names/em
 - `<style>` — neutral blue palette (CSS vars: `--brand` navy, `--accent` blue, `--accent-soft`, `--hot` amber, `--bg`, `--text`, `--muted`, `--line`, `--card`); Inter for everything except data, which is JetBrains Mono; mobile card layout below 760px.
 - **Header layout** — one `.appbar` row: wordmark, `.citypick` (a `<span id="hPlace">` label with a transparent native `<select id="citySelect">` laid over it, so the control is a real accessible select), then the ☰ menu. Below it a scrollable `.tabwrap`/`.tabs` strip. Nothing else lives in the header: the city blurb went to the footer (`#subBlurb`) and the trip note + origin picker to the `.meta-line` under the controls. `#hPlace` always names the **city**, never the origin — it is the picker's label, so `syncOrigin()` must not touch it.
 - `CONFIG` (top of the `<script>`) — global branding plus the `cities` registry. Each city entry: `id`, `chip` (city-bar label), `place`/`placeShort`/`originLabel` (NAMES, never coordinates), `ns` (localStorage namespace), `data` (dataset file), `blurb`/`note`/`sources` (header + footer copy), and `tabs`. Shared column layouts (`C_STD`/`C_WHEN`/`C_FISH`) and shared interest tabs (`T_SPOTS`, `T_NIGHT`, `T_EATS`, `T_CHINESE`, `T_FISH`, `T_BIKE`, `T_SOCIAL`, bundled as `CITY_TABS`) live beside it. `TABS`/`COLS`/`TABLABEL`/`HOME` are re-derived per city by `setCityConfig()`; adding or removing a tab is a one-place edit.
-- Dataset files — one JSON key per tab in that city's `tabs`. Philly's `data.json` has `attractions`/`events`/`nightlife`/`eats`/`biking`/`social`/`fishing`/`chinese`; visitor-guide cities have `spots`/`nightlife`/`eats`/`chinese`/`fishing`/`biking`/`social`; the **home cities** (Forest Hills, NYC, Brooklyn, Queens, Flushing, Boston — `HOME_TABS`) add `museums`/`sights`/`walks`/`shops`/`essentials` on top. Row fields:
+- Dataset files — one JSON key per tab in that city's `tabs`. Philly's `data.json` has `attractions`/`events`/`nightlife`/`eats`/`biking`/`social`/`fishing`/`chinese`; visitor-guide cities have `spots`/`nightlife`/`eats`/`chinese`/`fishing`/`biking`/`social`; the **home cities** (Forest Hills, NYC, Brooklyn, Queens, Flushing, Boston — `NYC_TABS`) add `museums`/`sights`/`walks`/`shops`/`essentials` on top. Row fields:
   - `n` name, `c` category, `s` summary, `d` distance (mi), `t` drive time (min), `u` source URL or `null`
   - `r` Google rating + `rc` review count (popularity = `r × rc`); `r:null` for rows without ratings
   - `w` when string (tabs with a When column only — Philly `events` and every `social` tab, e.g. `"Sat 7/25 · 9:30a–1p"` or `"Saturdays · 9:30a–1p"`)
@@ -62,9 +62,9 @@ Consequences to respect when editing:
 
 ## Updating events (recurring task)
 
-Four guide groups carry dated `events`: **Philly** (`data.json`), **Ithaca** (`data-ithaca.json`), **Verona** (`data-verona.json`, Turning Stone / Utica / Syracuse) and the **five NYC-area cities**
-(`data-nyc/brooklyn/queens/flushing/foresthills.json`, tab list `NYC_TABS`). Boston does
-not yet. A **daily scheduled task** (`refresh-things-to-do-events` in the Claude desktop app) runs this
+Five guide groups carry dated `events`: **Philly** (`data.json`), **Ithaca** (`data-ithaca.json`), **Verona** (`data-verona.json`, Turning Stone / Utica / Syracuse) the **five NYC-area cities**
+(`data-nyc/brooklyn/queens/flushing/foresthills.json`, tab list `NYC_TABS`) and **Boston** (`data-boston.json`, metro-wide incl.
+Cambridge and Salem, also `NYC_TABS`). A **daily scheduled task** (`refresh-things-to-do-events` in the Claude desktop app) runs this
 routine; the owner may also ask to refresh a weekend or a month by hand. `scripts/events.py`
 does the mechanical half (stdlib Python, tested by `tests/scripts/`):
 

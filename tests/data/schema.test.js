@@ -10,10 +10,10 @@ const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w']);
 const PHILLY_TABS = ['attractions', 'events', 'nightlife', 'eats', 'biking', 'social', 'fishing', 'chinese'];
 const CITY_TABS = ['spots', 'nightlife', 'eats', 'chinese', 'fishing', 'biking', 'social'];
 // The NYC-area guides carry the everyday-life tabs on top of the interest tabs (see
-// HOME_TABS in index.html). Forest Hills is a walking-distance neighborhood guide, so it
+// NYC_TABS in index.html). Forest Hills is a walking-distance neighborhood guide, so it
 // drops the two tabs that are inherently a drive away.
 const DAILY_TABS = ['museums', 'sights', 'walks', 'shops', 'essentials'];
-// the NYC-area guides also carry dated events (Boston does not, yet)
+// the NYC-area guides and Boston also carry dated events
 const NYC_EXTRA = [...DAILY_TABS, 'events'];
 const LAYOUTS = {
   'data.json': PHILLY_TABS,
@@ -21,7 +21,7 @@ const LAYOUTS = {
   'data-brooklyn.json': [...CITY_TABS, ...NYC_EXTRA],
   'data-queens.json': [...CITY_TABS, ...NYC_EXTRA],
   'data-flushing.json': [...CITY_TABS, ...NYC_EXTRA],
-  'data-boston.json': [...CITY_TABS, ...DAILY_TABS],
+  'data-boston.json': [...CITY_TABS, ...NYC_EXTRA],
   'data-foresthills.json': ['spots', 'nightlife', 'eats', 'chinese', 'social', ...NYC_EXTRA],
   // Ithaca is a campus guide: the everyday tabs plus a Coffee tab of its own.
   'data-ithaca.json': [...CITY_TABS, ...NYC_EXTRA, 'coffee'],

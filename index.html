@@ -421,7 +421,7 @@ footer a{color:var(--accent-soft)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-10-10T22:30Z";
+const BUILD = "2026-10-11T10:21Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -483,13 +483,10 @@ const T_DAILY   = {key:"essentials",label:"Essentials",   sort:["d",1],    cols:
 const T_EVENTS  = {key:"events",    label:"Events",       sort:["d",1],    cols:C_WHEN};
 // Coffee is its own tab only where the day is actually spent in cafes — a campus guide.
 const T_COFFEE  = {key:"coffee",    label:"Coffee",       sort:["pop",-1], cols:C_STD};
-// NYC-area layout: the seven interest tabs plus the five everyday ones, ordered so the
-// things you browse for fun come before the things you only look up when you need them.
-const HOME_TABS = [T_SPOTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY,
-                   T_NIGHT, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
-// The NYC-area guides also carry dated Events, refreshed the way Philly's are (see
-// CLAUDE.md). Events sit second: they rot, so they want to be seen before the evergreen
-// tabs. Boston keeps HOME_TABS until its events are curated too.
+// Home-city layout (the NYC-area guides and Boston): the seven interest tabs plus the five
+// everyday ones, ordered so the things you browse for fun come before the things you only
+// look up when you need them. Dated Events sit second — they rot, so they want to be seen
+// before the evergreen tabs (refreshed per CLAUDE.md).
 const NYC_TABS = [T_SPOTS, T_EVENTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY,
                   T_NIGHT, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
@@ -615,10 +612,10 @@ const CONFIG = {
       place:"Boston Common, Boston, MA", placeShort:"Boston", originLabel:"Boston Common",
       ns:"bos", data:"data-boston.json",
       trip:"≈5½ hr drive from home base",
-      blurb:"Boston &amp; the metro: museums &amp; Freedom Trail sights / North End &amp; Cambridge eats / Emerald Necklace walks / Harvard Sq shops / dance floors / Chinatown \u4e2d\u534e / essentials",
+      blurb:"Boston &amp; the metro: museums &amp; Freedom Trail sights / North End &amp; Cambridge eats / Emerald Necklace walks / Harvard Sq shops / TD Garden &amp; Salem events / dance floors / Chinatown \u4e2d\u534e / essentials",
       note:"MA fishing: freshwater license, or a ~$10 saltwater permit.",
-      sources:MID_SOURCES,
-      tabs:HOME_TABS },
+      sources:"Data gathered Aug 2026 (events refreshed Oct 2026) from official venue sites, Google Places, local press &amp; event calendars.",
+      tabs:NYC_TABS },
     { id:"vb", chip:"VA BEACH",
       place:"Virginia Beach Oceanfront, VA", placeShort:"Virginia Beach", originLabel:"the VB Oceanfront",
       ns:"vb", data:"data-vb.json",
