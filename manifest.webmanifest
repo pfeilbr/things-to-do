@@ -1,7 +1,7 @@
 {
   "name": "Things To Do",
   "short_name": "Things To Do",
-  "description": "A things-to-do guide for 24 cities: places to eat, museums, sights, walks, shops, nightlife and the everyday essentials, sorted by how far away they are.",
+  "description": "A things-to-do guide for 25 cities: places to eat, museums, sights, walks, shops, nightlife and the everyday essentials, sorted by how far away they are.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

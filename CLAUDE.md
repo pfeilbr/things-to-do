@@ -70,7 +70,7 @@ does the mechanical half (stdlib Python, tested by `tests/scripts/`):
 
 - `python3 scripts/events.py status` — events, past, and next-14-day counts per guide
 - `python3 scripts/events.py prune` — drop one-offs whose last date has passed (same date logic as `tests/data/freshness.test.js`; recurring `w` strings are never touched)
-- `python3 scripts/events.py add <data-file> <rows.json>` — append researched rows `{n,c,s,u,w,ll}`; it computes `d`/`t` from an origin **fitted to that guide's existing rows**, so no origin coordinate is ever needed or stored, and skips names already in the file
+- `python3 scripts/events.py add <data-file> <rows.json>` — append researched rows `{n,c,s,u,w,ll}`; it computes `d`/`t` from an origin **fitted to that guide's existing rows**, so no origin coordinate is ever needed or stored, and skips names already in the file. `--tab <tab>` appends to any other tab the same way (rows `{n,c,s,u,ll}`; `w` only for `events`/`social`) — use it for every new row, not just events
 
 1. Web-search for real events in the relevant area for the window asked for — Willow Grove / Montgomery / Bucks / Philadelphia for `data.json`; Manhattan, Brooklyn, Queens, Flushing and Forest Hills for the NYC set (festivals, parades, street fairs, concerts, sports, museum openings).
 2. **Only include events you can verify with a source URL** (`u` field). Never pad with guesses.

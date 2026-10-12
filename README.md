@@ -55,4 +55,19 @@ Google Places ratings, official venue sites, VisitPhilly, Visit Bucks County, Ti
 
 ## Development
 
-Open `index.html` in a browser. That's it. Pushes to `main` deploy automatically via GitHub Pages.
+The data files are fetched at runtime, so the page doesn't work over `file://`. Serve the folder instead:
+
+```bash
+python3 -m http.server 8000
+```
+
+Then open http://localhost:8000. Pushes to `main` deploy automatically via GitHub Pages.
+
+Tests use only node and Python builtins:
+
+```bash
+node --test 'tests/unit/*.test.js' 'tests/data/*.test.js'
+python3 -m unittest discover -s tests/scripts
+```
+
+`scripts/events.py` maintains the dated Events tabs (`status`, `prune`, `add`) and appends researched rows to any tab with `add --tab <tab>`, computing distances so no origin coordinate is ever stored.

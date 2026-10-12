@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Things To Do</title>
-<meta name="description" id="metaDesc" content="Things to do in 24 cities: places to eat, museums, sights, walks, shops, nightlife and everyday essentials — sorted by how far they are from wherever you point it.">
+<meta name="description" id="metaDesc" content="Things to do in 25 cities: places to eat, museums, sights, walks, shops, nightlife and everyday essentials — sorted by how far they are from wherever you point it.">
 <meta name="theme-color" content="#15304e">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -421,7 +421,7 @@ footer a{color:var(--accent-soft)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-10-12T10:24Z";
+const BUILD = "2026-10-12T22:25Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -1202,7 +1202,7 @@ function exitAllCities(){
   const [k,d] = defSort(state.tab); state.sortKey = k; state.sortDir = d;
 }
 
-// ---- favorites in OTHER cities: one shortlist across all 22 guides ---------------------
+// ---- favorites in OTHER cities: one shortlist across every guide ---------------------
 // Favorites live per city under `<ns>-favs` as ["<tab>|<row name>", …], so the names are
 // readable without loading those datasets — the list works even offline.
 function otherCityFavs(){
