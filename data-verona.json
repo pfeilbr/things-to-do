@@ -339,51 +339,6 @@
  ],
  "events": [
   {
-   "n": "LaFayette Apple Festival",
-   "c": "Festival",
-   "s": "Central New York's big apple harvest fair: hundreds of craft and food vendors, cider and an apple pancake breakfast from 7a, on the festival grounds in LaFayette.",
-   "d": 44.4,
-   "t": 61,
-   "u": "https://www.lafayetteapplefest.org/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.89,
-    -76.156
-   ],
-   "w": "Sat–Sun 10/10–11"
-  },
-  {
-   "n": "Jamey Johnson",
-   "c": "Concert",
-   "s": "Outlaw-country songwriter Jamey Johnson plays the Event Center on his Traveling Truebadour Tour.",
-   "d": 2.4,
-   "t": 6,
-   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-10-11/jamey-johnson",
-   "r": null,
-   "rc": null,
-   "ll": [
-    43.1151,
-    -75.5888
-   ],
-   "w": "Sun 10/11 · 8p"
-  },
-  {
-   "n": "Bert Kreischer: Permission to Party",
-   "c": "Comedy",
-   "s": "The shirtless storyteller brings his Permission to Party World Tour to the ornate 1928 Landmark Theatre.",
-   "d": 39.0,
-   "t": 56,
-   "u": "https://landmarktheatre.org/event/bert-kreischer-permission-to-party-world-tour/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    43.0473,
-    -76.1526
-   ],
-   "w": "Sun 10/11 · 7p"
-  },
-  {
    "n": "Jersey Boys",
    "c": "Theatre",
    "s": "The Tony-winning Frankie Valli & the Four Seasons musical plays two nights (7:30p) at Utica's restored 1928 Stanley Theatre.",
@@ -862,6 +817,51 @@
     -75.5888
    ],
    "w": "Sat 11/7 · 8p"
+  },
+  {
+   "n": "Melvin Seals & JGB",
+   "c": "Concert",
+   "s": "Jerry Garcia Band organist Melvin Seals leads the JGB songbook at Utica's restored movie palace.",
+   "d": 22.3,
+   "t": 39,
+   "u": "https://www.thestanley.org/events/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0989,
+    -75.2353
+   ],
+   "w": "Fri 10/16 · 8p"
+  },
+  {
+   "n": "Brass Transit: The Musical Legacy of Chicago",
+   "c": "Concert",
+   "s": "A horn-driven tribute to the band Chicago in Turning Stone's Showroom.",
+   "d": 2.4,
+   "t": 6,
+   "u": "https://www.turningstone.com/entertainment/event-calendar/2026-10-23/brass-transit",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1151,
+    -75.5888
+   ],
+   "w": "Fri 10/23 · 8p"
+  },
+  {
+   "n": "Syracuse vs. New Haven — basketball home opener",
+   "c": "Sports",
+   "s": "Gerry McNamara's first season as Orange head coach tips off at home in the Dome.",
+   "d": 38.2,
+   "t": 56,
+   "u": "https://cuse.com/news/2026/7/9/mens-basketball-syracuse-will-face-new-haven-in-2026-27-opener",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0363,
+    -76.1364
+   ],
+   "w": "Mon 11/2"
   }
  ],
  "nightlife": [

@@ -503,21 +503,6 @@
    "w": "Sat 11/14 · 7:30p"
   },
   {
-   "n": "Fred Armisen: Comedy for Musicians But Everyone Is Welcome",
-   "c": "Comedy",
-   "s": "The SNL and Portlandia veteran brings his music-nerd stand-up set to the restored 1928 State Theatre on the Commons.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://www.tixr.com/groups/stateofithaca/events/fred-armisen-comedy-for-musicians-but-everyone-is-welcome-186622",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4392,
-    -76.4996
-   ],
-   "w": "Sun 10/11 · 7p"
-  },
-  {
    "n": "Aziz Ansari: Hypothetical Tour",
    "c": "Comedy",
    "s": "Aziz Ansari brings his new hour of stand-up to the State Theatre, an easy pick for a big date night downtown.",
@@ -816,6 +801,66 @@
     -76.4996
    ],
    "w": "Thu 12/17 · 7:30p"
+  },
+  {
+   "n": "Via's Cookies Costume & Dance Party",
+   "c": "Nightlife",
+   "s": "A $5 late-night costume dance party downtown with DJs spinning Beyoncé to Slayyyter, cookies included and a contest at 11.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.downtownithaca.com/event/vias-cookies-costume-dance-party/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4394,
+    -76.4982
+   ],
+   "w": "Fri 10/16 · 9p–1a"
+  },
+  {
+   "n": "Ithaca Ballet: Fall Dance Revelry",
+   "c": "Theatre",
+   "s": "Ithaca Ballet opens its season with a fall program for all ages on the State Theatre stage.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://stateofithaca.org/events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Sat–Sun 10/17–18"
+  },
+  {
+   "n": "Cornell Art Faculty 2026",
+   "c": "Exhibition",
+   "s": "Twenty-one Cornell art faculty each pair a new work with a piece pulled from the Johnson Museum's collection.",
+   "d": 0.3,
+   "t": 1,
+   "u": "https://museum.cornell.edu/exhibition/cornell-art-faculty-2026/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4507,
+    -76.4862
+   ],
+   "w": "Sat 10/31 – Sun 3/7"
+  },
+  {
+   "n": "Warren Miller's Days Off",
+   "c": "Film",
+   "s": "The annual Warren Miller ski-film tour stops at the State Theatre, a pre-season ritual for the hill's skiers.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.tixr.com/groups/stateofithaca/events/warren-miller-s-days-off--206690",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4392,
+    -76.4996
+   ],
+   "w": "Wed 11/11 · 7p"
   }
  ],
  "coffee": [
