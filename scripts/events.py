@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Events maintenance for the dated `events` tabs (stdlib only, no deps).
+"""Events maintenance for the dated `events` tabs, plus distance-computed row adds to any tab (stdlib only).
 
     python3 scripts/events.py status            # upcoming counts per guide
     python3 scripts/events.py prune [--dry-run] # drop one-offs whose dates have passed
     python3 scripts/events.py add data-nyc.json rows.json [--dry-run]
+    python3 scripts/events.py add data-nyc.json rows.json --tab museums   # any tab
 
 `add` takes a JSON array of researched rows ({n, c, s, u, w, ll} plus optional r/rc)
 and computes each row's d/t with the documented formula (haversine x1.3 road factor,
@@ -100,14 +101,16 @@ def cmd_prune(root, today, dry):
     print(f'{total} past event(s) {"would be " if dry else ""}removed')
 
 
-REQUIRED = ('n', 'c', 's', 'u', 'w', 'll')
+REQUIRED = ('n', 'c', 's', 'u', 'll')
+WHEN_TABS = ('events', 'social')        # tabs with a When column: rows need a `w` string
 
 
-def cmd_add(root, file, src, dry):
+def cmd_add(root, file, src, dry, tab='events'):
     path = root / file
     data, pretty = load(path)
-    if 'events' not in data:
-        raise SystemExit(f'{file} has no events tab')
+    if tab not in data:
+        raise SystemExit(f'{file} has no {tab} tab')
+    required = REQUIRED + (('w',) if tab in WHEN_TABS else ())
     existing = [r for rows in data.values() for r in rows]
     names = {r['n'] for r in existing}
     origin, rms = fit_origin(existing)
@@ -115,19 +118,22 @@ def cmd_add(root, file, src, dry):
         raise SystemExit(f'{file}: origin fit is poor (rms {rms:.2f} mi) — check the baked distances')
     added = skipped = 0
     for r in json.loads(pathlib.Path(src).read_text()):
-        missing = [k for k in REQUIRED if not r.get(k)]
+        missing = [k for k in required if not r.get(k)]
         if missing:
             print(f'  skip "{r.get("n")}": missing {missing}'); skipped += 1; continue
         if r['n'] in names:
             print(f'  skip "{r["n"]}": name already in {file}'); skipped += 1; continue
         ll = [round(r['ll'][0], 4), round(r['ll'][1], 4)]
         d = round(hav_mi(origin, ll) * 1.3, 1)
-        data['events'].append({'n': r['n'], 'c': r['c'], 's': r['s'], 'd': d, 't': drive(d), 'u': r['u'],
-                               'r': r.get('r'), 'rc': r.get('rc'), 'll': ll, 'w': r['w']})
+        new = {'n': r['n'], 'c': r['c'], 's': r['s'], 'd': d, 't': drive(d), 'u': r['u'],
+               'r': r.get('r'), 'rc': r.get('rc'), 'll': ll}
+        if tab in WHEN_TABS:
+            new['w'] = r['w']
+        data[tab].append(new)
         names.add(r['n']); added += 1
     if not dry:
         save(path, data, pretty)
-    print(f'{file}: {added} added, {skipped} skipped, {len(data["events"])} events (origin fit rms {rms:.2f} mi)')
+    print(f'{file}: {added} added, {skipped} skipped, {len(data[tab])} {tab} (origin fit rms {rms:.2f} mi)')
 
 
 def main(argv=None):
@@ -138,13 +144,14 @@ def main(argv=None):
     sub.add_parser('status')
     pr = sub.add_parser('prune'); pr.add_argument('--dry-run', action='store_true')
     ad = sub.add_parser('add'); ad.add_argument('file'); ad.add_argument('rows'); ad.add_argument('--dry-run', action='store_true')
+    ad.add_argument('--tab', default='events', help='tab to append to (default: events)')
     a = ap.parse_args(argv)
     if a.cmd == 'status':
         cmd_status(a.root, a.today)
     elif a.cmd == 'prune':
         cmd_prune(a.root, a.today, a.dry_run)
     else:
-        cmd_add(a.root, a.file, a.rows, a.dry_run)
+        cmd_add(a.root, a.file, a.rows, a.dry_run, a.tab)
 
 
 if __name__ == '__main__':

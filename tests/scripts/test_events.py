@@ -103,6 +103,19 @@ class Commands(unittest.TestCase):
         self.assertEqual(new[0]['t'], ev.drive(new[0]['d']))
         self.assertEqual(list(new[0])[-1], 'w')
 
+    def test_add_to_other_tab_needs_no_w_and_stores_none(self):
+        src = self.root / 'new.json'
+        src.write_text(json.dumps([{'n': 'New museum', 'c': 'Museum', 's': 'x', 'u': 'https://m.x', 'll': [41.03, -74.52]}]))
+        self.run_cli('add', 'data-y.json', str(src), '--tab', 'spots')
+        rows = json.loads((self.root / 'data-y.json').read_text())['spots']
+        self.assertEqual(rows[-1]['n'], 'New museum')
+        self.assertNotIn('w', rows[-1])
+        self.assertIn('\n', (self.root / 'data-y.json').read_text())          # pretty stays pretty
+
+    def test_add_to_missing_tab_fails(self):
+        with self.assertRaises(SystemExit):
+            self.run_cli('add', 'data-y.json', str(self.root / 'nope.json'), '--tab', 'museums')
+
     def test_event_files_skips_guides_without_events(self):
         self.assertEqual([p.name for p in ev.event_files(self.root)], ['data-x.json'])
 
