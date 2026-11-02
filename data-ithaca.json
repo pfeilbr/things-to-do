@@ -353,36 +353,6 @@
  ],
  "events": [
   {
-   "n": "Bennie and the Rest",
-   "c": "Concert",
-   "s": "Elton John tribute at the Hangar Theatre.",
-   "d": 2.7,
-   "t": 6,
-   "u": "https://hangartheatre.org/buy-tickets/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4653,
-    -76.5174
-   ],
-   "w": "Thu 10/22 · 7:30p"
-  },
-  {
-   "n": "Cornell Football vs Lehigh — Homecoming",
-   "c": "College football",
-   "s": "Homecoming at Schoellkopf Field — the tailgate on the Crescent starts hours before kickoff and the whole campus turns out.",
-   "d": 0.6,
-   "t": 1,
-   "u": "https://events.cornell.edu/event/cornell-football-vs-lehigh-university-homecoming-2026",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4453,
-    -76.4757
-   ],
-   "w": "Sat 10/17 · 2p"
-  },
-  {
    "n": "Cornell Hockey vs Clarkson",
    "c": "College hockey",
    "s": "North Country rival at Lynah on a Friday night in November — the Cornell hockey experience in its purest form.",
@@ -428,21 +398,6 @@
    "w": "Fri 11/6 · 7p"
   },
   {
-   "n": "Cornell Hockey vs Sacred Heart",
-   "c": "College hockey",
-   "s": "Two nights of exhibition hockey at Lynah Rink to open the home season.",
-   "d": 0.7,
-   "t": 2,
-   "u": "https://cornellbigred.com/sports/mens-ice-hockey/schedule",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4462,
-    -76.4737
-   ],
-   "w": "Fri–Sat 10/30–31 · 7p"
-  },
-  {
    "n": "Cornell Hockey vs St. Lawrence",
    "c": "College hockey",
    "s": "The Saturday half of the North Country weekend at Lynah Rink.",
@@ -458,36 +413,6 @@
    "w": "Sat 11/21 · 7p"
   },
   {
-   "n": "Cornell Hockey vs Waterloo (exhibition)",
-   "c": "College hockey",
-   "s": "The first skate at Lynah — the exhibition where you find out what the team has, in the loudest small rink in college hockey.",
-   "d": 0.7,
-   "t": 2,
-   "u": "https://cornellbigred.com/sports/mens-ice-hockey/schedule",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4462,
-    -76.4737
-   ],
-   "w": "Sat 10/17 · 7p"
-  },
-  {
-   "n": "The Seven Wonders (Fleetwood Mac tribute)",
-   "c": "Concert",
-   "s": "A full-band live tribute to Fleetwood Mac at the Hangar.",
-   "d": 2.7,
-   "t": 6,
-   "u": "https://hangartheatre.org/buy-tickets/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4653,
-    -76.5174
-   ],
-   "w": "Fri 10/23 · 7p"
-  },
-  {
    "n": "Whiskey Tango Sideshow",
    "c": "Variety show",
    "s": "Vaudeville-and-sideshow variety night at the Hangar Theatre.",
@@ -501,66 +426,6 @@
     -76.5174
    ],
    "w": "Sat 11/14 · 7:30p"
-  },
-  {
-   "n": "Aziz Ansari: Hypothetical Tour",
-   "c": "Comedy",
-   "s": "Aziz Ansari brings his new hour of stand-up to the State Theatre, an easy pick for a big date night downtown.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://www.tixr.com/groups/stateofithaca/events/aziz-ansari-hypothetical-tour-201221",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4392,
-    -76.4996
-   ],
-   "w": "Fri 10/16 · 7p"
-  },
-  {
-   "n": "Chucho Valdés 85th Birthday Celebration",
-   "c": "Concert",
-   "s": "The Cuban jazz piano legend marks his 85th with guests Joe Lovano and Etienne Charles on the Cornell Concert Series stage at Bailey Hall.",
-   "d": 0.3,
-   "t": 1,
-   "u": "https://cornellconcertseries.com/2627-season/chuchovaldes",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4493,
-    -76.4801
-   ],
-   "w": "Fri 10/23 · 7:30p"
-  },
-  {
-   "n": "FAUST at Sage Chapel – Live Score by Invincible Czars",
-   "c": "Film",
-   "s": "Cornell Cinema screens Murnau's 1926 silent Faust for its centennial inside Sage Chapel, with the Invincible Czars playing a new score live — an atmospheric Halloween-season date.",
-   "d": 0.0,
-   "t": 1,
-   "u": "https://cinema.cornell.edu/faust-sage-chapel-live-score-invincible-czars",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4472,
-    -76.4845
-   ],
-   "w": "Fri 10/23 · 7p"
-  },
-  {
-   "n": "Jeff Tweedy Solo",
-   "c": "Concert",
-   "s": "Wilco's frontman plays an intimate solo set at the State Theatre.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://www.tixr.com/groups/stateofithaca/events/jeff-tweedy-solo-193670",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4392,
-    -76.4996
-   ],
-   "w": "Sat 10/24 · 7:30p"
   },
   {
    "n": "Book Talk: Adrift in the South – Life and Art in China's Factories",
@@ -728,21 +593,6 @@
    "w": "Sat 7/18 – Sun 12/6"
   },
   {
-   "n": "Chris Fleming Live",
-   "c": "Comedy",
-   "s": "The surreal, high-energy comic behind Gayle brings his manic stand-up to the historic State Theatre stage.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://stateofithaca.org/events",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4392,
-    -76.4996
-   ],
-   "w": "Fri 10/23 · 8p"
-  },
-  {
    "n": "Jessica Kirson",
    "c": "Comedy",
    "s": "A veteran club comic known for rapid-fire crowd work headlines a weeknight stand-up show downtown.",
@@ -801,36 +651,6 @@
     -76.4996
    ],
    "w": "Thu 12/17 · 7:30p"
-  },
-  {
-   "n": "Via's Cookies Costume & Dance Party",
-   "c": "Nightlife",
-   "s": "A $5 late-night costume dance party downtown with DJs spinning Beyoncé to Slayyyter, cookies included and a contest at 11.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://www.downtownithaca.com/event/vias-cookies-costume-dance-party/",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4394,
-    -76.4982
-   ],
-   "w": "Fri 10/16 · 9p–1a"
-  },
-  {
-   "n": "Ithaca Ballet: Fall Dance Revelry",
-   "c": "Theatre",
-   "s": "Ithaca Ballet opens its season with a fall program for all ages on the State Theatre stage.",
-   "d": 1.2,
-   "t": 3,
-   "u": "https://stateofithaca.org/events",
-   "r": null,
-   "rc": null,
-   "ll": [
-    42.4392,
-    -76.4996
-   ],
-   "w": "Sat–Sun 10/17–18"
   },
   {
    "n": "Cornell Art Faculty 2026",
