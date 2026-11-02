@@ -1,0 +1,42 @@
+# Rebuilds the baked train timetables (transit-*.json) from the agencies' published GTFS
+# feeds with scripts/transit.py — no tokens, no people. Each file covers 28 days, so a
+# weekly run keeps three weeks of slack. A push made with GITHUB_TOKEN doesn't trigger
+# other workflows, so this one runs the tests itself and then dispatches the Pages deploy.
+name: Refresh train timetables
+
+on:
+  schedule:
+    - cron: '0 10 * * 1'   # Monday 10:00 UTC, an hour ahead of CI's weekly run
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: transit
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: python3 scripts/transit.py build
+      - run: python3 scripts/transit.py status
+      - run: node --test 'tests/unit/*.test.js' 'tests/data/*.test.js'
+      - run: python3 -m unittest discover -s tests/scripts
+      - name: Commit and deploy if the timetable changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- 'transit-*.json'; then echo "timetables unchanged"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add transit-*.json
+          git commit -m "Refresh train timetables ($(date -u +%Y-%m-%d))"
+          git push
+          gh workflow run pages.yml --ref main

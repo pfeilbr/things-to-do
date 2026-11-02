@@ -18,6 +18,7 @@ A single-page, fully client-side web app — pick a city from the dropdown, get 
   - **Events** — dated, source-verified listings for the next few weeks, on Philly, Ithaca, Verona, Stamford, Boston and the five NYC-area guides; the ones happening today get a TODAY badge
   - **Coffee** — on the Ithaca/Cornell guide only: campus cafés and Ithaca's roasters, sorted by popularity
   - **Skiing** — on the Stamford guide (the pilot): every operating ski area within about a two-hour drive, sorted by drive time, with vertical, trail count and night-skiing nights in each line
+- **🚆 To NYC** — a live train board, piloted on Stamford. It opens on the next train from Noroton Heights, Darien or Stamford to Grand Central (or to Bryant Park, walk included), with the New York time, live delays, track and cancellations, the fare for that train, and whether your bike can ride it. Below that are the rest of the day's trains, any day in the next week, and the ride home. A strip above every Stamford list shows the next train at a glance. Panels cover fares, parking, the MTA TrainTime app, taking a full-size bike, and the walk or ride from Grand Central. The timetable is baked from Metro-North's published GTFS feed by `scripts/transit.py` and rebuilt weekly by a GitHub Action, so it never needs an LLM or a person. Live times come straight from the MTA's open GTFS-realtime feed in the browser
 - **✦ Start here** — a first-visit guide, piloted on Stamford. The first time you open the city it asks what you're into (date spots, shows, nightlife, sushi, Chinese, fishing, MTB, skiing, meeting people) and whether it's a day trip or a weekend, then builds a page from that: the next three weeks of events, a day-by-day plan whose stops swap to match your interests and the season, hand-picked rows per interest with a line on why, the neighborhoods, and know-before-you-go facts with sources. Every pick is a live row from the city's data, so distances, ratings, favorites and the detail view all work from it. The content lives in `guide-<city>.json` and is checked by `tests/data/guide.test.js`
 - **Everyday-life tabs** on the seven guides for places actually lived in (Forest Hills, NYC, Brooklyn, Queens, Flushing, Boston, Ithaca) — the stuff you actually look up when you live somewhere rather than visit it:
   - **Museums** — museums and galleries, from the Met down to a museum inside a Tribeca freight elevator
@@ -71,5 +72,7 @@ Tests use only node and Python builtins:
 node --test 'tests/unit/*.test.js' 'tests/data/*.test.js'
 python3 -m unittest discover -s tests/scripts
 ```
+
+`scripts/transit.py build` rebuilds the baked train timetables (`transit-<city>.json`) from the agency's GTFS feed; `.github/workflows/transit.yml` runs it every Monday and deploys if anything changed. `scripts/transit.py status` shows how many days each one has left.
 
 `scripts/events.py` maintains the dated Events tabs (`status`, `prune`, `add`) and appends researched rows to any tab with `add --tab <tab>`, computing distances so no origin coordinate is ever stored.

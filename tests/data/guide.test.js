@@ -12,7 +12,7 @@ const ROOT = path.join(__dirname, '..', '..');
 const indexHtml = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 const swJs = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
 const INTEREST_IDS = new Set([...indexHtml.matchAll(/\{id:"(\w+)",\s*icon:/g)].map(m => m[1]));
-const TOP_KEYS = new Set(['intro', 'stats', 'plan', 'picks', 'areas', 'know']);
+const TOP_KEYS = new Set(['intro', 'stats', 'plan', 'picks', 'areas', 'know', 'transit']);
 const WHY_MIN = 20, WHY_MAX = 240;
 
 // CONFIG entries that name a guide: data:"data-x.json", guide:"guide-x.json"
@@ -79,6 +79,40 @@ for (const { data, guide } of guided) {
     for (const f of g.know || []) {
       assert.ok(f.title && f.text && f.text.length <= WHY_MAX, `${guide}: know "${f.title}"`);
       assert.match(f.u || '', /^https:\/\//, `${guide}: know "${f.title}" needs a source URL`);
+    }
+
+    // the train board's editorial half (transit.js reads it; the timetable is transit-<city>.json)
+    if (g.transit) {
+      const t = g.transit, tf = data.replace(/^data-/, 'transit-');
+      const T = fs.existsSync(path.join(ROOT, tf)) ? JSON.parse(fs.readFileSync(path.join(ROOT, tf), 'utf8')) : null;
+      assert.ok(T, `${guide}: has a transit block but ${tf} is missing`);
+      assert.ok(t.tab && t.city, `${guide}: transit.tab and transit.city`);
+      if (t.alert) assert.match(t.alertU || '', /^https:\/\//, `${guide}: transit.alert needs a source (alertU)`);
+      if (t.home) assert.ok(T.home.includes(t.home), `${guide}: transit.home "${t.home}" is not a home station`);
+      assert.ok(Array.isArray(t.dests) && t.dests.length && t.dests[0].walk === 0, `${guide}: first dest is the hub itself (walk 0)`);
+      for (const d of t.dests) assert.ok(d.id && d.n && Number.isInteger(d.walk) && d.walk >= 0 && d.walk < 60, `${guide}: dest ${d.id}`);
+      for (const [k, f] of Object.entries(t.fares || {})) {
+        assert.ok(T.home.includes(k), `${guide}: fares for unknown station ${k}`);
+        assert.ok(f.peak > 0 && f.off > 0 && f.off <= f.peak, `${guide}: fares.${k} peak/off`);
+      }
+      if (t.fares) assert.match(t.faresU || '', /^https:\/\//, `${guide}: fares need a source (faresU)`);
+      if (t.bike) {
+        const win = w => Array.isArray(w) && w.length === 2 && w.every(Number.isInteger) && w[0] < w[1] && w[1] <= 1800;
+        for (const r of t.bike.rush || []) assert.ok((r.dir === 0 || r.dir === 1) && win(r.hub), `${guide}: bike.rush ${JSON.stringify(r)}`);
+        for (const d of t.bike.blackout || []) assert.match(d, /^\d{4}-\d\d-\d\d$/, `${guide}: bike blackout ${d}`);
+        for (const x of t.bike.partial || []) {
+          assert.ok(x.dates.every(d => /^\d{4}-\d\d-\d\d$/.test(d)) && x.hub.every(win), `${guide}: bike.partial ${JSON.stringify(x)}`);
+          if ('dir' in x) assert.ok(x.dir === 0 || x.dir === 1, `${guide}: bike.partial dir`);
+        }
+        assert.match(t.bike.u || '', /^https:\/\//, `${guide}: bike rules need a source`);
+      }
+      for (const sec of t.sections || []) {
+        assert.ok(sec.title && sec.items.length, `${guide}: transit section ${sec.title}`);
+        for (const f of sec.items) {
+          assert.ok(f.title && f.text && f.text.length <= 320, `${guide}: transit "${f.title}" (text <= 320)`);
+          assert.match(f.u || '', /^https:\/\//, `${guide}: transit "${f.title}" needs a source URL`);
+        }
+      }
     }
 
     // no coordinates of any kind in a guide file

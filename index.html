@@ -416,6 +416,72 @@ tr.detail td{background:#f2efe4;padding:0 14px}
   .gsech h3{font-size:20px}
   .gscroll{grid-auto-columns:82%}
 }
+/* ---- train to the city ("🚆 To NYC") ---------------------------------------------- */
+#transitview{margin-top:18px}
+.tstrip{display:flex;align-items:center;gap:10px;width:100%;margin:14px 0 0;padding:10px 14px;font:inherit;font-size:14px;
+  text-align:left;color:var(--text);background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);
+  border-radius:10px;box-shadow:var(--shadow);cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.tstrip:hover{border-color:var(--accent)}
+.tstrip .tsi{font-size:18px;flex:0 0 auto}
+.tstrip .tsm{flex:1;min-width:0;line-height:1.4}
+.tstrip .tsx{color:var(--muted)}
+.tstrip em{font-style:normal;font-weight:600;font-size:12.5px}
+.tstrip .ok{color:#15803d}.tstrip .warn{color:var(--hot)}
+.tstrip .tsgo{flex:0 0 auto;color:var(--accent);font-weight:600;font-size:13.5px;white-space:nowrap}
+.thero h2{font-size:clamp(28px,4.6vw,46px);letter-spacing:-1px;line-height:1.08}
+.tarrow{color:var(--accent-soft)}
+.tclock{font-size:15px;color:rgba(255,255,255,.85);display:flex;gap:6px 14px;flex-wrap:wrap;align-items:center}
+.tclock b{font-family:'JetBrains Mono',monospace;font-size:17px;color:#fff}
+.tlive{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.6px;color:rgba(255,255,255,.6)}
+.tlive.on{color:#86efac}.tlive.off{color:#fcd34d}
+.tctl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.tday{font:inherit;font-size:13.5px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 12px}
+.tday option{color:#111}
+.tnext{margin-top:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:12px 16px 4px}
+.tnext p{padding:4px 0 10px;color:rgba(255,255,255,.85)}
+.tnext code{font-family:'JetBrains Mono',monospace;font-size:12.5px}
+.tnl{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-soft)}
+.tlist{list-style:none}
+.trun{display:grid;grid-template-columns:120px 1fr 130px auto;gap:6px 16px;align-items:center;padding:12px 0}
+.tboard .trun{background:var(--card);border-radius:12px;box-shadow:var(--shadow);padding:12px 16px;margin-bottom:8px}
+.trun b{display:block;font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:600;letter-spacing:-.4px}
+.trun s{font-family:'JetBrains Mono',monospace;font-size:12px;opacity:.6;margin-right:6px}
+.trun span{font-size:12.5px;color:var(--muted)}
+.tnext .trun span{color:rgba(255,255,255,.72)}
+.tnext .trun b{font-size:26px;color:#fff}
+.tboard .trun b{color:var(--brand)}
+.tdep span,.tarr span{display:block}
+.tarr{text-align:right}
+.tmid{text-align:center;min-width:0}
+.tline{height:2px;background:var(--line);position:relative;margin:4px 0 6px}
+.tline::before,.tline::after{content:"";position:absolute;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.tline::before{left:0}.tline::after{right:0}
+.tnext .tline{background:rgba(255,255,255,.25)}
+.ttags{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.ttag,.tst{font-family:'JetBrains Mono',monospace;font-size:11px!important;border-radius:999px;padding:3px 9px;white-space:nowrap;
+  background:#eaf1fb;color:var(--brand)!important}
+.ttag.pk{background:#fdf0e1;color:#9a4d00!important}
+.ttag.bk{background:#e7f6ec;color:#166534!important}
+.ttag.nobk{background:#fde8e8;color:#991b1b!important}
+.tst.ok{background:#dcfce7;color:#166534!important}
+.tst.warn{background:#fef3c7;color:#92400e!important}
+.tst.bad{background:#fee2e2;color:#991b1b!important}
+.trun.gone b{text-decoration:line-through;opacity:.55}
+.talert{margin-top:16px;font-size:13.5px;line-height:1.5;color:#fde68a;background:rgba(217,119,6,.14);border:1px solid rgba(217,119,6,.4);border-radius:10px;padding:10px 13px}
+.talert a{color:#fff}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.tsrc{margin:26px 0 4px;font-size:12.5px;color:var(--muted);line-height:1.55}
+.tsrc a{color:var(--accent)}
+@media (max-width:760px){
+  .tgrid{grid-template-columns:1fr}
+  .trun{grid-template-columns:1fr auto;gap:4px 12px}
+  .tmid{grid-column:1 / -1;order:3;text-align:left}
+  .tmid .tline{display:none}
+  .ttags{grid-column:1 / -1;order:4;justify-content:flex-start}
+  .tstrip .tsx{display:block}
+  .tctl .gseg{max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .tctl .gseg button{white-space:nowrap}
+}
 footer{
   background:var(--brand);color:rgba(255,255,255,.7);
   padding:22px 20px;text-align:center;font-size:12.5px;
@@ -484,6 +550,7 @@ footer a{color:var(--accent-soft)}
   <button id="citySuggestGo" class="ctlbtn">Switch</button>
   <button id="citySuggestNo" class="ctlbtn" aria-label="Dismiss suggestion">✕</button>
 </div>
+<button id="trainStrip" class="tstrip" hidden aria-label="Next train — open the departures board"></button>
 <div class="controls">
   <div class="search">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -527,6 +594,7 @@ footer a{color:var(--accent-soft)}
 
 <div class="twrap">
   <div id="guideview" hidden></div>
+  <div id="transitview" hidden></div>
   <div id="itemview" hidden></div>
   <div id="mapview" hidden></div>
   <table id="tbl" aria-live="polite">
@@ -543,9 +611,10 @@ footer a{color:var(--accent-soft)}
   Distances are measured from the place named above — tap it to re-centre the whole guide anywhere. Drive times are straight-line ×1.3 road factor at 24–55 mph (average speed scales with trip length) — verify before you go. <span id="ftNote"></span>
 </footer>
 
+<script src="transit.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-02T09:40Z";
+const BUILD = "2026-11-02T14:49Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -753,7 +822,7 @@ const CONFIG = {
       tabs:NYC_TABS },
     { id:"stamford", chip:"STAMFORD",
       place:"Noroton Heights, Darien, CT", placeShort:"Stamford", originLabel:"Noroton Heights, Darien",
-      ns:"stm", data:"data-stamford.json", guide:"guide-stamford.json",
+      ns:"stm", data:"data-stamford.json", guide:"guide-stamford.json", transit:"transit-stamford.json",
       trip:"\u22482\u00bc hr drive from home base",
       blurb:"Stamford &amp; the Gold Coast: Harbor Point &amp; Sound-shore dates / Palace Theatre &amp; holiday-parade events / Bedford St &amp; Port Chester nights / omakase / Westchester \u4e2d\u534e / Long Island Sound stripers / Mianus River MTB / socials",
       note:"CT fishing needs a license for both fresh and salt water (one combined option).",
@@ -880,7 +949,7 @@ const skey     = n => CITY.ns+"-"+n;                            // per-city stor
 let DATA = {};          // active city's dataset — see CONFIG above
 const DATACACHE = {};   // cityId -> dataset, so switching back is instant
 
-let state = { tab:null, q:"", cat:"", maxT:"", maxD:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false, allCities:false, guide:false, fromGuide:false };
+let state = { tab:null, q:"", cat:"", maxT:"", maxD:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false, allCities:false, guide:false, fromGuide:false, transit:false };
 let favs = new Set();   // per-city; loaded in activateCity()
 let userLoc = null;
 
@@ -1068,13 +1137,24 @@ function favStar(key){
 function render(){
   // standalone item detail view (permalink target)
   const detailMode = !!state.item;
-  const guideMode = !detailMode && state.guide && !!GUIDE;
+  const transitMode = !detailMode && state.transit && !!TRANSIT;
+  const guideMode = !detailMode && !transitMode && state.guide && !!GUIDE;
+  const pageMode = detailMode || guideMode || transitMode;
   $("itemview").hidden = !detailMode;
   $("guideview").hidden = !guideMode;
-  document.querySelector(".controls").style.display = detailMode||guideMode ? "none" : "";
-  document.querySelector(".meta-line").style.display = detailMode||guideMode ? "none" : "";
-  $("catChips").style.display = detailMode||guideMode ? "none" : "";
-  syncGuideTab();
+  $("transitview").hidden = !transitMode;
+  document.querySelector(".controls").style.display = pageMode ? "none" : "";
+  document.querySelector(".meta-line").style.display = pageMode ? "none" : "";
+  $("catChips").style.display = pageMode ? "none" : "";
+  syncGuideTab(); syncTransitTab(); renderTrainStrip();
+  if(transitMode){
+    for(const id of ["tbl","cards"]) $(id).style.display = "none";
+    for(const id of ["mapview","empty","xfind","globalFavs"]) $(id).hidden = true;
+    document.title = `${CITY.placeShort} — train to ${TINFO().city||"the city"} · ${CONFIG.brand}`;
+    renderTransit();
+    syncHash();
+    return;
+  }
   if(guideMode){
     for(const id of ["tbl","cards"]) $(id).style.display = "none";
     for(const id of ["mapview","empty","xfind","globalFavs"]) $(id).hidden = true;
@@ -1379,17 +1459,17 @@ function renderGuide(){
 }
 
 function openGuide(){
-  state.guide = true; state.item = null; state.fromGuide = false;
+  state.guide = true; state.transit = false; state.item = null; state.fromGuide = false;
   state.tonight = false; state.allCities = false; ALLROWS = [];
   $("tonightBtn").setAttribute("aria-pressed","false");
   render(); window.scrollTo(0,0);
 }
 function syncGuideTab(){
   const g = $("guideTab"); if(!g) return;
-  const on = state.guide && !state.item;
+  const on = state.guide && !state.item && !state.transit;
   g.classList.toggle("active", on);
   g.setAttribute("aria-selected", on);
-  if(on) $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  if(on || state.transit) $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
   else if(!state.tonight && !state.allCities)
     $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.tab===state.tab));
 }
@@ -1886,7 +1966,8 @@ function syncHash(){
   if(state.tonight) p.set("tonight","1");
   if(state.view==="map") p.set("view","map");
   if(state.item) p.set("item", slugify(keyParts(state.item)[1]));
-  if(state.guide && !state.item) p.set("guide","1");
+  if(state.guide && !state.item && !state.transit) p.set("guide","1");
+  if(state.transit && !state.item) p.set("train","1");
   const h = p.toString();
   history.replaceState(null,"", h ? "#"+h : location.pathname+location.search);
 }
@@ -1901,6 +1982,7 @@ function readHash(){
   if(p.get("tonight")){ state.tonight = true; state.sortKey="d"; state.sortDir=1; }
   if(p.get("view")==="map") state.view = "map";
   if(p.get("guide") && CITY.guide) state.guide = true;
+  if(p.get("train") && CITY.transit) state.transit = true;
   if(!p.get("s") && !state.tonight){ const [k,d]=defSort(state.tab); state.sortKey=k; state.sortDir=d; }
   const item = p.get("item");
   if(item){
@@ -1923,7 +2005,8 @@ if("serviceWorker" in navigator && location.protocol !== "file:"){
 
 // tabs and all branding copy are rendered from CONFIG
 function renderTabs(){
-  $("tabs").innerHTML = (CITY.guide && GUIDE ? `<button class="gtab" id="guideTab" role="tab" aria-selected="false">✦ Start here</button>` : "") + TABS.map(t=>
+  $("tabs").innerHTML = (CITY.guide && GUIDE ? `<button class="gtab" id="guideTab" role="tab" aria-selected="false">✦ Start here</button>` : "")
+    + (CITY.transit && TRANSIT ? `<button class="gtab" id="transitTab" role="tab" aria-selected="false">${TINFO().tab || "🚆 Train"}</button>` : "") + TABS.map(t=>
     `<button class="tab${t.key===state.tab?" active":""}" role="tab" data-tab="${t.key}">${t.label} <span class="cnt" id="cnt-${t.key}"></span></button>`
   ).join("");
   $("tabs").querySelectorAll(".tab").forEach(t=>{
@@ -1932,7 +2015,7 @@ function renderTabs(){
       t.classList.add("active");
       state.tab = t.dataset.tab;
       state.item = null;
-      state.guide = false; state.fromGuide = false;
+      state.guide = false; state.fromGuide = false; state.transit = false;
       state.tonight = false;
       state.allCities = false; ALLROWS = [];
       $("tonightBtn").setAttribute("aria-pressed","false");
@@ -1944,6 +2027,7 @@ function renderTabs(){
   });
   for(const t of TABS) if(DATA[t.key]) $("cnt-"+t.key).textContent = DATA[t.key].length;
   if($("guideTab")) $("guideTab").addEventListener("click",()=>openGuide());
+  if($("transitTab")) $("transitTab").addEventListener("click",()=>openTransit());
 }
 function applyBranding(){
   $("hBrand").textContent  = CONFIG.brand;
@@ -1973,11 +2057,11 @@ async function applyHash(){
     if(!await loadCity(cityById(cid))) return;
   }
   const [hk,hd]=defSort(HOME);
-  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", maxD:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false, guide:false, fromGuide:false});
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", maxD:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false, guide:false, fromGuide:false, transit:false});
   const cat = readHash();
   // first time in a city that has a guide: open on it, unless the link asked for something specific
   const hp = new URLSearchParams(location.hash.slice(1));
-  if(!["tab","item","q","tonight","fav","view","cat"].some(k=>hp.has(k)) && wantsGuide()) state.guide = true;
+  if(!["tab","item","q","tonight","fav","view","cat","train"].some(k=>hp.has(k)) && wantsGuide()) state.guide = true;
   if(cat){ state.cat = cat; }
   fillCats(false);
   fillSort();
@@ -1993,6 +2077,8 @@ async function fetchCity(c){
   // the guide is optional: if its file fails the city still works as plain lists
   if(c.guide && !(c.id in GUIDECACHE))
     GUIDECACHE[c.id] = await fetch(c.guide, {cache:"no-cache"}).then(g=>g.ok?g.json():null).catch(()=>null);
+  if(c.transit && !(c.id in TRANSITCACHE))
+    TRANSITCACHE[c.id] = await fetch(c.transit, {cache:"no-cache"}).then(g=>g.ok?g.json():null).catch(()=>null);
   return DATACACHE[c.id] = await r.json();
 }
 // point every per-city global (tabs, data, favorites, origin, branding) at this city
@@ -2000,6 +2086,8 @@ function activateCity(c){
   setCityConfig(c);
   DATA = DATACACHE[c.id];
   GUIDE = GUIDECACHE[c.id] || null;
+  TRANSIT = TRANSITCACHE[c.id] || null; LIVE = null; liveAt = 0; liveFail = false;
+  if(TRANSIT) fetchLive(true);
   MAXDRIVE = Math.max(1, ...Object.values(DATA).flat().map(r=>r.t||0));
   favs = new Set(JSON.parse(localStorage.getItem(skey("favs"))||"[]"));
   try { origin = JSON.parse(localStorage.getItem(skey("origin"))||"null"); } catch(e){ origin = null; }
@@ -2022,7 +2110,7 @@ async function switchCity(id, opts={}){
   const [sk,sd] = defSort(HOME);
   // keepFav: jumping from the global favorites list should land with ★ still on
   Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:!!opts.keepFav, item:null, tonight:false,
-                        guide:!opts.keepFav && wantsGuide(), fromGuide:false});
+                        guide:!opts.keepFav && wantsGuide(), fromGuide:false, transit:false});
   $("q").value=""; $("distFilter").value="";
   $("favToggle").setAttribute("aria-pressed", state.fav);
   $("tonightBtn").setAttribute("aria-pressed","false");

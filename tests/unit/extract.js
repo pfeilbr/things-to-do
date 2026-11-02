@@ -7,7 +7,9 @@ const vm = require('node:vm');
 
 function loadCore(opts = {}) {
   const html = fs.readFileSync(path.join(__dirname, '..', '..', 'index.html'), 'utf8');
-  const src = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+  // the train board lives in transit.js (index.html loads it ahead of the main script)
+  const src = html.match(/<script>([\s\S]*?)<\/script>/)[1] + '\n'
+    + fs.readFileSync(path.join(__dirname, '..', '..', 'transit.js'), 'utf8');
   const grab = re => {
     const m = src.match(re);
     if (!m) throw new Error('extraction failed: ' + re);
@@ -24,10 +26,17 @@ function loadCore(opts = {}) {
     grab(/function slugify[\s\S]*?\n\}/),
     grab(/function pop\(row\)[^\n]*\n/),
     grab(/function wSpan[\s\S]*?\n\}/),
+    grab(/const TZ = "[^"]*";/),
+    grab(/function nyClock[\s\S]*?\n\}/),
+    grab(/function nyMs[\s\S]*?\n\}/),
+    grab(/function fmtClock[\s\S]*?\n\}/),
+    grab(/function trainRuns[\s\S]*?\n\}/),
+    grab(/function pbFields[\s\S]*?\n\}/),
+    grab(/function mnrLive[\s\S]*?\n\}/),
   ].join('\n');
 
   const RealDate = Date;
-  const sandbox = {};
+  const sandbox = { Intl, TextDecoder };
   if (opts.now) {
     const fixed = new RealDate(opts.now);
     if (isNaN(fixed)) throw new Error('bad now: ' + opts.now);
@@ -44,7 +53,7 @@ function loadCore(opts = {}) {
   }
   vm.createContext(sandbox);
   return vm.runInContext(
-    parts + '\n;({ havMi, ride, daysIn, happensToday, slugify, pop, wSpan });',
+    parts + '\n;({ havMi, ride, daysIn, happensToday, slugify, pop, wSpan, nyClock, nyMs, fmtClock, trainRuns, pbFields, mnrLive });',
     sandbox);
 }
 

@@ -1,9 +1,10 @@
 // Network-first service worker: always try the network so new deploys land
 // immediately; fall back to cache only when offline.
-const CACHE = "wg-guide-v15";
+const CACHE = "wg-guide-v16";
 const PRECACHE = [
   "./",
   "./index.html",
+  "./transit.js",
   "./data.json",
   "./data-nyc.json",
   "./data-brooklyn.json",
@@ -19,6 +20,7 @@ const PRECACHE = [
   "./data-richmond.json",
   "./data-stamford.json",
   "./guide-stamford.json",
+  "./transit-stamford.json",
   "./data-boston.json",
   "./data-vb.json",
   "./data-buffalo.json",
@@ -49,8 +51,12 @@ self.addEventListener("activate", e => {
   );
 });
 
+// live train feeds are minute-fresh by definition: never serve one from cache
+const LIVE_HOSTS = ["api-endpoint.mta.info"];
+
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
+  if (LIVE_HOSTS.includes(new URL(e.request.url).hostname)) return;
   e.respondWith(
     fetch(e.request)
       .then(res => {
