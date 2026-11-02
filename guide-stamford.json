@@ -6,8 +6,8 @@
    "k": "to Grand Central on Metro-North"
   },
   {
-   "v": "6 min",
-   "k": "from downtown to the Sound"
+   "v": "5 min",
+   "k": "to the Sound at Cove Island"
   },
   {
    "v": "18",
@@ -24,7 +24,7 @@
       {
        "i": "mtb",
        "ref": "biking|Mianus River Park",
-       "why": "Ride the Mianus Maze before the red-barn lot fills: rocky singletrack and easy doubletrack nine minutes from downtown."
+       "why": "Ride the Mianus Maze before the red-barn lot fills: rocky singletrack and easy doubletrack, a short hop over the Stamford line."
       },
       {
        "i": "fishing",
@@ -248,7 +248,7 @@
    },
    {
     "ref": "nightlife|The Capitol Theatre",
-    "why": "Hip-hop, R&B and jam tours under a light-show dome in Port Chester, twenty minutes away."
+    "why": "Hip-hop, R&B and jam tours under a light-show dome in Port Chester, just over the state line."
    },
    {
     "ref": "nightlife|The Haven speakeasy",
@@ -262,7 +262,7 @@
   "sushi": [
    {
     "ref": "eats|Sushi Bar",
-    "why": "BYOB omakase from chef Rio Yonathan in Old Greenwich, six minutes away. The chutoro with seared foie gras is the bite."
+    "why": "BYOB omakase from chef Rio Yonathan in Old Greenwich. The chutoro with seared foie gras is the bite."
    },
    {
     "ref": "eats|Omakase Westport",
@@ -280,7 +280,7 @@
   "chinese": [
    {
     "ref": "chinese|Nan Xiang Xiao Long Bao 南翔小笼包",
-    "why": "Michelin-listed Shanghainese 小笼包 a minute from downtown. Walk in and order the Lucky Six."
+    "why": "Michelin-listed Shanghainese 小笼包 by the Stamford Town Center. Walk in and order the Lucky Six."
    },
    {
     "ref": "chinese|O Mandarin",
@@ -302,11 +302,11 @@
    },
    {
     "ref": "fishing|Cummings Park Fishing Pier",
-    "why": "The city pier four minutes from downtown: scup and snappers in summer, stripers at dusk."
+    "why": "Stamford's city pier on Shippan: scup and snappers in summer, stripers at dusk."
    },
    {
     "ref": "fishing|Mianus River TMA",
-    "why": "Heavily stocked trout water nine minutes away. Catch-and-release outside the spring–summer harvest window."
+    "why": "Heavily stocked trout water close to home. Catch-and-release outside the spring–summer harvest window."
    },
    {
     "ref": "fishing|Penfield Reef",
@@ -316,7 +316,7 @@
   "mtb": [
    {
     "ref": "biking|Mianus River Park",
-    "why": "Your local trails: about 10 miles of tight, rocky singletrack nine minutes away, including the Mianus Maze."
+    "why": "Your local trails: about 10 miles of tight, rocky singletrack, including the Mianus Maze."
    },
    {
     "ref": "biking|Blue Mountain Reservation",

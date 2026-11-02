@@ -545,7 +545,7 @@ footer a{color:var(--accent-soft)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-02T09:07Z";
+const BUILD = "2026-11-02T09:40Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -752,7 +752,7 @@ const CONFIG = {
       sources:"Data gathered Aug 2026 (events refreshed Oct 2026) from official venue sites, Google Places, local press &amp; event calendars.",
       tabs:NYC_TABS },
     { id:"stamford", chip:"STAMFORD",
-      place:"Downtown Stamford, CT", placeShort:"Stamford", originLabel:"downtown Stamford",
+      place:"Noroton Heights, Darien, CT", placeShort:"Stamford", originLabel:"Noroton Heights, Darien",
       ns:"stm", data:"data-stamford.json", guide:"guide-stamford.json",
       trip:"\u22482\u00bc hr drive from home base",
       blurb:"Stamford &amp; the Gold Coast: Harbor Point &amp; Sound-shore dates / Palace Theatre &amp; holiday-parade events / Bedford St &amp; Port Chester nights / omakase / Westchester \u4e2d\u534e / Long Island Sound stripers / Mianus River MTB / socials",
@@ -1762,7 +1762,9 @@ async function setOrigin(q){
   toast("Looking up “" + q + "”…");
   try{
     const g = await geocode(q);
-    const short = g.name.split(",")[0].trim();
+    // a street address comes back as "12, Main Street, …": keep the number with its street
+    const parts = g.name.split(",").map(x=>x.trim());
+    const short = /^\d+[a-z]?$/i.test(parts[0]) && parts[1] ? parts[0]+" "+parts[1] : parts[0];
     origin = {name:q, label:short, short, ll:g.ll};
     userLoc = null;
     $("geoToggle").setAttribute("aria-pressed","false");
