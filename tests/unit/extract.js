@@ -23,6 +23,7 @@ function loadCore(opts = {}) {
     grab(/function happensToday[\s\S]*?\n\}/),
     grab(/function slugify[\s\S]*?\n\}/),
     grab(/function pop\(row\)[^\n]*\n/),
+    grab(/function wSpan[\s\S]*?\n\}/),
   ].join('\n');
 
   const RealDate = Date;
@@ -43,7 +44,7 @@ function loadCore(opts = {}) {
   }
   vm.createContext(sandbox);
   return vm.runInContext(
-    parts + '\n;({ havMi, ride, daysIn, happensToday, slugify, pop });',
+    parts + '\n;({ havMi, ride, daysIn, happensToday, slugify, pop, wSpan });',
     sandbox);
 }
 

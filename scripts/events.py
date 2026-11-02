@@ -5,6 +5,7 @@
     python3 scripts/events.py prune [--dry-run] # drop one-offs whose dates have passed
     python3 scripts/events.py add data-nyc.json rows.json [--dry-run]
     python3 scripts/events.py add data-nyc.json rows.json --tab museums   # any tab
+    python3 scripts/events.py add data-stamford.json ski.json --tab skiing --new-tab   # start a tab
 
 `add` takes a JSON array of researched rows ({n, c, s, u, w, ll} plus optional r/rc)
 and computes each row's d/t with the documented formula (haversine x1.3 road factor,
@@ -105,11 +106,14 @@ REQUIRED = ('n', 'c', 's', 'u', 'll')
 WHEN_TABS = ('events', 'social')        # tabs with a When column: rows need a `w` string
 
 
-def cmd_add(root, file, src, dry, tab='events'):
+def cmd_add(root, file, src, dry, tab='events', new_tab=False):
     path = root / file
     data, pretty = load(path)
     if tab not in data:
-        raise SystemExit(f'{file} has no {tab} tab')
+        # a typo'd --tab must not silently invent a tab; starting one is an explicit choice
+        if not new_tab:
+            raise SystemExit(f'{file} has no {tab} tab (pass --new-tab to start one)')
+        data[tab] = []
     required = REQUIRED + (('w',) if tab in WHEN_TABS else ())
     existing = [r for rows in data.values() for r in rows]
     names = {r['n'] for r in existing}
@@ -145,13 +149,14 @@ def main(argv=None):
     pr = sub.add_parser('prune'); pr.add_argument('--dry-run', action='store_true')
     ad = sub.add_parser('add'); ad.add_argument('file'); ad.add_argument('rows'); ad.add_argument('--dry-run', action='store_true')
     ad.add_argument('--tab', default='events', help='tab to append to (default: events)')
+    ad.add_argument('--new-tab', action='store_true', help='create --tab if the file lacks it')
     a = ap.parse_args(argv)
     if a.cmd == 'status':
         cmd_status(a.root, a.today)
     elif a.cmd == 'prune':
         cmd_prune(a.root, a.today, a.dry_run)
     else:
-        cmd_add(a.root, a.file, a.rows, a.dry_run, a.tab)
+        cmd_add(a.root, a.file, a.rows, a.dry_run, a.tab, a.new_tab)
 
 
 if __name__ == '__main__':

@@ -69,3 +69,28 @@ for (const [w, now, expected] of cases) {
     assert.equal(happensToday(w), expected);
   });
 }
+
+// wSpan(): the guide's "Happening soon" rail reads first/last dates out of `w` strings.
+// Years are resolved around `now`, and every earlier date is the latest one not after the
+// date that follows it, so New-Year runs and long exhibitions land in the right season.
+const spanCases = [
+  ['Sat 11/7 · 8p',            '2026-11-02', '2026-11-07', '2026-11-07'],
+  ['Fri–Sun 11/27–29',         '2026-11-02', '2026-11-27', '2026-11-29'],
+  ['Sat 11/21 – Mon 1/4',      '2026-11-02', '2026-11-21', '2027-01-04'],
+  ['Sat 7/25 – Sun 3/28',      '2026-11-02', '2026-07-25', '2027-03-28'],
+  ['Sat 12/12 – Sun 12/20',    '2026-12-15', '2026-12-12', '2026-12-20'],
+  ['Sat 11/7 · 8p',            '2027-01-10', '2026-11-07', '2026-11-07'],   // last season's, i.e. past
+  ['Thu 1/14 · 7p',            '2026-11-02', '2027-01-14', '2027-01-14'],
+];
+const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+for (const [w, now, start, end] of spanCases) {
+  test(`wSpan("${w}") @ ${now} -> ${start}..${end}`, () => {
+    const { wSpan } = loadCore();
+    const sp = wSpan(w, new Date(now + 'T12:00:00'));
+    assert.deepEqual([iso(sp.start), iso(sp.end)], [start, end]);
+  });
+}
+test('wSpan(): recurring strings have no span', () => {
+  const { wSpan } = loadCore();
+  assert.equal(wSpan('Saturdays · 9a–1p', new Date()), null);
+});

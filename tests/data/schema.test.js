@@ -27,6 +27,8 @@ const LAYOUTS = {
   'data-ithaca.json': [...CITY_TABS, ...NYC_EXTRA, 'coffee'],
   // Verona is a visitor guide that also carries dated Events (Turning Stone's calendar).
   'data-verona.json': [...CITY_TABS, 'events'],
+  // Stamford too (the Palace Theatre season, the holiday parade), plus the first Skiing tab.
+  'data-stamford.json': [...CITY_TABS, 'events', 'skiing'],
 };
 
 const dataFiles = fs.readdirSync(ROOT).filter(f => /^data.*\.json$/.test(f)).sort();

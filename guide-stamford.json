@@ -1,0 +1,451 @@
+{
+ "intro": "Stamford is the Gold Coast's downtown: a walkable grid of restaurants and bars on Bedford St, a marina boardwalk at Harbor Point, and the Long Island Sound ten minutes from everything. Greenwich, SoNo and Port Chester are each a short drive, and Manhattan is one train away.",
+ "stats": [
+  {
+   "v": "1 train",
+   "k": "to Grand Central on Metro-North"
+  },
+  {
+   "v": "6 min",
+   "k": "from downtown to the Sound"
+  },
+  {
+   "v": "18",
+   "k": "ski areas within ~2 hr"
+  }
+ ],
+ "plan": [
+  {
+   "title": "Saturday",
+   "slots": [
+    {
+     "when": "Morning",
+     "options": [
+      {
+       "i": "mtb",
+       "ref": "biking|Mianus River Park",
+       "why": "Ride the Mianus Maze before the red-barn lot fills: rocky singletrack and easy doubletrack nine minutes from downtown."
+      },
+      {
+       "i": "fishing",
+       "ref": "fishing|Cove Island Park",
+       "why": "Dawn on the rocks at the mouth of Holly Pond, when stripers and blues feed on the moving water."
+      },
+      {
+       "ref": "spots|Cove Island Park",
+       "why": "Walk the paved loop on the Sound and the wildlife-sanctuary boardwalk while the city is still quiet."
+      }
+     ]
+    },
+    {
+     "when": "Lunch",
+     "options": [
+      {
+       "i": "chinese",
+       "ref": "chinese|Nan Xiang Xiao Long Bao 南翔小笼包",
+       "why": "Flushing's soup-dumpling house, walk-in only, by the Town Center. Get the Lucky Six sampler and the pan-fried pork buns."
+      },
+      {
+       "ref": "eats|Colony Grill",
+       "why": "Stamford's 1935 bar pie: order the stinger with sausage and a cold beer at the bar. No slices, no fuss."
+      }
+     ]
+    },
+    {
+     "when": "Afternoon",
+     "options": [
+      {
+       "i": "dates",
+       "ref": "spots|Bruce Museum",
+       "why": "Greenwich's expanded museum, with Dustin Yellin's layered-glass sculptures up through March, then a walk down Greenwich Ave."
+      },
+      {
+       "ref": "spots|Harbor Point boardwalk",
+       "why": "The marina boardwalk past the yachts: Stamford's easiest waterfront stroll, and the bars are right there when you're done."
+      }
+     ]
+    },
+    {
+     "when": "Dinner",
+     "options": [
+      {
+       "i": "sushi",
+       "ref": "eats|Sushi Bar",
+       "why": "A tiny BYOB omakase counter in Old Greenwich. Ask for the $135 omakase at the bar and bring a good bottle."
+      },
+      {
+       "i": "dates",
+       "ref": "spots|Bedford Street",
+       "why": "Downtown's dinner strip: pick a patio or a cocktail bar on the tree-lined blocks, then walk to the Palace for a show."
+      },
+      {
+       "ref": "eats|Mecha Noodle Bar",
+       "why": "Tonkotsu ramen, pho and good cocktails on Bedford St: the reliable, unfussy dinner downtown."
+      }
+     ]
+    },
+    {
+     "when": "Late",
+     "options": [
+      {
+       "i": "night",
+       "ref": "nightlife|Tequila Escape",
+       "why": "The Canal St cantina turns into a dance floor on weekends: reggaeton, bachata, afrobeats and R&B until 2."
+      },
+      {
+       "i": "events",
+       "ref": "nightlife|New York Comedy Club Stamford",
+       "why": "Headliners and stacked showcases by the Town Center, then a short walk to the Bedford St bars."
+      },
+      {
+       "ref": "nightlife|Sign of the Whale",
+       "why": "Harbor Point's big rooftop over the water, open to 2 on weekends, with heated igloos once it turns cold."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Sunday",
+   "slots": [
+    {
+     "when": "Morning",
+     "options": [
+      {
+       "i": "ski",
+       "months": [
+        12,
+        1,
+        2,
+        3
+       ],
+       "ref": "skiing|Mohawk Mountain",
+       "why": "Connecticut's most terrain, about 80 minutes up into the Litchfield Hills: 27 trails, full snowmaking, and lunch in Cornwall."
+      },
+      {
+       "i": "fishing",
+       "months": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+       ],
+       "ref": "fishing|Greenwich Point (Tod's Point)",
+       "why": "Free to non-residents Nov 1–Apr 30, which is exactly the late-run striper window on its rocky points."
+      },
+      {
+       "ref": "spots|Greenwich Point Park (Tod's Point)",
+       "why": "A 147-acre peninsula with beaches, a causeway loop and Manhattan skyline views across the Sound."
+      }
+     ]
+    },
+    {
+     "when": "Brunch",
+     "options": [
+      {
+       "i": "chinese",
+       "ref": "chinese|MŌLÌ 茉莉",
+       "why": "Weekend dim sum brunch in a polished room on Greenwich Ave, then walk it off on the Avenue."
+      },
+      {
+       "i": "sushi",
+       "ref": "eats|Barnoodle",
+       "why": "Crisp-nori hand rolls handed across the bar one at a time in Riverside. Quick, fun and new in 2026."
+      },
+      {
+       "ref": "eats|Frank Pepe Pizzeria Napoletana",
+       "why": "New Haven's coal-fired legend on High Ridge Rd, without the I-95 trip. Order the white clam pie."
+      }
+     ]
+    },
+    {
+     "when": "Afternoon",
+     "options": [
+      {
+       "i": "mtb",
+       "ref": "biking|Blue Mountain Reservation",
+       "why": "Westchester's flagship riding, 20+ miles of color-coded trails from beginner loops to rock gardens, under an hour away."
+      },
+      {
+       "i": "dates",
+       "ref": "spots|The Glass House",
+       "why": "Philip Johnson's 1949 glass pavilion in New Canaan. Tours are by reservation, and the season ends mid-December."
+      },
+      {
+       "ref": "spots|The Maritime Aquarium",
+       "why": "The Sound's own sea life in SoNo, with seals, sharks and river otters, then a walk up Washington St."
+      }
+     ]
+    },
+    {
+     "when": "Dinner",
+     "options": [
+      {
+       "i": "sushi",
+       "ref": "eats|Yama Tsuki",
+       "why": "Book the omakase counter for 12 or 15 courses (bluefin belly with caviar, kinmedai), and get the toro toast on the side."
+      },
+      {
+       "i": "chinese",
+       "ref": "chinese|O Mandarin",
+       "why": "Hartsdale's Michelin-noted Mandarin room: pork shank, wild-pepper shrimp and the prime-rib hot pot. Book a booth."
+      },
+      {
+       "ref": "eats|The Restaurant at Rowayton Seafood",
+       "why": "Seafood on the Five Mile River with boats at the dock. Get the warm lobster roll and time it for sunset."
+      }
+     ]
+    },
+    {
+     "when": "Night",
+     "options": [
+      {
+       "i": "events",
+       "ref": "spots|The Capitol Theatre",
+       "why": "Port Chester's ornate 1926 rock palace, one of the best-sounding rooms in the region. Check what's on before you go."
+      },
+      {
+       "i": "night",
+       "ref": "nightlife|The Haven speakeasy",
+       "why": "Find the passport-photo door in the alley off N Main in SoNo, press the button, and the wall slides open."
+      },
+      {
+       "ref": "nightlife|Garcia's at The Capitol Theatre",
+       "why": "The Capitol's side room and bar in Port Chester: funk and soul bands, and after-shows that run late on concert nights."
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "picks": {
+  "dates": [
+   {
+    "ref": "spots|Harbor Point boardwalk",
+    "why": "The easy first date: a marina walk, the sunset over the boats, and dinner or drinks on the water a minute away."
+   },
+   {
+    "ref": "spots|Greenwich Point Park (Tod's Point)",
+    "why": "A causeway loop with the Manhattan skyline across the Sound. It's open to everyone Nov–Apr."
+   },
+   {
+    "ref": "spots|The Glass House",
+    "why": "Philip Johnson's glass pavilion on 49 acres: a guided tour that leaves you with something to talk about. Book ahead."
+   },
+   {
+    "ref": "spots|Bedford Street",
+    "why": "Downtown's tree-lined dinner-and-drinks strip, a short walk from the Palace Theatre for a show after."
+   }
+  ],
+  "night": [
+   {
+    "ref": "nightlife|Tequila Escape",
+    "why": "The closest thing to a real dance floor downtown: weekend DJs spinning reggaeton, bachata, afrobeats and R&B until 2."
+   },
+   {
+    "ref": "nightlife|The Capitol Theatre",
+    "why": "Hip-hop, R&B and jam tours under a light-show dome in Port Chester, twenty minutes away."
+   },
+   {
+    "ref": "nightlife|The Haven speakeasy",
+    "why": "SoNo's hidden-door cocktail bar. Order the smoked dirty martini."
+   },
+   {
+    "ref": "nightlife|Sign of the Whale",
+    "why": "Harbor Point's rooftop, loud and lively, open to 2 on Fri–Sat."
+   }
+  ],
+  "sushi": [
+   {
+    "ref": "eats|Sushi Bar",
+    "why": "BYOB omakase from chef Rio Yonathan in Old Greenwich, six minutes away. The chutoro with seared foie gras is the bite."
+   },
+   {
+    "ref": "eats|Omakase Westport",
+    "why": "The splurge: ten seats and 16 courses from a Sushi of Gari and Nobu alum. Reservations only."
+   },
+   {
+    "ref": "eats|Yama Tsuki",
+    "why": "A long blond counter with 12 or 15 courses; weekday lunch is the calm way in."
+   },
+   {
+    "ref": "eats|Hotaru",
+    "why": "The value counter: 15 courses for about $68 from the Ginkgo Sichuan team in Fairfield."
+   }
+  ],
+  "chinese": [
+   {
+    "ref": "chinese|Nan Xiang Xiao Long Bao 南翔小笼包",
+    "why": "Michelin-listed Shanghainese 小笼包 a minute from downtown. Walk in and order the Lucky Six."
+   },
+   {
+    "ref": "chinese|O Mandarin",
+    "why": "The area's best Chinese dining room, full of multi-generation family tables. A real banquet."
+   },
+   {
+    "ref": "chinese|Ginkgo Sichuan Cuisine 川菜",
+    "why": "Full 麻辣 Sichuan in Fairfield: sole and tofu in chili broth, cumin lamb, chicken dry pot."
+   },
+   {
+    "ref": "chinese|H Mart Hartsdale",
+    "why": "Stock up for a hot pot night: thin-sliced meats, 郫县豆瓣, Sichuan peppercorns and frozen dumplings."
+   }
+  ],
+  "fishing": [
+   {
+    "ref": "fishing|Greenwich Point (Tod's Point)",
+    "why": "The best shore water nearby, and free to non-residents Nov–Apr, when the late stripers run."
+   },
+   {
+    "ref": "fishing|Cummings Park Fishing Pier",
+    "why": "The city pier four minutes from downtown: scup and snappers in summer, stripers at dusk."
+   },
+   {
+    "ref": "fishing|Mianus River TMA",
+    "why": "Heavily stocked trout water nine minutes away. Catch-and-release outside the spring–summer harvest window."
+   },
+   {
+    "ref": "fishing|Penfield Reef",
+    "why": "Walk a mile out on the falling tide and cast to stripers in the rips. Mind the incoming tide."
+   }
+  ],
+  "mtb": [
+   {
+    "ref": "biking|Mianus River Park",
+    "why": "Your local trails: about 10 miles of tight, rocky singletrack nine minutes away, including the Mianus Maze."
+   },
+   {
+    "ref": "biking|Blue Mountain Reservation",
+    "why": "The big day out: 20+ miles from beginner loops to rock gardens and descents."
+   },
+   {
+    "ref": "biking|Trout Brook Valley",
+    "why": "1,000+ acres of XC singletrack, flowy to very technical. Bikes May–Dec only, and not when wet."
+   }
+  ],
+  "social": [
+   {
+    "ref": "social|Stamford Run Club",
+    "why": "The free Wednesday run that grew big enough to bring back the city half marathon. All paces welcome."
+   },
+   {
+    "ref": "social|Trivia at Tiernan's",
+    "why": "Free Wednesday pub quiz downtown. Teams form at the bar, so showing up alone works."
+   },
+   {
+    "ref": "social|Stamford Board Games Group – Chelsea Piers",
+    "why": "A 2,300-member group that fills Chelsea Piers' upstairs bar every Tuesday. Light games, easy to join."
+   }
+  ],
+  "ski": [
+   {
+    "ref": "skiing|Thunder Ridge Ski Area",
+    "why": "The closest lifts, under an hour away and open until 9 every night, so a weeknight run after work actually works."
+   },
+   {
+    "ref": "skiing|Ski Sundown",
+    "why": "The go-to Connecticut night session: 16 lit trails until 10, regroomed at 6p."
+   },
+   {
+    "ref": "skiing|Mountain Creek",
+    "why": "The most vertical within about 75 minutes: 1,040 ft over four peaks, with night skiing and a big park scene."
+   },
+   {
+    "ref": "skiing|Hunter Mountain",
+    "why": "The real-mountain day trip: 1,600 ft of vertical and 67 trails in the Catskills. Leave early."
+   }
+  ]
+ },
+ "areas": [
+  {
+   "icon": "🏙️",
+   "n": "Downtown / Bedford St",
+   "s": "The walkable core: Bedford St's restaurant-and-bar row, Latham Park, the Palace Theatre, and the Stamford Town Center mall.",
+   "q": "Bedford St & Broad St, Stamford, CT 06901"
+  },
+  {
+   "icon": "⚓",
+   "n": "Harbor Point",
+   "s": "South End waterfront redevelopment by the train station: apartment towers, offices, restaurants, parks and a boardwalk; the free trolley runs here from downtown.",
+   "q": "Washington Blvd & Harbor Point Rd, Stamford, CT 06902"
+  },
+  {
+   "icon": "🌊",
+   "n": "Shippan",
+   "s": "Stamford's southernmost neighborhood, a residential peninsula on Long Island Sound — come for the shoreline drive; Cummings Park beach sits nearby.",
+   "q": "Shippan Ave & Ocean Dr W, Stamford, CT 06902"
+  },
+  {
+   "icon": "🏘️",
+   "n": "Springdale",
+   "s": "Small-town strip on Hope St near the Darien/New Canaan line: local shops and restaurants, with its own Metro-North stop on the New Canaan Branch.",
+   "q": "Hope St & Camp Ave, Stamford, CT 06907"
+  },
+  {
+   "icon": "🎶",
+   "n": "SoNo (South Norwalk)",
+   "s": "Norwalk's nightlife and dining district around Washington St, a short walk from South Norwalk station; new apartments, bars and the Maritime Aquarium.",
+   "q": "Washington St & N Main St, Norwalk, CT 06854"
+  },
+  {
+   "icon": "🛍️",
+   "n": "Greenwich Ave",
+   "s": "Greenwich's walkable main street in a National Register historic district: upscale boutiques (Saks, Richards), two dozen-plus restaurants, a walk from the train station.",
+   "q": "Greenwich Ave & Elm St, Greenwich, CT 06830"
+  }
+ ],
+ "know": [
+  {
+   "icon": "🚆",
+   "title": "Metro-North to Grand Central",
+   "text": "New Haven Line. The fastest Super Express trains take about 42 min (worked out from CTDOT's New Haven timings); most trains take longer. Check TrainTime for the day's expresses.",
+   "u": "https://portal.ct.gov/dot/programs/timeforct/service"
+  },
+  {
+   "icon": "🚉",
+   "title": "Stamford Transportation Center",
+   "text": "Washington Blvd at South State St: Metro-North plus Amtrak Northeast Corridor, CT's busiest transit hub. Waiting room 4:30a–midnight; a 914-space garage with direct Track 5 access opened Feb 2024.",
+   "u": "https://stamfordstation.ctrail.com/"
+  },
+  {
+   "icon": "🅿️",
+   "title": "Downtown parking",
+   "text": "9,500+ spaces in 15 downtown locations; pay with the ParkMobile app at any meter, city garage or lot (Bell St, Summer Place garages). The free Harbor Point Trolley links the station, downtown and Harbor Point.",
+   "u": "https://stamford-downtown.com/getting-around/"
+  },
+  {
+   "icon": "🏖️",
+   "title": "Stamford beach season",
+   "text": "Cove Island, Cummings and West Beach: beach parking permits run May 1–Sept 30 (sold at Government Center); beaches open weekends from early June, daily late June–Labor Day, lifeguards 10a–6p.",
+   "u": "https://housedems.ct.gov/node/29489"
+  },
+  {
+   "icon": "🎫",
+   "title": "Cove Island parking pass",
+   "text": "A parking pass is required to enter Cove Island Park: $25/season for Stamford residents with Stamford-registered cars, $225 for a non-resident season pass. Check the city for non-resident day rates.",
+   "u": "https://en.wikipedia.org/wiki/Cove_Island_Park"
+  },
+  {
+   "icon": "🌅",
+   "title": "Greenwich Point (Tod's Point)",
+   "text": "11 Tods Driftway, Old Greenwich; open 6a–sunset. May 1–Oct 31 entry needs a pass: season Park Passes are for verified Greenwich residents, single-entry per-person and per-vehicle tickets are sold online.",
+   "u": "https://www.greenwichct.gov/2037/Passes-Tickets"
+  },
+  {
+   "icon": "🎣",
+   "title": "CT fishing license (All Waters)",
+   "text": "Covers inland and Long Island Sound: $32 resident 18–64, $16 ages 16–17, $63 nonresident. Buy online (DEEP Outdoor Licensing) or at town clerks. A CT marine license is honored in NY, RI, MA and ME waters.",
+   "u": "https://portal.ct.gov/deep/fishing/general-information/fisheries-licenses-and-permits"
+  },
+  {
+   "icon": "📅",
+   "title": "Stamford Downtown events",
+   "text": "The special services district's calendar. Signature events: the Parade Spectacular (Sun Nov 22, 2026, 12–2p; balloon inflation Sat at Hoyt & Summer) and Heights & Lights (Dec 6, 2026, rappelling Santa).",
+   "u": "https://stamford-downtown.com/events/"
+  }
+ ]
+}

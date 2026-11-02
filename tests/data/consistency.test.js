@@ -68,6 +68,11 @@ const INTENTIONAL_CROSS_TAB = new Set([
   'data-verona.json|Green Lakes State Park|spots,biking',
   'data-verona.json|Verona Beach State Park|spots,fishing',
   'data-verona.json|Delta Lake State Park|spots,fishing',
+  // Stamford: Sound-shore parks that are the outing and the striper water; the Capitol is
+  // both a landmark theatre and the region's main live-music room
+  'data-stamford.json|Cove Island Park|spots,fishing',
+  'data-stamford.json|Sherwood Island State Park|spots,fishing',
+  'data-stamford.json|The Capitol Theatre|spots,nightlife',
 ]);
 
 test('no unvetted duplicate rows across tabs of one city', () => {

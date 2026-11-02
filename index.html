@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>Things To Do</title>
-<meta name="description" id="metaDesc" content="Things to do in 25 cities: places to eat, museums, sights, walks, shops, nightlife and everyday essentials — sorted by how far they are from wherever you point it.">
+<meta name="description" id="metaDesc" content="Things to do in 26 cities: places to eat, museums, sights, walks, shops, nightlife and everyday essentials — sorted by how far they are from wherever you point it.">
 <meta name="theme-color" content="#15304e">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="icon.svg">
@@ -98,7 +98,7 @@ h1{
 }
 .tabs::-webkit-scrollbar{display:none}
 .tabs>*{flex:0 0 auto}
-.tab{
+.tab,.gtab{
   font-family:'Inter',system-ui,sans-serif;
   font-weight:500;font-size:14px;
   background:none;color:rgba(255,255,255,.72);
@@ -106,8 +106,11 @@ h1{
   padding:11px 13px 9px;cursor:pointer;white-space:nowrap;
   transition:color .15s,border-color .15s;
 }
-.tab:hover{color:#fff}
-.tab.active{color:#fff;font-weight:600;border-bottom-color:var(--accent-soft)}
+.tab:hover,.gtab:hover{color:#fff}
+.tab.active,.gtab.active{color:#fff;font-weight:600;border-bottom-color:var(--accent-soft)}
+/* the guide's entry in the strip reads as a destination, not another list */
+.gtab{color:var(--accent-soft);font-weight:600}
+.gtab.active{border-bottom-color:var(--hot)}
 .tab .cnt{font-family:'JetBrains Mono',monospace;font-size:10.5px;opacity:.6;margin-left:5px}
 /* city switcher */
 .ctlbtn .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.75;margin-left:3px}
@@ -132,7 +135,7 @@ h1{
 /* On desktop the wrapper is transparent — its children lay out directly in .controls. */
 .ctlrow{display:contents}
 @media (max-width:760px){
-  .tab{padding:10px 11px 8px;font-size:13.5px}
+  .tab,.gtab{padding:10px 11px 8px;font-size:13.5px}
   .appbar{gap:10px;height:54px}
   /* Phone chrome budget: every chip/control strip becomes ONE swipeable row
      instead of wrapping, so results start near the top of the screen. */
@@ -293,6 +296,126 @@ tr.detail td{background:#f2efe4;padding:0 14px}
   .controls select{width:100%}
   .mobile-sort{display:block}
 }
+/* ---- first-visit guide ("✦ Start here") ------------------------------------------- */
+#guideview{margin-top:18px}
+.ghero{
+  position:relative;overflow:hidden;border-radius:16px;padding:34px 34px 26px;color:#fff;
+  background:
+    radial-gradient(90% 120% at 100% 0%,rgba(47,111,220,.85) 0%,rgba(47,111,220,0) 60%),
+    radial-gradient(60% 80% at 0% 100%,rgba(217,119,6,.22) 0%,rgba(217,119,6,0) 70%),
+    linear-gradient(160deg,#15304e 0%,#1b3a5f 100%);
+  box-shadow:0 2px 6px rgba(21,48,78,.12),0 18px 40px rgba(21,48,78,.18);
+}
+.geyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:var(--accent-soft)}
+.ghero h2{font-size:clamp(36px,6.4vw,60px);font-weight:700;letter-spacing:-1.4px;line-height:1;margin:8px 0 14px}
+.gintro{max-width:660px;font-size:16px;line-height:1.55;color:rgba(255,255,255,.86)}
+.gstats{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.gstat{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:8px 13px;min-width:120px}
+.gstat b{display:block;font-size:17px;font-weight:700;letter-spacing:-.2px}
+.gstat span{font-size:12px;color:rgba(255,255,255,.7)}
+.gprefs{margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14);
+  display:flex;gap:14px 20px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.glabel{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase;color:rgba(255,255,255,.6);margin:22px 0 10px}
+.gprefs .glabel{margin:0 10px 0 0}
+.gints{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.gint{font:inherit;font-size:13.5px;line-height:1.2;border-radius:999px;padding:7px 13px;cursor:pointer;
+  border:1.5px solid rgba(255,255,255,.26);background:rgba(255,255,255,.03);color:rgba(255,255,255,.78);
+  transition:background .15s,color .15s,border-color .15s,transform .1s}
+.gint:hover{border-color:rgba(255,255,255,.6);color:#fff}
+.gint:active{transform:scale(.97)}
+.gint[aria-pressed="true"]{background:#fff;color:var(--brand);border-color:#fff;font-weight:600}
+.gonb .gint{font-size:15px;padding:10px 16px}
+.gseg{display:inline-flex;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:3px}
+.gseg button{font:inherit;font-size:13.5px;border:0;background:none;color:rgba(255,255,255,.78);padding:6px 15px;border-radius:999px;cursor:pointer}
+.gseg button[aria-pressed="true"]{background:#fff;color:var(--brand);font-weight:600}
+.gonb .gseg button{font-size:15px;padding:9px 18px}
+.gactions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:28px}
+.gcta{font:inherit;font-weight:600;font-size:16px;background:var(--hot);color:#fff;border:0;border-radius:12px;
+  padding:13px 24px;cursor:pointer;box-shadow:0 8px 20px rgba(217,119,6,.35);transition:transform .1s,box-shadow .15s}
+.gcta:hover{box-shadow:0 10px 26px rgba(217,119,6,.45)}
+.gcta:active{transform:translateY(1px)}
+.gskip{font:inherit;font-size:14px;background:none;border:0;color:rgba(255,255,255,.7);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.gskip:hover{color:#fff}
+.gsec{margin-top:36px}
+.gsech{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.gsech h3{font-size:22px;font-weight:700;color:var(--brand);letter-spacing:-.4px}
+.gsub{font-size:13.5px;color:var(--muted)}
+.gall{font:inherit;font-size:13.5px;font-weight:500;color:var(--accent);background:none;border:0;cursor:pointer;padding:2px 0;white-space:nowrap}
+.gall:hover{color:var(--brand);text-decoration:underline;text-underline-offset:3px}
+/* happening soon: a sideways rail of date cards */
+.gscroll{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,290px);gap:12px;
+  overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 10px;scrollbar-width:thin}
+.gev{scroll-snap-align:start;display:flex;gap:13px;align-items:flex-start;background:var(--card);border-radius:12px;
+  padding:14px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.gdate{flex:0 0 54px;text-align:center;border-radius:10px;background:#eaf1fb;color:var(--brand);padding:7px 0 6px}
+.gdate small{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent)}
+.gdate b{display:block;font-size:23px;line-height:1.05;font-weight:700}
+.gdate.now{background:var(--accent);color:#fff}
+.gdate.now small{color:rgba(255,255,255,.85)}
+.gev h4{font-size:15px;line-height:1.25;color:var(--brand)}
+.gev .gwhy{margin-top:3px}
+/* the plan: a timeline per day */
+.gplan{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.gday{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:20px 20px 6px}
+.gdayh{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.gstops{list-style:none}
+.gstop{position:relative;padding:0 0 18px 26px;cursor:pointer;border-radius:8px}
+.gstop::before{content:"";position:absolute;left:6px;top:14px;bottom:-2px;width:2px;background:var(--line)}
+.gstop:last-child::before{display:none}
+.gstop::after{content:"";position:absolute;left:0;top:3px;width:14px;height:14px;border-radius:50%;
+  background:var(--card);border:3px solid var(--accent);box-sizing:border-box}
+.gstop:hover h4{color:var(--accent)}
+.gtime{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--hot);text-transform:uppercase;letter-spacing:1.2px}
+.gstop h4{font-size:15.5px;color:var(--brand);margin:1px 0 3px;line-height:1.3;transition:color .15s}
+.gstop .gmeta{margin-top:6px}
+/* picked for you */
+.gblock{margin-top:22px}
+.gblock:first-of-type{margin-top:0}
+.gbh{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.gbh .gico{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;background:#eaf1fb;font-size:17px;flex:0 0 auto}
+.gbh h4{font-size:16.5px;color:var(--brand);font-weight:700}
+.gbh .gall{margin-left:auto}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.gcard{background:var(--card);border-radius:12px;box-shadow:var(--shadow);padding:14px 16px 13px;cursor:pointer;
+  border-top:3px solid var(--accent-soft);display:flex;flex-direction:column;gap:6px;transition:transform .15s,box-shadow .15s}
+.gcard:hover,.gev:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(21,48,78,.08),0 12px 26px rgba(21,48,78,.13)}
+.gcard.top1{border-top-color:var(--hot)}
+.gtop{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.gcard h4{font-size:15.5px;color:var(--brand);line-height:1.28}
+.gwhy{font-size:13.5px;line-height:1.5;color:var(--muted)}
+.gcard .gwhy{flex:1}
+.gmeta{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.gmeta .dist{font-size:11.5px;color:var(--muted)}
+.gempty{background:var(--card);border-radius:12px;padding:20px;color:var(--muted);font-size:14px;box-shadow:var(--shadow)}
+/* bearings + know before you go */
+.gtwo{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.gpanel{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:20px 20px 10px}
+.gpanel h3{font-size:18px;font-weight:700;color:var(--brand);letter-spacing:-.3px;margin-bottom:6px}
+.gitem{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.gitem:first-of-type{border-top:0}
+.gitem .gi{font-size:19px;line-height:1.2;flex:0 0 26px;text-align:center}
+.gitem b{display:block;font-size:14.5px;color:var(--text)}
+.gitem p{font-size:13.5px;color:var(--muted);line-height:1.5;margin-top:2px}
+.gitem a{color:var(--accent);font-size:12.5px;text-decoration:none;white-space:nowrap}
+.gitem a:hover{text-decoration:underline}
+.gend{text-align:center;margin:38px 0 6px}
+.gbrowse{font:inherit;font-weight:600;font-size:15px;color:var(--brand);background:var(--card);border:1.5px solid var(--line);
+  border-radius:12px;padding:12px 22px;cursor:pointer}
+.gbrowse:hover{border-color:var(--accent);color:var(--accent)}
+.gev:focus-visible,.gcard:focus-visible,.gstop:focus-visible{outline:2px solid var(--hot);outline-offset:2px}
+@media (max-width:760px){
+  .ghero{padding:26px 18px 20px;border-radius:14px}
+  .gintro{font-size:15px}
+  .gprefs{flex-direction:column;align-items:stretch}
+  .gprefs .gints{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -18px;padding:0 18px}
+  .gprefs .gints::-webkit-scrollbar{display:none}
+  .gprefs .gint{flex:0 0 auto}
+  .gprefs .glabel{display:none}
+  .gtwo{grid-template-columns:1fr}
+  .gplan{grid-template-columns:1fr}
+  .gsech h3{font-size:20px}
+  .gscroll{grid-auto-columns:82%}
+}
 footer{
   background:var(--brand);color:rgba(255,255,255,.7);
   padding:22px 20px;text-align:center;font-size:12.5px;
@@ -403,6 +526,7 @@ footer a{color:var(--accent-soft)}
 <button id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
 
 <div class="twrap">
+  <div id="guideview" hidden></div>
   <div id="itemview" hidden></div>
   <div id="mapview" hidden></div>
   <table id="tbl" aria-live="polite">
@@ -421,7 +545,7 @@ footer a{color:var(--accent-soft)}
 
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-10-12T22:25Z";
+const BUILD = "2026-11-02T09:07Z";
 if(location.protocol !== "file:"){
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
@@ -481,6 +605,17 @@ const T_WALKS   = {key:"walks",     label:"Walks",        sort:["d",1],    cols:
 const T_SHOPS   = {key:"shops",     label:"Shops",        sort:["d",1],    cols:C_STD};
 const T_DAILY   = {key:"essentials",label:"Essentials",   sort:["d",1],    cols:C_STD};
 const T_EVENTS  = {key:"events",    label:"Events",       sort:["d",1],    cols:C_WHEN};
+// Skiing: the closest real lifts, within about a two-hour drive. Sorted by drive time,
+// because the honest question is "how far is the nearest snow", not "which is biggest".
+const C_SKI = [
+  {k:"n",label:"Mountain",type:"str"},
+  {k:"c",label:"Type",type:"str"},
+  {k:"s",label:"What to expect",type:"str",nosort:true},
+  {k:"d",label:"Distance",type:"num"},
+  {k:"t",label:"Drive",type:"num"},
+  {k:"pop",label:"Popularity",type:"num"}
+];
+const T_SKI     = {key:"skiing",    label:"Skiing",       sort:["t",1],    cols:C_SKI};
 // Coffee is its own tab only where the day is actually spent in cafes — a campus guide.
 const T_COFFEE  = {key:"coffee",    label:"Coffee",       sort:["pop",-1], cols:C_STD};
 // Home-city layout (the NYC-area guides and Boston): the seven interest tabs plus the five
@@ -495,8 +630,8 @@ const NYC_TABS = [T_SPOTS, T_EVENTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOP
 const CAMPUS_TABS = [T_SPOTS, T_EVENTS, T_COFFEE, T_EATS, T_NIGHT, T_SIGHTS, T_WALKS,
                      T_MUSEUM, T_SHOPS, T_DAILY, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
-// A visitor guide with dated Events: the casino town books a weekly showroom calendar, so
-// the interest tabs alone would miss most of why you'd go.
+// A visitor guide with dated Events: the casino town books a weekly showroom calendar (and
+// Stamford a theatre-and-parade one), so the interest tabs alone would miss most of why you'd go.
 const EVENT_CITY_TABS = [T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
@@ -616,6 +751,14 @@ const CONFIG = {
       note:"MA fishing: freshwater license, or a ~$10 saltwater permit.",
       sources:"Data gathered Aug 2026 (events refreshed Oct 2026) from official venue sites, Google Places, local press &amp; event calendars.",
       tabs:NYC_TABS },
+    { id:"stamford", chip:"STAMFORD",
+      place:"Downtown Stamford, CT", placeShort:"Stamford", originLabel:"downtown Stamford",
+      ns:"stm", data:"data-stamford.json", guide:"guide-stamford.json",
+      trip:"\u22482\u00bc hr drive from home base",
+      blurb:"Stamford &amp; the Gold Coast: Harbor Point &amp; Sound-shore dates / Palace Theatre &amp; holiday-parade events / Bedford St &amp; Port Chester nights / omakase / Westchester \u4e2d\u534e / Long Island Sound stripers / Mianus River MTB / socials",
+      note:"CT fishing needs a license for both fresh and salt water (one combined option).",
+      sources:"Data gathered Nov 2026 from official venue sites, the Palace Theatre &amp; Stamford Downtown calendars, CT DEEP, ski-area sites, local press &amp; Google Places; venue coordinates via OpenStreetMap.",
+      tabs:[T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SKI, T_SOCIAL] },
     { id:"vb", chip:"VA BEACH",
       place:"Virginia Beach Oceanfront, VA", placeShort:"Virginia Beach", originLabel:"the VB Oceanfront",
       ns:"vb", data:"data-vb.json",
@@ -712,7 +855,7 @@ const REGIONS = [
   ["HOME",        ["philly"]],
   ["NYC",         ["foresthills","nyc","brooklyn","queens","flushing"]],
   ["UPSTATE NY",  ["ithaca","verona"]],
-  ["EAST",        ["ac","baltimore","dc","richmond","vb","boston","pittsburgh"]],
+  ["EAST",        ["ac","baltimore","dc","richmond","vb","stamford","boston","pittsburgh"]],
   ["GREAT LAKES", ["buffalo","cleveland","chicago","toronto"]],
   ["SOUTH",       ["raleigh","nashville"]],
   ["WEST",        ["la","sf","seattle","sandiego"]]
@@ -737,7 +880,7 @@ const skey     = n => CITY.ns+"-"+n;                            // per-city stor
 let DATA = {};          // active city's dataset — see CONFIG above
 const DATACACHE = {};   // cityId -> dataset, so switching back is instant
 
-let state = { tab:null, q:"", cat:"", maxT:"", maxD:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false, allCities:false };
+let state = { tab:null, q:"", cat:"", maxT:"", maxD:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false, allCities:false, guide:false, fromGuide:false };
 let favs = new Set();   // per-city; loaded in activateCity()
 let userLoc = null;
 
@@ -925,10 +1068,21 @@ function favStar(key){
 function render(){
   // standalone item detail view (permalink target)
   const detailMode = !!state.item;
+  const guideMode = !detailMode && state.guide && !!GUIDE;
   $("itemview").hidden = !detailMode;
-  document.querySelector(".controls").style.display = detailMode ? "none" : "";
-  document.querySelector(".meta-line").style.display = detailMode ? "none" : "";
-  $("catChips").style.display = detailMode ? "none" : "";
+  $("guideview").hidden = !guideMode;
+  document.querySelector(".controls").style.display = detailMode||guideMode ? "none" : "";
+  document.querySelector(".meta-line").style.display = detailMode||guideMode ? "none" : "";
+  $("catChips").style.display = detailMode||guideMode ? "none" : "";
+  syncGuideTab();
+  if(guideMode){
+    for(const id of ["tbl","cards"]) $(id).style.display = "none";
+    for(const id of ["mapview","empty","xfind","globalFavs"]) $(id).hidden = true;
+    document.title = `${CITY.placeShort} — your guide · ${CONFIG.brand}`;
+    renderGuide();
+    syncHash();
+    return;
+  }
   if(detailMode){
     $("tbl").style.display = "none";
     $("cards").style.display = "none";
@@ -1017,7 +1171,7 @@ function renderItem(){
   const e = eff(r);
   document.title = `${r.n} — ${baseTitle()}`;
   $("itemview").innerHTML = `
-    <button class="ctlbtn backbtn" id="backBtn">← Back to ${TABLABEL[tab]||tab}</button>
+    <button class="ctlbtn backbtn" id="backBtn">← Back to ${state.fromGuide ? "your guide" : TABLABEL[tab]||tab}</button>
     <div class="itemcard">
       <h2>${r.n} ${favStar(state.item)}</h2>
       <div class="dmeta">
@@ -1037,9 +1191,240 @@ function renderItem(){
     </div>`;
 }
 $("itemview").addEventListener("click",e=>{
-  if(e.target.closest("#backBtn")){ state.item = null; render(); return; }
+  if(e.target.closest("#backBtn")){
+    state.item = null;
+    if(state.fromGuide){ state.fromGuide = false; state.guide = true; }
+    render(); return;
+  }
   favClick(e);
   shareClick(e);
+});
+
+// ---- first-visit guide ("✦ Start here") -------------------------------------------------
+// A city whose CONFIG entry names a `guide` file gets an editorial landing page ahead of
+// the lists: an interest picker the first time you open the city, then the next few weeks'
+// events, a day/weekend plan and hand-picked rows per interest. Every pick is a "tab|name"
+// ref to a row in the city's dataset — the guide file holds only refs and the one-line
+// "why" — so distances, ratings, favorites and the item view all stay live. Interests are
+// about the person, not the city, so they're stored once (guide-interests), not per ns.
+const INTERESTS = [
+  {id:"dates",   icon:"💞", label:"Date spots",          tab:"spots"},
+  {id:"events",  icon:"🎭", label:"Shows & events",      tab:"events"},
+  {id:"night",   icon:"🪩", label:"Nightlife & dancing", tab:"nightlife"},
+  {id:"sushi",   icon:"🍣", label:"Sushi & omakase",     tab:"eats"},
+  {id:"chinese", icon:"🥟", label:"Chinese 中华",         tab:"chinese"},
+  {id:"fishing", icon:"🎣", label:"Fishing",             tab:"fishing"},
+  {id:"mtb",     icon:"🚵", label:"Mountain biking",     tab:"biking"},
+  {id:"ski",     icon:"⛷️", label:"Skiing",              tab:"skiing"},
+  {id:"social",  icon:"🤝", label:"Meeting people",      tab:"social"}
+];
+let GUIDE = null;
+const GUIDECACHE = {};   // cityId -> guide JSON, or null when the file failed
+let interests = (()=>{
+  try { const v = JSON.parse(localStorage.getItem("guide-interests")); if(Array.isArray(v)) return new Set(v); } catch(e){}
+  return new Set(INTERESTS.map(i=>i.id));   // the guide is geared to the owner: everything on
+})();
+let tripLen = localStorage.getItem("guide-trip")==="day" ? "day" : "weekend";
+const guideSeen = () => localStorage.getItem(skey("guide-seen")) === "1";
+const wantsGuide = () => !!(CITY && CITY.guide && GUIDE && !guideSeen());
+// only offer interests this city can actually answer
+const cityInterests = () => INTERESTS.filter(i => (DATA[i.tab]||[]).length || (GUIDE.picks||{})[i.id]);
+
+function guideRow(ref){
+  const [tab,name] = keyParts(ref);
+  const r = (DATA[tab]||[]).find(x=>x.n===name);
+  return r ? {tab, r} : null;
+}
+function gMeta(r){
+  const e = eff(r);
+  return [e.d!=null?`<span class="dist">~${e.t} min · ${e.d.toFixed(1)} mi</span>`:"", r.r!=null?fmtPop(r):""].join("");
+}
+function gCard(ref, why, top){
+  const g = guideRow(ref); if(!g) return "";
+  const r = g.r;
+  return `<article class="gcard${top?" top1":""}" data-ref="${ref}" tabindex="0" role="button" aria-label="${r.n}: details">
+    <div class="gtop"><span class="cat">${r.c}</span>${favStar(ref)}</div>
+    <h4>${r.n}</h4>
+    <p class="gwhy">${why || r.s}</p>
+    <div class="gmeta">${gMeta(r)}</div>
+  </article>`;
+}
+
+// first and last explicit dates in a `w` string; null for recurring strings ("Saturdays · …").
+// The last date gets the year nearest today; each earlier one is the latest date not after
+// the one that follows it, so "11/21 – 1/4" and a Jul→Mar exhibition span New Year correctly.
+function wSpan(w, now){
+  const ds = [];
+  w.replace(/(\d{1,2})\/(\d{1,2})(?:\s*[–-]\s*(\d{1,2})(?![\d\/]))?/g, (_,m,d,e) => {
+    ds.push([+m,+d]); if(e) ds.push([+m,+e]); return "";
+  });
+  if(!ds.length) return null;
+  const y = now.getFullYear(), m0 = now.getMonth()+1;
+  const [lm, ld] = ds[ds.length-1];
+  let next = new Date(lm < m0-3 ? y+1 : lm > m0+8 ? y-1 : y, lm-1, ld);
+  const end = next;
+  for(let i = ds.length-2; i >= 0; i--){
+    let t = new Date(next.getFullYear(), ds[i][0]-1, ds[i][1]);
+    if(t > next) t = new Date(next.getFullYear()-1, ds[i][0]-1, ds[i][1]);
+    next = t;
+  }
+  return {start:next, end};
+}
+function soonEvents(days=21){
+  const now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const horizon = new Date(today.getTime() + days*864e5);
+  return (DATA.events||[]).map(r=>({r, sp:wSpan(r.w||"", now)}))
+    .filter(x => x.sp && x.sp.end >= today && x.sp.start <= horizon)
+    .map(x => ({...x, now: x.sp.start <= today, long: x.sp.end - x.sp.start > 14*864e5}))
+    // months-long runs (exhibitions) are always "on", so they trail the dated nights out
+    .sort((a,b) => a.long - b.long || a.sp.start - b.sp.start || (a.r.t||0) - (b.r.t||0));
+}
+const MON3 = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const DOW3 = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+function gEvent({r, sp, now}){
+  const d = sp.start;
+  const badge = now ? `<div class="gdate now"><small>${happensToday(r.w)?"Today":"On now"}</small><b>${new Date().getDate()}</b></div>`
+                    : `<div class="gdate"><small>${MON3[d.getMonth()]}</small><b>${d.getDate()}</b><small>${DOW3[d.getDay()]}</small></div>`;
+  return `<article class="gev" data-ref="events|${r.n}" tabindex="0" role="button" aria-label="${r.n}: details">${badge}
+    <div><span class="cat">${r.c}</span><h4>${r.n}</h4><p class="gwhy"><span class="when">${r.w}</span></p></div></article>`;
+}
+
+// a plan slot lists options in order of preference, each tagged with the interest it serves
+// (and optionally the months it's in season); the first one that fits you and the calendar
+// wins, so the same weekend reshapes itself around your picks and the time of year
+function slotPick(slot){
+  const mo = new Date().getMonth()+1;
+  return slot.options.find(o => (!o.i || interests.has(o.i)) && (!o.months || o.months.includes(mo)) && guideRow(o.ref)) || null;
+}
+function gPlan(){
+  const days = (GUIDE.plan||[]).slice(0, tripLen==="day" ? 1 : undefined);
+  return days.map(day=>{
+    const stops = day.slots.map(s=>{
+      const o = slotPick(s); if(!o) return "";
+      const r = guideRow(o.ref).r;
+      return `<li class="gstop" data-ref="${o.ref}" tabindex="0" role="button" aria-label="${s.when}: ${r.n}">
+        <span class="gtime">${s.when}</span><h4>${r.n}</h4><p class="gwhy">${o.why}</p>
+        <div class="gmeta"><span class="cat">${r.c}</span>${gMeta(r)}</div></li>`;
+    }).join("");
+    return stops ? `<div class="gday"><div class="gdayh">${tripLen==="day" ? "One good day" : day.title}</div><ol class="gstops">${stops}</ol></div>` : "";
+  }).join("");
+}
+function gPicks(){
+  return cityInterests().filter(i => interests.has(i.id) && i.id !== "events").map(i=>{
+    // hand-picked first; a city without picks for an interest falls back to its top-rated rows
+    let picks = ((GUIDE.picks||{})[i.id]||[]).filter(p=>guideRow(p.ref));
+    if(!picks.length) picks = (DATA[i.tab]||[]).slice().sort((a,b)=>pop(b)-pop(a)).slice(0,3).map(r=>({ref:i.tab+"|"+r.n}));
+    if(!picks.length) return "";
+    const n = (DATA[i.tab]||[]).length;
+    return `<div class="gblock"><div class="gbh"><span class="gico" aria-hidden="true">${i.icon}</span><h4>${i.label}</h4>
+      ${n?`<button class="gall" data-gotab="${i.tab}">All ${n} →</button>`:""}</div>
+      <div class="ggrid">${picks.map((p,k)=>gCard(p.ref, p.why, k===0)).join("")}</div></div>`;
+  }).join("");
+}
+function gInterestChips(){
+  return cityInterests().map(i=>`<button class="gint" data-int="${i.id}" aria-pressed="${interests.has(i.id)}"><span aria-hidden="true">${i.icon}</span> ${i.label}</button>`).join("");
+}
+function gTripSeg(){
+  return `<div class="gseg" role="group" aria-label="How long are you here?">${[["day","Day trip"],["weekend","Weekend"]].map(([k,l])=>
+    `<button data-trip="${k}" aria-pressed="${tripLen===k}">${l}</button>`).join("")}</div>`;
+}
+
+function renderGuide(){
+  const G = GUIDE, name = CITY.placeShort;
+  if(!guideSeen()){
+    // onboarding: one screen, two questions, then the guide builds itself
+    $("guideview").innerHTML = `<section class="ghero gonb" aria-labelledby="gTitle">
+      <div class="geyebrow">First time in</div>
+      <h2 id="gTitle">${name}</h2>
+      <p class="gintro">${G.intro}</p>
+      <div class="glabel">What are you into?</div>
+      <div class="gints">${gInterestChips()}</div>
+      <div class="glabel">How long are you here?</div>
+      ${gTripSeg()}
+      <div class="gactions">
+        <button class="gcta" id="gBuild">Build my ${name} guide →</button>
+        <button class="gskip" id="gSkip">Skip, just show me the lists</button>
+      </div>
+    </section>`;
+    return;
+  }
+  const soon = interests.has("events") ? soonEvents() : [];
+  const picks = gPicks(), plan = gPlan();
+  const total = TABS.reduce((n,t)=>n+(DATA[t.key]||[]).length, 0);
+  const stats = [...(G.stats||[]), {v:String(total), k:"places & events in this guide"}];
+  $("guideview").innerHTML = `
+    <section class="ghero" aria-labelledby="gTitle">
+      <div class="geyebrow">Your guide to</div>
+      <h2 id="gTitle">${name}</h2>
+      <p class="gintro">${G.intro}</p>
+      <div class="gstats">${stats.map(s=>`<div class="gstat"><b>${s.v}</b><span>${s.k}</span></div>`).join("")}</div>
+      <div class="gprefs">
+        <div class="gints"><span class="glabel">Into</span>${gInterestChips()}</div>
+        ${gTripSeg()}
+      </div>
+    </section>
+    ${soon.length ? `<section class="gsec"><div class="gsech"><h3>Happening soon</h3>
+      <button class="gall" data-gotab="events">All ${(DATA.events||[]).length} events →</button></div>
+      <div class="gscroll">${soon.slice(0,12).map(gEvent).join("")}</div></section>` : ""}
+    <section class="gsec"><div class="gsech"><h3>${tripLen==="day" ? "Your day, planned" : "Your weekend, planned"}</h3>
+      <span class="gsub">Built from what you're into. Tap any stop for details.</span></div>
+      ${plan ? `<div class="gplan">${plan}</div>` : `<div class="gempty">Pick an interest or two above and the plan fills in.</div>`}</section>
+    <section class="gsec"><div class="gsech"><h3>Picked for you</h3><span class="gsub">The few worth your time, out of every list.</span></div>
+      ${picks || `<div class="gempty">Pick an interest above to see picks.</div>`}</section>
+    <section class="gsec gtwo">
+      ${(G.areas||[]).length ? `<div class="gpanel"><h3>Get your bearings</h3>${G.areas.map(a=>`<div class="gitem"><span class="gi" aria-hidden="true">${a.icon||"📍"}</span><div><b>${a.n}</b><p>${a.s} <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(a.q||a.n)}" target="_blank" rel="noopener">Map ↗</a></p></div></div>`).join("")}</div>` : ""}
+      ${(G.know||[]).length ? `<div class="gpanel"><h3>Know before you go</h3>${G.know.map(f=>`<div class="gitem"><span class="gi" aria-hidden="true">${f.icon||"ℹ️"}</span><div><b>${f.title}</b><p>${f.text}${f.u?` <a href="${f.u}" target="_blank" rel="noopener">Source ↗</a>`:""}</p></div></div>`).join("")}</div>` : ""}
+    </section>
+    <div class="gend"><button class="gbrowse" data-gotab="${HOME}">Browse every list →</button></div>`;
+}
+
+function openGuide(){
+  state.guide = true; state.item = null; state.fromGuide = false;
+  state.tonight = false; state.allCities = false; ALLROWS = [];
+  $("tonightBtn").setAttribute("aria-pressed","false");
+  render(); window.scrollTo(0,0);
+}
+function syncGuideTab(){
+  const g = $("guideTab"); if(!g) return;
+  const on = state.guide && !state.item;
+  g.classList.toggle("active", on);
+  g.setAttribute("aria-selected", on);
+  if(on) $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  else if(!state.tonight && !state.allCities)
+    $("tabs").querySelectorAll(".tab").forEach(x=>x.classList.toggle("active", x.dataset.tab===state.tab));
+}
+function guideGoTab(tab){
+  const b = $("tabs").querySelector(`.tab[data-tab="${tab}"]`);
+  if(b){ b.click(); b.scrollIntoView({block:"nearest", inline:"center"}); window.scrollTo(0,0); }
+}
+$("guideview").addEventListener("click",e=>{
+  if(e.target.closest(".favbtn")){ favClick(e); return; }
+  if(e.target.closest("a")) return;
+  const int = e.target.closest("[data-int]");
+  if(int){
+    const id = int.dataset.int;
+    interests.has(id) ? interests.delete(id) : interests.add(id);
+    localStorage.setItem("guide-interests", JSON.stringify([...interests]));
+    render(); return;
+  }
+  const trip = e.target.closest("[data-trip]");
+  if(trip){ tripLen = trip.dataset.trip; localStorage.setItem("guide-trip", tripLen); render(); return; }
+  if(e.target.closest("#gBuild")){ localStorage.setItem(skey("guide-seen"),"1"); render(); window.scrollTo(0,0); return; }
+  if(e.target.closest("#gSkip")){ localStorage.setItem(skey("guide-seen"),"1"); guideGoTab(HOME); return; }
+  const go = e.target.closest("[data-gotab]");
+  if(go){ guideGoTab(go.dataset.gotab); return; }
+  const card = e.target.closest("[data-ref]");
+  if(card){
+    const ref = card.dataset.ref;
+    state.tab = keyParts(ref)[0]; state.item = ref;
+    state.guide = false; state.fromGuide = true;
+    render(); window.scrollTo(0,0);
+  }
+});
+$("guideview").addEventListener("keydown",e=>{
+  if(e.key!=="Enter" && e.key!==" ") return;
+  const card = e.target.closest("[data-ref]");
+  if(card && e.target===card){ e.preventDefault(); card.click(); }
 });
 
 // The category filter is a chip bar rather than a <select>: with the everyday-life tabs
@@ -1499,6 +1884,7 @@ function syncHash(){
   if(state.tonight) p.set("tonight","1");
   if(state.view==="map") p.set("view","map");
   if(state.item) p.set("item", slugify(keyParts(state.item)[1]));
+  if(state.guide && !state.item) p.set("guide","1");
   const h = p.toString();
   history.replaceState(null,"", h ? "#"+h : location.pathname+location.search);
 }
@@ -1512,6 +1898,7 @@ function readHash(){
   if(p.get("fav")) state.fav = true;
   if(p.get("tonight")){ state.tonight = true; state.sortKey="d"; state.sortDir=1; }
   if(p.get("view")==="map") state.view = "map";
+  if(p.get("guide") && CITY.guide) state.guide = true;
   if(!p.get("s") && !state.tonight){ const [k,d]=defSort(state.tab); state.sortKey=k; state.sortDir=d; }
   const item = p.get("item");
   if(item){
@@ -1534,7 +1921,7 @@ if("serviceWorker" in navigator && location.protocol !== "file:"){
 
 // tabs and all branding copy are rendered from CONFIG
 function renderTabs(){
-  $("tabs").innerHTML = TABS.map(t=>
+  $("tabs").innerHTML = (CITY.guide && GUIDE ? `<button class="gtab" id="guideTab" role="tab" aria-selected="false">✦ Start here</button>` : "") + TABS.map(t=>
     `<button class="tab${t.key===state.tab?" active":""}" role="tab" data-tab="${t.key}">${t.label} <span class="cnt" id="cnt-${t.key}"></span></button>`
   ).join("");
   $("tabs").querySelectorAll(".tab").forEach(t=>{
@@ -1543,6 +1930,7 @@ function renderTabs(){
       t.classList.add("active");
       state.tab = t.dataset.tab;
       state.item = null;
+      state.guide = false; state.fromGuide = false;
       state.tonight = false;
       state.allCities = false; ALLROWS = [];
       $("tonightBtn").setAttribute("aria-pressed","false");
@@ -1553,6 +1941,7 @@ function renderTabs(){
     });
   });
   for(const t of TABS) if(DATA[t.key]) $("cnt-"+t.key).textContent = DATA[t.key].length;
+  if($("guideTab")) $("guideTab").addEventListener("click",()=>openGuide());
 }
 function applyBranding(){
   $("hBrand").textContent  = CONFIG.brand;
@@ -1582,8 +1971,11 @@ async function applyHash(){
     if(!await loadCity(cityById(cid))) return;
   }
   const [hk,hd]=defSort(HOME);
-  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", maxD:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false});
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", maxD:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false, guide:false, fromGuide:false});
   const cat = readHash();
+  // first time in a city that has a guide: open on it, unless the link asked for something specific
+  const hp = new URLSearchParams(location.hash.slice(1));
+  if(!["tab","item","q","tonight","fav","view","cat"].some(k=>hp.has(k)) && wantsGuide()) state.guide = true;
   if(cat){ state.cat = cat; }
   fillCats(false);
   fillSort();
@@ -1596,12 +1988,16 @@ async function fetchCity(c){
   if(DATACACHE[c.id]) return DATACACHE[c.id];
   const r = await fetch(c.data, {cache:"no-cache"});
   if(!r.ok) throw "HTTP "+r.status;
+  // the guide is optional: if its file fails the city still works as plain lists
+  if(c.guide && !(c.id in GUIDECACHE))
+    GUIDECACHE[c.id] = await fetch(c.guide, {cache:"no-cache"}).then(g=>g.ok?g.json():null).catch(()=>null);
   return DATACACHE[c.id] = await r.json();
 }
 // point every per-city global (tabs, data, favorites, origin, branding) at this city
 function activateCity(c){
   setCityConfig(c);
   DATA = DATACACHE[c.id];
+  GUIDE = GUIDECACHE[c.id] || null;
   MAXDRIVE = Math.max(1, ...Object.values(DATA).flat().map(r=>r.t||0));
   favs = new Set(JSON.parse(localStorage.getItem(skey("favs"))||"[]"));
   try { origin = JSON.parse(localStorage.getItem(skey("origin"))||"null"); } catch(e){ origin = null; }
@@ -1623,7 +2019,8 @@ async function switchCity(id, opts={}){
   if(!await loadCity(c)) return;
   const [sk,sd] = defSort(HOME);
   // keepFav: jumping from the global favorites list should land with ★ still on
-  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:!!opts.keepFav, item:null, tonight:false});
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:!!opts.keepFav, item:null, tonight:false,
+                        guide:!opts.keepFav && wantsGuide(), fromGuide:false});
   $("q").value=""; $("distFilter").value="";
   $("favToggle").setAttribute("aria-pressed", state.fav);
   $("tonightBtn").setAttribute("aria-pressed","false");

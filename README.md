@@ -1,6 +1,6 @@
 # Things To Do
 
-A single-page, fully client-side web app — pick a city from the dropdown, get things to do in one sortable, searchable table. Ships with twenty-five guides: **Philly (Willow Grove) · Forest Hills · NYC · Brooklyn · Queens · Flushing · Ithaca (Cornell) · Verona · Atlantic City · Baltimore · Washington DC · Pittsburgh · Richmond · Boston · Virginia Beach · Buffalo · Cleveland · Raleigh-Durham · Chicago · Toronto · Nashville · Los Angeles · San Francisco · Seattle · San Diego**.
+A single-page, fully client-side web app — pick a city from the dropdown, get things to do in one sortable, searchable table. Ships with twenty-six guides: **Philly (Willow Grove) · Forest Hills · NYC · Brooklyn · Queens · Flushing · Ithaca (Cornell) · Verona · Atlantic City · Baltimore · Washington DC · Pittsburgh · Richmond · Stamford · Boston · Virginia Beach · Buffalo · Cleveland · Raleigh-Durham · Chicago · Toronto · Nashville · Los Angeles · San Francisco · Seattle · San Diego**.
 
 **Live site:** https://pfeilbr.github.io/things-to-do/
 
@@ -15,8 +15,10 @@ A single-page, fully client-side web app — pick a city from the dropdown, get 
   - **Fishing** — piers, lakes, party boats, and surf spots with license notes
   - **MTB** — real mountain-bike trails within a drive, labeled honestly (singletrack vs. greenway)
   - **Social** — recurring series where strangers actually talk: dance socials, run clubs, trivia, language exchanges, night markets — with a "today" badge on ones happening now
-  - **Events** — dated, source-verified listings for the next few weeks, on Philly, Ithaca, Verona, Boston and the five NYC-area guides; the ones happening today get a TODAY badge
+  - **Events** — dated, source-verified listings for the next few weeks, on Philly, Ithaca, Verona, Stamford, Boston and the five NYC-area guides; the ones happening today get a TODAY badge
   - **Coffee** — on the Ithaca/Cornell guide only: campus cafés and Ithaca's roasters, sorted by popularity
+  - **Skiing** — on the Stamford guide (the pilot): every operating ski area within about a two-hour drive, sorted by drive time, with vertical, trail count and night-skiing nights in each line
+- **✦ Start here** — a first-visit guide, piloted on Stamford. The first time you open the city it asks what you're into (date spots, shows, nightlife, sushi, Chinese, fishing, MTB, skiing, meeting people) and whether it's a day trip or a weekend, then builds a page from that: the next three weeks of events, a day-by-day plan whose stops swap to match your interests and the season, hand-picked rows per interest with a line on why, the neighborhoods, and know-before-you-go facts with sources. Every pick is a live row from the city's data, so distances, ratings, favorites and the detail view all work from it. The content lives in `guide-<city>.json` and is checked by `tests/data/guide.test.js`
 - **Everyday-life tabs** on the seven guides for places actually lived in (Forest Hills, NYC, Brooklyn, Queens, Flushing, Boston, Ithaca) — the stuff you actually look up when you live somewhere rather than visit it:
   - **Museums** — museums and galleries, from the Met down to a museum inside a Tribeca freight elevator
   - **Sights** — things worth looking at: observation decks, public art, architecture, World's Fair ruins, oddities like Grand Central's whispering gallery

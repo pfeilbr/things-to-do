@@ -116,6 +116,23 @@ class Commands(unittest.TestCase):
         with self.assertRaises(SystemExit):
             self.run_cli('add', 'data-y.json', str(self.root / 'nope.json'), '--tab', 'museums')
 
+    def test_new_tab_creates_the_tab_from_the_fitted_origin(self):
+        src = self.root / 'new.json'
+        src.write_text(json.dumps([{'n': 'Ski hill', 'c': 'Local hill', 's': 'x', 'u': 'https://k.x', 'll': [41.2, -74.3]}]))
+        self.run_cli('add', 'data-y.json', str(src), '--tab', 'skiing', '--new-tab')
+        data = json.loads((self.root / 'data-y.json').read_text())
+        self.assertEqual([r['n'] for r in data['skiing']], ['Ski hill'])
+        want = round(ev.hav_mi(FAKE_ORIGIN, (41.2, -74.3)) * 1.3, 1)
+        self.assertLessEqual(abs(data['skiing'][0]['d'] - want), 0.1)
+        self.assertEqual(list(data)[:1], ['spots'])                           # existing tabs untouched
+
+    def test_new_tab_dry_run_writes_nothing(self):
+        src = self.root / 'new.json'
+        src.write_text(json.dumps([{'n': 'Ski hill', 'c': 'Local hill', 's': 'x', 'u': 'https://k.x', 'll': [41.2, -74.3]}]))
+        before = (self.root / 'data-y.json').read_text()
+        self.run_cli('add', 'data-y.json', str(src), '--tab', 'skiing', '--new-tab', '--dry-run')
+        self.assertEqual((self.root / 'data-y.json').read_text(), before)
+
     def test_event_files_skips_guides_without_events(self):
         self.assertEqual([p.name for p in ev.event_files(self.root)], ['data-x.json'])
 
