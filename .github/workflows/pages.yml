@@ -34,29 +34,43 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
         with:
           enablement: true
+      # gate: never publish a page whose script doesn't parse or whose data breaks the schema.
+      # The date-driven suites (freshness, timetable coverage) stay in CI so date rot alone
+      # can't block an urgent fix.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 22
+      - run: node --test tests/unit/*.test.js tests/data/schema.test.js tests/data/consistency.test.js tests/data/guide.test.js tests/data/budget.test.js tests/data/quality.test.js tests/data/distances.test.js
       # publish only what the site serves: tests, scripts and docs stay in the repo
       - name: Stage the site
         run: |
           rsync -a --exclude '.*' --exclude _site --exclude tests --exclude scripts --exclude '*.md' ./ _site/
           test -f _site/index.html && test -f _site/sw.js && test -f _site/transit.js
           du -sh _site
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: _site
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5
       # a green deploy that serves the old page is still a failed deploy: wait for this BUILD
       - name: Verify the live site serves this build
         env:
           URL: ${{ steps.deployment.outputs.page_url }}
         run: |
           want=$(grep -o 'const BUILD = "[^"]*"' index.html)
+          ok=
           for i in $(seq 1 20); do
-            if curl -fsS "${URL}?v=${GITHUB_SHA}" | grep -qF "$want"; then echo "live: $want"; exit 0; fi
+            if curl -fsS "${URL}?v=${GITHUB_SHA}" | grep -qF "$want"; then echo "live: $want"; ok=1; break; fi
             sleep 15
           done
-          echo "::error::${URL} is not serving ${want} after 5 minutes"; exit 1
+          [ -n "$ok" ] || { echo "::error::${URL} is not serving ${want} after 5 minutes"; exit 1; }
+          # and every file the service worker precaches answers 200
+          for f in $(grep -o '"\./[^"]*"' sw.js | tr -d '"' | sed 's|^\./||'); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "${URL}${f}?v=${GITHUB_SHA}")
+            [ "$code" = 200 ] || { echo "::error::${URL}${f} answered ${code}"; exit 1; }
+          done
+          echo "all precached files live"

@@ -4,7 +4,9 @@ name: CI
 on:
   push:
     branches: [main]
+    paths-ignore: ['**/*.md']   # prose-only pushes can't break a test
   pull_request:
+    paths-ignore: ['**/*.md']
   schedule:
     - cron: '0 11 * * 1'   # weekly Monday 11:00 UTC — catches date-rot between pushes
   workflow_dispatch:
@@ -23,30 +25,36 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
       - run: node --test 'tests/unit/*.test.js' 'tests/data/*.test.js'
       - run: python3 -m unittest discover -s tests/scripts
       # the weekly timetable refresh has stopped landing if this goes under a week
       - run: python3 scripts/transit.py status --min-days 7
+      # weekly drift monitor: the live site should serve the BUILD that main declares
+      - if: github.event_name == 'schedule'
+        run: |
+          want=$(grep -o 'const BUILD = "[^"]*"' index.html)
+          curl -fsS "https://pfeilbr.github.io/things-to-do/?v=${GITHUB_SHA}" | grep -qF "$want" \
+            || { echo "::error::live site is not serving ${want} from main"; exit 1; }
 
-  # full browser suite — hermetic (CDN assets vendored, service worker blocked)
+  # full browser suite — hermetic (CDN assets vendored, service worker blocked). Runs on
+  # pushes to main too: that's how this repo usually ships, and the deploy doesn't wait on it.
   e2e:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
-      - run: npm init -y > /dev/null && npm i --no-audit --no-fund playwright
+      - run: npm init -y > /dev/null && npm i --no-audit --no-fund playwright@1.64.1   # pinned: bump on purpose, not by surprise
       # the ~150 MB browser download is the slow part; reuse it while playwright's version holds
       - id: pwv
         run: echo "v=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
-      - uses: actions/cache@v4
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         id: pwcache
         with:
           path: ~/.cache/ms-playwright

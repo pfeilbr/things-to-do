@@ -1,5 +1,7 @@
 # Things To Do
 
+[![CI](https://github.com/pfeilbr/things-to-do/actions/workflows/ci.yml/badge.svg)](https://github.com/pfeilbr/things-to-do/actions/workflows/ci.yml) [![Deploy](https://github.com/pfeilbr/things-to-do/actions/workflows/pages.yml/badge.svg)](https://github.com/pfeilbr/things-to-do/actions/workflows/pages.yml) [![Timetables](https://github.com/pfeilbr/things-to-do/actions/workflows/transit.yml/badge.svg)](https://github.com/pfeilbr/things-to-do/actions/workflows/transit.yml)
+
 A single-page, fully client-side web app — pick a city from the dropdown, get things to do in one sortable, searchable table. Ships with twenty-six guides: **Philly (Willow Grove) · Forest Hills · NYC · Brooklyn · Queens · Flushing · Ithaca (Cornell) · Verona · Atlantic City · Baltimore · Washington DC · Pittsburgh · Richmond · Stamford · Boston · Virginia Beach · Buffalo · Cleveland · Raleigh-Durham · Chicago · Toronto · Nashville · Los Angeles · San Francisco · Seattle · San Diego**.
 
 **Live site:** https://pfeilbr.github.io/things-to-do/
