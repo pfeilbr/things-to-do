@@ -73,6 +73,8 @@ node --test 'tests/unit/*.test.js' 'tests/data/*.test.js'
 python3 -m unittest discover -s tests/scripts
 ```
 
+`sh scripts/check.sh` runs all of those plus the timetable-freshness check in one go (add `--e2e` for the Playwright browser suite).
+
 `scripts/transit.py build` rebuilds the baked train timetables (`transit-<city>.json`) from the agency's GTFS feed; `.github/workflows/transit.yml` runs it every Monday and deploys if anything changed. `scripts/transit.py status` shows how many days each one has left.
 
 `scripts/events.py` maintains the dated Events tabs (`status`, `prune`, `add`) and appends researched rows to any tab with `add --tab <tab>`, computing distances so no origin coordinate is ever stored.

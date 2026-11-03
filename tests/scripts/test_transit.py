@@ -98,6 +98,42 @@ class Build(unittest.TestCase):
         self.assertEqual(d['days'][0], '20261102')
         self.assertEqual(d['rt'], 'https://rt.example/feed')
 
+    def test_status_min_days_fails_when_short(self):
+        out = pathlib.Path(self.tmp.name) / 'o.json'
+        tr.TRANSIT['test']['file'] = str(out)   # absolute: ROOT / abs == abs
+        tr.main(['build', 'test', '--gtfs', str(self.zip), '--today', '2026-11-02', '--out', str(out)])
+        tr.main(['status', '--today', '2026-11-02', '--min-days', '20'])           # 27 left: fine
+        with self.assertRaises(SystemExit):
+            tr.main(['status', '--today', '2026-11-20', '--min-days', '20'])       # 9 left
+
+
+class Helpers(unittest.TestCase):
+    def test_fetch_retries_then_succeeds(self):
+        calls = []
+        class R(io.BytesIO):
+            def __enter__(self): return self
+            def __exit__(self, *a): pass
+        def opener(req, timeout):
+            calls.append(req.full_url)
+            if len(calls) < 3:
+                raise OSError('reset')
+            return R(b'ok')
+        self.assertEqual(tr.fetch('https://x.example/f', wait=0, opener=opener), b'ok')
+        self.assertEqual(len(calls), 3)
+
+    def test_fetch_gives_up(self):
+        def opener(req, timeout): raise OSError('down')
+        with self.assertRaises(OSError):
+            tr.fetch('https://x.example/f', tries=2, wait=0, opener=opener)
+
+    def test_write_atomic_replaces_and_leaves_no_temp(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = pathlib.Path(d) / 'f.json'
+            p.write_text('old')
+            tr.write_atomic(p, 'new')
+            self.assertEqual(p.read_text(), 'new')
+            self.assertEqual([x.name for x in pathlib.Path(d).iterdir()], ['f.json'])
+
 
 if __name__ == '__main__':
     unittest.main()

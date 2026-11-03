@@ -9,9 +9,19 @@ on:
     - cron: '0 11 * * 1'   # weekly Monday 11:00 UTC — catches date-rot between pushes
   workflow_dispatch:
 
+# read-only token: tests never need to write to the repo
+permissions:
+  contents: read
+
+# a newer push to the same branch/PR makes the older run moot — stop paying for it
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -19,16 +29,30 @@ jobs:
           node-version: 22
       - run: node --test 'tests/unit/*.test.js' 'tests/data/*.test.js'
       - run: python3 -m unittest discover -s tests/scripts
+      # the weekly timetable refresh has stopped landing if this goes under a week
+      - run: python3 scripts/transit.py status --min-days 7
 
   # full browser suite — hermetic (CDN assets vendored, service worker blocked)
   e2e:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - run: npm init -y > /dev/null && npm i --no-audit --no-fund playwright
-      - run: npx playwright install --with-deps chromium
+      # the ~150 MB browser download is the slow part; reuse it while playwright's version holds
+      - id: pwv
+        run: echo "v=$(node -p "require('playwright/package.json').version")" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@v4
+        id: pwcache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pwv.outputs.v }}
+      - if: steps.pwcache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps chromium
+      - if: steps.pwcache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
       - run: node tests/e2e/run-all.js

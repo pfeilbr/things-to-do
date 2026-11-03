@@ -56,7 +56,8 @@ async function routeUnpkg(page) {
     const file = m && path.join(__dirname, 'vendor', m[1], m[2]);
     if (file && fs.existsSync(file)) {
       const type = { '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' }[path.extname(file)] || 'application/octet-stream';
-      route.fulfill({ status: 200, contentType: type, body: fs.readFileSync(file) });
+      // CORS header: the page loads these with crossorigin + integrity (SRI), as unpkg serves them
+      route.fulfill({ status: 200, contentType: type, headers: { 'access-control-allow-origin': '*' }, body: fs.readFileSync(file) });
     } else route.abort();
   });
   // openstreetmap tiles are also unreachable — return a blank tile so the map settles

@@ -94,12 +94,19 @@ function liveRun(run, T, si){
   return {dep, arr, track: a && a.track, status, cancelled: lt.cancelled || /cancel/i.test(status),
           late: dep ? Math.round((dep - run.depMs)/60000) : 0};
 }
+// text that came from the live feed is a third party's: escape it before it meets innerHTML
+function escHtml(v){
+  return String(v).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[ch]);
+}
 async function fetchLive(force){
   if(!TRANSIT || !TRANSIT.rt || liveBusy) return;
+  if(navigator.onLine === false){ liveFail = true; paintTransit(); return; }   // no doomed request offline
   if(!force && Date.now() - liveAt < 50000) return;
   liveBusy = true;
   try{
-    const r = await fetch(TRANSIT.rt, {cache:"no-store"});
+    // a hung request must not leave liveBusy set forever (it would freeze the board)
+    const r = await fetch(TRANSIT.rt, {cache:"no-store",
+      signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined});
     if(!r.ok) throw r.status;
     LIVE = mnrLive(new Uint8Array(await r.arrayBuffer()));
     liveFail = false;
@@ -117,7 +124,7 @@ function tPrefs(){
           dest: dests.includes(p.dest) ? p.dest : (dests[0]||""), day: 0};
 }
 let tDay = 0, tShowAll = false;
-function tSave(p){ localStorage.setItem(skey("train"), JSON.stringify({stn:p.stn, dir:p.dir, dest:p.dest})); }
+function tSave(p){ try { localStorage.setItem(skey("train"), JSON.stringify({stn:p.stn, dir:p.dir, dest:p.dest})); } catch(e){} }
 
 function fareFor(run, stnKey){
   const f = (TINFO().fares||{})[stnKey]; if(!f) return null;
@@ -163,7 +170,7 @@ function tRunRow(r, p, i){
     : /late/i.test(L.status) ? `<span class="tst warn">Running late</span>` : `<span class="tst ok">On time</span>`;
   return `<li class="trun${i===0?" first":""}${L&&L.cancelled?" gone":""}">
     <div class="tdep"><b>${clock(depMs)}</b>${L && L.late>=2 ? `<s>${fmtClock(r.dep)}</s>` : ""}<span>${inMin<=0 ? "now" : inMin<60 ? `in ${inMin} min` : `in ${Math.floor(inMin/60)} h ${inMin%60} m`}</span></div>
-    <div class="tmid"><div class="tline"><i></i></div><span>${Math.round((arrMs-depMs)/60000)} min ride · #${r.num}${L && L.track ? ` · track ${L.track}` : ""}</span></div>
+    <div class="tmid"><div class="tline"><i></i></div><span>${Math.round((arrMs-depMs)/60000)} min ride · #${r.num}${L && L.track ? ` · track ${escHtml(L.track)}` : ""}</span></div>
     <div class="tarr"><b>${clock(arrMs + extra*60000)}</b><span>${p.dir ? (extra ? dest.n : TRANSIT.stops[TRANSIT.stops.length-1].n) : TRANSIT.stops.find(s=>s.k===p.stn).n}</span></div>
     <div class="ttags">${status}${fare ? `<span class="ttag${fare.k==="peak"?" pk":""}">$${fare.v.toFixed(2)} ${fare.k}</span>` : ""}${bike ? `<span class="ttag ${bike.ok?"bk":"nobk"}" title="${bike.ok ? "Bikes allowed on this train" : "No bikes: "+bike.why}">🚲 ${bike.ok ? "OK" : "no"}</span>` : ""}</div>
   </li>`;

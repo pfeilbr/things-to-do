@@ -69,3 +69,10 @@ test('mnrLive decodes train number, date, stops, track, status and cancellations
   assert.equal(L.trains['1433'].cancelled, false);
   assert.equal(L.trains['1437'].cancelled, true);
 });
+
+test('escHtml neutralises markup arriving in live-feed strings', () => {
+  const { escHtml } = loadCore();
+  assert.equal(escHtml('3'), '3');
+  assert.equal(escHtml('<img src=x onerror="a()">'), '&lt;img src=x onerror=&quot;a()&quot;&gt;');
+  assert.equal(escHtml("A&B's"), 'A&amp;B&#39;s');
+});

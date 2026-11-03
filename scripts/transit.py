@@ -5,6 +5,7 @@
     python3 scripts/transit.py build stamford     # one city
     python3 scripts/transit.py build --gtfs path/to/feed.zip --today 2026-11-02   # offline / tests
     python3 scripts/transit.py status             # how many days of timetable each file has left
+    python3 scripts/transit.py status --min-days 14   # ...and exit 1 if any has fewer (CI alarm)
 
 The page cannot read a GTFS zip (4 MB, every visit), so this bakes the slice it needs:
 direct trains between a city's home stations and its hub, for the next WINDOW_DAYS days,
@@ -24,7 +25,7 @@ Output (transit-<city>.json):
             stop in `stops` order (null = doesn't stop, or can't board/alight there in that
             direction). Times past 1440 are after-midnight runs of the same service day.
 """
-import argparse, csv, datetime as dt, io, json, math, pathlib, sys, urllib.request, zipfile
+import argparse, csv, datetime as dt, io, json, math, os, pathlib, sys, tempfile, time, urllib.request, zipfile
 from collections import defaultdict
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -48,8 +49,7 @@ TRANSIT = {
 def load_gtfs(src):
     """{name: rows} for the four files we read, from a URL or a local zip."""
     if src.startswith('http'):
-        req = urllib.request.Request(src, headers={'User-Agent': 'things-to-do-transit/1.0'})
-        blob = urllib.request.urlopen(req, timeout=120).read()
+        blob = fetch(src)
     else:
         blob = pathlib.Path(src).read_bytes()
     z = zipfile.ZipFile(io.BytesIO(blob))
@@ -57,6 +57,36 @@ def load_gtfs(src):
     have = set(z.namelist())
     return {n: read(n + '.txt') if n + '.txt' in have else []
             for n in ('stops', 'trips', 'stop_times', 'calendar_dates', 'shapes')}
+
+
+def fetch(url, tries=3, wait=5, opener=None):
+    """GET with retries: one dropped connection to S3 shouldn't fail the weekly refresh.
+    Waits wait, then 2*wait, ... seconds between attempts."""
+    opener = opener or urllib.request.urlopen
+    req = urllib.request.Request(url, headers={'User-Agent': 'things-to-do-transit/1.0'})
+    for i in range(tries):
+        try:
+            with opener(req, timeout=120) as r:
+                return r.read()
+        except OSError as e:   # URLError, HTTPError, timeouts and resets are all OSErrors
+            if i == tries - 1:
+                raise
+            print(f'  fetch failed ({e}); retrying in {wait * 2 ** i}s', file=sys.stderr)
+            time.sleep(wait * 2 ** i)
+
+
+def write_atomic(path, text):
+    """Write via a temp file in the same folder, then rename: an interrupted run leaves the
+    old timetable in place instead of a half-written one the page can't parse."""
+    path = pathlib.Path(path)
+    fd, tmp = tempfile.mkstemp(dir=path.parent, prefix='.' + path.name, suffix='.tmp')
+    try:
+        with os.fdopen(fd, 'w') as f:
+            f.write(text)
+        os.replace(tmp, path)
+    except BaseException:
+        pathlib.Path(tmp).unlink(missing_ok=True)
+        raise
 
 
 def service_dates(g):
@@ -173,18 +203,24 @@ def cmd_build(args):
         if not min(per_day):
             print(f'  warning: no trains on {out["days"][per_day.index(0)]} — does the published feed end early?')
         if not args.dry_run:
-            path.write_text(json.dumps(out, separators=(',', ':')) + '\n')
+            write_atomic(path, json.dumps(out, separators=(',', ':')) + '\n')
 
 
 def cmd_status(args):
     today = dt.date.fromisoformat(args.today) if args.today else dt.date.today()
+    short = []
     for city, cfg in TRANSIT.items():
         p = ROOT / cfg['file']
         if not p.exists():
-            print(f"{cfg['file']}: missing — run build"); continue
+            print(f"{cfg['file']}: missing — run build"); short.append(cfg['file']); continue
         d = json.loads(p.read_text())
         last = dt.datetime.strptime(d['days'][-1], '%Y%m%d').date()
-        print(f"{cfg['file']}: built {d['built']}, covers through {last} ({(last - today).days} days left)")
+        left = (last - today).days
+        print(f"{cfg['file']}: built {d['built']}, covers through {last} ({left} days left)")
+        if args.min_days is not None and left < args.min_days:
+            short.append(cfg['file'])
+    if args.min_days is not None and short:
+        raise SystemExit(f"under {args.min_days} days of timetable left: {', '.join(short)}")
 
 
 def main(argv=None):
@@ -194,6 +230,7 @@ def main(argv=None):
     b.add_argument('--gtfs', help='local GTFS zip or URL instead of the configured feed')
     b.add_argument('--today'); b.add_argument('--out'); b.add_argument('--dry-run', action='store_true')
     s = sub.add_parser('status'); s.add_argument('--today')
+    s.add_argument('--min-days', type=int, help='exit 1 if any timetable has fewer days left')
     a = ap.parse_args(argv)
     {'build': cmd_build, 'status': cmd_status}[a.cmd](a)
 

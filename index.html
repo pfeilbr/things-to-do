@@ -614,16 +614,19 @@ footer a{color:var(--accent-soft)}
 <script src="transit.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-02T14:49Z";
-if(location.protocol !== "file:"){
+const BUILD = "2026-11-03T00:42Z";
+// (after the page has loaded, so it never competes with the city data for bandwidth)
+if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
     const m = html.match(/const BUILD = "([^"]+)"/);
-    if(m && m[1] !== BUILD && !sessionStorage.getItem("reloaded-"+m[1])){
-      sessionStorage.setItem("reloaded-"+m[1], "1");
-      location.reload();
-    }
+    try {
+      if(m && m[1] !== BUILD && !sessionStorage.getItem("reloaded-"+m[1])){
+        sessionStorage.setItem("reloaded-"+m[1], "1");
+        location.reload();
+      }
+    } catch(e){}
   }).catch(()=>{});
-}
+}, 1500));
 
 // ---- CONFIG ---------------------------------------------------------------------------
 // Everything location- and branding-specific lives here. The guide is MULTI-CITY: each
@@ -1888,12 +1891,26 @@ $("geoToggle").addEventListener("click",()=>{
 });
 
 // map view (Leaflet, lazy-loaded on first use)
+// Subresource Integrity: the CDN copies are pinned by hash, so a tampered file never runs.
+// Bumping a version means recomputing: openssl dgst -sha384 -binary f | openssl base64 -A
+const SRI = {
+  "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css": "sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H",
+  "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js": "sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH",
+  "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css": "sha384-pmjIAcz2bAn0xukfxADbZIb3t8oRT9Sv0rvO+BR5Csr6Dhqq+nZs59P0pPKQJkEV",
+  "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css": "sha384-wgw+aLYNQ7dlhK47ZPK7FRACiq7ROZwgFNg0m04avm4CaXS+Z9Y7nMu8yNjBKYC+",
+  "https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js": "sha384-eXVCORTRlv4FUUgS/xmOyr66XBVraen8ATNLMESp92FKXLAMiKkerixTiBvXriZr",
+};
+function cdnEl(tag, url){
+  const el = document.createElement(tag);
+  if(tag === "link"){ el.rel = "stylesheet"; el.href = url; } else el.src = url;
+  if(SRI[url]){ el.integrity = SRI[url]; el.crossOrigin = "anonymous"; }
+  return el;
+}
 let leafletReady=false, map=null, markerLayer=null;
 function loadLeaflet(cb){
   if(leafletReady) return cb();
-  const css=document.createElement("link"); css.rel="stylesheet";
-  css.href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"; document.head.appendChild(css);
-  const s=document.createElement("script"); s.src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+  document.head.appendChild(cdnEl("link", "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"));
+  const s=cdnEl("script", "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js");
   s.onload=()=>{ leafletReady=true; cb(); };
   s.onerror=()=>toast("Couldn't load the map library — check your connection.");
   document.head.appendChild(s);
@@ -1903,10 +1920,9 @@ let clusterReady = false;
 function loadCluster(cb){
   if(clusterReady) return cb();
   for(const href of ["https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css",
-                     "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"]){
-    const css=document.createElement("link"); css.rel="stylesheet"; css.href=href; document.head.appendChild(css);
-  }
-  const s=document.createElement("script"); s.src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js";
+                     "https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"])
+    document.head.appendChild(cdnEl("link", href));
+  const s=cdnEl("script", "https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js");
   s.onload=()=>{ clusterReady=true; cb(); };
   s.onerror=()=>cb();   // plain markers are a fine fallback
   document.head.appendChild(s);
@@ -2072,13 +2088,15 @@ window.addEventListener("hashchange", applyHash);
 // ---- city switching -------------------------------------------------------------------
 async function fetchCity(c){
   if(DATACACHE[c.id]) return DATACACHE[c.id];
-  const r = await fetch(c.data, {cache:"no-cache"});
+  // the guide and timetable are optional: if their files fail the city still works as plain
+  // lists. All three requests go out together rather than one after another.
+  const opt = f => f ? fetch(f, {cache:"no-cache"}).then(g=>g.ok?g.json():null).catch(()=>null) : null;
+  const [r, guide, transit] = await Promise.all([fetch(c.data, {cache:"no-cache"}),
+    c.guide && !(c.id in GUIDECACHE) ? opt(c.guide) : undefined,
+    c.transit && !(c.id in TRANSITCACHE) ? opt(c.transit) : undefined]);
   if(!r.ok) throw "HTTP "+r.status;
-  // the guide is optional: if its file fails the city still works as plain lists
-  if(c.guide && !(c.id in GUIDECACHE))
-    GUIDECACHE[c.id] = await fetch(c.guide, {cache:"no-cache"}).then(g=>g.ok?g.json():null).catch(()=>null);
-  if(c.transit && !(c.id in TRANSITCACHE))
-    TRANSITCACHE[c.id] = await fetch(c.transit, {cache:"no-cache"}).then(g=>g.ok?g.json():null).catch(()=>null);
+  if(guide !== undefined) GUIDECACHE[c.id] = guide;
+  if(transit !== undefined) TRANSITCACHE[c.id] = transit;
   return DATACACHE[c.id] = await r.json();
 }
 // point every per-city global (tabs, data, favorites, origin, branding) at this city
@@ -2089,9 +2107,9 @@ function activateCity(c){
   TRANSIT = TRANSITCACHE[c.id] || null; LIVE = null; liveAt = 0; liveFail = false;
   if(TRANSIT) fetchLive(true);
   MAXDRIVE = Math.max(1, ...Object.values(DATA).flat().map(r=>r.t||0));
-  favs = new Set(JSON.parse(localStorage.getItem(skey("favs"))||"[]"));
+  try { favs = new Set(JSON.parse(localStorage.getItem(skey("favs"))||"[]")); } catch(e){ favs = new Set(); }
   try { origin = JSON.parse(localStorage.getItem(skey("origin"))||"null"); } catch(e){ origin = null; }
-  localStorage.setItem("guide-city", c.id);
+  try { localStorage.setItem("guide-city", c.id); } catch(e){}   // private mode / full quota
   applyBranding();
   renderTabs();
   renderCityBar();

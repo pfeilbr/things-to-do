@@ -130,3 +130,20 @@ test('CI runs the browser e2e suite on PRs', () => {
   assert.ok(ci.includes('playwright install'), 'e2e job must install a browser');
   assert.ok(ci.includes('tests/e2e'), 'e2e job must run the specs');
 });
+
+// transit.js and sw.js are loaded by src, so the inline-script check above never sees them
+test('standalone scripts parse as JavaScript', () => {
+  for (const f of ['transit.js', 'sw.js']) {
+    const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
+    assert.doesNotThrow(() => new Function(src), `${f} must parse`);
+  }
+});
+
+// every CDN file the page lazy-loads is pinned by a Subresource Integrity hash
+test('CDN scripts and styles carry SRI hashes', () => {
+  const urls = [...new Set(indexHtml.match(/https:\/\/unpkg\.com\/[^"'\s]+\.(?:js|css)/g) || [])];
+  assert.ok(urls.length, 'index.html lazy-loads from unpkg');
+  const sri = indexHtml.match(/const SRI = \{([\s\S]*?)\};/);
+  assert.ok(sri, 'index.html declares an SRI table');
+  for (const u of urls) assert.match(sri[1], new RegExp(`"${u.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')}": "sha384-[A-Za-z0-9+/=]{64}"`), `${u} has a sha384 hash`);
+});

@@ -1,6 +1,6 @@
 // Network-first service worker: always try the network so new deploys land
 // immediately; fall back to cache only when offline.
-const CACHE = "wg-guide-v16";
+const CACHE = "wg-guide-v17";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -60,8 +60,12 @@ self.addEventListener("fetch", e => {
   e.respondWith(
     fetch(e.request)
       .then(res => {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
+        // keep only good copies: a 404 or 500 cached here would be served offline later
+        // in place of the last working version (opaque = cross-origin, status unknowable)
+        if (res.ok || res.type === "opaque") {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
+        }
         return res;
       })
       .catch(() => caches.match(e.request, { ignoreSearch: true }))

@@ -33,6 +33,7 @@ function loadCore(opts = {}) {
     grab(/function trainRuns[\s\S]*?\n\}/),
     grab(/function pbFields[\s\S]*?\n\}/),
     grab(/function mnrLive[\s\S]*?\n\}/),
+    grab(/function escHtml[\s\S]*?\n\}/),
   ].join('\n');
 
   const RealDate = Date;
@@ -53,7 +54,7 @@ function loadCore(opts = {}) {
   }
   vm.createContext(sandbox);
   return vm.runInContext(
-    parts + '\n;({ havMi, ride, daysIn, happensToday, slugify, pop, wSpan, nyClock, nyMs, fmtClock, trainRuns, pbFields, mnrLive });',
+    parts + '\n;({ havMi, ride, daysIn, happensToday, slugify, pop, wSpan, nyClock, nyMs, fmtClock, trainRuns, pbFields, mnrLive, escHtml });',
     sandbox);
 }
 
