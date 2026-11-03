@@ -14,7 +14,7 @@ time to the city's existing rows, so new rows agree with the baked distances exa
 and no origin coordinate ever lands in the repo. `--today YYYY-MM-DD` overrides the
 date (tests use it).
 """
-import argparse, datetime as dt, json, math, pathlib, re, sys
+import argparse, datetime as dt, json, math, os, pathlib, re, sys, tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 MD = re.compile(r'(\d{1,2})/(\d{1,2})')
@@ -79,8 +79,18 @@ def load(path):
 
 
 def save(path, data, pretty):
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=1) if pretty
-                    else json.dumps(data, ensure_ascii=False, separators=(',', ':')))
+    """Temp file + rename, so an interrupted run can't leave a half-written dataset (the page
+    would fail to load that whole city)."""
+    text = (json.dumps(data, ensure_ascii=False, indent=1) if pretty
+            else json.dumps(data, ensure_ascii=False, separators=(',', ':')))
+    fd, tmp = tempfile.mkstemp(dir=path.parent, prefix='.' + path.name, suffix='.tmp')
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as f:
+            f.write(text)
+        os.replace(tmp, path)
+    except BaseException:
+        pathlib.Path(tmp).unlink(missing_ok=True)
+        raise
 
 
 def event_files(root):

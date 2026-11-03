@@ -93,15 +93,22 @@ class Build(unittest.TestCase):
 
     def test_cli_writes_and_status_reads(self):
         out = pathlib.Path(self.tmp.name) / 'o.json'
-        tr.main(['build', 'test', '--gtfs', str(self.zip), '--today', '2026-11-02', '--out', str(out)])
+        tr.main(['build', 'test', '--gtfs', str(self.zip), '--today', '2026-11-02', '--out', str(out), '--force'])
         d = json.loads(out.read_text())
         self.assertEqual(d['days'][0], '20261102')
         self.assertEqual(d['rt'], 'https://rt.example/feed')
 
+    def test_build_refuses_a_feed_with_a_hole_in_the_next_week(self):
+        # the fixture has no trains on Tue 11/3: without --force nothing is written
+        out = pathlib.Path(self.tmp.name) / 'o.json'
+        with self.assertRaises(SystemExit):
+            tr.main(['build', 'test', '--gtfs', str(self.zip), '--today', '2026-11-02', '--out', str(out)])
+        self.assertFalse(out.exists())
+
     def test_status_min_days_fails_when_short(self):
         out = pathlib.Path(self.tmp.name) / 'o.json'
         tr.TRANSIT['test']['file'] = str(out)   # absolute: ROOT / abs == abs
-        tr.main(['build', 'test', '--gtfs', str(self.zip), '--today', '2026-11-02', '--out', str(out)])
+        tr.main(['build', 'test', '--gtfs', str(self.zip), '--today', '2026-11-02', '--out', str(out), '--force'])
         tr.main(['status', '--today', '2026-11-02', '--min-days', '20'])           # 27 left: fine
         with self.assertRaises(SystemExit):
             tr.main(['status', '--today', '2026-11-20', '--min-days', '20'])       # 9 left

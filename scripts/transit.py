@@ -202,6 +202,11 @@ def cmd_build(args):
               f"{out['days'][0]}..{out['days'][-1]}")
         if not min(per_day):
             print(f'  warning: no trains on {out["days"][per_day.index(0)]} — does the published feed end early?')
+        # a feed with a hole in the coming week is broken, not quiet: keep the old timetable
+        # (it still has weeks left) and fail loudly, so the weekly workflow goes red
+        if not all(per_day[:7]) and not args.force:
+            raise SystemExit(f'{city}: no trains on {out["days"][per_day.index(0)]}, within the next week — '
+                             f'not writing {TRANSIT[city]["file"]} (--force to write anyway)')
         if not args.dry_run:
             write_atomic(path, json.dumps(out, separators=(',', ':')) + '\n')
 
@@ -229,6 +234,7 @@ def main(argv=None):
     b = sub.add_parser('build'); b.add_argument('cities', nargs='*')
     b.add_argument('--gtfs', help='local GTFS zip or URL instead of the configured feed')
     b.add_argument('--today'); b.add_argument('--out'); b.add_argument('--dry-run', action='store_true')
+    b.add_argument('--force', action='store_true', help='write even if a day in the next week has no trains')
     s = sub.add_parser('status'); s.add_argument('--today')
     s.add_argument('--min-days', type=int, help='exit 1 if any timetable has fewer days left')
     a = ap.parse_args(argv)

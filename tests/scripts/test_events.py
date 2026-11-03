@@ -82,6 +82,10 @@ class Commands(unittest.TestCase):
         self.assertEqual([r['n'] for r in self.data()['events']], ['Future show', 'Weekly market'])
         self.assertNotIn('\n', (self.root / 'data-x.json').read_text())    # compact stays compact
 
+    def test_writes_leave_no_temp_files(self):
+        self.run_cli('prune')
+        self.assertEqual(sorted(p.name for p in self.root.iterdir()), ['data-x.json', 'data-y.json'])
+
     def test_prune_dry_run_writes_nothing(self):
         before = (self.root / 'data-x.json').read_text()
         self.run_cli('prune', '--dry-run')
