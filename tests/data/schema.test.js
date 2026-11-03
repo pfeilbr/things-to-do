@@ -147,3 +147,33 @@ test('CDN scripts and styles carry SRI hashes', () => {
   assert.ok(sri, 'index.html declares an SRI table');
   for (const u of urls) assert.match(sri[1], new RegExp(`"${u.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')}": "sha384-[A-Za-z0-9+/=]{64}"`), `${u} has a sha384 hash`);
 });
+
+// The Pages deploy publishes the repo root minus tests/, scripts/, dotfiles and *.md
+// (.github/workflows/pages.yml). Anything the page or its service worker asks for must
+// exist and must not live under one of those, or the live site would 404 it.
+test('every precached and manifest file exists and is published', () => {
+  const sw = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+  const pre = [...sw.match(/const PRECACHE = \[([\s\S]*?)\]/)[1].matchAll(/"\.\/([^"]*)"/g)].map(m => m[1]).filter(Boolean);
+  const man = JSON.parse(fs.readFileSync(path.join(ROOT, 'manifest.webmanifest'), 'utf8'));
+  const refs = [...pre, ...man.icons.map(i => i.src), 'icon.svg', 'icons/apple-touch-icon.png', 'transit.js', 'sw.js'];
+  for (const f of refs) {
+    assert.ok(fs.existsSync(path.join(ROOT, f)), `${f} is referenced but missing`);
+    assert.ok(!/^(tests|scripts)\/|(^|\/)\.|\.md$/.test(f), `${f} would be left out of the Pages deploy`);
+  }
+});
+
+// The CSP <meta> allow-lists every host the page talks to. A new live feed or CDN that
+// isn't listed would be blocked silently in the browser, so pin them here.
+test('Content-Security-Policy covers the CDN, geocoder and every live train feed', () => {
+  const csp = (indexHtml.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/) || [])[1];
+  assert.ok(csp, 'index.html declares a CSP');
+  const dir = name => (csp.split(';').map(s => s.trim()).find(s => s.startsWith(name + ' ')) || '').split(/\s+/).slice(1);
+  assert.ok(dir('object-src').includes("'none'"), 'object-src none');
+  assert.ok(dir('script-src').includes('https://unpkg.com'), 'scripts may come from unpkg');
+  const connect = dir('connect-src');
+  assert.ok(connect.includes('https://nominatim.openstreetmap.org'), 'geocoder reachable');
+  for (const f of fs.readdirSync(ROOT).filter(f => /^transit-.*\.json$/.test(f))) {
+    const rt = JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')).rt;
+    if (rt) assert.ok(connect.includes(new URL(rt).origin), `${f}: connect-src must allow ${new URL(rt).origin}`);
+  }
+});

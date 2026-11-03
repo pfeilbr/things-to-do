@@ -1,6 +1,6 @@
 // Network-first service worker: always try the network so new deploys land
 // immediately; fall back to cache only when offline.
-const CACHE = "wg-guide-v17";
+const CACHE = "wg-guide-v18";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -54,20 +54,31 @@ self.addEventListener("activate", e => {
 // live train feeds are minute-fresh by definition: never serve one from cache
 const LIVE_HOSTS = ["api-endpoint.mta.info"];
 
+// Weak signal (a trailhead, a train between stations): if the network hasn't answered a
+// same-origin request in SLOW_MS and a cached copy exists, answer with the cached copy now.
+// The network response still lands in the cache for next time. The page's own stale-build
+// check asks with cache:"no-store", and that one always waits for the network.
+const SLOW_MS = 6000;
+
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
-  if (LIVE_HOSTS.includes(new URL(e.request.url).hostname)) return;
-  e.respondWith(
-    fetch(e.request)
-      .then(res => {
-        // keep only good copies: a 404 or 500 cached here would be served offline later
-        // in place of the last working version (opaque = cross-origin, status unknowable)
-        if (res.ok || res.type === "opaque") {
-          const copy = res.clone();
-          caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
-        }
-        return res;
-      })
-      .catch(() => caches.match(e.request, { ignoreSearch: true }))
-  );
+  const url = new URL(e.request.url);
+  if (LIVE_HOSTS.includes(url.hostname)) return;
+  const cached = () => caches.match(e.request, { ignoreSearch: true });
+  let saved = Promise.resolve();
+  const net = fetch(e.request).then(res => {
+    // keep only good copies: a 404 or 500 cached here would be served offline later
+    // in place of the last working version (opaque = cross-origin, status unknowable)
+    if (res.ok || res.type === "opaque") {
+      const copy = res.clone();
+      saved = caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {});
+    }
+    return res;
+  });
+  // keep the worker alive until the cache write lands, even when we answered early
+  e.waitUntil(net.then(() => saved, () => {}));
+  const slowOK = url.origin === self.location.origin && e.request.cache !== "no-store";
+  const answer = !slowOK ? net : Promise.race([net,
+    new Promise(r => setTimeout(r, SLOW_MS)).then(cached).then(c => c || net)]);
+  e.respondWith(answer.catch(cached));
 });

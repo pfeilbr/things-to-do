@@ -11,7 +11,7 @@
 // file's `transit` block, so the schedule can regenerate without touching copy.
 let TRANSIT = null;
 const TRANSITCACHE = {};      // cityId -> timetable JSON, or null when the file failed
-let LIVE = null, liveAt = 0, liveFail = false, liveBusy = false;
+let LIVE = null, liveAt = 0, liveFail = false, liveFails = 0, liveBusy = false;
 const TZ = "America/New_York";
 const TINFO = () => (GUIDE && GUIDE.transit) || {};
 
@@ -101,7 +101,9 @@ function escHtml(v){
 async function fetchLive(force){
   if(!TRANSIT || !TRANSIT.rt || liveBusy) return;
   if(navigator.onLine === false){ liveFail = true; paintTransit(); return; }   // no doomed request offline
-  if(!force && Date.now() - liveAt < 50000) return;
+  // a feed that's down is retried less and less often (50s, 100s, 200s, then every 5 min)
+  // rather than every tick; the first success resets it
+  if(!force && Date.now() - liveAt < (liveFail ? Math.min(300000, 50000 * 2 ** Math.min(liveFails, 3)) : 50000)) return;
   liveBusy = true;
   try{
     // a hung request must not leave liveBusy set forever (it would freeze the board)
@@ -109,8 +111,8 @@ async function fetchLive(force){
       signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(15000) : undefined});
     if(!r.ok) throw r.status;
     LIVE = mnrLive(new Uint8Array(await r.arrayBuffer()));
-    liveFail = false;
-  }catch(e){ liveFail = true; }
+    liveFail = false; liveFails = 0;
+  }catch(e){ liveFail = true; liveFails++; }
   liveAt = Date.now(); liveBusy = false;
   paintTransit();
 }
