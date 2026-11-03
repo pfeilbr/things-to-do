@@ -32,7 +32,16 @@ function lastExplicitDate(w, now) {
   return last;
 }
 
-const now = new Date();
+// "now" is New York wall-clock time, not the machine's: every guide with dated events is on
+// Eastern time, and CI runs in UTC, where tonight's 8p show already reads as yesterday's
+// from 7p Eastern on.
+function nyNow() {
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hourCycle: 'h23',
+    year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' })
+    .formatToParts(new Date()).map(x => [x.type, +x.value]));
+  return new Date(p.year, p.month - 1, p.day, p.hour, p.minute);
+}
+const now = nyNow();
 const dataFiles = fs.readdirSync(ROOT).filter(f => /^data.*\.json$/.test(f)).sort();
 
 for (const file of dataFiles) {

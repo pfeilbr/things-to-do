@@ -33,7 +33,7 @@ class LastExplicitDate(unittest.TestCase):
         # same strings through the JS original; skipped when node isn't installed
         ws = ['Sat 10/17 · 8p', 'Fri–Sun 10/16–18', '10/12 – 11/10', 'Sat 11/21 – Mon 1/4', 'Saturdays · 9a–1p', 'Sun 2/30']
         src = (ROOT / 'tests/data/freshness.test.js').read_text()
-        fn = src[src.index('function lastExplicitDate'):src.index('const now = new Date()')]
+        fn = src[src.index('function lastExplicitDate'):src.index('// "now" is New York')]
         js = fn + ('const now = new Date(2026, 9, 10);' + f'const ws = {json.dumps(ws)};' +
                    'console.log(JSON.stringify(ws.map(w => { const d = lastExplicitDate(w, now);' +
                    ' return d && [d.getFullYear(), d.getMonth() + 1, d.getDate()]; })));')

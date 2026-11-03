@@ -21,6 +21,16 @@ MD = re.compile(r'(\d{1,2})/(\d{1,2})')
 SAME_MONTH_END = re.compile(r'(\d{1,2})/(\d{1,2})\s*[–-]\s*(\d{1,2})(?![\d/])')
 
 
+def ny_today():
+    """Today in New York, whatever the machine's zone: the dated guides are all on Eastern
+    time, and a UTC runner would otherwise prune tonight's show from 7p Eastern on."""
+    try:
+        from zoneinfo import ZoneInfo
+        return dt.datetime.now(ZoneInfo('America/New_York')).date()
+    except Exception:   # no tz database on this machine
+        return dt.date.today()
+
+
 def last_explicit_date(w, today):
     """Port of lastExplicitDate() in tests/data/freshness.test.js — keep them in step."""
     dates = [(int(a), int(b)) for a, b in MD.findall(w)]
@@ -143,7 +153,7 @@ def cmd_add(root, file, src, dry, tab='events', new_tab=False):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', type=pathlib.Path, default=ROOT)
-    ap.add_argument('--today', type=dt.date.fromisoformat, default=dt.date.today())
+    ap.add_argument('--today', type=dt.date.fromisoformat, default=ny_today())
     sub = ap.add_subparsers(dest='cmd', required=True)
     sub.add_parser('status')
     pr = sub.add_parser('prune'); pr.add_argument('--dry-run', action='store_true')
