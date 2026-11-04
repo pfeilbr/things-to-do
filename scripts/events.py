@@ -6,7 +6,7 @@
     python3 scripts/events.py add data-nyc.json rows.json [--dry-run]
     python3 scripts/events.py add data-nyc.json rows.json --tab museums   # any tab
     python3 scripts/events.py add data-stamford.json ski.json --tab skiing --new-tab   # start a tab
-    python3 scripts/events.py add data-stamford.json work.json --tab remote   # rows also need `p` (cost)
+    python3 scripts/events.py add data-stamford.json work.json --tab remote   # rows also need `p` (cost) and `b` (crowd)
 
 `add` takes a JSON array of researched rows ({n, c, s, u, w, ll} plus optional r/rc)
 and computes each row's d/t with the documented formula (haversine x1.3 road factor,
@@ -125,7 +125,7 @@ def cmd_prune(root, today, dry):
 
 REQUIRED = ('n', 'c', 's', 'u', 'll')
 WHEN_TABS = ('events', 'social')        # tabs with a When column: rows need a `w` string
-COST_TABS = ('remote',)                 # tabs with a Cost column: rows need a `p` string
+COST_TABS = ('remote',)                 # Remote work: rows need a `p` cost string and a `b` crowd line
 
 
 def cmd_add(root, file, src, dry, tab='events', new_tab=False):
@@ -136,7 +136,7 @@ def cmd_add(root, file, src, dry, tab='events', new_tab=False):
         if not new_tab:
             raise SystemExit(f'{file} has no {tab} tab (pass --new-tab to start one)')
         data[tab] = []
-    required = REQUIRED + (('w',) if tab in WHEN_TABS else ()) + (('p',) if tab in COST_TABS else ())
+    required = REQUIRED + (('w',) if tab in WHEN_TABS else ()) + (('p', 'b') if tab in COST_TABS else ())
     existing = [r for rows in data.values() for r in rows]
     names = {r['n'] for r in existing}
     origin, rms = fit_origin(existing)
@@ -156,7 +156,7 @@ def cmd_add(root, file, src, dry, tab='events', new_tab=False):
         if tab in WHEN_TABS:
             new['w'] = r['w']
         if tab in COST_TABS:
-            new['p'] = r['p']
+            new['p'], new['b'] = r['p'], r['b']
         data[tab].append(new)
         names.add(r['n']); added += 1
     if not dry:

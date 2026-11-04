@@ -235,6 +235,7 @@ tbody tr:hover{background:#faf8f1}
 .when .tdy{font-style:normal;background:var(--accent);color:#fff;border-radius:4px;padding:1px 5px;font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;vertical-align:1px}
 .dist{font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap}
 .cost{font-weight:600;font-size:12.5px;color:var(--brand)}
+.crowd{font-size:12.5px;color:var(--muted)}
 /* signature: drive band — proportional bar under distance */
 .band{height:4px;border-radius:2px;background:var(--line);margin-top:5px;width:88px;overflow:hidden}
 .band i{display:block;height:100%;background:linear-gradient(90deg,var(--accent-soft),var(--accent))}
@@ -673,12 +674,15 @@ const T_CHINESE = {key:"chinese",   label:"Chinese \u4e2d\u534e", sort:["d",1], 
 const T_FISH    = {key:"fishing",   label:"Fishing",      sort:["pop",-1], cols:C_FISH};
 const T_BIKE    = {key:"biking",    label:"MTB",          sort:["d",1],    cols:C_STD};
 const T_SOCIAL  = {key:"social",    label:"Social",       sort:["d",1],    cols:C_WHEN};
-// Remote work: coworking, libraries and laptop cafés. `p` is the cost line ("Free", "$25 day pass · …").
+// Remote work: coworking, libraries and laptop cafés. `p` is the cost line ("Free", "$25 day pass · …"),
+// `b` how crowded it gets ("Packed weekend brunch; quiet weekday afternoons"), `r`/`rc` the Google rating.
 const C_WORK = [
   {k:"n",label:"Workspace",type:"str"},
   {k:"c",label:"Type",type:"str"},
   {k:"p",label:"Cost",type:"str",nosort:true},
+  {k:"b",label:"Crowd",type:"str",nosort:true},
   {k:"s",label:"What you get",type:"str",nosort:true},
+  {k:"pop",label:"Google",type:"num"},
   {k:"d",label:"Distance",type:"num"},
   {k:"t",label:"Drive",type:"num"}
 ];
@@ -1024,6 +1028,7 @@ function detailHTML(r){
     `<span class="cat">${r.c}</span>`,
     r.w?whenCell(r):"",
     r.p?`<span class="cost">${r.p}</span>`:"",
+    r.b?`<span class="crowd">👥 ${r.b}</span>`:"",
     e.d!=null?`<span class="dist">${e.d.toFixed(1)} mi · ~${e.t} min drive</span>`:"",
     r.r!=null?fmtPop(r):""
   ].filter(Boolean).join("");
@@ -1058,7 +1063,7 @@ function rowsUnfiltered(){
 function rows(){
   let list = rowsUnfiltered();
   const q = state.q.trim().toLowerCase();
-  if(q) list = list.filter(r => (r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")+" "+(r.p||"")).toLowerCase().includes(q));
+  if(q) list = list.filter(r => (r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")+" "+(r.p||"")+" "+(r.b||"")).toLowerCase().includes(q));
   if(state.cat) list = list.filter(r => r.c === state.cat);
   if(state.maxT) list = list.filter(r => { const t = eff(r).t; return t != null && t <= +state.maxT; });
   if(state.maxD) list = list.filter(r => { const d = eff(r).d; return d != null && d <= +state.maxD; });
@@ -1212,6 +1217,7 @@ function render(){
       if(c.k==="s") return `<td><span class="summary">${r.s}</span></td>`;
       if(c.k==="w") return `<td>${whenCell(r)}</td>`;
       if(c.k==="p") return `<td><span class="cost">${r.p||"—"}</span></td>`;
+      if(c.k==="b") return `<td><span class="crowd">${r.b||"—"}</span></td>`;
       if(c.k==="d") return `<td>${distCell(r)}</td>`;
       if(c.k==="t"){ const e=eff(r); return `<td><span class="dist">${e.t==null?"—":"~"+e.t+" min"}</span></td>`; }
       if(c.k==="pop") return `<td>${fmtPop(r)}</td>`;
@@ -1231,6 +1237,7 @@ function render(){
         ${r.w?whenCell(r):""}
         ${r.p?`<span class="cost">${r.p}</span>`:""}
         ${r.r!=null?fmtPop(r):""}
+        ${r.b?`<span class="crowd">👥 ${r.b}</span>`:""}
       </div>
       <div class="summary">${r.s}</div>
       ${open?detailHTML(r):""}
@@ -1617,7 +1624,7 @@ function renderXfind(){
   if(!q || state.tonight || state.allCities){ el.hidden = true; el.innerHTML = ""; return; }
   const hits = TABS.filter(t=>t.key!==state.tab).map(t=>({
     key: t.key, label: TABLABEL[t.key],
-    n: (DATA[t.key]||[]).filter(r=>(r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")+" "+(r.p||"")).toLowerCase().includes(q)).length
+    n: (DATA[t.key]||[]).filter(r=>(r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")+" "+(r.p||"")+" "+(r.b||"")).toLowerCase().includes(q)).length
   })).filter(h=>h.n>0);
   el.hidden = false;
   // #xfAll deliberately has no `xf` class — the per-tab hint contract counts .xf children

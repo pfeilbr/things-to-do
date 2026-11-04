@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..', '..');
-const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w', 'p']);
+const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w', 'p', 'b']);
 const PHILLY_TABS = ['attractions', 'events', 'nightlife', 'eats', 'biking', 'social', 'fishing', 'chinese', 'remote'];
 const CITY_TABS = ['spots', 'nightlife', 'eats', 'chinese', 'fishing', 'biking', 'remote', 'social'];
 // The NYC-area guides carry the everyday-life tabs on top of the interest tabs (see
@@ -67,6 +67,9 @@ for (const file of dataFiles) {
         // the Remote work tab's Cost column: every row says what it costs, and only there
         if (tab === 'remote') assert.ok(typeof r.p === 'string' && r.p.length, `${id}: p required in remote`);
         else assert.ok(!('p' in r), `${id}: p not allowed in ${tab}`);
+        // ...and its Crowd column: how busy it gets (or "No crowd data yet"), short enough for a cell
+        if (tab === 'remote') assert.ok(typeof r.b === 'string' && r.b.length && r.b.length <= 90, `${id}: b (crowd line, <=90 chars) required in remote`);
+        else assert.ok(!('b' in r), `${id}: b not allowed in ${tab}`);
         assert.ok(!seen.has(r.n), `${id}: duplicate name in tab`);
         seen.add(r.n);
       }
