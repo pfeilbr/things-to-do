@@ -116,6 +116,18 @@ class Commands(unittest.TestCase):
         self.assertNotIn('w', rows[-1])
         self.assertIn('\n', (self.root / 'data-y.json').read_text())          # pretty stays pretty
 
+    def test_add_to_remote_tab_requires_and_keeps_cost(self):
+        src = self.root / 'new.json'
+        src.write_text(json.dumps([
+            {'n': 'Cowork', 'c': 'Coworking', 's': 'x', 'u': 'https://c.x', 'p': '$25 day pass', 'll': [41.03, -74.5]},
+            {'n': 'No price', 'c': 'Coworking', 's': 'x', 'u': 'https://c.x', 'll': [41.03, -74.5]},   # no p
+        ]))
+        self.run_cli('add', 'data-y.json', str(src), '--tab', 'remote', '--new-tab')
+        rows = json.loads((self.root / 'data-y.json').read_text())['remote']
+        self.assertEqual([r['n'] for r in rows], ['Cowork'])
+        self.assertEqual(rows[0]['p'], '$25 day pass')
+        self.assertNotIn('w', rows[0])
+
     def test_add_to_missing_tab_fails(self):
         with self.assertRaises(SystemExit):
             self.run_cli('add', 'data-y.json', str(self.root / 'nope.json'), '--tab', 'museums')

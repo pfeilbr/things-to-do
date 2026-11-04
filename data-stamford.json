@@ -2084,5 +2084,157 @@
     -75.3504
    ]
   }
+ ],
+ "remote": [
+  {
+   "n": "Serendipity Labs Stamford",
+   "c": "Coworking",
+   "s": "Harbor Point worklounge at 700 Canal St. High-speed Wi-Fi, focus room and private phone rooms, coffee, tea &amp; fruit water, free surface parking and a shuttle to Stamford station (5 min). Unlimited members get 7a–7p access, 150 prints/mo, 4 hr of meeting-room credit and drop-ins at 20+ Serendipity Labs nationwide. Day pass is M–F 8:30a–5p.",
+   "d": 3.2,
+   "t": 8,
+   "u": "https://serendipitylabs.com/us/ct/stamford/coworking",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0441,
+    -73.5316
+   ],
+   "p": "$25 day pass · $199/mo (10 days) · $299/mo unlimited"
+  },
+  {
+   "n": "Workpoint at Shippan Landing",
+   "c": "Coworking",
+   "s": "Waterfront coworking at 290 Harbor Dr on the Shippan peninsula, open 24/7. High-speed Wi-Fi, privacy booths, kitchen, gym, a studio, lockable filing cabinets, mail handling and on-site parking, plus member socials and pro events.",
+   "d": 4.1,
+   "t": 10,
+   "u": "https://www.commercialsearch.com/coworking-property/us/ct/stamford/290-harbor-drive/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0334,
+    -73.5354
+   ],
+   "p": "Open desk from $25/day · from $300/mo"
+  },
+  {
+   "n": "HAYVN Darien",
+   "c": "Coworking",
+   "s": "Community-first coworking at 320 Post Rd, downtown Darien. Coffee, tea &amp; snacks, conference rooms, a podcast room, a fitness center, printing, a business address and 24/7 member access; monthly meetups and networking nights. Day passes are weekday 9a–5p at an open desk.",
+   "d": 3.0,
+   "t": 7,
+   "u": "https://hayvn.com/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0865,
+    -73.46
+   ],
+   "p": "Day pass ≈$50 · membership from $360/mo"
+  },
+  {
+   "n": "HAYVN Greenwich",
+   "c": "Coworking",
+   "s": "HAYVN's second space, at 1700 E Putnam Ave in Old Greenwich. Same playbook as Darien: open desks, coffee, Wi-Fi, printing and free parking on a day pass (weekdays 9a–5p), plus conference rooms, a podcast room and 24/7 access for members.",
+   "d": 5.2,
+   "t": 12,
+   "u": "https://liquidspace.com/us/ct/greenwich/hayvn-greenwich/private-office-day-pass-at-greenwich",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.046,
+    -73.5686
+   ],
+   "p": "Day pass from $50 · private office day $150"
+  },
+  {
+   "n": "Regus One Stamford Plaza",
+   "c": "Coworking",
+   "s": "The biggest Regus downtown, at 263 Tresser Blvd across from the Stamford Town Center — book an hour, half-day or day in the Regus app. Wi-Fi, staffed reception, meeting rooms by the hour and access to Regus' global network on a membership. Sister centers at 20 Summer St (day office from $49) and Soundview.",
+   "d": 3.1,
+   "t": 7,
+   "u": "https://www.regus.com/en/us/connecticut/stamford/coworking",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0514,
+    -73.5367
+   ],
+   "p": "Day coworking ≈$44–68 · day office from $65"
+  },
+  {
+   "n": "Connecticut Business Centers",
+   "c": "Coworking",
+   "s": "Private-office center on the 4th floor of 6 Landmark Square, a block from the train. Not a hot-desk room: it's day offices and hourly meeting rooms with free coffee &amp; tea, A/V, whiteboards, printer, kitchen and outdoor space. M–F 8:30a–5p.",
+   "d": 3.0,
+   "t": 7,
+   "u": "https://www.commercialsearch.com/coworking-property/us/ct/stamford/connecticut-business-centers/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0545,
+    -73.5378
+   ],
+   "p": "Meeting room from $20/hr · day office from $230 · office from $800/mo"
+  },
+  {
+   "n": "Ferguson Library (Main)",
+   "c": "Library",
+   "s": "Stamford's main library at Broad &amp; Bedford, downtown. Free Wi-Fi, reservable study rooms and solo booths on the 2nd and 3rd floors (one 120-min slot a day, book a day ahead), public computers, printing &amp; fax, and Winfield Street Coffee in the building. Sun 1–5, Mon–Thu 10–8, Sat 10–5; closed Fri.",
+   "d": 3.1,
+   "t": 7,
+   "u": "https://www.fergusonlibrary.org/policies/study-room-policy",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0557,
+    -73.539
+   ],
+   "p": "Free"
+  },
+  {
+   "n": "Darien Library",
+   "c": "Library",
+   "s": "One of the best libraries in the state, at 1441 Post Rd. Wi-Fi reaches out into the courtyard, a café on the main level, silent study rooms for two on the mezzanine, talk-friendly study pods upstairs and group rooms for up to 8 (non-residents can book same-day online). Non-residents get a computer day pass at the 2nd-floor desk. Mon–Thu 9–9, Fri 9–6, Sat–Sun 11–5.",
+   "d": 1.3,
+   "t": 3,
+   "u": "https://darienlibrary.org/faq",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0688,
+    -73.4782
+   ],
+   "p": "Free (printing 15¢ b&amp;w · 50¢ color)"
+  },
+  {
+   "n": "Greenwich Library",
+   "c": "Library",
+   "s": "Main library at 101 W Putnam Ave. Free Wi-Fi, free individual and group study rooms (up to 3 hr a day), private phone booths for calls, scanners, copiers and wireless printing. Mon–Fri 9–9, Sat 9–5, Sun 1–5. The in-house café has been temporarily closed, so bring a coffee.",
+   "d": 9.6,
+   "t": 20,
+   "u": "https://www.greenwichlibrary.org/faqs/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0288,
+    -73.6295
+   ],
+   "p": "Free"
+  },
+  {
+   "n": "Humbled Coffeehouse",
+   "c": "Café",
+   "s": "Small, quiet indie coffeehouse at 575 Hope St in Springdale: fast free Wi-Fi, a window desk, a few tables and a couch corner, espresso and baked goods. Seats go early — it's a short-session spot, not an all-day office.",
+   "d": 1.9,
+   "t": 5,
+   "u": "https://neirad.org/5341/student-life/a-great-place-to-study-humbled-coffeehouse",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0792,
+    -73.5215
+   ],
+   "p": "Free with a purchase"
+  }
  ]
 }

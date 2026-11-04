@@ -234,6 +234,7 @@ tbody tr:hover{background:#faf8f1}
 .when{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--hot);white-space:nowrap}
 .when .tdy{font-style:normal;background:var(--accent);color:#fff;border-radius:4px;padding:1px 5px;font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;vertical-align:1px}
 .dist{font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap}
+.cost{font-weight:600;font-size:12.5px;color:var(--brand)}
 /* signature: drive band — proportional bar under distance */
 .band{height:4px;border-radius:2px;background:var(--line);margin-top:5px;width:88px;overflow:hidden}
 .band i{display:block;height:100%;background:linear-gradient(90deg,var(--accent-soft),var(--accent))}
@@ -619,7 +620,7 @@ footer a{color:var(--accent-soft)}
 <script src="transit.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-04T11:09Z";
+const BUILD = "2026-11-04T12:08Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -695,6 +696,16 @@ const C_SKI = [
 const T_SKI     = {key:"skiing",    label:"Skiing",       sort:["t",1],    cols:C_SKI};
 // Coffee is its own tab only where the day is actually spent in cafes — a campus guide.
 const T_COFFEE  = {key:"coffee",    label:"Coffee",       sort:["pop",-1], cols:C_STD};
+// Remote work: coworking, libraries and laptop cafés. `p` is the cost line ("Free", "$25 day pass · …").
+const C_WORK = [
+  {k:"n",label:"Workspace",type:"str"},
+  {k:"c",label:"Type",type:"str"},
+  {k:"p",label:"Cost",type:"str",nosort:true},
+  {k:"s",label:"What you get",type:"str",nosort:true},
+  {k:"d",label:"Distance",type:"num"},
+  {k:"t",label:"Drive",type:"num"}
+];
+const T_WORK    = {key:"remote",    label:"Remote work",  sort:["d",1],    cols:C_WORK};
 // Home-city layout (the NYC-area guides and Boston): the seven interest tabs plus the five
 // everyday ones, ordered so the things you browse for fun come before the things you only
 // look up when you need them. Dated Events sit second — they rot, so they want to be seen
@@ -834,8 +845,8 @@ const CONFIG = {
       trip:"\u22482\u00bc hr drive from home base",
       blurb:"Stamford &amp; the Gold Coast: Harbor Point &amp; Sound-shore dates / Palace Theatre &amp; holiday-parade events / Bedford St &amp; Port Chester nights / omakase / Westchester \u4e2d\u534e / Long Island Sound stripers / Mianus River MTB / socials",
       note:"CT fishing needs a license for both fresh and salt water (one combined option).",
-      sources:"Data gathered Nov 2026 from official venue sites, the Palace Theatre &amp; Stamford Downtown calendars, CT DEEP, ski-area sites, local press &amp; Google Places; venue coordinates via OpenStreetMap.",
-      tabs:[T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SKI, T_SOCIAL] },
+      sources:"Data gathered Nov 2026 from official venue sites, the Palace Theatre &amp; Stamford Downtown calendars, CT DEEP, ski-area sites, coworking operators &amp; library sites, local press &amp; Google Places; venue coordinates via OpenStreetMap.",
+      tabs:[T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SKI, T_WORK, T_SOCIAL] },
     { id:"vb", chip:"VA BEACH",
       place:"Virginia Beach Oceanfront, VA", placeShort:"Virginia Beach", originLabel:"the VB Oceanfront",
       ns:"vb", data:"data-vb.json",
@@ -1012,6 +1023,7 @@ function detailHTML(r){
   const meta = [
     `<span class="cat">${r.c}</span>`,
     r.w?whenCell(r):"",
+    r.p?`<span class="cost">${r.p}</span>`:"",
     e.d!=null?`<span class="dist">${e.d.toFixed(1)} mi · ~${e.t} min drive</span>`:"",
     r.r!=null?fmtPop(r):""
   ].filter(Boolean).join("");
@@ -1046,7 +1058,7 @@ function rowsUnfiltered(){
 function rows(){
   let list = rowsUnfiltered();
   const q = state.q.trim().toLowerCase();
-  if(q) list = list.filter(r => (r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")).toLowerCase().includes(q));
+  if(q) list = list.filter(r => (r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")+" "+(r.p||"")).toLowerCase().includes(q));
   if(state.cat) list = list.filter(r => r.c === state.cat);
   if(state.maxT) list = list.filter(r => { const t = eff(r).t; return t != null && t <= +state.maxT; });
   if(state.maxD) list = list.filter(r => { const d = eff(r).d; return d != null && d <= +state.maxD; });
@@ -1199,6 +1211,7 @@ function render(){
       if(c.k==="c") return `<td><span class="cat">${r.c}</span></td>`;
       if(c.k==="s") return `<td><span class="summary">${r.s}</span></td>`;
       if(c.k==="w") return `<td>${whenCell(r)}</td>`;
+      if(c.k==="p") return `<td><span class="cost">${r.p||"—"}</span></td>`;
       if(c.k==="d") return `<td>${distCell(r)}</td>`;
       if(c.k==="t"){ const e=eff(r); return `<td><span class="dist">${e.t==null?"—":"~"+e.t+" min"}</span></td>`; }
       if(c.k==="pop") return `<td>${fmtPop(r)}</td>`;
@@ -1216,6 +1229,7 @@ function render(){
       <div class="row2">
         <span class="cat">${r.c}</span>
         ${r.w?whenCell(r):""}
+        ${r.p?`<span class="cost">${r.p}</span>`:""}
         ${r.r!=null?fmtPop(r):""}
       </div>
       <div class="summary">${r.s}</div>
@@ -1603,7 +1617,7 @@ function renderXfind(){
   if(!q || state.tonight || state.allCities){ el.hidden = true; el.innerHTML = ""; return; }
   const hits = TABS.filter(t=>t.key!==state.tab).map(t=>({
     key: t.key, label: TABLABEL[t.key],
-    n: (DATA[t.key]||[]).filter(r=>(r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")).toLowerCase().includes(q)).length
+    n: (DATA[t.key]||[]).filter(r=>(r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")+" "+(r.p||"")).toLowerCase().includes(q)).length
   })).filter(h=>h.n>0);
   el.hidden = false;
   // #xfAll deliberately has no `xf` class — the per-tab hint contract counts .xf children

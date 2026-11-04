@@ -6,7 +6,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..', '..');
-const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w']);
+const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w', 'p']);
 const PHILLY_TABS = ['attractions', 'events', 'nightlife', 'eats', 'biking', 'social', 'fishing', 'chinese'];
 const CITY_TABS = ['spots', 'nightlife', 'eats', 'chinese', 'fishing', 'biking', 'social'];
 // The NYC-area guides carry the everyday-life tabs on top of the interest tabs (see
@@ -28,7 +28,7 @@ const LAYOUTS = {
   // Verona is a visitor guide that also carries dated Events (Turning Stone's calendar).
   'data-verona.json': [...CITY_TABS, 'events'],
   // Stamford too (the Palace Theatre season, the holiday parade), plus the first Skiing tab.
-  'data-stamford.json': [...CITY_TABS, 'events', 'skiing'],
+  'data-stamford.json': [...CITY_TABS, 'events', 'skiing', 'remote'],
 };
 
 const dataFiles = fs.readdirSync(ROOT).filter(f => /^data.*\.json$/.test(f)).sort();
@@ -64,6 +64,9 @@ for (const file of dataFiles) {
         }
         if (wTab) assert.ok(typeof r.w === 'string' && r.w.length, `${id}: w required in ${tab}`);
         else assert.ok(!('w' in r), `${id}: w not allowed in ${tab}`);
+        // the Remote work tab's Cost column: every row says what it costs, and only there
+        if (tab === 'remote') assert.ok(typeof r.p === 'string' && r.p.length, `${id}: p required in remote`);
+        else assert.ok(!('p' in r), `${id}: p not allowed in ${tab}`);
         assert.ok(!seen.has(r.n), `${id}: duplicate name in tab`);
         seen.add(r.n);
       }
