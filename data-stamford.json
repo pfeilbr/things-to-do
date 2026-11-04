@@ -2235,6 +2235,36 @@
     -73.5215
    ],
    "p": "Free with a purchase"
+  },
+  {
+   "n": "NEAT Coffee",
+   "c": "Café",
+   "s": "Café at 20 Grove St in downtown Darien, Moffly Media's top pick for escaping the home office: a café hum and soft music, busy but not loud, with fresh coffee and pastries. Go mid-morning, when the crowds thin. Opens 7a weekdays and 8a weekends, and closes mid-afternoon.",
+   "d": 1.8,
+   "t": 4,
+   "u": "https://mofflylifestylemedia.com/the-workday-escape-plan/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0758,
+    -73.4731
+   ],
+   "p": "Free with a purchase"
+  },
+  {
+   "n": "Winfield Street Coffee",
+   "c": "Café",
+   "s": "96 Broad St downtown, right beside the Ferguson Library, so the library's free desks are next door when you need quiet. Wi-Fi, laptops welcome and abundant seating in a bright room with a plant wall. Pastries, sandwiches and salads. Open Mon–Sat 7a–5p, Sun 7a–4p.",
+   "d": 3.1,
+   "t": 7,
+   "u": "https://studyanywhere.netlify.app/ct/stamford",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.0558,
+    -73.5392
+   ],
+   "p": "Free with a purchase"
   }
  ]
 }

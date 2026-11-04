@@ -3010,6 +3010,21 @@
     -76.4844
    ],
    "p": "Free with a purchase"
+  },
+  {
+   "n": "Botanist Coffeehouse",
+   "c": "Café",
+   "s": "Fall Creek café at 1201 N Tioga St, a short walk from Ithaca Falls at the foot of the hill: Wi-Fi, laptops welcome, abundant seating and a quiet room for focused study. House-baked scones and cinnamon rolls, with a plant shop in the same space. Open Mon–Sat 7a–2p, closed Sunday.",
+   "d": 1.0,
+   "t": 2,
+   "u": "https://studyanywhere.netlify.app/ny/ithaca",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4534,
+    -76.4975
+   ],
+   "p": "Free with a purchase"
   }
  ]
 }
