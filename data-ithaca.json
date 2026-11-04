@@ -2874,7 +2874,8 @@
     42.4395,
     -76.4976
    ],
-   "p": "Day coworking from $35"
+   "p": "Day coworking from $35",
+   "b": "No crowd data yet"
   },
   {
    "n": "Foundry",
@@ -2889,7 +2890,8 @@
     42.4395,
     -76.4927
    ],
-   "p": "$150/wk · shared desk $250/mo · desk $350–400/mo"
+   "p": "$150/wk · shared desk $250/mo · desk $350–400/mo",
+   "b": "No crowd data yet"
   },
   {
    "n": "The CommonSpot",
@@ -2898,13 +2900,14 @@
    "d": 1.2,
    "t": 3,
    "u": "https://www.thisiscny.com/things-to-do/2025/07/cny-coworking-spaces-15-places-for-remote-employees-entrepreneurs-and-companies-to-work-and-meet.html",
-   "r": null,
-   "rc": null,
+   "r": 4.4,
+   "rc": 12,
    "ll": [
     42.4397,
     -76.4991
    ],
-   "p": "Shared desk $15 (2 hr) · $25 (4 hr) · $40 (8 hr)"
+   "p": "Shared desk $15 (2 hr) · $25 (4 hr) · $40 (8 hr)",
+   "b": "Near empty: a 2025 reviewer hardly saw another soul"
   },
   {
    "n": "eHub Collegetown",
@@ -2919,7 +2922,8 @@
     42.4423,
     -76.485
    ],
-   "p": "Free (Cornell community)"
+   "p": "Free (Cornell community)",
+   "b": "No crowd data yet"
   },
   {
    "n": "Olin Library",
@@ -2934,7 +2938,8 @@
     42.4478,
     -76.4843
    ],
-   "p": "Free"
+   "p": "Free",
+   "b": "Packed during prelims and finals; high-demand seats fill fast"
   },
   {
    "n": "Uris Library & A.D. White Library",
@@ -2949,7 +2954,8 @@
     42.4477,
     -76.4853
    ],
-   "p": "Free"
+   "p": "Free",
+   "b": "Packed for prelims and finals; A.D. White seats fill fast"
   },
   {
    "n": "Mann Library",
@@ -2964,7 +2970,8 @@
     42.4489,
     -76.4761
    ],
-   "p": "Free"
+   "p": "Free",
+   "b": "Seats tight at peak; first-come seating on four floors"
   },
   {
    "n": "Tompkins County Public Library",
@@ -2973,13 +2980,14 @@
    "d": 1.2,
    "t": 3,
    "u": "https://www.tcpl.org/using-library/computers-copy-center",
-   "r": null,
-   "rc": null,
+   "r": 4.6,
+   "rc": 183,
    "ll": [
     42.4382,
     -76.4983
    ],
-   "p": "Free (printing 10¢ b&amp;w · 60¢ color)"
+   "p": "Free (printing 10¢ b&amp;w · 60¢ color)",
+   "b": "Some sections get noisy; arrive early for quiet areas"
   },
   {
    "n": "Gimme! Coffee (State St)",
@@ -2988,13 +2996,14 @@
    "d": 1.6,
    "t": 4,
    "u": "https://studyanywhere.netlify.app/ny/ithaca",
-   "r": null,
-   "rc": null,
+   "r": 4.6,
+   "rc": 585,
    "ll": [
     42.4395,
     -76.5064
    ],
-   "p": "Free with a purchase"
+   "p": "Free with a purchase",
+   "b": "Big room, lots of seats; gets crowded later in the day"
   },
   {
    "n": "De Mokha Coffee",
@@ -3003,13 +3012,14 @@
    "d": 0.5,
    "t": 1,
    "u": "https://studyanywhere.netlify.app/ny/ithaca",
-   "r": null,
-   "rc": null,
+   "r": 4.7,
+   "rc": 97,
    "ll": [
     42.4419,
     -76.4844
    ],
-   "p": "Free with a purchase"
+   "p": "Free with a purchase",
+   "b": "Small, cramped room with limited seats"
   },
   {
    "n": "Botanist Coffeehouse",
@@ -3018,13 +3028,14 @@
    "d": 1.0,
    "t": 2,
    "u": "https://studyanywhere.netlify.app/ny/ithaca",
-   "r": null,
-   "rc": null,
+   "r": 4.7,
+   "rc": 199,
    "ll": [
     42.4534,
     -76.4975
    ],
-   "p": "Free with a purchase"
+   "p": "Free with a purchase",
+   "b": "Quiet room with abundant seating"
   }
  ]
 }

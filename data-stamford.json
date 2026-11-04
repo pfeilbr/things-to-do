@@ -2093,13 +2093,14 @@
    "d": 3.2,
    "t": 8,
    "u": "https://serendipitylabs.com/us/ct/stamford/coworking",
-   "r": null,
-   "rc": null,
+   "r": 4.8,
+   "rc": 44,
    "ll": [
     41.0441,
     -73.5316
    ],
-   "p": "$25 day pass · $199/mo (10 days) · $299/mo unlimited"
+   "p": "$25 day pass · $199/mo (10 days) · $299/mo unlimited",
+   "b": "Plenty of room and privacy, per members; groups sometimes book it for the day"
   },
   {
    "n": "Workpoint at Shippan Landing",
@@ -2108,13 +2109,14 @@
    "d": 4.1,
    "t": 10,
    "u": "https://www.commercialsearch.com/coworking-property/us/ct/stamford/290-harbor-drive/",
-   "r": null,
-   "rc": null,
+   "r": 4.5,
+   "rc": 24,
    "ll": [
     41.0334,
     -73.5354
    ],
-   "p": "Open desk from $25/day · from $300/mo"
+   "p": "Open desk from $25/day · from $300/mo",
+   "b": "No crowd data yet"
   },
   {
    "n": "HAYVN Darien",
@@ -2123,13 +2125,14 @@
    "d": 3.0,
    "t": 7,
    "u": "https://hayvn.com/",
-   "r": null,
-   "rc": null,
+   "r": 4.9,
+   "rc": 147,
    "ll": [
     41.0865,
     -73.46
    ],
-   "p": "Day pass ≈$50 · membership from $360/mo"
+   "p": "Day pass ≈$50 · membership from $360/mo",
+   "b": "No crowd data yet"
   },
   {
    "n": "HAYVN Greenwich",
@@ -2138,13 +2141,14 @@
    "d": 5.2,
    "t": 12,
    "u": "https://liquidspace.com/us/ct/greenwich/hayvn-greenwich/private-office-day-pass-at-greenwich",
-   "r": null,
-   "rc": null,
+   "r": 5.0,
+   "rc": 64,
    "ll": [
     41.046,
     -73.5686
    ],
-   "p": "Day pass from $50 · private office day $150"
+   "p": "Day pass from $50 · private office day $150",
+   "b": "No crowd data yet"
   },
   {
    "n": "Regus One Stamford Plaza",
@@ -2153,13 +2157,14 @@
    "d": 3.1,
    "t": 7,
    "u": "https://www.regus.com/en/us/connecticut/stamford/coworking",
-   "r": null,
-   "rc": null,
+   "r": 4.7,
+   "rc": 3,
    "ll": [
     41.0514,
     -73.5367
    ],
-   "p": "Day coworking ≈$44–68 · day office from $65"
+   "p": "Day coworking ≈$44–68 · day office from $65",
+   "b": "No crowd data yet"
   },
   {
    "n": "Connecticut Business Centers",
@@ -2168,13 +2173,14 @@
    "d": 3.0,
    "t": 7,
    "u": "https://www.commercialsearch.com/coworking-property/us/ct/stamford/connecticut-business-centers/",
-   "r": null,
-   "rc": null,
+   "r": 5.0,
+   "rc": 32,
    "ll": [
     41.0545,
     -73.5378
    ],
-   "p": "Meeting room from $20/hr · day office from $230 · office from $800/mo"
+   "p": "Meeting room from $20/hr · day office from $230 · office from $800/mo",
+   "b": "Quiet and private, per a member review"
   },
   {
    "n": "Ferguson Library (Main)",
@@ -2183,13 +2189,14 @@
    "d": 3.1,
    "t": 7,
    "u": "https://www.fergusonlibrary.org/policies/study-room-policy",
-   "r": null,
-   "rc": null,
+   "r": 4.7,
+   "rc": 253,
    "ll": [
     41.0557,
     -73.539
    ],
-   "p": "Free"
+   "p": "Free",
+   "b": "Quiet work areas; few study rooms, booked a day ahead, one 2-hour slot a day"
   },
   {
    "n": "Darien Library",
@@ -2198,13 +2205,14 @@
    "d": 1.3,
    "t": 3,
    "u": "https://darienlibrary.org/faq",
-   "r": null,
-   "rc": null,
+   "r": 4.6,
+   "rc": 120,
    "ll": [
     41.0688,
     -73.4782
    ],
-   "p": "Free (printing 15¢ b&amp;w · 50¢ color)"
+   "p": "Free (printing 15¢ b&amp;w · 50¢ color)",
+   "b": "Among CT's busiest (1,300 visits a day); study rooms in high demand at finals"
   },
   {
    "n": "Greenwich Library",
@@ -2219,7 +2227,8 @@
     41.0288,
     -73.6295
    ],
-   "p": "Free"
+   "p": "Free",
+   "b": "Quiet study areas throughout; not crowded on Saturdays, per a review"
   },
   {
    "n": "Humbled Coffeehouse",
@@ -2228,13 +2237,14 @@
    "d": 1.9,
    "t": 5,
    "u": "https://neirad.org/5341/student-life/a-great-place-to-study-humbled-coffeehouse",
-   "r": null,
-   "rc": null,
+   "r": 4.6,
+   "rc": 308,
    "ll": [
     41.0792,
     -73.5215
    ],
-   "p": "Free with a purchase"
+   "p": "Free with a purchase",
+   "b": "Small shop; weekends get busy, weekdays calmer; parking tight at peak"
   },
   {
    "n": "NEAT Coffee",
@@ -2243,13 +2253,14 @@
    "d": 1.8,
    "t": 4,
    "u": "https://mofflylifestylemedia.com/the-workday-escape-plan/",
-   "r": null,
-   "rc": null,
+   "r": 4.5,
+   "rc": 240,
    "ll": [
     41.0758,
     -73.4731
    ],
-   "p": "Free with a purchase"
+   "p": "Free with a purchase",
+   "b": "Limited tables can fill with laptop users; courtyard seats add room"
   },
   {
    "n": "Winfield Street Coffee",
@@ -2258,13 +2269,14 @@
    "d": 3.1,
    "t": 7,
    "u": "https://studyanywhere.netlify.app/ct/stamford",
-   "r": null,
-   "rc": null,
+   "r": 4.3,
+   "rc": 400,
    "ll": [
     41.0558,
     -73.5392
    ],
-   "p": "Free with a purchase"
+   "p": "Free with a purchase",
+   "b": "Single espresso machine strains at busy hours; ample seating"
   }
  ]
 }
