@@ -1677,6 +1677,34 @@
     41.2714,
     -73.9267
    ]
+  },
+  {
+   "n": "Pequonnock River Valley State Park",
+   "c": "MTB trail network",
+   "s": "Trumbull's XC and freeride playground (aka Old Mine Park): about 15 miles of marked singletrack along the Pequonnock, drops from 2 to 20 ft and the 30-ft Green Monster roller, with a rail trail north for an epic.",
+   "d": 26.0,
+   "t": 44,
+   "u": "https://www.singletracks.com/bike-trails/trumbull/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.2546,
+    -73.2032
+   ]
+  },
+  {
+   "n": "Upper Paugussett State Forest",
+   "c": "MTB singletrack",
+   "s": "Rugged, very technical Newtown singletrack along Lake Zoar from the boat ramp — it gets harder past the 'Kissing Oaks' — looping back on forest road, with plenty of unmarked trail to explore.",
+   "d": 36.6,
+   "t": 54,
+   "u": "https://www.singletracks.com/bike-trails/upper-paugussett-state-forest/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    41.4501,
+    -73.3065
+   ]
   }
  ],
  "social": [

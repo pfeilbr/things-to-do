@@ -621,7 +621,7 @@ footer a{color:var(--accent-soft)}
 <script src="transit.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-04T16:46Z";
+const BUILD = "2026-11-04T18:40Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -688,7 +688,6 @@ const C_WORK = [
 ];
 const T_WORK    = {key:"remote",    label:"Remote work",  sort:["d",1],    cols:C_WORK};
 const C_CITY = {k:"city",label:"City",type:"str",nosort:true};   // prepended in all-cities search
-const CITY_TABS = [T_SPOTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_WORK, T_SOCIAL];
 // The everyday-life tabs. Only the guides for places the owner actually lives in and
 // around carry these — a visitor guide to Cleveland has no business listing a laundromat.
 const T_MUSEUM  = {key:"museums",   label:"Museums",      sort:["d",1],    cols:C_STD};
@@ -722,13 +721,13 @@ const NYC_TABS = [T_SPOTS, T_EVENTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOP
 const CAMPUS_TABS = [T_SPOTS, T_EVENTS, T_COFFEE, T_EATS, T_NIGHT, T_SIGHTS, T_WALKS,
                      T_MUSEUM, T_SHOPS, T_DAILY, T_WORK, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
-// A visitor guide with dated Events: the casino town books a weekly showroom calendar (and
-// Stamford a theatre-and-parade one), so the interest tabs alone would miss most of why you'd go.
-const EVENT_CITY_TABS = [T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_WORK, T_SOCIAL];
+// The visitor-guide layout: the interest tabs plus dated Events, which sit second because
+// they rot and a trip is usually planned around a show, a game or a holiday run.
+const CITY_TABS = [T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_WORK, T_SOCIAL];
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
-const NY_SOURCES = "Data gathered Aug 2026 (events refreshed Oct 2026) from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
-const MID_SOURCES = "Data gathered Aug 2026 from official venue sites, Google Places, local press &amp; event calendars.";
+const NY_SOURCES = "Data gathered Aug 2026 (events refreshed Nov 2026) from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
+const MID_SOURCES = "Data gathered Aug 2026 (events added Nov 2026) from official venue sites, Google Places, local press &amp; event calendars.";
 
 const CONFIG = {
   brand: "Things To Do",
@@ -794,7 +793,7 @@ const CONFIG = {
       blurb:"Verona &amp; the Mohawk Valley: Turning Stone shows &amp; casino nights / Oneida Lake walleye / Utica &amp; Syracuse dance floors / sushi / Syracuse \u4e2d\u534e / Salmon River runs / Highland Forest MTB / socials",
       note:"NY freshwater fishing needs a license; Salmon River tributary rules change by season.",
       sources:"Data gathered Oct 2026 from the Turning Stone, Landmark Theatre &amp; Stanley Theatre calendars, Syracuse Athletics, the Utica Comets, NY State Parks, NYSDEC, local press &amp; Google Places; venue coordinates via OpenStreetMap.",
-      tabs:EVENT_CITY_TABS },
+      tabs:CITY_TABS },
     { id:"ac", chip:"AC",
       place:"Atlantic City, NJ", placeShort:"Atlantic City", originLabel:"the AC Boardwalk",
       ns:"ac", data:"data-ac.json",
@@ -841,7 +840,7 @@ const CONFIG = {
       trip:"≈5½ hr drive from home base",
       blurb:"Boston &amp; the metro: museums &amp; Freedom Trail sights / North End &amp; Cambridge eats / Emerald Necklace walks / Harvard Sq shops / TD Garden &amp; Salem events / dance floors / Chinatown \u4e2d\u534e / essentials",
       note:"MA fishing: freshwater license, or a ~$10 saltwater permit.",
-      sources:"Data gathered Aug 2026 (events refreshed Oct 2026) from official venue sites, Google Places, local press &amp; event calendars.",
+      sources:"Data gathered Aug 2026 (events refreshed Nov 2026) from official venue sites, Google Places, local press &amp; event calendars.",
       tabs:NYC_TABS },
     { id:"stamford", chip:"STAMFORD",
       place:"Noroton Heights, Darien, CT", placeShort:"Stamford", originLabel:"Noroton Heights, Darien",

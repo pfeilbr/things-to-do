@@ -25,9 +25,7 @@ const LAYOUTS = {
   'data-foresthills.json': ['spots', 'nightlife', 'eats', 'chinese', 'social', 'remote', ...NYC_EXTRA],
   // Ithaca is a campus guide: the everyday tabs plus a Coffee tab of its own.
   'data-ithaca.json': [...CITY_TABS, ...NYC_EXTRA, 'coffee'],
-  // Verona is a visitor guide that also carries dated Events (Turning Stone's calendar).
-  'data-verona.json': [...CITY_TABS, 'events'],
-  // Stamford too (the Palace Theatre season, the holiday parade), plus the first Skiing tab.
+  // Stamford is a visitor guide with the first Skiing tab.
   'data-stamford.json': [...CITY_TABS, 'events', 'skiing'],
 };
 
@@ -39,7 +37,7 @@ for (const file of dataFiles) {
   test(`${file}: schema`, () => {
     const d = JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
     const keys = Object.keys(d).sort();
-    const layout = LAYOUTS[file] || CITY_TABS;
+    const layout = LAYOUTS[file] || [...CITY_TABS, 'events']; // every visitor guide carries dated Events
     assert.deepEqual(keys, [...layout].sort(), `${file} tab keys`);
     let rows = 0, withLL = 0;
     for (const [tab, list] of Object.entries(d)) {

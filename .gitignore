@@ -1,3 +1,4 @@
 # Claude Code local-only state (personal permission grants, machine-specific config)
 .claude/settings.local.json
 _site/
+__pycache__/

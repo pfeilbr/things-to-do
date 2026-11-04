@@ -1245,6 +1245,34 @@
     43.04,
     -76.1336
    ]
+  },
+  {
+   "n": "FT Chef 人间烟火",
+   "c": "Sichuan · Northern",
+   "s": "Downtown Syracuse kitchen by the hospitals doing traditional Sichuan and Northern Chinese cooking — grilled whole fish and beef skewers, plus dim sum. BYOB, wood-grain tables, open till 10:30 on weekends.",
+   "d": 38.2,
+   "t": 56,
+   "u": "https://www.ftchefsyracuse.com/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0486,
+    -76.1401
+   ]
+  },
+  {
+   "n": "Han's Oriental Market",
+   "c": "Asian grocery",
+   "s": "Family-run on Erie Blvd East since 1989 — Korean, Chinese and Japanese pantry staples plus house-made dumplings, tofu and rice cakes for a hot-pot night at home.",
+   "d": 35.3,
+   "t": 53,
+   "u": "https://www.biwonsyracuse.com/hans-oriental-market.html",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0551,
+    -76.0971
+   ]
   }
  ],
  "fishing": [
@@ -1487,6 +1515,48 @@
     43.1237,
     -75.6658
    ]
+  },
+  {
+   "n": "Hamilton College trails",
+   "c": "MTB trail network",
+   "s": "About 10 miles of singletrack on the college hill in Clinton, 20 minutes east: a flat, open spine trail with technical side trails jutting off it in every direction.",
+   "d": 13.3,
+   "t": 27,
+   "u": "https://www.singletracks.com/bike-trails/hamilton-college-multi-purpose-trail/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0565,
+    -75.4022
+   ]
+  },
+  {
+   "n": "Russell Park",
+   "c": "MTB singletrack",
+   "s": "Ilion's 10-mile intermediate network of singletrack, double-track and fire road — start at the upper pavilion and work down through the Cemetery and North Ridge trails to the bottom of the park.",
+   "d": 37.3,
+   "t": 55,
+   "u": "https://www.singletracks.com/bike-trails/russel-park-trails/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0038,
+    -75.0328
+   ]
+  },
+  {
+   "n": "Great Bear Recreation Area",
+   "c": "MTB trail network",
+   "s": "Fulton's 10-mile beginner-friendly web of singletrack and dirt roads — try them all, and expect mud in spring.",
+   "d": 52.4,
+   "t": 66,
+   "u": "https://www.singletracks.com/bike-trails/great-bear/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.2653,
+    -76.3522
+   ]
   }
  ],
  "social": [
@@ -1624,6 +1694,36 @@
     -75.289
    ],
    "w": "Saturdays · 8a"
+  },
+  {
+   "n": "Westie Wednesday",
+   "c": "Swing social",
+   "s": "CNY's West Coast Swing crew on the 3rd floor of the Ukrainian National Home — a 45-minute all-levels lesson at 7:15, then social dancing 8–10. No partner needed; first night free, then $1–5.",
+   "d": 40.7,
+   "t": 58,
+   "u": "https://syracusesocialdance.com/westie-wednesday",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0476,
+    -76.1782
+   ],
+   "w": "Every other Wed · 7p–10p"
+  },
+  {
+   "n": "Tuesday Trivia at Coleman's",
+   "c": "Trivia",
+   "s": "Free weekly trivia at Tipperary Hill's Irish pub, with prizes every week — sign up from 6, questions at 7.",
+   "d": 40.9,
+   "t": 58,
+   "u": "https://www.colemansirishpub.com/music-events",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0478,
+    -76.1817
+   ],
+   "w": "Tuesdays · 7p"
   }
  ],
  "remote": [

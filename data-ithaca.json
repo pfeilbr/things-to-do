@@ -1853,6 +1853,34 @@
     42.14263,
     -77.05288
    ]
+  },
+  {
+   "n": "Women's Rights National Historical Park",
+   "c": "Historic Site",
+   "s": "Seneca Falls, about an hour north: the Wesleyan Chapel where the 1848 convention issued the Declaration of Sentiments, a visitor center on Fall Street, and ranger-led tours of Elizabeth Cady Stanton's house.",
+   "d": 46.5,
+   "t": 62,
+   "u": "https://www.nps.gov/wori/index.htm",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.9108,
+    -76.8002
+   ]
+  },
+  {
+   "n": "Glenn H. Curtiss Museum",
+   "c": "Museum",
+   "s": "Hammondsport's aviation-and-motorcycle museum at the foot of Keuka Lake, built around the hometown pioneer of early flight and motorcycling — open daily 9a–5p, and an easy pairing with a Keuka winery stop.",
+   "d": 49.8,
+   "t": 64,
+   "u": "https://www.glennhcurtissmuseum.org/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.3986,
+    -77.2329
+   ]
   }
  ],
  "shops": [
@@ -2660,6 +2688,48 @@
    "ll": [
     42.4468,
     -76.482
+   ]
+  },
+  {
+   "n": "Greek Peak Bike Park",
+   "c": "Bike park",
+   "s": "Sixteen trails on the Greek Peak ski hill in Virgil — about 1,400 ft of descending, 30 minutes from campus. Summer weekends only.",
+   "d": 23.0,
+   "t": 40,
+   "u": "https://www.singletracks.com/bike-trails/greek-peak-bike-park/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.5115,
+    -76.1491
+   ]
+  },
+  {
+   "n": "Bear Swamp State Forest",
+   "c": "Doubletrack",
+   "s": "About 15 miles of hilly intermediate double-track, with truck trails for beginners. Blowdowns get cleared periodically, but it can get very muddy.",
+   "d": 30.7,
+   "t": 49,
+   "u": "https://www.singletracks.com/bike-trails/bear-swamp/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.7632,
+    -76.3063
+   ]
+  },
+  {
+   "n": "Finger Lakes National Forest",
+   "c": "Singletrack",
+   "s": "Marked multi-use trails on the ridge between Seneca and Cayuga — the Backbone Trail is open to bikes, and Burnt Hill is smooth and fast. Grab a free map at the campground; some trails are hiker-only.",
+   "d": 20.9,
+   "t": 38,
+   "u": "https://www.singletracks.com/bike-trails/finger-lakes-national-forest/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4841,
+    -76.7962
    ]
   }
  ],
