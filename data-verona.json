@@ -1634,13 +1634,14 @@
    "d": 6.4,
    "t": 14,
    "u": "https://oneidacoworks.com/",
-   "r": null,
-   "rc": null,
+   "r": 4.3,
+   "rc": 3,
    "ll": [
     43.0966,
     -75.6509
    ],
-   "p": "Flex $95/mo · desk $150/mo · office from $325/mo"
+   "p": "Flex $95/mo · desk $150/mo · office from $325/mo",
+   "b": "No crowd data yet"
   },
   {
    "n": "Innovare Advancement Center",
@@ -1655,7 +1656,8 @@
     43.2268,
     -75.4074
    ],
-   "p": "$15 half day · $25 day · $100/wk · $400/mo"
+   "p": "$15 half day · $25 day · $100/wk · $400/mo",
+   "b": "No crowd data yet"
   },
   {
    "n": "MVCC thINCubator",
@@ -1670,7 +1672,8 @@
     43.1026,
     -75.2239
    ],
-   "p": "$20 day pass · $150/mo unlimited · office for two $425/mo"
+   "p": "$20 day pass · $150/mo unlimited · office for two $425/mo",
+   "b": "No crowd data yet"
   },
   {
    "n": "The HUB Business Incubator",
@@ -1685,7 +1688,8 @@
     42.8267,
     -75.5453
    ],
-   "p": "$10 day pass · $30/mo (24/7)"
+   "p": "$10 day pass · $30/mo (24/7)",
+   "b": "No crowd data yet"
   },
   {
    "n": "Commonspace Work",
@@ -1694,13 +1698,14 @@
    "d": 38.9,
    "t": 56,
    "u": "https://www.thisiscny.com/things-to-do/2025/07/cny-coworking-spaces-15-places-for-remote-employees-entrepreneurs-and-companies-to-work-and-meet.html",
-   "r": null,
-   "rc": null,
+   "r": 5.0,
+   "rc": 22,
    "ll": [
     43.0474,
     -76.1504
    ],
-   "p": "$20 day pass · $150/mo · meeting rooms from $20/hr"
+   "p": "$20 day pass · $150/mo · meeting rooms from $20/hr",
+   "b": "Reviewers call it always clean and quiet"
   },
   {
    "n": "Utica Public Library",
@@ -1715,7 +1720,8 @@
     43.0971,
     -75.2388
    ],
-   "p": "Free (printing 10¢ b&amp;w · 25¢ color)"
+   "p": "Free (printing 10¢ b&amp;w · 25¢ color)",
+   "b": "No crowd data yet"
   },
   {
    "n": "Onondaga County Central Library",
@@ -1724,13 +1730,14 @@
    "d": 39.0,
    "t": 56,
    "u": "https://www.onlib.org/locations/city-libraries/central-library",
-   "r": null,
-   "rc": null,
+   "r": 4.3,
+   "rc": 107,
    "ll": [
     43.0459,
     -76.1516
    ],
-   "p": "Free"
+   "p": "Free",
+   "b": "No crowd data yet"
   },
   {
    "n": "Utica Coffee Roasting Company",
@@ -1739,13 +1746,14 @@
    "d": 22.7,
    "t": 40,
    "u": "https://studyanywhere.netlify.app/ny/utica",
-   "r": null,
-   "rc": null,
+   "r": 4.7,
+   "rc": 1229,
    "ll": [
     43.1035,
     -75.2276
    ],
-   "p": "Free with a purchase"
+   "p": "Free with a purchase",
+   "b": "Bustling downtown café; weekends busier than weekdays"
   },
   {
    "n": "Cafe Kubal Salina St",
@@ -1754,13 +1762,14 @@
    "d": 39.0,
    "t": 56,
    "u": "https://studyanywhere.netlify.app/ny/syracuse",
-   "r": null,
-   "rc": null,
+   "r": 4.3,
+   "rc": 814,
    "ll": [
     43.047,
     -76.152
    ],
-   "p": "Free with a purchase"
+   "p": "Free with a purchase",
+   "b": "Spacious, with ample seating and big windows"
   },
   {
    "n": "Recess Coffee Westcott",
@@ -1769,13 +1778,14 @@
    "d": 37.0,
    "t": 55,
    "u": "https://studyanywhere.netlify.app/ny/syracuse",
-   "r": null,
-   "rc": null,
+   "r": 4.6,
+   "rc": 1160,
    "ll": [
     43.0414,
     -76.1188
    ],
-   "p": "Free with a purchase"
+   "p": "Free with a purchase",
+   "b": "Very popular on weekends; early mornings are calmest"
   }
  ]
 }
