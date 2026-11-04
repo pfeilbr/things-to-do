@@ -2859,5 +2859,157 @@
    ],
    "w": "Thursdays · 6p"
   }
+ ],
+ "remote": [
+  {
+   "n": "Regus Ithaca — 125 East State St",
+   "c": "Coworking",
+   "s": "3rd floor of 125 E State St, on the Commons. Staffed reception, high-speed secure Wi-Fi, printing/scanning/copying, a kitchen with tea &amp; coffee, breakout and meeting rooms, and private offices on demand. Book a day online, in the Regus app or by phone; memberships are priced per day on 24-month terms.",
+   "d": 1.1,
+   "t": 3,
+   "u": "https://www.regus.com/en/us/new-york/ithaca/coworking",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4395,
+    -76.4976
+   ],
+   "p": "Day coworking from $35"
+  },
+  {
+   "n": "Foundry",
+   "c": "Coworking",
+   "s": "Loft coworking at 416 E State St, next door to Argos Inn and a few blocks from the Commons. Fast fiber, a 13-seat loading-dock conference room with a 55-inch TV, and a kitchenette with a pour-over station. Weekly members get M–F 9a–6p; monthly members 24/7 plus 2–4 hr of conference room a week. No day pass. Evenings and weekends it hosts workshops and events.",
+   "d": 0.9,
+   "t": 2,
+   "u": "https://www.foundryithaca.com/monthly",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4395,
+    -76.4927
+   ],
+   "p": "$150/wk · shared desk $250/mo · desk $350–400/mo"
+  },
+  {
+   "n": "The CommonSpot",
+   "c": "Coworking",
+   "s": "Clinton Hall, 108 N Cayuga St (3rd floor), a block off the Commons. Pay-by-the-block shared desks, or private offices at $40/$60/$90 for the same blocks; Wi-Fi, kitchen, printers and office equipment. M–F 7a–5p. Weekly, monthly and seasonal offices by inquiry. Guided accessible entrance.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.thisiscny.com/things-to-do/2025/07/cny-coworking-spaces-15-places-for-remote-employees-entrepreneurs-and-companies-to-work-and-meet.html",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4397,
+    -76.4991
+   ],
+   "p": "Shared desk $15 (2 hr) · $25 (4 hr) · $40 (8 hr)"
+  },
+  {
+   "n": "eHub Collegetown",
+   "c": "Coworking",
+   "s": "Entrepreneurship at Cornell's 10,000-sq-ft coworking space on the 2nd and 3rd floors of 409 College Ave in Collegetown. Doors unlocked M–F 8:30a–6p for anyone in the Cornell community; students working on startups or entrepreneurship clubs can apply for 24/7 access, which also unlocks the bookable conference rooms. A smaller eHub fills the first floor of Kennedy Hall on campus.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://eship.cornell.edu/ehub/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4423,
+    -76.485
+   ],
+   "p": "Free (Cornell community)"
+  },
+  {
+   "n": "Olin Library",
+   "c": "Library",
+   "s": "Cornell's main research library on Ho Plaza at the south end of the Arts Quad — anyone may come in and work on site. Cornell-Visitor Wi-Fi (register your device once), RedRover or eduroam throughout; quiet and group study rooms, carrels, a newly renovated first floor, and the Amit Bhatia Libe Café, where calls and real food are allowed. Keep phones off in the quiet zones.",
+   "d": 0.0,
+   "t": 1,
+   "u": "https://olinuris.library.cornell.edu/about/visit",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4478,
+    -76.4843
+   ],
+   "p": "Free"
+  },
+  {
+   "n": "Uris Library & A.D. White Library",
+   "c": "Library",
+   "s": "Attached to McGraw Tower beside Olin. The A.D. White Library is a 19th-century reading room of stacked balconies — the most beautiful place to work on campus. The 'Cocktail Lounge' study space looks out over Libe Slope and runs 24/7 (Cornell ID needed after building hours). Same visitor Wi-Fi as Olin.",
+   "d": 0.0,
+   "t": 1,
+   "u": "https://olinuris.library.cornell.edu/use-the-library/spaces",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4477,
+    -76.4853
+   ],
+   "p": "Free"
+  },
+  {
+   "n": "Mann Library",
+   "c": "Library",
+   "s": "On the Ag Quad. Study seating on all four floors, individual and group study rooms and collaborative workstations bookable up to 4 hr, and no ID swipe at the front doors during open hours. The lobby, Mann 112 and Mann 103 stay open 24/7 to Cornell card holders.",
+   "d": 0.6,
+   "t": 1,
+   "u": "https://mann.library.cornell.edu/find-a-space",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4489,
+    -76.4761
+   ],
+   "p": "Free"
+  },
+  {
+   "n": "Tompkins County Public Library",
+   "c": "Library",
+   "s": "Downtown at 101 E Green St, a block from the Commons. Free Wi-Fi, six study rooms for 2–12 people (first-come), public PCs with Office, Princh printing straight from your laptop, a scanner and a makerspace. Mon–Thu 9–8, Fri 9–6, Sat 10–5, Sun closed except select dates. Paid street parking plus the Cayuga St garage behind the library.",
+   "d": 1.2,
+   "t": 3,
+   "u": "https://www.tcpl.org/using-library/computers-copy-center",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4382,
+    -76.4983
+   ],
+   "p": "Free (printing 10¢ b&amp;w · 60¢ color)"
+  },
+  {
+   "n": "Gimme! Coffee (State St)",
+   "c": "Café",
+   "s": "Ithaca's own roaster co-op at 506 W State St (MLK St) in the West End — the one to work from: Wi-Fi, laptops welcome, plenty of outlets and a lively hum. Open daily 7:30a–5p. Sister cafés at 430 N Cayuga St and Community Corners.",
+   "d": 1.6,
+   "t": 4,
+   "u": "https://studyanywhere.netlify.app/ny/ithaca",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4395,
+    -76.5064
+   ],
+   "p": "Free with a purchase"
+  },
+  {
+   "n": "De Mokha Coffee",
+   "c": "Café",
+   "s": "Yemeni coffeehouse at 210 Dryden Rd in Collegetown, a short walk from central campus. Wi-Fi that reaches outside, laptops allowed and a quiet-study crowd; order the Yemen latte.",
+   "d": 0.5,
+   "t": 1,
+   "u": "https://studyanywhere.netlify.app/ny/ithaca",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.4419,
+    -76.4844
+   ],
+   "p": "Free with a purchase"
+  }
  ]
 }

@@ -620,7 +620,7 @@ footer a{color:var(--accent-soft)}
 <script src="transit.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-04T12:08Z";
+const BUILD = "2026-11-04T12:36Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -673,8 +673,18 @@ const T_CHINESE = {key:"chinese",   label:"Chinese \u4e2d\u534e", sort:["d",1], 
 const T_FISH    = {key:"fishing",   label:"Fishing",      sort:["pop",-1], cols:C_FISH};
 const T_BIKE    = {key:"biking",    label:"MTB",          sort:["d",1],    cols:C_STD};
 const T_SOCIAL  = {key:"social",    label:"Social",       sort:["d",1],    cols:C_WHEN};
+// Remote work: coworking, libraries and laptop cafés. `p` is the cost line ("Free", "$25 day pass · …").
+const C_WORK = [
+  {k:"n",label:"Workspace",type:"str"},
+  {k:"c",label:"Type",type:"str"},
+  {k:"p",label:"Cost",type:"str",nosort:true},
+  {k:"s",label:"What you get",type:"str",nosort:true},
+  {k:"d",label:"Distance",type:"num"},
+  {k:"t",label:"Drive",type:"num"}
+];
+const T_WORK    = {key:"remote",    label:"Remote work",  sort:["d",1],    cols:C_WORK};
 const C_CITY = {k:"city",label:"City",type:"str",nosort:true};   // prepended in all-cities search
-const CITY_TABS = [T_SPOTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
+const CITY_TABS = [T_SPOTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_WORK, T_SOCIAL];
 // The everyday-life tabs. Only the guides for places the owner actually lives in and
 // around carry these — a visitor guide to Cleveland has no business listing a laundromat.
 const T_MUSEUM  = {key:"museums",   label:"Museums",      sort:["d",1],    cols:C_STD};
@@ -696,31 +706,21 @@ const C_SKI = [
 const T_SKI     = {key:"skiing",    label:"Skiing",       sort:["t",1],    cols:C_SKI};
 // Coffee is its own tab only where the day is actually spent in cafes — a campus guide.
 const T_COFFEE  = {key:"coffee",    label:"Coffee",       sort:["pop",-1], cols:C_STD};
-// Remote work: coworking, libraries and laptop cafés. `p` is the cost line ("Free", "$25 day pass · …").
-const C_WORK = [
-  {k:"n",label:"Workspace",type:"str"},
-  {k:"c",label:"Type",type:"str"},
-  {k:"p",label:"Cost",type:"str",nosort:true},
-  {k:"s",label:"What you get",type:"str",nosort:true},
-  {k:"d",label:"Distance",type:"num"},
-  {k:"t",label:"Drive",type:"num"}
-];
-const T_WORK    = {key:"remote",    label:"Remote work",  sort:["d",1],    cols:C_WORK};
 // Home-city layout (the NYC-area guides and Boston): the seven interest tabs plus the five
 // everyday ones, ordered so the things you browse for fun come before the things you only
 // look up when you need them. Dated Events sit second — they rot, so they want to be seen
 // before the evergreen tabs (refreshed per CLAUDE.md).
-const NYC_TABS = [T_SPOTS, T_EVENTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY,
+const NYC_TABS = [T_SPOTS, T_EVENTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY, T_WORK,
                   T_NIGHT, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
 // A campus guide: you live on the hill for a term, so the everyday tabs earn their place,
 // and Coffee sits third because that is genuinely how the days go.
 const CAMPUS_TABS = [T_SPOTS, T_EVENTS, T_COFFEE, T_EATS, T_NIGHT, T_SIGHTS, T_WALKS,
-                     T_MUSEUM, T_SHOPS, T_DAILY, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
+                     T_MUSEUM, T_SHOPS, T_DAILY, T_WORK, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
 
 // A visitor guide with dated Events: the casino town books a weekly showroom calendar (and
 // Stamford a theatre-and-parade one), so the interest tabs alone would miss most of why you'd go.
-const EVENT_CITY_TABS = [T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
+const EVENT_CITY_TABS = [T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_WORK, T_SOCIAL];
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
 const NY_SOURCES = "Data gathered Aug 2026 (events refreshed Oct 2026) from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
@@ -738,7 +738,7 @@ const CONFIG = {
       tabs:[
         {key:"attractions", label:"Attractions", sort:["d",1], cols:C_STD},
         {key:"events",      label:"Events",      sort:["d",1], cols:C_WHEN},
-        T_NIGHT, T_EATS, T_BIKE, T_SOCIAL, T_FISH, T_CHINESE
+        T_NIGHT, T_EATS, T_BIKE, T_SOCIAL, T_FISH, T_CHINESE, T_WORK
       ]},
     { id:"foresthills", chip:"FOREST HILLS",
       place:"Austin Street, Forest Hills, Queens, NY", placeShort:"Forest Hills", originLabel:"Austin St, Forest Hills",
@@ -746,7 +746,7 @@ const CONFIG = {
       trip:"≈1¾ hr drive from home base",
       blurb:"Forest Hills at walking distance: Austin St &amp; the Gardens / everywhere to eat / shops / gas, hardware &amp; the rest of the errands / walks / sights / socials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:[T_SPOTS, T_EVENTS, T_EATS, T_SHOPS, T_DAILY, T_WALKS, T_SIGHTS, T_MUSEUM, T_NIGHT, T_CHINESE, T_SOCIAL] },
+      tabs:[T_SPOTS, T_EVENTS, T_EATS, T_SHOPS, T_DAILY, T_WALKS, T_SIGHTS, T_MUSEUM, T_WORK, T_NIGHT, T_CHINESE, T_SOCIAL] },
     { id:"nyc", chip:"NYC",
       place:"Union Square, Manhattan, NY", placeShort:"New York City", originLabel:"Union Square, Manhattan",
       ns:"nyc", data:"data-nyc.json",

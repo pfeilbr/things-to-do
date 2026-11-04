@@ -73,6 +73,13 @@ const INTENTIONAL_CROSS_TAB = new Set([
   'data-stamford.json|Cove Island Park|spots,fishing',
   'data-stamford.json|Sherwood Island State Park|spots,fishing',
   'data-stamford.json|The Capitol Theatre|spots,nightlife',
+  // Remote work: a library or public space that is both the outing and a free place to
+  // work — listed again in `remote` with the Wi-Fi/hours/booking detail that tab is for
+  'data-brooklyn.json|Brooklyn Public Library Central|museums,remote',
+  'data-chicago.json|Chicago Cultural Center|spots,remote',
+  'data-foresthills.json|Queens Library Forest Hills|essentials,remote',
+  'data-nyc.json|Bryant Park|spots,remote',
+  'data-queens.json|Queens Public Library Central|museums,remote',
 ]);
 
 test('no unvetted duplicate rows across tabs of one city', () => {

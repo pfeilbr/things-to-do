@@ -1625,5 +1625,112 @@
    ],
    "w": "Saturdays · 8a"
   }
+ ],
+ "remote": [
+  {
+   "n": "Oneida CoWorks",
+   "c": "Coworking",
+   "s": "Small-town coworking at 155 Madison St in Oneida, the closest to Turning Stone. Flex members use the first-come workbench M–F 7a–6p; desk and office members get 24/7. Two bookable conference rooms (8 seats with TV/HDMI, 6 with a whiteboard), a couch-y collaboration room for calls, and a pantry with free coffee &amp; tea. No day pass.",
+   "d": 6.4,
+   "t": 14,
+   "u": "https://oneidacoworks.com/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0966,
+    -75.6509
+   ],
+   "p": "Flex $95/mo · desk $150/mo · office from $325/mo"
+  },
+  {
+   "n": "Innovare Advancement Center",
+   "c": "Coworking",
+   "s": "Griffiss Institute's innovation hub at 592 Hangar Rd (Suite 200) at Griffiss Business &amp; Technology Park in Rome. Wi-Fi, free parking, a business print center, a free coffee bar and private lockers. M–F 8a–4p; monthly members get 24/7.",
+   "d": 13.3,
+   "t": 27,
+   "u": "https://www.thisiscny.com/things-to-do/2025/07/cny-coworking-spaces-15-places-for-remote-employees-entrepreneurs-and-companies-to-work-and-meet.html",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.2268,
+    -75.4074
+   ],
+   "p": "$15 half day · $25 day · $100/wk · $400/mo"
+  },
+  {
+   "n": "MVCC thINCubator",
+   "c": "Coworking",
+   "s": "Mohawk Valley Community College's startup incubator at 326 Broad St, downtown Utica. Wi-Fi, a free coffee bar, lockers, filing cabinets, mail slots, copiers and printers. Day users M–F 8:30a–4:30p; members get a 24/7 digital key. The office rate needs a 12-month commitment.",
+   "d": 23.0,
+   "t": 40,
+   "u": "https://www.thisiscny.com/things-to-do/2025/07/cny-coworking-spaces-15-places-for-remote-employees-entrepreneurs-and-companies-to-work-and-meet.html",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.1026,
+    -75.2239
+   ],
+   "p": "$20 day pass · $150/mo unlimited · office for two $425/mo"
+  },
+  {
+   "n": "The HUB Business Incubator",
+   "c": "Coworking",
+   "s": "Village incubator at 8 Lebanon St in Hamilton, Colgate's hometown. Wi-Fi, free coffee &amp; tea, kitchen, printing, lockers, mailbox service and whiteboards, plus mentorship and workshops. M–F 9a–5p; members get 24/7. Cheapest desk in the region.",
+   "d": 28.0,
+   "t": 46,
+   "u": "https://www.thisiscny.com/things-to-do/2025/07/cny-coworking-spaces-15-places-for-remote-employees-entrepreneurs-and-companies-to-work-and-meet.html",
+   "r": null,
+   "rc": null,
+   "ll": [
+    42.8267,
+    -75.5453
+   ],
+   "p": "$10 day pass · $30/mo (24/7)"
+  },
+  {
+   "n": "Commonspace Work",
+   "c": "Coworking",
+   "s": "In the Western Union Building at 351 S Warren St (Suite 2), downtown Syracuse. Wi-Fi, complimentary coffee, kitchen access and a game lounge; offices from $500/mo. M–F 8a–5p. Worth the Thruway run if you need a full city day.",
+   "d": 38.9,
+   "t": 56,
+   "u": "https://www.thisiscny.com/things-to-do/2025/07/cny-coworking-spaces-15-places-for-remote-employees-entrepreneurs-and-companies-to-work-and-meet.html",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0474,
+    -76.1504
+   ],
+   "p": "$20 day pass · $150/mo · meeting rooms from $20/hr"
+  },
+  {
+   "n": "Utica Public Library",
+   "c": "Library",
+   "s": "Downtown Utica at 303 Genesee St. Free Wi-Fi throughout the building and grounds 24/7, public PCs (1 hr a day; visitors from outside the Mid-York system get a guest pass with ID), b&amp;w and color laser printers, Princh wireless printing and reservable meeting rooms. Mon–Thu 9–8, Fri 9–5, Sat 9:30–12:30, closed Sun.",
+   "d": 22.1,
+   "t": 39,
+   "u": "https://www.uticapubliclibrary.org/computer-services/computer-use-procedures/",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0971,
+    -75.2388
+   ],
+   "p": "Free (printing 10¢ b&amp;w · 25¢ color)"
+  },
+  {
+   "n": "Onondaga County Central Library",
+   "c": "Library",
+   "s": "447 S Salina St, downtown Syracuse (enter on Salina under the big library sign). Study areas on the 2nd floor, computers on the 1st and 3rd, wireless printing by email, app or web upload, a makerspace and meeting rooms by application. Mon 8:30–5, Tue–Wed 8:30–7:30, Thu–Fri 8:30–5, Sat 9–5, closed Sun. Nearby garages and Flowbird street parking.",
+   "d": 39.0,
+   "t": 56,
+   "u": "https://www.onlib.org/locations/city-libraries/central-library",
+   "r": null,
+   "rc": null,
+   "ll": [
+    43.0459,
+    -76.1516
+   ],
+   "p": "Free"
+  }
  ]
 }

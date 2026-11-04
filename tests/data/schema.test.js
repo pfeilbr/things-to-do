@@ -7,8 +7,8 @@ const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..', '..');
 const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w', 'p']);
-const PHILLY_TABS = ['attractions', 'events', 'nightlife', 'eats', 'biking', 'social', 'fishing', 'chinese'];
-const CITY_TABS = ['spots', 'nightlife', 'eats', 'chinese', 'fishing', 'biking', 'social'];
+const PHILLY_TABS = ['attractions', 'events', 'nightlife', 'eats', 'biking', 'social', 'fishing', 'chinese', 'remote'];
+const CITY_TABS = ['spots', 'nightlife', 'eats', 'chinese', 'fishing', 'biking', 'remote', 'social'];
 // The NYC-area guides carry the everyday-life tabs on top of the interest tabs (see
 // NYC_TABS in index.html). Forest Hills is a walking-distance neighborhood guide, so it
 // drops the two tabs that are inherently a drive away.
@@ -22,13 +22,13 @@ const LAYOUTS = {
   'data-queens.json': [...CITY_TABS, ...NYC_EXTRA],
   'data-flushing.json': [...CITY_TABS, ...NYC_EXTRA],
   'data-boston.json': [...CITY_TABS, ...NYC_EXTRA],
-  'data-foresthills.json': ['spots', 'nightlife', 'eats', 'chinese', 'social', ...NYC_EXTRA],
+  'data-foresthills.json': ['spots', 'nightlife', 'eats', 'chinese', 'social', 'remote', ...NYC_EXTRA],
   // Ithaca is a campus guide: the everyday tabs plus a Coffee tab of its own.
   'data-ithaca.json': [...CITY_TABS, ...NYC_EXTRA, 'coffee'],
   // Verona is a visitor guide that also carries dated Events (Turning Stone's calendar).
   'data-verona.json': [...CITY_TABS, 'events'],
   // Stamford too (the Palace Theatre season, the holiday parade), plus the first Skiing tab.
-  'data-stamford.json': [...CITY_TABS, 'events', 'skiing', 'remote'],
+  'data-stamford.json': [...CITY_TABS, 'events', 'skiing'],
 };
 
 const dataFiles = fs.readdirSync(ROOT).filter(f => /^data.*\.json$/.test(f)).sort();
