@@ -56,3 +56,13 @@ test('dataset strings cannot inject markup', () => {
   }
   assert.deepEqual(bad, []);
 });
+
+// Offline integrity: one cache.addAll() failure aborts the whole service-worker install,
+// so the list must be clean — no duplicates, nothing cross-origin, nothing absolute.
+test('sw.js PRECACHE is unique, relative and same-origin', () => {
+  const sw = read('sw.js');
+  const list = JSON.parse(sw.match(/const PRECACHE = (\[[\s\S]*?\]);/)[1]);
+  assert.equal(new Set(list).size, list.length, 'duplicate PRECACHE entries');
+  for (const u of list) assert.match(u, /^\.\/[^:]*$/, `${u}: must be a ./relative path`);
+  assert.match(sw, /const CACHE = "[\w.-]+";/, 'CACHE name declared');
+});
