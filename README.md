@@ -80,3 +80,11 @@ python3 -m unittest discover -s tests/scripts
 `scripts/transit.py build` rebuilds the baked train timetables (`transit-<city>.json`) from the agency's GTFS feed; `.github/workflows/transit.yml` runs it every Monday and deploys if anything changed. `scripts/transit.py status` shows how many days each one has left.
 
 `scripts/events.py` maintains the dated Events tabs (`status`, `prune`, `add`) and appends researched rows to any tab with `add --tab <tab>`, computing distances so no origin coordinate is ever stored.
+
+## Operations
+
+- **Deploy** — every push to `main` that touches a served file runs `.github/workflows/pages.yml`. It runs the schema and unit suites first, publishes only what the site serves (no `tests/`, `scripts/`, dotfiles or Markdown), then waits until the live site answers with the new `BUILD` stamp and checks that every file the service worker precaches returns 200. A deploy that serves the old page fails.
+- **Release stamp** — bump `const BUILD` in `index.html` on every deploy. Open pages compare it against a `no-store` fetch of themselves and reload when it changes.
+- **Monitoring** — CI runs weekly (Monday 11:00 UTC). It catches dated data going stale, a timetable refresh that stopped landing, and a live site that drifted from `main`.
+- **Rollback** — every change ships as one commit: `git revert <sha> && git push` undoes it and redeploys within a few minutes. The only setting outside git is the Pages source (GitHub Actions); see `CLAUDE.md` for the one-line command to switch it back to branch builds.
+- **Offline copies** — after any change to `sw.js`, bump its `CACHE` name so installed copies replace their cache.
