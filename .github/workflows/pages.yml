@@ -12,6 +12,8 @@ on:
       - 'scripts/**'
       - '**/*.md'
       - '.claude/**'
+      - '.editorconfig'
+      - '.gitignore'
       - '.github/dependabot.yml'
       - '.github/workflows/ci.yml'
       - '.github/workflows/transit.yml'
