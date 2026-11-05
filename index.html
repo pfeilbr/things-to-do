@@ -1332,8 +1332,12 @@ let interests = (()=>{
   try { const v = JSON.parse(localStorage.getItem("guide-interests")); if(Array.isArray(v)) return new Set(v); } catch(e){}
   return new Set(INTERESTS.map(i=>i.id));   // the guide is geared to the owner: everything on
 })();
-let tripLen = localStorage.getItem("guide-trip")==="day" ? "day" : "weekend";
-const guideSeen = () => localStorage.getItem(skey("guide-seen")) === "1";
+// Blocked site data makes every localStorage access throw: settings then just don't persist.
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+function lsDel(k){ try { localStorage.removeItem(k); } catch(e){} }
+let tripLen = lsGet("guide-trip")==="day" ? "day" : "weekend";
+const guideSeen = () => lsGet(skey("guide-seen")) === "1";
 const wantsGuide = () => !!(CITY && CITY.guide && GUIDE && !guideSeen());
 // only offer interests this city can actually answer
 const cityInterests = () => INTERESTS.filter(i => (DATA[i.tab]||[]).length || (GUIDE.picks||{})[i.id]);
@@ -1512,13 +1516,13 @@ $("guideview").addEventListener("click",e=>{
   if(int){
     const id = int.dataset.int;
     interests.has(id) ? interests.delete(id) : interests.add(id);
-    localStorage.setItem("guide-interests", JSON.stringify([...interests]));
+    lsSet("guide-interests", JSON.stringify([...interests]));
     render(); return;
   }
   const trip = e.target.closest("[data-trip]");
-  if(trip){ tripLen = trip.dataset.trip; localStorage.setItem("guide-trip", tripLen); render(); return; }
-  if(e.target.closest("#gBuild")){ localStorage.setItem(skey("guide-seen"),"1"); render(); window.scrollTo(0,0); return; }
-  if(e.target.closest("#gSkip")){ localStorage.setItem(skey("guide-seen"),"1"); guideGoTab(HOME); return; }
+  if(trip){ tripLen = trip.dataset.trip; lsSet("guide-trip", tripLen); render(); return; }
+  if(e.target.closest("#gBuild")){ lsSet(skey("guide-seen"),"1"); render(); window.scrollTo(0,0); return; }
+  if(e.target.closest("#gSkip")){ lsSet(skey("guide-seen"),"1"); guideGoTab(HOME); return; }
   const go = e.target.closest("[data-gotab]");
   if(go){ guideGoTab(go.dataset.gotab); return; }
   const card = e.target.closest("[data-ref]");
@@ -1793,7 +1797,7 @@ function favClick(e){
   if(!b) return;
   const k = b.dataset.fav;
   favs.has(k) ? favs.delete(k) : favs.add(k);
-  localStorage.setItem(skey("favs"), JSON.stringify([...favs]));
+  lsSet(skey("favs"), JSON.stringify([...favs]));
   render();
 }
 $("tbody").addEventListener("click",favClick);
@@ -1877,7 +1881,7 @@ async function setOrigin(q){
     userLoc = null;
     $("geoToggle").setAttribute("aria-pressed","false");
     $("geoToggle").textContent = "📍 Near me";
-    localStorage.setItem(skey("origin"), JSON.stringify(origin));
+    lsSet(skey("origin"), JSON.stringify(origin));
     syncOrigin(); render();
     toast("Distances now measured from " + short + ".");
   }catch(e){
@@ -1889,7 +1893,7 @@ $("originBtn").addEventListener("click",()=>{
   const q = prompt("Measure distances from which place?\n(Any town, address or landmark — e.g. \"Doylestown, PA\")\n\nLeave blank to reset to " + CITY.place + ".", cur);
   if(q === null) return;
   if(!q.trim()){
-    origin = null; localStorage.removeItem(skey("origin"));
+    origin = null; lsDel(skey("origin"));
     syncOrigin(); render(); toast("Reset to " + CITY.place + ".");
     return;
   }
