@@ -1,6 +1,6 @@
 // Network-first service worker: always try the network so new deploys land
 // immediately; fall back to cache only when offline.
-const CACHE = "wg-guide-v22";
+const CACHE = "wg-guide-v23";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -39,7 +39,9 @@ const PRECACHE = [
 ];
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)));
+  // cache:"reload" skips the HTTP cache (Pages serves max-age=600), so a fresh install
+  // never seeds the offline copy with the previous deploy's files
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE.map(u => new Request(u, { cache: "reload" })))));
   self.skipWaiting();
 });
 
