@@ -37,3 +37,22 @@ test('referrer policy never leaks paths or #hash state to other sites', () => {
   assert.ok(m, 'referrer meta present');
   assert.ok(['strict-origin-when-cross-origin', 'strict-origin', 'same-origin', 'no-referrer'].includes(m[1]), m[1]);
 });
+
+// Dataset strings are interpolated into innerHTML (and names into attributes such as
+// title="Map of …"), so a stray tag, handler or quote in a data file would become markup.
+test('dataset strings cannot inject markup', () => {
+  const files = fs.readdirSync(ROOT).filter(f => /^(data.*|guide-.*)\.json$/.test(f));
+  const bad = [];
+  for (const f of files) {
+    const walk = (v, where, key) => {
+      if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${where}[${i}]`, key));
+      else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) walk(x, `${where}.${k}`, k);
+      else if (typeof v === 'string') {
+        if (/[<>]/.test(v) || /javascript:/i.test(v) || /\bon[a-z]+\s*=/i.test(v)) bad.push(`${f}${where}: ${v.slice(0, 80)}`);
+        if (key === 'n' && v.includes('"')) bad.push(`${f}${where}: name contains a double quote`);
+      }
+    };
+    walk(JSON.parse(read(f)), '', '');
+  }
+  assert.deepEqual(bad, []);
+});
