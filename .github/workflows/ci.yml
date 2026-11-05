@@ -4,9 +4,10 @@ name: CI
 on:
   push:
     branches: [main]
-    paths-ignore: ['**/*.md']   # prose-only pushes can't break a test
+    # prose and editor/agent config can't break a test
+    paths-ignore: ['**/*.md', '.claude/**', '.editorconfig', '.gitignore', '.github/dependabot.yml']
   pull_request:
-    paths-ignore: ['**/*.md']
+    paths-ignore: ['**/*.md', '.claude/**', '.editorconfig', '.gitignore', '.github/dependabot.yml']
   schedule:
     - cron: '0 11 * * 1'   # weekly Monday 11:00 UTC — catches date-rot between pushes
   workflow_dispatch:
