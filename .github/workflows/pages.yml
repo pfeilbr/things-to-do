@@ -28,7 +28,7 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # pinned: what -latest is today; bump on purpose
     timeout-minutes: 15
     environment:
       name: github-pages
