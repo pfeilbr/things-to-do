@@ -15,3 +15,19 @@ test('every target="_blank" link carries rel="noopener" (no window.opener handof
     assert.deepEqual(bad, [], `${f}: _blank links without rel="noopener"`);
   }
 });
+
+test('Content-Security-Policy keeps its hardening directives', () => {
+  const m = read('index.html').match(/http-equiv="Content-Security-Policy" content="([^"]+)"/);
+  assert.ok(m, 'CSP meta tag present');
+  const dir = Object.fromEntries(m[1].split(';').map(s => s.trim()).filter(Boolean)
+    .map(s => { const [k, ...v] = s.split(/\s+/); return [k, v]; }));
+  assert.deepEqual(dir['object-src'], ["'none'"], 'no plugins');
+  assert.deepEqual(dir['base-uri'], ["'self'"], 'no <base> hijack');
+  assert.deepEqual(dir['form-action'], ["'self'"], 'forms post nowhere else');
+  assert.ok(dir['default-src'] && dir['default-src'].includes("'self'"), 'default-src self');
+  for (const [k, v] of Object.entries(dir)) {
+    assert.ok(!v.includes("'unsafe-eval'"), `${k}: no unsafe-eval`);
+    assert.ok(!v.includes('*') && !v.some(x => /^(https?:|data:)$/.test(x) && k.startsWith('script')),
+      `${k}: no wildcard or scheme-wide script source`);
+  }
+});
