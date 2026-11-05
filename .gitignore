@@ -2,3 +2,12 @@
 .claude/settings.local.json
 _site/
 __pycache__/
+# local tooling: the repo has no package.json on purpose (CI installs Playwright on the fly)
+node_modules/
+package.json
+package-lock.json
+# editor / OS litter
+.DS_Store
+*.swp
+.idea/
+.vscode/
