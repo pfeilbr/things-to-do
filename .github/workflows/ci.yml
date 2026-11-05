@@ -39,7 +39,7 @@ jobs:
       - if: github.event_name == 'schedule'
         run: |
           want=$(grep -o 'const BUILD = "[^"]*"' index.html)
-          curl -fsS "https://pfeilbr.github.io/things-to-do/?v=${GITHUB_SHA}" | grep -qF "$want" \
+          curl -fsS --max-time 30 "https://pfeilbr.github.io/things-to-do/?v=${GITHUB_SHA}" | grep -qF "$want" \
             || { echo "::error::live site is not serving ${want} from main"; exit 1; }
 
   # full browser suite — hermetic (CDN assets vendored, service worker blocked). Runs on

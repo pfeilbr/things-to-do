@@ -66,13 +66,13 @@ jobs:
           want=$(grep -o 'const BUILD = "[^"]*"' index.html)
           ok=
           for i in $(seq 1 20); do
-            if curl -fsS "${URL}?v=${GITHUB_SHA}" | grep -qF "$want"; then echo "live: $want"; ok=1; break; fi
+            if curl -fsS --max-time 20 "${URL}?v=${GITHUB_SHA}" | grep -qF "$want"; then echo "live: $want"; ok=1; break; fi
             sleep 15
           done
           [ -n "$ok" ] || { echo "::error::${URL} is not serving ${want} after 5 minutes"; exit 1; }
           # and every file the service worker precaches answers 200
           for f in $(grep -o '"\./[^"]*"' sw.js | tr -d '"' | sed 's|^\./||'); do
-            code=$(curl -s -o /dev/null -w '%{http_code}' "${URL}${f}?v=${GITHUB_SHA}")
+            code=$(curl -s --max-time 20 -o /dev/null -w '%{http_code}' "${URL}${f}?v=${GITHUB_SHA}")
             [ "$code" = 200 ] || { echo "::error::${URL}${f} answered ${code}"; exit 1; }
           done
           echo "all precached files live"
