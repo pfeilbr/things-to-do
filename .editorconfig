@@ -1,0 +1,22 @@
+# Matches the existing house style; editors that honour this won't reformat files on save.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.py]
+indent_size = 4
+
+# datasets are single-line minified JSON written by scripts/events.py — leave them byte-exact
+[*.json]
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+
+# Markdown uses trailing double-spaces for line breaks
+[*.md]
+trim_trailing_whitespace = false
