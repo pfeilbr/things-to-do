@@ -31,3 +31,9 @@ test('Content-Security-Policy keeps its hardening directives', () => {
       `${k}: no wildcard or scheme-wide script source`);
   }
 });
+
+test('referrer policy never leaks paths or #hash state to other sites', () => {
+  const m = read('index.html').match(/<meta name="referrer" content="([^"]+)">/);
+  assert.ok(m, 'referrer meta present');
+  assert.ok(['strict-origin-when-cross-origin', 'strict-origin', 'same-origin', 'no-referrer'].includes(m[1]), m[1]);
+});
