@@ -7,6 +7,14 @@
     python3 scripts/events.py add data-nyc.json rows.json --tab museums   # any tab
     python3 scripts/events.py add data-stamford.json ski.json --tab skiing --new-tab   # start a tab
     python3 scripts/events.py add data-stamford.json work.json --tab remote   # rows also need `p` (cost) and `b` (crowd)
+    python3 scripts/events.py import rows/ [--new-tab] [--dry-run]   # bulk: rows/<data-stem>.<tab>.json
+    python3 scripts/events.py coverage --tab skating --tab iceskating [--min 6]   # rows per city per tab
+
+`import` runs `add` for every `<data-file-stem>.<tab>.json` in a directory
+(`data-nyc.skating.json` -> data-nyc.json / skating; Philly's stem is `data`), so a
+cross-city research pass (e.g. scripts/research/skating-iceskating.md) lands in one command.
+`coverage` lists each guide's row count for the given tabs and exits 1 if any guide is
+missing a tab or has fewer than --min rows, so thin cities are easy to find and refresh.
 
 `add` takes a JSON array of researched rows ({n, c, s, u, w, ll} plus optional r/rc)
 and computes each row's d/t with the documented formula (haversine x1.3 road factor,
@@ -164,6 +172,36 @@ def cmd_add(root, file, src, dry, tab='events', new_tab=False):
     print(f'{file}: {added} added, {skipped} skipped, {len(data[tab])} {tab} (origin fit rms {rms:.2f} mi)')
 
 
+IMPORT_NAME = re.compile(r'(data(?:-[a-z0-9]+)?)\.([a-z]+)\.json')
+
+
+def cmd_import(root, src_dir, dry, new_tab):
+    files = sorted(pathlib.Path(src_dir).glob('*.json'))
+    if not files:
+        raise SystemExit(f'{src_dir}: no row files')
+    for f in files:
+        m = IMPORT_NAME.fullmatch(f.name)
+        if not m:
+            raise SystemExit(f'{f.name}: expected <data-file-stem>.<tab>.json, e.g. data-nyc.skating.json')
+        target = m.group(1) + '.json'
+        if not (root / target).exists():
+            raise SystemExit(f'{f.name}: no {target} in {root}')
+        cmd_add(root, target, f, dry, m.group(2), new_tab)
+
+
+def cmd_coverage(root, tabs, minimum):
+    short = 0
+    files = sorted(root.glob('data*.json'))
+    print('guide'.ljust(24) + ''.join(t.rjust(12) for t in tabs))
+    for p in files:
+        data = load(p)[0]
+        counts = [len(data[t]) if t in data else None for t in tabs]
+        short += sum(1 for c in counts if c is None or c < minimum)
+        print(p.name.ljust(24) + ''.join(('—' if c is None else str(c)).rjust(12) for c in counts))
+    print(f'{len(files)} guides; {short} tab(s) missing or under {minimum} rows')
+    return 1 if short else 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--root', type=pathlib.Path, default=ROOT)
@@ -174,11 +212,19 @@ def main(argv=None):
     ad = sub.add_parser('add'); ad.add_argument('file'); ad.add_argument('rows'); ad.add_argument('--dry-run', action='store_true')
     ad.add_argument('--tab', default='events', help='tab to append to (default: events)')
     ad.add_argument('--new-tab', action='store_true', help='create --tab if the file lacks it')
+    im = sub.add_parser('import'); im.add_argument('dir'); im.add_argument('--dry-run', action='store_true')
+    im.add_argument('--new-tab', action='store_true', help='create each file\'s tab if missing')
+    co = sub.add_parser('coverage'); co.add_argument('--tab', action='append', required=True)
+    co.add_argument('--min', type=int, default=1, help='fewest rows a tab may have (default 1)')
     a = ap.parse_args(argv)
     if a.cmd == 'status':
         cmd_status(a.root, a.today)
     elif a.cmd == 'prune':
         cmd_prune(a.root, a.today, a.dry_run)
+    elif a.cmd == 'import':
+        cmd_import(a.root, a.dir, a.dry_run, a.new_tab)
+    elif a.cmd == 'coverage':
+        return cmd_coverage(a.root, a.tab, a.min)
     else:
         cmd_add(a.root, a.file, a.rows, a.dry_run, a.tab, a.new_tab)
 

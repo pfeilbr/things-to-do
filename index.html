@@ -623,7 +623,7 @@ footer a{color:var(--accent-soft)}
 <script src="transit.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-08T11:00Z";
+const BUILD = "2026-11-08T11:54Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -709,7 +709,8 @@ const C_SKI = [
   {k:"pop",label:"Popularity",type:"num"}
 ];
 const T_SKI     = {key:"skiing",    label:"Skiing",       sort:["t",1],    cols:C_SKI};
-// Rollerblading: flat, smooth pavement first (loops, rail trails, car-free days), then rinks.
+// Skating, on every city: flat smooth pavement first (loops, rail trails, car-free days), then
+// rinks; ice is public-skate rinks. Researched per scripts/research/skating-iceskating.md.
 const T_SKATE   = {key:"skating",   label:"Rollerblading",sort:["d",1],    cols:C_STD};
 const T_ICE     = {key:"iceskating",label:"Ice skating",  sort:["d",1],    cols:C_STD};
 // Coffee is its own tab only where the day is actually spent in cafes — a campus guide.
@@ -719,16 +720,16 @@ const T_COFFEE  = {key:"coffee",    label:"Coffee",       sort:["pop",-1], cols:
 // look up when you need them. Dated Events sit second — they rot, so they want to be seen
 // before the evergreen tabs (refreshed per CLAUDE.md).
 const NYC_TABS = [T_SPOTS, T_EVENTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY, T_WORK,
-                  T_NIGHT, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
+                  T_NIGHT, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_ICE, T_SOCIAL];
 
 // A campus guide: you live on the hill for a term, so the everyday tabs earn their place,
 // and Coffee sits third because that is genuinely how the days go.
 const CAMPUS_TABS = [T_SPOTS, T_EVENTS, T_COFFEE, T_EATS, T_NIGHT, T_SIGHTS, T_WALKS,
-                     T_MUSEUM, T_SHOPS, T_DAILY, T_WORK, T_CHINESE, T_FISH, T_BIKE, T_SOCIAL];
+                     T_MUSEUM, T_SHOPS, T_DAILY, T_WORK, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_ICE, T_SOCIAL];
 
 // The visitor-guide layout: the interest tabs plus dated Events, which sit second because
 // they rot and a trip is usually planned around a show, a game or a holiday run.
-const CITY_TABS = [T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_WORK, T_SOCIAL];
+const CITY_TABS = [T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_ICE, T_WORK, T_SOCIAL];
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
 const NY_SOURCES = "Data gathered Aug 2026 (events refreshed Nov 2026) from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
@@ -746,7 +747,7 @@ const CONFIG = {
       tabs:[
         {key:"attractions", label:"Attractions", sort:["d",1], cols:C_STD},
         {key:"events",      label:"Events",      sort:["d",1], cols:C_WHEN},
-        T_NIGHT, T_EATS, T_BIKE, T_SOCIAL, T_FISH, T_CHINESE, T_WORK
+        T_NIGHT, T_EATS, T_BIKE, T_SKATE, T_ICE, T_SOCIAL, T_FISH, T_CHINESE, T_WORK
       ]},
     { id:"foresthills", chip:"FOREST HILLS",
       place:"Austin Street, Forest Hills, Queens, NY", placeShort:"Forest Hills", originLabel:"Austin St, Forest Hills",
@@ -754,7 +755,7 @@ const CONFIG = {
       trip:"≈1¾ hr drive from home base",
       blurb:"Forest Hills at walking distance: Austin St &amp; the Gardens / everywhere to eat / shops / gas, hardware &amp; the rest of the errands / walks / sights / socials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:[T_SPOTS, T_EVENTS, T_EATS, T_SHOPS, T_DAILY, T_WALKS, T_SIGHTS, T_MUSEUM, T_WORK, T_NIGHT, T_CHINESE, T_SOCIAL] },
+      tabs:[T_SPOTS, T_EVENTS, T_EATS, T_SHOPS, T_DAILY, T_WALKS, T_SIGHTS, T_MUSEUM, T_WORK, T_NIGHT, T_CHINESE, T_SKATE, T_ICE, T_SOCIAL] },
     { id:"nyc", chip:"NYC",
       place:"Union Square, Manhattan, NY", placeShort:"New York City", originLabel:"Union Square, Manhattan",
       ns:"nyc", data:"data-nyc.json",

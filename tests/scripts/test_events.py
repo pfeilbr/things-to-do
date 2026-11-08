@@ -150,6 +150,32 @@ class Commands(unittest.TestCase):
         self.run_cli('add', 'data-y.json', str(src), '--tab', 'skiing', '--new-tab', '--dry-run')
         self.assertEqual((self.root / 'data-y.json').read_text(), before)
 
+    def test_import_routes_each_file_to_its_guide_and_tab(self):
+        rows = self.root / 'rows'; rows.mkdir()
+        rink = [{'n': 'Town rink', 'c': 'Indoor rink', 's': 'x', 'u': 'https://r.x', 'll': [41.1, -74.5]}]
+        loop = [{'n': 'Park loop', 'c': 'Paved loop', 's': 'x', 'u': 'https://l.x', 'll': [41.0, -74.6]}]
+        (rows / 'data-x.iceskating.json').write_text(json.dumps(rink))
+        (rows / 'data-y.skating.json').write_text(json.dumps(loop))
+        self.run_cli('import', str(rows), '--new-tab')
+        self.assertEqual([r['n'] for r in self.data()['iceskating']], ['Town rink'])
+        y = json.loads((self.root / 'data-y.json').read_text())
+        self.assertEqual([r['n'] for r in y['skating']], ['Park loop'])
+        self.assertGreater(y['skating'][0]['d'], 0)
+
+    def test_import_needs_new_tab_and_rejects_bad_names(self):
+        rows = self.root / 'rows'; rows.mkdir()
+        (rows / 'data-x.skating.json').write_text('[]')
+        with self.assertRaises(SystemExit):
+            self.run_cli('import', str(rows))                                  # tab missing, no --new-tab
+        (rows / 'skating-x.json').write_text('[]')
+        with self.assertRaises(SystemExit):
+            self.run_cli('import', str(rows), '--new-tab')                     # unroutable file name
+
+    def test_coverage_flags_missing_and_thin_tabs(self):
+        self.assertEqual(ev.main(['--root', str(self.root), 'coverage', '--tab', 'spots']), 0)
+        self.assertEqual(ev.main(['--root', str(self.root), 'coverage', '--tab', 'spots', '--min', '5']), 1)
+        self.assertEqual(ev.main(['--root', str(self.root), 'coverage', '--tab', 'events']), 1)   # data-y lacks it
+
     def test_event_files_skips_guides_without_events(self):
         self.assertEqual([p.name for p in ev.event_files(self.root)], ['data-x.json'])
 
