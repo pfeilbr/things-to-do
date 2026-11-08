@@ -623,7 +623,7 @@ footer a{color:var(--accent-soft)}
 <script src="transit.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-08T10:54Z";
+const BUILD = "2026-11-08T11:00Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -711,6 +711,7 @@ const C_SKI = [
 const T_SKI     = {key:"skiing",    label:"Skiing",       sort:["t",1],    cols:C_SKI};
 // Rollerblading: flat, smooth pavement first (loops, rail trails, car-free days), then rinks.
 const T_SKATE   = {key:"skating",   label:"Rollerblading",sort:["d",1],    cols:C_STD};
+const T_ICE     = {key:"iceskating",label:"Ice skating",  sort:["d",1],    cols:C_STD};
 // Coffee is its own tab only where the day is actually spent in cafes — a campus guide.
 const T_COFFEE  = {key:"coffee",    label:"Coffee",       sort:["pop",-1], cols:C_STD};
 // Home-city layout (the NYC-area guides and Boston): the seven interest tabs plus the five
@@ -852,8 +853,8 @@ const CONFIG = {
       trip:"\u22482\u00bc hr drive from home base",
       blurb:"Stamford &amp; the Gold Coast: Harbor Point &amp; Sound-shore dates / Palace Theatre &amp; holiday-parade events / Bedford St &amp; Port Chester nights / omakase / Westchester \u4e2d\u534e / Long Island Sound stripers / Mianus River MTB / socials",
       note:"CT fishing needs a license for both fresh and salt water (one combined option).",
-      sources:"Data gathered Nov 2026 from official venue sites, the Palace Theatre &amp; Stamford Downtown calendars, CT DEEP, ski-area sites, skater guides &amp; rink sites, coworking operators &amp; library sites, local press &amp; Google Places; venue coordinates via OpenStreetMap.",
-      tabs:[T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_SKI, T_WORK, T_SOCIAL] },
+      sources:"Data gathered Nov 2026 from official venue sites, the Palace Theatre &amp; Stamford Downtown calendars, CT DEEP, ski-area sites, skater guides &amp; roller/ice rink sites, coworking operators &amp; library sites, local press &amp; Google Places; venue coordinates via OpenStreetMap.",
+      tabs:[T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_ICE, T_SKI, T_WORK, T_SOCIAL] },
     { id:"vb", chip:"VA BEACH",
       place:"Virginia Beach Oceanfront, VA", placeShort:"Virginia Beach", originLabel:"the VB Oceanfront",
       ns:"vb", data:"data-vb.json",
