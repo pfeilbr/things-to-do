@@ -10,7 +10,7 @@
      allowed (the page is one file), but nothing can be loaded from, framed from, or sent to
      any host not listed. Adding a host = adding it here (tests/data/schema.test.js checks the
      live feeds and CDN are covered). -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://unpkg.com https://tile.openstreetmap.org; connect-src 'self' https://nominatim.openstreetmap.org https://api-endpoint.mta.info; frame-src https://maps.google.com https://www.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://unpkg.com https://tile.openstreetmap.org; connect-src 'self' https://nominatim.openstreetmap.org https://api-endpoint.mta.info https://api.open-meteo.com; frame-src https://maps.google.com https://www.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
 <!-- pins the modern browser default: other sites see only our origin, never a path or #hash -->
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Things To Do</title>
@@ -602,6 +602,7 @@ footer a{color:var(--accent-soft)}
 <button id="toTop" class="totop" aria-label="Back to top" hidden>↑</button>
 
 <div class="twrap">
+  <div id="todayview" hidden></div>
   <div id="guideview" hidden></div>
   <div id="transitview" hidden></div>
   <div id="itemview" hidden></div>
@@ -621,9 +622,10 @@ footer a{color:var(--accent-soft)}
 </footer>
 
 <script src="transit.js"></script>
+<script src="today.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-11T14:34Z";
+const BUILD = "2026-11-12T10:19Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -1168,20 +1170,22 @@ function render(){
   // standalone item detail view (permalink target)
   const detailMode = !!state.item;
   const transitMode = !detailMode && state.transit && !!TRANSIT;
-  const guideMode = !detailMode && !transitMode && state.guide && !!GUIDE;
-  const pageMode = detailMode || guideMode || transitMode;
+  const todayMode = !detailMode && !transitMode && !!state.today;
+  const guideMode = !detailMode && !transitMode && !todayMode && state.guide && !!GUIDE;
+  const pageMode = detailMode || guideMode || transitMode || todayMode;
+  $("todayview").hidden = !todayMode;
   $("itemview").hidden = !detailMode;
   $("guideview").hidden = !guideMode;
   $("transitview").hidden = !transitMode;
   document.querySelector(".controls").style.display = pageMode ? "none" : "";
   document.querySelector(".meta-line").style.display = pageMode ? "none" : "";
   $("catChips").style.display = pageMode ? "none" : "";
-  syncGuideTab(); syncTransitTab(); renderTrainStrip();
-  if(transitMode){
+  syncGuideTab(); syncTransitTab(); syncTodayTab(); renderTrainStrip();
+  if(transitMode || todayMode){
     for(const id of ["tbl","cards"]) $(id).style.display = "none";
     for(const id of ["mapview","empty","xfind","globalFavs"]) $(id).hidden = true;
-    document.title = `${CITY.placeShort} — train to ${TINFO().city||"the city"} · ${CONFIG.brand}`;
-    renderTransit();
+    if(todayMode) renderToday();
+    else { document.title = `${CITY.placeShort} — train to ${TINFO().city||"the city"} · ${CONFIG.brand}`; renderTransit(); }
     syncHash();
     return;
   }
@@ -1285,7 +1289,7 @@ function renderItem(){
   const e = eff(r);
   document.title = `${r.n} — ${baseTitle()}`;
   $("itemview").innerHTML = `
-    <button class="ctlbtn backbtn" id="backBtn">← Back to ${state.fromGuide ? "your guide" : TABLABEL[tab]||tab}</button>
+    <button class="ctlbtn backbtn" id="backBtn">← Back to ${state.fromGuide===2 ? "Today" : state.fromGuide ? "your guide" : TABLABEL[tab]||tab}</button>
     <div class="itemcard">
       <h2>${r.n} ${favStar(state.item)}</h2>
       <div class="dmeta">
@@ -1307,7 +1311,7 @@ function renderItem(){
 $("itemview").addEventListener("click",e=>{
   if(e.target.closest("#backBtn")){
     state.item = null;
-    if(state.fromGuide){ state.fromGuide = false; state.guide = true; }
+    if(state.fromGuide){ state[state.fromGuide===2 ? "today" : "guide"] = true; state.fromGuide = false; }
     render(); return;
   }
   favClick(e);
@@ -1497,7 +1501,7 @@ function renderGuide(){
 }
 
 function openGuide(){
-  state.guide = true; state.transit = false; state.item = null; state.fromGuide = false;
+  state.guide = true; state.transit = false; state.item = null; state.fromGuide = false; state.today = false;
   state.tonight = false; state.allCities = false; ALLROWS = [];
   $("tonightBtn").setAttribute("aria-pressed","false");
   render(); window.scrollTo(0,0);
@@ -2007,6 +2011,7 @@ $("mapToggle").addEventListener("click",()=>{
 function syncHash(){
   const p = new URLSearchParams();
   if(CITY.id!==DEFAULT_CITY) p.set("city",CITY.id);
+  if(state.today && !state.item){ const h = p.toString(); history.replaceState(null,"", h ? "#"+h : location.pathname+location.search); return; }
   if(state.tab!==HOME) p.set("tab",state.tab);
   if(state.q) p.set("q",state.q);
   if(state.cat) p.set("cat",state.cat);
@@ -2056,7 +2061,7 @@ if("serviceWorker" in navigator && location.protocol !== "file:"){
 
 // tabs and all branding copy are rendered from CONFIG
 function renderTabs(){
-  $("tabs").innerHTML = (CITY.guide && GUIDE ? `<button class="gtab" id="guideTab" role="tab" aria-selected="false">✦ Start here</button>` : "")
+  $("tabs").innerHTML = todayTab() + (CITY.guide && GUIDE ? `<button class="gtab" id="guideTab" role="tab" aria-selected="false">✦ Start here</button>` : "")
     + (CITY.transit && TRANSIT ? `<button class="gtab" id="transitTab" role="tab" aria-selected="false">${TINFO().tab || "🚆 Train"}</button>` : "") + TABS.map(t=>
     `<button class="tab${t.key===state.tab?" active":""}" role="tab" data-tab="${t.key}">${t.label} <span class="cnt" id="cnt-${t.key}"></span></button>`
   ).join("");
@@ -2066,7 +2071,7 @@ function renderTabs(){
       t.classList.add("active");
       state.tab = t.dataset.tab;
       state.item = null;
-      state.guide = false; state.fromGuide = false; state.transit = false;
+      state.guide = false; state.fromGuide = false; state.transit = false; state.today = false;
       state.tonight = false;
       state.allCities = false; ALLROWS = [];
       $("tonightBtn").setAttribute("aria-pressed","false");
@@ -2108,11 +2113,13 @@ async function applyHash(){
     if(!await loadCity(cityById(cid))) return;
   }
   const [hk,hd]=defSort(HOME);
-  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", maxD:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false, guide:false, fromGuide:false, transit:false});
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", maxD:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false, guide:false, fromGuide:false, transit:false, today:false});
   const cat = readHash();
   // first time in a city that has a guide: open on it, unless the link asked for something specific
   const hp = new URLSearchParams(location.hash.slice(1));
-  if(!["tab","item","q","tonight","fav","view","cat","train"].some(k=>hp.has(k)) && wantsGuide()) state.guide = true;
+  if(!["tab","item","q","tonight","fav","view","cat","train","guide","t","mi","s"].some(k=>hp.has(k))){
+    if(wantsToday()) state.today = true; else if(wantsGuide()) state.guide = true;
+  }
   if(cat){ state.cat = cat; }
   fillCats(false);
   fillSort();
@@ -2165,7 +2172,7 @@ async function switchCity(id, opts={}){
   const [sk,sd] = defSort(HOME);
   // keepFav: jumping from the global favorites list should land with ★ still on
   Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:!!opts.keepFav, item:null, tonight:false,
-                        guide:!opts.keepFav && wantsGuide(), fromGuide:false, transit:false});
+                        today:!opts.keepFav && wantsToday(), guide:!opts.keepFav && !wantsToday() && wantsGuide(), fromGuide:false, transit:false});
   $("q").value=""; $("distFilter").value="";
   $("favToggle").setAttribute("aria-pressed", state.fav);
   $("tonightBtn").setAttribute("aria-pressed","false");

@@ -11,3 +11,6 @@ package-lock.json
 *.swp
 .idea/
 .vscode/
+
+# local caches: raw Meetup pulls etc. (scripts/meetup.py) — never published
+.cache/

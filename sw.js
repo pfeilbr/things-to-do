@@ -1,10 +1,11 @@
 // Network-first service worker: always try the network so new deploys land
 // immediately; fall back to cache only when offline.
-const CACHE = "wg-guide-v27";
+const CACHE = "wg-guide-v28";
 const PRECACHE = [
   "./",
   "./index.html",
   "./transit.js",
+  "./today.js",
   "./data.json",
   "./data-nyc.json",
   "./data-brooklyn.json",
@@ -53,8 +54,8 @@ self.addEventListener("activate", e => {
   );
 });
 
-// live train feeds are minute-fresh by definition: never serve one from cache
-const LIVE_HOSTS = ["api-endpoint.mta.info"];
+// live train feeds and the weather are minute-fresh by definition: never serve one from cache
+const LIVE_HOSTS = ["api-endpoint.mta.info", "api.open-meteo.com"];
 
 // Weak signal (a trailhead, a train between stations): if the network hasn't answered a
 // same-origin request in SLOW_MS and a cached copy exists, answer with the cached copy now.

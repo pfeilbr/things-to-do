@@ -260,7 +260,7 @@ setInterval(()=>{
 document.addEventListener("visibilitychange", ()=>{ if(!document.hidden && TRANSIT){ fetchLive(false); paintTransit(); } });
 
 function openTransit(){
-  state.transit = true; state.guide = false; state.item = null; state.fromGuide = false;
+  state.transit = true; state.guide = false; state.item = null; state.fromGuide = false; state.today = false;
   state.tonight = false; state.allCities = false; ALLROWS = [];
   $("tonightBtn").setAttribute("aria-pressed","false");
   tDay = 0; tShowAll = false;

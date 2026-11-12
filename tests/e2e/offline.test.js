@@ -8,7 +8,7 @@
 // (map specs need page.route to win over the SW). This spec is about the SW
 // itself, so it does NOT use browser.newPage — it builds its own context where
 // service workers are allowed by default.
-const { serve, launch, check, fatal, done } = require('./_lib');
+const { serve, launch, check, fatal, done, LISTS_FIRST } = require('./_lib');
 const PORT = 8951, URL = `http://localhost:${PORT}/`;
 
 const ROWS = '#tbody tr.rowmain';
@@ -47,6 +47,7 @@ async function snapshot(page) {
   const browser = await launch();
   // own context: service workers ALLOWED (the thing under test)
   const context = await browser.newContext({ ignoreHTTPSErrors: true, viewport: { width: 1280, height: 900 } });
+  await context.addInitScript(LISTS_FIRST);
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));

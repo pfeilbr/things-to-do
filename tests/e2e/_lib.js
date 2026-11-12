@@ -27,15 +27,27 @@ function pw() {
 async function launch() {
   const opts = {};
   if (fs.existsSync('/opt/pw-browsers/chromium')) opts.executablePath = '/opt/pw-browsers/chromium';
+  // local runs without a bundled chromium can borrow an installed browser: PW_CHANNEL=chrome
+  if (process.env.PW_CHANNEL) opts.channel = process.env.PW_CHANNEL;
   // sandboxed test envs route outbound HTTPS (CDNs: leaflet, tiles) through a proxy
   if (process.env.HTTPS_PROXY) opts.proxy = { server: process.env.HTTPS_PROXY, bypass: 'localhost' };
   const browser = await pw().chromium.launch(opts);
   const origNewPage = browser.newPage.bind(browser);
   // block service workers so page.route sees every request (the app SW claims
   // clients immediately and would shadow CDN interception)
-  browser.newPage = (o = {}) => origNewPage({ ignoreHTTPSErrors: true, serviceWorkers: 'block', ...o });
+  // Every city opens on the Today view by default. The list-feature specs predate it, so
+  // their pages start with the "Open on Today" preference switched off (the same
+  // localStorage key the checkbox at the foot of Today writes). today.test.js passes
+  // { todayFirst: true } to see the real first-visit behaviour.
+  browser.newPage = async (o = {}) => {
+    const { todayFirst, ...rest } = o;
+    const page = await origNewPage({ ignoreHTTPSErrors: true, serviceWorkers: 'block', ...rest });
+    if (!todayFirst) await page.addInitScript(LISTS_FIRST);
+    return page;
+  };
   return browser;
 }
+function LISTS_FIRST() { try { localStorage.setItem('open-on', 'lists'); } catch (e) {} }
 
 let fails = 0;
 function check(cond, msg) {
@@ -66,4 +78,4 @@ async function routeUnpkg(page) {
     route.fulfill({ status: 200, contentType: 'image/png', body: blank }));
 }
 
-module.exports = { serve, launch, check, fatal, done, ROOT, routeUnpkg };
+module.exports = { serve, launch, check, fatal, done, ROOT, routeUnpkg, LISTS_FIRST };

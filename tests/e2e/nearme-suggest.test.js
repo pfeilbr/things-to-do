@@ -2,7 +2,7 @@
 // EXPECTED TO FAIL until §9 is implemented — the #citySuggest bar does not exist yet.
 // Geolocation needs a real browser CONTEXT (launch()'s patched newPage isn't enough),
 // so each scenario gets a fresh context (which also gives it fresh session/localStorage).
-const { serve, launch, check, fatal, done } = require('./_lib');
+const { serve, launch, check, fatal, done, LISTS_FIRST } = require('./_lib');
 const PORT = 8937, URL = `http://localhost:${PORT}/`;
 
 const SEATTLE  = { latitude: 47.6089, longitude: -122.3401 }; // downtown Seattle
@@ -20,6 +20,7 @@ async function freshPage(browser, geolocation) {
     viewport: { width: 1280, height: 900 },
   });
   context.setDefaultTimeout(15000);
+  await context.addInitScript(LISTS_FIRST);
   const page = await context.newPage();
   page.on('pageerror', e => errors.push(e.message));
   await page.goto(URL, { waitUntil: 'networkidle' });

@@ -19,7 +19,12 @@ const PORT = 8971, URL = `http://localhost:${PORT}/`;
     });
   });
 
+  // nothing can be read, so it opens on the default page: Today
   await page.goto(URL);
+  let today = false;
+  try { await page.waitForSelector('#todayview .tdhero', { timeout: 10000 }); today = true; } catch (e) {}
+  check(today, 'boots on Today with storage blocked');
+  await page.goto(URL + 'index.html?lists=1#tab=attractions');
   let rows = 0;
   try { await page.waitForSelector('#tbody tr.rowmain', { timeout: 10000 }); rows = await page.$$eval('#tbody tr.rowmain', x => x.length); } catch (e) {}
   check(rows > 0, `boots with storage blocked (${rows} rows)`);

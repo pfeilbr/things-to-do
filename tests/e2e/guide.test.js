@@ -15,7 +15,7 @@ const visible = (page, sel) => page.$eval(sel, e => !e.hidden && e.offsetHeight 
   page.on('pageerror', e => errors.push(e.message));
 
   await page.goto(URL, { waitUntil: 'networkidle' });
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => { localStorage.clear(); localStorage.setItem('open-on', 'lists'); });
 
   const guided = await page.evaluate(() => CONFIG.cities.filter(c => c.guide).map(c => c.id));
   if (!guided.length) { await browser.close(); server.close(); fatal('no city has a guide'); }

@@ -139,7 +139,7 @@ test('CI runs the browser e2e suite on PRs', () => {
 
 // transit.js and sw.js are loaded by src, so the inline-script check above never sees them
 test('standalone scripts parse as JavaScript', () => {
-  for (const f of ['transit.js', 'sw.js']) {
+  for (const f of ['transit.js', 'today.js', 'sw.js']) {
     const src = fs.readFileSync(path.join(ROOT, f), 'utf8');
     assert.doesNotThrow(() => new Function(src), `${f} must parse`);
   }
