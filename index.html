@@ -80,11 +80,11 @@ h1{
 .citypick{
   position:relative;display:inline-flex;align-items:center;gap:7px;
   background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);
-  border-radius:8px;padding:6px 11px;max-width:min(46vw,300px);
+  border-radius:8px;padding:6px 11px;max-width:min(46vw,300px);min-width:0;
   transition:background .15s,border-color .15s;
 }
 .citypick:hover,.citypick:focus-within{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5)}
-.citypick .cityname{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.citypick .cityname{font-weight:600;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
 .citypick .caret{opacity:.7;font-size:10px;flex:0 0 auto}
 /* the native select sits invisibly on top, so the control is a real accessible select */
 .citypick select{
@@ -625,7 +625,7 @@ footer a{color:var(--accent-soft)}
 <script src="today.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-12T10:19Z";
+const BUILD = "2026-11-12T10:23Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
