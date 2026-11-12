@@ -59,7 +59,7 @@ for(const [id,lat,lon,rad,tz] of C){ const all=new Map();
   window.__MU[id]=[...all.values()]; }
 window.__MUdone=true;
 let t=document.getElementById('__xfer'); if(!t){t=document.createElement('textarea');t.id='__xfer';t.style.cssText='position:fixed;top:10px;left:10px;width:300px;height:100px;z-index:999999';document.body.appendChild(t);}
-})();"""
+})();"started";"""
 KEYWORDS = ['', 'basketball', 'pickup soccer', 'volleyball', 'pickleball', 'tennis', 'ultimate frisbee', 'run club',
             'bike ride cycling', 'mountain bike', 'rollerblading inline skating', 'roller skating', 'ice skating',
             'climbing bouldering', 'hiking', 'kayak paddle', 'fishing', 'salsa bachata', 'hip hop dance', 'dance party',
