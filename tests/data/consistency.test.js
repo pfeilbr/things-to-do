@@ -73,6 +73,10 @@ const INTENTIONAL_CROSS_TAB = new Set([
   'data-stamford.json|Cove Island Park|spots,fishing',
   'data-stamford.json|Sherwood Island State Park|spots,fishing',
   'data-stamford.json|The Capitol Theatre|spots,nightlife',
+  // Stamford's Coffee tab is the laptop-café list, so the three cafés in `remote` belong in both
+  'data-stamford.json|Humbled Coffeehouse|remote,coffee',
+  'data-stamford.json|NEAT Coffee|remote,coffee',
+  'data-stamford.json|Winfield Street Coffee|remote,coffee',
   // Remote work: a library or public space that is both the outing and a free place to
   // work — listed again in `remote` with the Wi-Fi/hours/booking detail that tab is for
   'data-brooklyn.json|Brooklyn Public Library Central|museums,remote',
