@@ -26,7 +26,7 @@ Each row looks like this:
   skips names already in the file, so land those rows by copying `d`/`t`/`ll` from the `remote`
   row, and write a new summary: the quality suite rejects identical summaries.
 - **`c`**: use ONLY these spellings: `Indie café`, `Roaster`, `Chain café`, `Bakery café`,
-  `Tea house`, `Bookstore café`, `Brewery café`, `Library café`.
+  `Teahouse`, `Bookstore café`, `Brewery café`, `Library café`.
 - **`s`**: 120–380 characters, in the guide's voice. Lead with the address or neighborhood, then
   what matters for working: Wi-Fi (and any time limit or password-on-receipt rule), seats and
   outlets, noise, the laptop policy (some shops ban laptops on weekends: say so), hours when
