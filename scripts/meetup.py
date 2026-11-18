@@ -412,7 +412,7 @@ def curate(RAW, outdir):
 MEETUP_CAP, MEETUP_PER_CAT, MEETUP_PER_GROUP = 40, 6, 2
 MEETUP_RULES = [
     ('Speed dating', 1, r'\b(speed[- ]?dating|matchmak\w*)\b'),
-    ('Singles mixer', 1, r'\b(singles?|dating)\b'),
+    ('Singles mixer', 1, r'\b(singles|single (mingle|mixer|night|professionals)|dating)\b'),
     ('Tech meetup', 1, r'\b(tech|technology|technologists?|ai|a\.i\.|artificial intelligence|machine learning|ml|llms?|gen ?ai|generative|agentic|data science|data engineer\w*|analytics|software|developers?|devs|engineers?|engineering|coding|coders?|programming|python|javascript|typescript|react|rust|golang|java|cloud|aws|azure|kubernetes|devops|cyber ?security|infosec|hackathon|hack night|startups?|product managers?|product management|ux|ui/ux|web3|open source|robotics)\b'),
     ('Pickup sports', 1, r'\b(table tennis|ping ?pong)\b'),
     ('Pickleball', 1, r'\bpickle ?ball\b'),
@@ -442,7 +442,7 @@ MEETUP_RULES = [
 ]
 MEETUP_RULES = [(c, t, re.compile(rx, re.I)) for c, t, rx in MEETUP_RULES]
 # the events-pass exclusions, minus the tech words this tab wants
-MEETUP_EXCLUDE_EXTRA = re.compile(r"\b(therapists?|psychotherap\w*|ceus?|continuing education|ketamine|neurodivergent|adhd|autis\w*|chronic illness|disab\w*|social skills|alpha phi|sorority|fraternity|frat|asian (meetup|professionals?|background|singles|socials?)|invite[- ]only|invitation only|members only|b-?day|birthday|cougars?|cubs|asian background|\w+ background|lady|lady'?s|men'?s|mens|dem|dems|democrats?|republicans?|conservatives?|liberals?|maga|trip|\d+d|\d+[- ]days?|weekend getaway)\b|\(\d+d\)", re.I)
+MEETUP_EXCLUDE_EXTRA = re.compile(r"\b(\d0 ?(plus|\+)|active adults|social anxiety|\w+-?somethings|with pride|pride (center|night|social)|(latino|latina|latinx|black|hispanic|south asian|desi|indian) (professionals?|networking|singles)|therapists?|psychotherap\w*|ceus?|continuing education|ketamine|neurodivergent|adhd|autis\w*|chronic illness|disab\w*|social skills|alpha phi|sorority|fraternity|frat|asian (meetup|professionals?|background|singles|socials?)|invite[- ]only|invitation only|members only|b-?day|birthday|cougars?|cubs|asian background|\w+ background|lady|lady'?s|men'?s|mens|dem|dems|democrats?|republicans?|conservatives?|liberals?|maga|trip|\d+d|\d+[- ]days?|weekend getaway)\b|\(\d+d\)", re.I)
 MEETUP_EXCLUDE = re.compile(EXCLUDE.pattern.replace('business|networking|startup|founders?|investors?|', 'business networking|investors?|')
                             .replace('coding|python|javascript|developers?|AI|LLM|crypto|bitcoin|', 'crypto|bitcoin|blockchain|nft|')
                             .replace('game dev|', '').replace('|career|', '|'), re.I)
@@ -452,7 +452,7 @@ MEETUP_GROUP_OK = {'Pickup sports', 'Pickleball', 'Tennis', 'Mountain biking', '
 
 def classify_meetup(e):
     title, group = e['t'], e['g'] or ''
-    if MEETUP_EXCLUDE.search(f"{title} {group}") or MEETUP_EXCLUDE_EXTRA.search(title):
+    if MEETUP_EXCLUDE.search(f"{title} {group}") or MEETUP_EXCLUDE_EXTRA.search(f"{title} {group}"):
         return None
     for cat, tier, rx in MEETUP_RULES:
         if rx.search(title):
@@ -512,7 +512,7 @@ QUEENS_WORDS = re.compile(r'\b(queens|flushing|forest hills|astoria|long island 
 
 
 # a host's home, or a bare residential street address standing in for a venue name
-PRIVATE = re.compile(r"(\w'?s (house|home|place|apt|apartment|condo|backyard)\b|\b(residence|private home|my (house|home|place))\b|^\s*\d+\s+[\w .]+\b(dr|drive|ln|lane|ct|court|cir|circle|ter|terrace|pl|way|trl)\.?\s*$)", re.I)
+PRIVATE = re.compile(r"(privately|private location|address (provided|given|sent)|\w'?s (house|home|place|apt|apartment|condo|backyard)\b|\b(residence|private home|my (house|home|place))\b|^\s*\d+\s+[\w .]+\b(dr|drive|ln|lane|ct|court|cir|circle|ter|terrace|pl|way|trl)\.?\s*$)", re.I)
 
 
 def meetup_homes(cid, ll, v, CENTERS):
