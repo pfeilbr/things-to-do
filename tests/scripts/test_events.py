@@ -129,6 +129,20 @@ class Commands(unittest.TestCase):
         self.assertEqual(rows[0]['b'], 'Quiet mornings')
         self.assertNotIn('w', rows[0])
 
+    def test_meetup_tab_keeps_going_replaces_and_prunes(self):
+        src = self.root / 'mu.json'
+        mu = lambda n, w, **kw: {'n': n, 'c': 'Hiking club', 's': 'x', 'u': 'https://www.meetup.com/g/events/1/', 'w': w, 'll': [41.03, -74.5], **kw}
+        src.write_text(json.dumps([mu('Old hike', 'Sat 10/3 · 9a', g=12), mu('Next hike', 'Sat 10/17 · 9a', g=8, gm=20),
+                                   mu('Weekly market', 'Sat 10/17 · 9a', g=3)]))   # repeats an events row: skipped
+        self.run_cli('add', 'data-x.json', str(src), '--tab', 'meetup', '--new-tab')
+        rows = self.data()['meetup']
+        self.assertEqual([(r['n'], r['g'], r.get('gm')) for r in rows], [('Old hike', 12, None), ('Next hike', 8, 20)])
+        self.run_cli('prune')
+        self.assertEqual([r['n'] for r in self.data()['meetup']], ['Next hike'])
+        src.write_text(json.dumps([mu('Fresh hike', 'Sun 10/18 · 9a', g=4)]))
+        self.run_cli('add', 'data-x.json', str(src), '--tab', 'meetup', '--replace')
+        self.assertEqual([r['n'] for r in self.data()['meetup']], ['Fresh hike'])
+
     def test_add_to_missing_tab_fails(self):
         with self.assertRaises(SystemExit):
             self.run_cli('add', 'data-y.json', str(self.root / 'nope.json'), '--tab', 'museums')

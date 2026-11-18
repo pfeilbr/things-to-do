@@ -201,6 +201,9 @@ def first_sentences(d, limit=210):
     if not d:
         return ''
     parts = re.split(r'(?<=[.!?])\s+', d)
+    for i in range(len(parts) - 1, 0, -1):                 # "at Mr. B's" is not a sentence end
+        if re.search(r'\b(Mr|Mrs|Ms|Dr|St|Ave|Mt|Ft|vs|No)\.$', parts[i - 1]):
+            parts[i - 1:i + 1] = [parts[i - 1] + ' ' + parts[i]]
     if len(d) >= 480 or not re.search(r'[.!?]$', d):
         parts = parts[:-1]                                   # the API text was cut mid-sentence
     GOOD = re.compile(r'\b(join|every|weekly|class|game|games|run|runs|ride|rides|hike|hikes|dance|dancing|play|level|levels|beginners?|miles?|loop|trail|court|courts|field|park|dj|music|social|friendly|meet|welcome|all|pace|route|lessons?|practice|night|morning|evening|teams?|players?|food|dinner|brunch|menu)\b', re.I)
@@ -214,6 +217,8 @@ def first_sentences(d, limit=210):
         if letters and sum(ch.isupper() for ch in letters) / len(letters) > 0.5:
             continue                                         # skip SHOUTED notices
         if re.search(r'\b(please|rsvp|note|refund|waitlist|cancel\w*|sign[- ]?up|tickets?|venmo|zelle|cash ?app|paypal|contact|call|text|tel|phone|leader|organi[sz]er|host(ed|ing)?|welcome|hello|whatsapp|member(ship)?s? (only|must)|must|introduction|appointment|account|t\.?b\.?d|update|change)\b', p, re.I):
+            continue
+        if p.count(')') != p.count('('):
             continue
         if p.endswith('?') or p.endswith(':') or re.search(r'[!?]\s*[!?]|\(\s*\.|^\W|\b[A-Z]{4,}\b|cross-post|instagram|facebook|telegram|discord|http|\[|\bmembers?\b|deprioriti|\bchanges?\b|^(Both|They|It|That|These|Those|Here|Hi|Hey|Hello)\b', p) or not re.search(r'[a-z]{3}', p):
             continue
@@ -425,9 +430,9 @@ MEETUP_RULES = [
     ('Dance party', 1, r'\b(hip[- ]?hop|r&b|afro ?beats?|dancehall|amapiano|reggaeton|club night|dance party|silent disco)\b'),
     ('Swing dance', 2, r'\b(swing|lindy|west coast swing|two[- ]step)\b'),
     ('Dance class', 2, r'\b(tango|ballroom|line danc\w*|country line|dance (class|lessons?))\b'),
-    ('Chinese culture', 1, r'(中文|华|\b(mandarin|chinese|cantonese|sichuan|szechuan|dim sum|dumplings?|hot ?pot|lunar new year)\b)'),
-    ('Language exchange', 2, r'\b(language exchange|conversation (club|exchange|group|table)|polyglot|let.?s speak|parlons|habla|english and (japanese|spanish|korean|french))\b'),
-    ('Food meetup', 2, r'\b(sushi|omakase|ramen|izakaya|japanese|korean bbq|foodies?|food crawl|food tour|dinner club|supper club)\b'),
+    ('Chinese culture', 1, r'(中文|华|\b(mandarin|chinese|cantonese|sichuan|szechuan|dim sum|xiao ?long ?bao|lunar new year)\b)'),
+    ('Language exchange', 2, r'\b(language exchange|conversation|polyglot|let.?s speak|parlons|habla|english and (japanese|spanish|korean|french))\b'),
+    ('Food meetup', 2, r'\b(sushi|omakase|ramen|izakaya|japanese|korean bbq|hot ?pot|dumplings?|foodies?|food crawl|food tour|dinner club|supper club)\b'),
     ('Social mixer', 2, r'\b(happy hour|mixer|make (new )?friends|new (to|in) (town|the city|\w+)|meet new people|social night|skip the small talk|bar crawl|pub crawl|rooftop)\b'),
     ('Social mixer', 2, r'\b(young professionals|social|socials)\b'),
     ('Trivia night', 3, r'\b(trivia|quiz)\b'),
@@ -436,6 +441,7 @@ MEETUP_RULES = [
 ]
 MEETUP_RULES = [(c, t, re.compile(rx, re.I)) for c, t, rx in MEETUP_RULES]
 # the events-pass exclusions, minus the tech words this tab wants
+MEETUP_EXCLUDE_EXTRA = re.compile(r"\b(invite[- ]only|invitation only|members only|b-?day|birthday|cougars?|cubs|asian background|\w+ background|lady|lady'?s|men'?s|mens|dem|dems|democrats?|republicans?|conservatives?|liberals?|maga|trip|\d+d|\d+[- ]days?|weekend getaway)\b|\(\d+d\)", re.I)
 MEETUP_EXCLUDE = re.compile(EXCLUDE.pattern.replace('business|networking|startup|founders?|investors?|', 'business networking|investors?|')
                             .replace('coding|python|javascript|developers?|AI|LLM|crypto|bitcoin|', 'crypto|bitcoin|blockchain|nft|')
                             .replace('game dev|', '').replace('|career|', '|'), re.I)
@@ -445,17 +451,31 @@ MEETUP_GROUP_OK = {'Pickup sports', 'Pickleball', 'Tennis', 'Mountain biking', '
 
 def classify_meetup(e):
     title, group = e['t'], e['g'] or ''
-    if MEETUP_EXCLUDE.search(f"{title} {group}"):
+    if MEETUP_EXCLUDE.search(f"{title} {group}") or MEETUP_EXCLUDE_EXTRA.search(title):
         return None
     for cat, tier, rx in MEETUP_RULES:
         if rx.search(title):
             return refine(cat, tier, title)
+    # only the group name says what it is: the title has to look like that activity's outing
+    OUTING = re.compile(r'\b(game|games|session|play|open|drop-?in|run|runs|ride|rides|walk|hike|climb|paddle|skate|league|match|clinic|practice|lesson|workout|track|loop|trail|park|preserve|mountain|lake|beach|river|woods|court|courts|field|talk|talks|workshop|demo|show ?& ?tell|meetup|night|hack\w*|build\w*|panel|lightning)\b', re.I)
     for cat, tier, rx in MEETUP_RULES:
         if cat in MEETUP_GROUP_OK and rx.search(group):
-            if re.search(r'\b(beer|happy hour|drinks|party|dinner|brunch|bar|pub|mixer)\b', title, re.I) and cat != 'Tech meetup':
+            if re.search(r'\b(beer|happy hour|drinks|party|dinner|brunch|bar|pub|mixer|funday|social)\b', title, re.I) and cat != 'Tech meetup':
                 return ('Social mixer', 2)
-            return cat, tier
+            return (cat, tier) if OUTING.search(title) else None
     return None
+
+
+WHAT = {'Hiking club': 'Group hike', 'Run club': 'Group run', 'Singles mixer': 'Singles night', 'Pickup sports': 'Pickup game',
+        'Mountain biking': 'Group mountain-bike ride', 'Pickleball': 'Pickleball session', 'Tennis': 'Tennis session',
+        'Climbing meetup': 'Climbing session', 'Skate meetup': 'Group skate', 'Social sports': 'Social sports night',
+        'Board games': 'Board-game night', 'Ski club': 'Ski club outing', 'Chinese culture': 'Chinese-culture meetup',
+        'Food meetup': 'Food meetup', 'Paddling': 'Group paddle'}
+# round-robin order: the interests the owner named first, so each gets a seat before any category gets a second
+PRIORITY = ['Tech meetup', 'Singles mixer', 'Speed dating', 'Mountain biking', 'Hiking club', 'Pickleball', 'Tennis',
+            'Pickup sports', 'Group ride', 'Run club', 'Climbing meetup', 'Skate meetup', 'Ski club', 'Salsa social',
+            'Dance party', 'Social mixer', 'Chinese culture', 'Food meetup', 'Dance class', 'Language exchange',
+            'Social sports', 'Swing dance', 'Paddling', 'Trivia night', 'Board games', 'Karaoke night']
 
 
 def meetup_summary(e, cat):
@@ -470,8 +490,11 @@ def meetup_summary(e, cat):
     cost = f"${fee:g} on Meetup" if fee else 'free to RSVP'
     group = clean_name(e['g'] or 'a local group')
     tail = f"Hosted by {group}" + (f" at {where}" if where else '') + f" · {cost}."
-    s = f"{lead} {tail}".strip() if lead else f"{cat} meetup. {tail}"
+    s = f"{lead} {tail}".strip() if lead else f"{WHAT.get(cat, cat)}. {tail}"
     return s if len(s) <= 300 else s[:299].rsplit(' ', 1)[0] + '…'
+
+
+WEIGHT = {'Tech meetup': 3, 'Singles mixer': 2, 'Hiking club': 2, 'Pickleball': 2, 'Tennis': 2, 'Mountain biking': 2}
 
 
 def curate_meetup(RAW, outdir, only=None):
@@ -490,6 +513,8 @@ def curate_meetup(RAW, outdir, only=None):
             v = e.get('v') or {}
             if v.get('lat') is None or v.get('lon') is None or not e.get('u', '').startswith('https://www.meetup.com/'):
                 continue
+            if re.fullmatch(r'\s*(tbd|tba|n/?a|online|virtual)?\s*', v.get('address') or '', re.I):
+                continue                                         # a placeholder venue geocoded to the city's centre
             cl = classify_meetup(e)
             if not cl:
                 continue
@@ -512,7 +537,7 @@ def curate_meetup(RAW, outdir, only=None):
             if slot in xpost.setdefault(home, {}):
                 k0 = xpost[home][slot]                           # cross-posted by several groups: keep the busiest
                 if (e.get('rs') or 0) > (picked[home][k0]['e'].get('rs') or 0):
-                    picked[home][k0].update(e=e, name=name)
+                    picked[home][k0].update(e=e, name=name, cat=cl[0], tier=cl[1])
                 continue
             key = (re.sub(r'[^a-z0-9]', '', name.lower())[:28], round(ll[0], 3), round(ll[1], 3))
             c = picked[home].get(key)
@@ -529,25 +554,31 @@ def curate_meetup(RAW, outdir, only=None):
     for cid, cands in sorted(picked.items()):
         if only and cid not in only:
             continue
-        L = sorted(cands.values(), key=lambda c: (c['tier'], -min(c['e'].get('rs') or 0, 60)))
-        per, pergroup, keep = collections.Counter(), collections.Counter(), []
-        for c in L:
-            gu = c['e']['gu']
-            if per[c['cat']] >= MEETUP_PER_CAT or pergroup[gu] >= MEETUP_PER_GROUP:
-                continue
+        bycat = collections.defaultdict(list)
+        for c in sorted(cands.values(), key=lambda c: -(c['e'].get('rs') or 0)):
             if c['tier'] == 3 and (c['e'].get('rs') or 0) < 5:
                 continue
-            per[c['cat']] += 1
-            pergroup[gu] += 1
-            keep.append(c)
-            if len(keep) >= MEETUP_CAP:
-                break
+            bycat[c['cat']].append(c)
+        order = [k for k in PRIORITY if k in bycat] + [k for k in bycat if k not in PRIORITY]
+        pergroup, keep = collections.Counter(), []
+        per = collections.Counter()
+        for rnd in range(MEETUP_PER_CAT):                        # round-robin: seats per category per pass
+            for k in order:
+                for _ in range(WEIGHT.get(k, 1)):
+                    while bycat[k] and len(keep) < MEETUP_CAP and per[k] < MEETUP_PER_CAT + WEIGHT.get(k, 1) - 1:
+                        c = bycat[k].pop(0)
+                        if pergroup[c['e']['gu']] < MEETUP_PER_GROUP:
+                            pergroup[c['e']['gu']] += 1
+                            per[k] += 1
+                            keep.append(c)
+                            break
         rows, used, sums = [], set(), set()
         for c in keep:
             e = c['e']
             n = c['name']
             if n in used:
-                n = f"{n} ({clean_name(e['g'])})"[:90]
+                d0 = c['dates'][0]
+                n = f"{n} ({DOW[d0.weekday()]} {d0.month}/{d0.day})"
             used.add(n)
             s = meetup_summary(e, c['cat'])
             if s in sums:
