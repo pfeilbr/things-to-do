@@ -170,6 +170,7 @@ def clean_name(t):
     t = re.sub(r'^.*?sign ?up\s*:\s*', '', t, flags=re.I)
     t = re.sub(r'^\s*(?:(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s*\d{1,2}(?:st|nd|rd|th)?|\d{1,2}/\s*\d{0,2})\s*,?\s*(?:\d{1,2}(?::\d\d)?\s*(?:am|pm|a|p)\b)?\s*[-–~:.]*\s*', '', t, flags=re.I)
     t = re.sub(r'\s*[:\-–]\s*\$[^:]*$|\s*[:,]?\s*\$?\d*\.?\d*\s*off rsvp.*$|\s+rsvp by.*$', '', t, flags=re.I)
+    t = re.sub(r'^\s*/\d+\s+', '', t)
     t = re.sub(r'\((?:\s*)\)', ' ', t)
     t = re.sub(r'\s*\([^)]*[^\x00-\u024f\u2000-\u206f\u3000-\u9fff][^)]*\)?', '', t)
     t = re.sub(r'[|•·]+', ' - ', t)
@@ -412,7 +413,7 @@ MEETUP_CAP, MEETUP_PER_CAT, MEETUP_PER_GROUP = 40, 6, 2
 MEETUP_RULES = [
     ('Speed dating', 1, r'\b(speed[- ]?dating|matchmak\w*)\b'),
     ('Singles mixer', 1, r'\b(singles?|dating)\b'),
-    ('Tech meetup', 1, r'\b(tech|technology|technologists?|ai|a\.i\.|artificial intelligence|machine learning|ml|llms?|gen ?ai|generative|agentic|data science|data engineer\w*|analytics|software|developers?|devs|engineers?|engineering|coding|coders?|programming|python|javascript|typescript|react|rust|golang|java|cloud|aws|azure|kubernetes|devops|cyber ?security|infosec|hackathon|hack night|startups?|founders|product managers?|product management|ux|ui/ux|web3|open source|robotics)\b'),
+    ('Tech meetup', 1, r'\b(tech|technology|technologists?|ai|a\.i\.|artificial intelligence|machine learning|ml|llms?|gen ?ai|generative|agentic|data science|data engineer\w*|analytics|software|developers?|devs|engineers?|engineering|coding|coders?|programming|python|javascript|typescript|react|rust|golang|java|cloud|aws|azure|kubernetes|devops|cyber ?security|infosec|hackathon|hack night|startups?|product managers?|product management|ux|ui/ux|web3|open source|robotics)\b'),
     ('Pickup sports', 1, r'\b(table tennis|ping ?pong)\b'),
     ('Pickleball', 1, r'\bpickle ?ball\b'),
     ('Tennis', 1, r'\btennis\b'),
@@ -423,7 +424,7 @@ MEETUP_RULES = [
     ('Group ride', 1, r'\b(bike|biking|bicycl\w*|cycling|cyclists?|gravel ride|group ride)\b'),
     ('Run club', 1, r'\b(run club|running club|runners?|group run|(social|easy|long|tempo|night|morning|evening|fun|track) run|\d+(\.\d+)? ?mile|\d+k run|5k|10k|jog\w*|fun run|trail run\w*)\b'),
     ('Climbing meetup', 1, r'\b(climb|climbing|rock climb\w*|boulder\w*)\b'),
-    ('Skate meetup', 1, r'\b(rollerblad\w*|inline skat\w*|roller ?skat\w*|ice skat\w*|skate night|skating|roller disco)\b'),
+    ('Skate meetup', 1, r'\b(rollerblad\w*|inline skat\w*|roller ?skat\w*|ice skat\w*|skate night|skates?|skating|roller disco)\b'),
     ('Ski club', 1, r'\b(ski|skiing|snowboard\w*)\b'),
     ('Paddling', 2, r'\b(kayak\w*|paddl\w*|canoe\w*|rowing|dragon boat)\b'),
     ('Salsa social', 1, r'\b(salsa|bachata|kizomba|zouk|merengue|latin danc\w*|latin night|rueda)\b'),
@@ -441,7 +442,7 @@ MEETUP_RULES = [
 ]
 MEETUP_RULES = [(c, t, re.compile(rx, re.I)) for c, t, rx in MEETUP_RULES]
 # the events-pass exclusions, minus the tech words this tab wants
-MEETUP_EXCLUDE_EXTRA = re.compile(r"\b(invite[- ]only|invitation only|members only|b-?day|birthday|cougars?|cubs|asian background|\w+ background|lady|lady'?s|men'?s|mens|dem|dems|democrats?|republicans?|conservatives?|liberals?|maga|trip|\d+d|\d+[- ]days?|weekend getaway)\b|\(\d+d\)", re.I)
+MEETUP_EXCLUDE_EXTRA = re.compile(r"\b(therapists?|psychotherap\w*|ceus?|continuing education|ketamine|neurodivergent|adhd|autis\w*|chronic illness|disab\w*|social skills|alpha phi|sorority|fraternity|frat|asian (meetup|professionals?|background|singles|socials?)|invite[- ]only|invitation only|members only|b-?day|birthday|cougars?|cubs|asian background|\w+ background|lady|lady'?s|men'?s|mens|dem|dems|democrats?|republicans?|conservatives?|liberals?|maga|trip|\d+d|\d+[- ]days?|weekend getaway)\b|\(\d+d\)", re.I)
 MEETUP_EXCLUDE = re.compile(EXCLUDE.pattern.replace('business|networking|startup|founders?|investors?|', 'business networking|investors?|')
                             .replace('coding|python|javascript|developers?|AI|LLM|crypto|bitcoin|', 'crypto|bitcoin|blockchain|nft|')
                             .replace('game dev|', '').replace('|career|', '|'), re.I)
@@ -502,10 +503,16 @@ def safe(t):
     return re.sub(r'javascript:', '', t, flags=re.I)
 
 
+# the neighbourhood guides share events with the Queens guide; their summaries are written from the neighbourhood
+NEAR = {'flushing': 'Close to Flushing', 'foresthills': 'Close to Forest Hills'}
 WEIGHT = {'Tech meetup': 3, 'Singles mixer': 2, 'Hiking club': 2, 'Pickleball': 2, 'Tennis': 2, 'Mountain biking': 2}
 
 
 QUEENS_WORDS = re.compile(r'\b(queens|flushing|forest hills|astoria|long island city|lic|jackson heights|elmhurst|rego park|woodside|sunnyside|corona|bayside|jamaica|ridgewood|kew gardens|fresh meadows|whitestone|college point|maspeth|middle village|ozone park|howard beach|rockaway|douglaston|little neck|glendale)\b', re.I)
+
+
+# a host's home, or a bare residential street address standing in for a venue name
+PRIVATE = re.compile(r"(\w'?s (house|home|place|apt|apartment|condo|backyard)\b|\b(residence|private home|my (house|home|place))\b|^\s*\d+\s+[\w .]+\b(dr|drive|ln|lane|ct|court|cir|circle|ter|terrace|pl|way|trl)\.?\s*$)", re.I)
 
 
 def meetup_homes(cid, ll, v, CENTERS):
@@ -580,6 +587,10 @@ def curate_meetup(RAW, outdir, only=None):
                 continue
             if re.fullmatch(r'\s*(tbd|tba|n/?a|online|virtual)?\s*', v.get('address') or '', re.I):
                 continue                                         # a placeholder venue geocoded to the city's centre
+            if PRIVATE.search(v.get('name') or ''):
+                continue                                         # someone's home: never publish a private address
+            if (e.get('fee') or 0) > 150:
+                continue                                         # a season's league fee or a trip, not a meetup
             cl = classify_meetup(e)
             if not cl:
                 continue
@@ -628,6 +639,8 @@ def curate_meetup(RAW, outdir, only=None):
                 n = f"{n} ({DOW[d0.weekday()]} {d0.month}/{d0.day})"
             used.add(n)
             s = meetup_summary(e, c['cat'])
+            if cid in NEAR:                                       # the same event is also in Queens: say it from here
+                s = f"{NEAR[cid]}: {s[0].lower() + s[1:] if s[:2] != s[:2].upper() else s}"
             if s in sums:
                 s = s[:-1] + f" ({c['dates'][0].strftime('%b')} {c['dates'][0].day})."
             sums.add(s)
