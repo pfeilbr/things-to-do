@@ -421,8 +421,8 @@ MEETUP_RULES = [
     ('Social sports', 2, r'\b(bowling|dodgeball|kickball|cornhole|skee ?ball|bocce)\b'),
     ('Pickup sports', 1, r'\b(pick[- ]?up|basketball|hoops|soccer|footy|futsal|volleyball|badminton|ultimate frisbee|frisbee|softball|flag football|ice hockey|rec league|squash|racquetball|padel)\b'),
     ('Group ride', 1, r'\b(bike|biking|bicycl\w*|cycling|cyclists?|gravel ride|group ride)\b'),
-    ('Run club', 1, r'\b(run club|running club|runners?|group run|\d+k run|5k|10k|jog\w*|fun run|trail run\w*)\b'),
-    ('Climbing meetup', 1, r'\b(climbing|rock climb\w*|boulder\w*)\b'),
+    ('Run club', 1, r'\b(run club|running club|runners?|group run|(social|easy|long|tempo|night|morning|evening|fun|track) run|\d+(\.\d+)? ?mile|\d+k run|5k|10k|jog\w*|fun run|trail run\w*)\b'),
+    ('Climbing meetup', 1, r'\b(climb|climbing|rock climb\w*|boulder\w*)\b'),
     ('Skate meetup', 1, r'\b(rollerblad\w*|inline skat\w*|roller ?skat\w*|ice skat\w*|skate night|skating|roller disco)\b'),
     ('Ski club', 1, r'\b(ski|skiing|snowboard\w*)\b'),
     ('Paddling', 2, r'\b(kayak\w*|paddl\w*|canoe\w*|rowing|dragon boat)\b'),
@@ -491,10 +491,46 @@ def meetup_summary(e, cat):
     group = clean_name(e['g'] or 'a local group')
     tail = f"Hosted by {group}" + (f" at {where}" if where else '') + f" · {cost}."
     s = f"{lead} {tail}".strip() if lead else f"{WHAT.get(cat, cat)}. {tail}"
+    s = safe(s)
     return s if len(s) <= 300 else s[:299].rsplit(' ', 1)[0] + '…'
 
 
+def safe(t):
+    """Data strings land in innerHTML: no tags, no `onfoo=` look-alikes, no script URLs."""
+    t = re.sub(r'[<>]', '', t)
+    t = re.sub(r'\s*=+\s*', ' – ', t)
+    return re.sub(r'javascript:', '', t, flags=re.I)
+
+
 WEIGHT = {'Tech meetup': 3, 'Singles mixer': 2, 'Hiking club': 2, 'Pickleball': 2, 'Tennis': 2, 'Mountain biking': 2}
+
+
+QUEENS_WORDS = re.compile(r'\b(queens|flushing|forest hills|astoria|long island city|lic|jackson heights|elmhurst|rego park|woodside|sunnyside|corona|bayside|jamaica|ridgewood|kew gardens|fresh meadows|whitestone|college point|maspeth|middle village|ozone park|howard beach|rockaway|douglaston|little neck|glendale)\b', re.I)
+
+
+def meetup_homes(cid, ll, v, CENTERS):
+    """The guides an event belongs in. NYC-area: the borough from the venue's own address first (FiDi is
+    Manhattan even though it is close to Barclays), then distance; a Queens event also lands in the Forest
+    Hills or Flushing neighbourhood guide when it is within walking-ish range of it."""
+    if cid not in NYC:
+        return [cid]
+    text = ' '.join(str(v.get(k) or '') for k in ('name', 'address', 'city'))
+    if re.search(r'\b(brooklyn|kings county)\b', text, re.I):
+        boro = 'brooklyn'
+    elif QUEENS_WORDS.search(text):
+        boro = 'queens'
+    elif re.fullmatch(r'\s*(new york|manhattan|new york city|nyc|ny)\s*', v.get('city') or '', re.I):
+        boro = 'nyc'
+    else:
+        boro = home_city(cid, ll, CENTERS)
+        boro = 'queens' if boro in ('foresthills', 'flushing') else boro
+    homes = [boro]
+    if boro == 'queens':
+        for c in ('foresthills', 'flushing'):
+            C = CENTERS[c]
+            if hav(ll, (C['lat'], C['lon'])) <= 3:
+                homes.append(c)
+    return homes
 
 
 def curate_meetup(RAW, outdir, only=None):
@@ -506,6 +542,35 @@ def curate_meetup(RAW, outdir, only=None):
         other_names[cid] = {r['n'].lower() for t, rows in D.items() if t not in ('meetup', 'social') for r in rows}
     picked = collections.defaultdict(dict)
     seen, xpost = set(), {}
+
+    def add_candidate(home, e, cl, ll):
+        cat, tier = cl
+        name = clean_name(e['t'])
+        if len(name) < 4 or name.lower() in other_names[home] or name.lower() in cat.lower():
+            return
+        start, tstr = times(e)
+        slot = (e['dt'], round(ll[0], 3), round(ll[1], 3))
+        key = re.sub(r'[^a-z0-9]', '', name.lower())[:28]   # one series (even cross-posted) = one row
+        if slot in xpost.setdefault(home, {}):
+            k0 = xpost[home][slot]                           # cross-posted by several groups: keep the busiest
+            if k0 != key and (e.get('rs') or 0) > (picked[home][k0]['e'].get('rs') or 0):
+                old = picked[home].pop(k0)
+                if key in picked[home]:                      # the busier post is a series already listed
+                    picked[home][key]['dates'].extend(old['dates'])
+                else:
+                    picked[home][key] = dict(old, e=e, name=name, cat=cl[0], tier=cl[1])
+                for sl, k in xpost[home].items():
+                    if k == k0:
+                        xpost[home][sl] = key
+            return
+        c = picked[home].get(key)
+        if c:
+            c['dates'].append(start)                         # the same meetup again later in the window
+            xpost[home][slot] = key
+            return
+        xpost[home][slot] = key
+        picked[home][key] = dict(e=e, name=name, cat=cat, tier=tier, ll=ll, dates=[start], tstr=tstr)
+
     for cid, evs in RAW.items():
         for e in sorted(evs, key=lambda e: e['dt']):
             if e['id'] in seen:
@@ -523,30 +588,12 @@ def curate_meetup(RAW, outdir, only=None):
                 continue
             if cid == 'stamford' and ll[0] < 40.93:
                 continue                                         # Long Island's north shore: close as the crow flies, not by road
-            home = home_city(cid, ll, CENTERS)
-            C = CENTERS[home]
-            if hav(ll, (C['lat'], C['lon'])) > {'verona': 45, 'philly': 25, 'stamford': 27, 'ac': 30, 'ithaca': 27, 'buffalo': 27, 'cleveland': 27}.get(home, 22):
-                continue
             seen.add(e['id'])
-            cat, tier = cl
-            name = clean_name(e['t'])
-            if len(name) < 4 or name.lower() in other_names[home] or name.lower() in cat.lower():
-                continue
-            start, tstr = times(e)
-            slot = (e['dt'], round(ll[0], 3), round(ll[1], 3))
-            if slot in xpost.setdefault(home, {}):
-                k0 = xpost[home][slot]                           # cross-posted by several groups: keep the busiest
-                if (e.get('rs') or 0) > (picked[home][k0]['e'].get('rs') or 0):
-                    picked[home][k0].update(e=e, name=name, cat=cl[0], tier=cl[1])
-                continue
-            key = (re.sub(r'[^a-z0-9]', '', name.lower())[:28], round(ll[0], 3), round(ll[1], 3))
-            c = picked[home].get(key)
-            if c:
-                c['dates'].append(start)                         # the same meetup again later in the window
-                xpost[home][slot] = key
-                continue
-            xpost[home][slot] = key
-            picked[home][key] = dict(e=e, name=name, cat=cat, tier=tier, ll=ll, dates=[start], tstr=tstr)
+            for home in meetup_homes(cid, ll, v, CENTERS):
+                C = CENTERS[home]
+                if hav(ll, (C['lat'], C['lon'])) > {'verona': 45, 'philly': 25, 'stamford': 27, 'ac': 30, 'ithaca': 27, 'buffalo': 27, 'cleveland': 27}.get(home, 22):
+                    continue
+                add_candidate(home, e, cl, ll)
 
     os.makedirs(outdir, exist_ok=True)
     for f in glob.glob(os.path.join(outdir, '*.meetup.json')):
@@ -586,7 +633,7 @@ def curate_meetup(RAW, outdir, only=None):
             sums.add(s)
             ds = sorted(set(c['dates']))
             w = ' & '.join(f"{DOW[d.weekday()]} {d.month}/{d.day}" for d in ds[:3]) + f" · {c['tstr']}"
-            row = dict(n=n, c=c['cat'], s=s, u=e['u'], ll=c['ll'], w=w, g=int(e.get('rs') or 0))
+            row = dict(n=safe(n), c=c['cat'], s=s, u=e['u'], ll=c['ll'], w=w, g=int(e.get('rs') or 0))
             if e.get('mx') and e['mx'] >= row['g']:
                 row['gm'] = int(e['mx'])
             rows.append(row)
