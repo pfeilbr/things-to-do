@@ -625,7 +625,7 @@ footer a{color:var(--accent-soft)}
 <script src="today.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-17T18:08Z";
+const BUILD = "2026-11-18T09:12Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -700,6 +700,9 @@ const T_WALKS   = {key:"walks",     label:"Walks",        sort:["d",1],    cols:
 const T_SHOPS   = {key:"shops",     label:"Shops",        sort:["d",1],    cols:C_STD};
 const T_DAILY   = {key:"essentials",label:"Essentials",   sort:["d",1],    cols:C_STD};
 const T_EVENTS  = {key:"events",    label:"Events",       sort:["d",1],    cols:C_WHEN};
+// Meetup: in-person meetup.com events (scripts/meetup.py); `g` = RSVPs going, `gm` = cap. `opt`: shown once the city has rows.
+const C_MEET = [C_WHEN[0],C_WHEN[1],C_WHEN[2],{k:"g",label:"Going",type:"num"},C_WHEN[3],C_WHEN[4],C_WHEN[5]];
+const T_MEET    = {key:"meetup",    label:"Meetup",       sort:["g",-1],   cols:C_MEET, opt:1};
 // Skiing: the closest real lifts, within about a two-hour drive. Sorted by drive time,
 // because the honest question is "how far is the nearest snow", not "which is biggest".
 const C_SKI = [
@@ -723,17 +726,17 @@ const T_COFFEE  = {key:"coffee",    label:"Coffee",       sort:["pop",-1], cols:
 // everyday ones, ordered so the things you browse for fun come before the things you only
 // look up when you need them. Dated Events sit second — they rot, so they want to be seen
 // before the evergreen tabs (refreshed per CLAUDE.md).
-const NYC_TABS = [T_SPOTS, T_EVENTS, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY, T_COFFEE, T_WORK,
+const NYC_TABS = [T_SPOTS, T_EVENTS, T_MEET, T_EATS, T_MUSEUM, T_SIGHTS, T_WALKS, T_SHOPS, T_DAILY, T_COFFEE, T_WORK,
                   T_NIGHT, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_ICE, T_SOCIAL];
 
 // A campus guide: you live on the hill for a term, so the everyday tabs earn their place,
 // and Coffee sits third because that is genuinely how the days go.
-const CAMPUS_TABS = [T_SPOTS, T_EVENTS, T_COFFEE, T_EATS, T_NIGHT, T_SIGHTS, T_WALKS,
+const CAMPUS_TABS = [T_SPOTS, T_EVENTS, T_MEET, T_COFFEE, T_EATS, T_NIGHT, T_SIGHTS, T_WALKS,
                      T_MUSEUM, T_SHOPS, T_DAILY, T_WORK, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_ICE, T_SOCIAL];
 
 // The visitor-guide layout: the interest tabs plus dated Events, which sit second because
 // they rot and a trip is usually planned around a show, a game or a holiday run.
-const CITY_TABS = [T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_ICE, T_COFFEE, T_WORK, T_SOCIAL];
+const CITY_TABS = [T_SPOTS, T_EVENTS, T_MEET, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_ICE, T_COFFEE, T_WORK, T_SOCIAL];
 
 const NY_NOTE    = "NY freshwater fishing needs a license; saltwater needs only the free angler registry.";
 const NY_SOURCES = "Data gathered Aug 2026 (events refreshed Nov 2026) from official venue sites, Google Places, Time Out NY, The Infatuation &amp; event calendars.";
@@ -750,7 +753,7 @@ const CONFIG = {
       sources:"Data gathered Sep 2026 (events refreshed Oct 2026) from Google Places, VisitPhilly, Visit Bucks County, LevittownNow, FestivalsInPA, CarCruiseFinder, NPS, PA DCNR, NJ/NY/MD/DE state parks, PFBC stream guides &amp; local calendars; Chinese guide via Yelp, Philly Mag, The Infatuation &amp; PCDC.",
       tabs:[
         {key:"attractions", label:"Attractions", sort:["d",1], cols:C_STD},
-        {key:"events",      label:"Events",      sort:["d",1], cols:C_WHEN},
+        {key:"events",      label:"Events",      sort:["d",1], cols:C_WHEN}, T_MEET,
         T_NIGHT, T_EATS, T_BIKE, T_SKATE, T_ICE, T_SOCIAL, T_FISH, T_CHINESE, T_COFFEE, T_WORK
       ]},
     { id:"foresthills", chip:"FOREST HILLS",
@@ -759,7 +762,7 @@ const CONFIG = {
       trip:"≈1¾ hr drive from home base",
       blurb:"Forest Hills at walking distance: Austin St &amp; the Gardens / everywhere to eat / shops / gas, hardware &amp; the rest of the errands / walks / sights / socials",
       note:NY_NOTE, sources:NY_SOURCES,
-      tabs:[T_SPOTS, T_EVENTS, T_EATS, T_SHOPS, T_DAILY, T_WALKS, T_SIGHTS, T_MUSEUM, T_COFFEE, T_WORK, T_NIGHT, T_CHINESE, T_SKATE, T_ICE, T_SOCIAL] },
+      tabs:[T_SPOTS, T_EVENTS, T_MEET, T_EATS, T_SHOPS, T_DAILY, T_WALKS, T_SIGHTS, T_MUSEUM, T_COFFEE, T_WORK, T_NIGHT, T_CHINESE, T_SKATE, T_ICE, T_SOCIAL] },
     { id:"nyc", chip:"NYC",
       place:"Union Square, Manhattan, NY", placeShort:"New York City", originLabel:"Union Square, Manhattan",
       ns:"nyc", data:"data-nyc.json",
@@ -859,7 +862,7 @@ const CONFIG = {
       blurb:"Stamford &amp; the Gold Coast: Harbor Point &amp; Sound-shore dates / Palace Theatre &amp; holiday-parade events / Bedford St &amp; Port Chester nights / omakase / Westchester \u4e2d\u534e / Long Island Sound stripers / Mianus River MTB / socials",
       note:"CT fishing needs a license for both fresh and salt water (one combined option).",
       sources:"Data gathered Nov 2026 from official venue sites, the Palace Theatre &amp; Stamford Downtown calendars, CT DEEP, ski-area sites, skater guides &amp; roller/ice rink sites, coworking operators &amp; library sites, laptop-café guides, local press &amp; Google Places; venue coordinates via OpenStreetMap.",
-      tabs:[T_SPOTS, T_EVENTS, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_ICE, T_SKI, T_COFFEE, T_WORK, T_SOCIAL] },
+      tabs:[T_SPOTS, T_EVENTS, T_MEET, T_NIGHT, T_EATS, T_CHINESE, T_FISH, T_BIKE, T_SKATE, T_ICE, T_SKI, T_COFFEE, T_WORK, T_SOCIAL] },
     { id:"vb", chip:"VA BEACH",
       place:"Virginia Beach Oceanfront, VA", placeShort:"Virginia Beach", originLabel:"the VB Oceanfront",
       ns:"vb", data:"data-vb.json",
@@ -1058,6 +1061,7 @@ function detailHTML(r){
 
 // The rows the current tab/mode draws from, before any filter is applied. Split out of
 // rows() so the category chips can count against it.
+const going = r => r.g==null ? "—" : r.g+(r.gm?"/"+r.gm:"")+" going";
 function rowsUnfiltered(){
   if(state.allCities) return ALLROWS.slice();
   if(state.tonight){
@@ -1232,6 +1236,7 @@ function render(){
       if(c.k==="d") return `<td>${distCell(r)}</td>`;
       if(c.k==="t"){ const e=eff(r); return `<td><span class="dist">${e.t==null?"—":"~"+e.t+" min"}</span></td>`; }
       if(c.k==="pop") return `<td>${fmtPop(r)}</td>`;
+      if(c.k==="g") return `<td><span class="dist">${going(r)}</span></td>`;
       return "<td></td>";
     }).join("")+"</tr>";
     const det = open ? `<tr class="detail"><td colspan="${cols.length}">${detailHTML(r)}</td></tr>` : "";
@@ -1249,6 +1254,7 @@ function render(){
         ${r.p?`<span class="cost">${r.p}</span>`:""}
         ${r.r!=null?fmtPop(r):""}
         ${r.b?`<span class="crowd">👥 ${r.b}</span>`:""}
+        ${r.g!=null?`<span class="crowd">👥 ${going(r)}</span>`:""}
       </div>
       <div class="summary">${r.s}</div>
       ${open?detailHTML(r):""}
@@ -2064,7 +2070,7 @@ if("serviceWorker" in navigator && location.protocol !== "file:"){
 // tabs and all branding copy are rendered from CONFIG
 function renderTabs(){
   $("tabs").innerHTML = todayTab() + (CITY.guide && GUIDE ? `<button class="gtab" id="guideTab" role="tab" aria-selected="false">✦ Start here</button>` : "")
-    + (CITY.transit && TRANSIT ? `<button class="gtab" id="transitTab" role="tab" aria-selected="false">${TINFO().tab || "🚆 Train"}</button>` : "") + TABS.map(t=>
+    + (CITY.transit && TRANSIT ? `<button class="gtab" id="transitTab" role="tab" aria-selected="false">${TINFO().tab || "🚆 Train"}</button>` : "") + TABS.filter(t=>!t.opt||DATA[t.key]).map(t=>
     `<button class="tab${t.key===state.tab?" active":""}" role="tab" data-tab="${t.key}">${t.label} <span class="cnt" id="cnt-${t.key}"></span></button>`
   ).join("");
   $("tabs").querySelectorAll(".tab").forEach(t=>{

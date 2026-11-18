@@ -6,7 +6,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..', '..');
-const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w', 'p', 'b']);
+const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w', 'p', 'b', 'g', 'gm']);
+// The Meetup tab (scripts/meetup.py) rolls out city by city: any guide may carry it.
+const OPTIONAL_TABS = ['meetup'];
 // Every city carries the two skating tabs (scripts/research/skating-iceskating.md) and Coffee
 // (scripts/research/coffee.md).
 const EVERY_CITY = ['skating', 'iceskating', 'coffee'];
@@ -39,14 +41,14 @@ const swJs = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
 for (const file of dataFiles) {
   test(`${file}: schema`, () => {
     const d = JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
-    const keys = Object.keys(d).sort();
+    const keys = Object.keys(d).filter(k => !OPTIONAL_TABS.includes(k)).sort();
     const layout = LAYOUTS[file] || [...CITY_TABS, 'events']; // every visitor guide carries dated Events
     assert.deepEqual(keys, [...layout].sort(), `${file} tab keys`);
     let rows = 0, withLL = 0;
     for (const [tab, list] of Object.entries(d)) {
       assert.ok(Array.isArray(list), `${tab} is an array`);
       const seen = new Set();
-      const wTab = tab === 'social' || tab === 'events';
+      const wTab = tab === 'social' || tab === 'events' || tab === 'meetup';
       for (const r of list) {
         rows++;
         const id = `${file}/${tab}/${r.n}`;
@@ -71,6 +73,12 @@ for (const file of dataFiles) {
         // ...and its Crowd column: how busy it gets (or "No crowd data yet"), short enough for a cell
         if (tab === 'remote') assert.ok(typeof r.b === 'string' && r.b.length && r.b.length <= 90, `${id}: b (crowd line, <=90 chars) required in remote`);
         else assert.ok(!('b' in r), `${id}: b not allowed in ${tab}`);
+        // the Meetup tab's Going column: RSVP count (and the event's cap, when it has one), only there
+        if (tab === 'meetup') {
+          assert.ok(Number.isInteger(r.g) && r.g >= 0, `${id}: g (RSVPs going) required in meetup`);
+          if ('gm' in r) assert.ok(Number.isInteger(r.gm) && r.gm >= r.g, `${id}: gm=${r.gm}`);
+          assert.match(r.u || '', /^https:\/\/www\.meetup\.com\//, `${id}: u must be the meetup.com event`);
+        } else assert.ok(!('g' in r) && !('gm' in r), `${id}: g/gm not allowed in ${tab}`);
         assert.ok(!seen.has(r.n), `${id}: duplicate name in tab`);
         seen.add(r.n);
       }

@@ -8,7 +8,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..', '..');
-const GRACE_DAYS = { events: 1, social: 45 };
+const GRACE_DAYS = { events: 1, meetup: 1, social: 45 };
 const MS_DAY = 86400000;
 
 function lastExplicitDate(w, now) {
@@ -46,7 +46,7 @@ const dataFiles = fs.readdirSync(ROOT).filter(f => /^data.*\.json$/.test(f)).sor
 
 for (const file of dataFiles) {
   const d = JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
-  for (const tab of ['events', 'social']) {
+  for (const tab of ['events', 'meetup', 'social']) {
     if (!d[tab]) continue;
     test(`${file}/${tab}: no stale one-off dates`, () => {
       const stale = [];

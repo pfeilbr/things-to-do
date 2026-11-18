@@ -45,7 +45,7 @@ def centers():
     return out
 
 
-SNIPPET = r"""(async()=>{window.__MU={};window.__MUdone=false;
+SNIPPET = r"""(async()=>{window.__MU=window.__MU||{};window.__MUdone=false;
 const C=%(cities)s;
 const KW=%(kw)s;
 const q=`query($f: EventSearchFilter!,$a:String){ eventSearch(filter:$f, first:100, after:$a){ pageInfo{hasNextPage endCursor} edges{ node{ id title dateTime endTime eventUrl isOnline venue{name address city lat lon} group{name urlname} rsvps{totalCount} maxTickets feeSettings{amount currency} series{description} description } } } }`;
@@ -65,14 +65,20 @@ KEYWORDS = ['', 'basketball', 'pickup soccer', 'volleyball', 'pickleball', 'tenn
             'climbing bouldering', 'hiking', 'kayak paddle', 'fishing', 'salsa bachata', 'hip hop dance', 'dance party',
             'nightlife', 'singles mixer', 'speed dating', 'happy hour social', 'sushi', 'japanese food',
             'dumplings dim sum hot pot', 'chinese mandarin', 'language exchange', 'foodies dinner', 'skiing snowboard',
-            'trivia', 'karaoke', 'bowling', 'social']
+            'trivia', 'karaoke', 'bowling', 'social',
+            # the Meetup tab adds tech and singles, and asks for the named sports by name
+            'tech', 'AI', 'software developers', 'data science', 'startup tech', 'hackathon', 'product design UX',
+            'singles', 'dating', 'mountain biking', 'trail running', 'tennis', 'pickleball', 'hiking group']
 
 
-def snippet(start, days):
+def snippet(start, days, only=None):
+    kw = list(dict.fromkeys(KEYWORDS))
     C = centers()
+    if only:
+        C = {c: v for c, v in C.items() if c in only}
     end = (date.fromisoformat(start) + timedelta(days=days - 1)).isoformat()
     cities = [[c, v['lat'], v['lon'], RADIUS.get(c, 15), UTC_OFFSET.get(c, '-05:00')] for c, v in C.items()]
-    return SNIPPET % dict(cities=json.dumps(cities), kw=json.dumps(KEYWORDS), start=start, end=end)
+    return SNIPPET % dict(cities=json.dumps(cities), kw=json.dumps(kw), start=start, end=end)
 
 
 # ---------------------------------------------------------------- classification
@@ -393,25 +399,198 @@ def curate(RAW, outdir):
         print(f"{cid:12} events {len(ev):3} social {len(so):3}  {dict(cats.most_common(6))}")
 
 
+# ================================================================ the Meetup tab
+# A dedicated tab per city (key `meetup`): the next three weeks of in-person meetup.com events
+# the owner is into, each with its RSVP count (`g`) and cap (`gm`). Wider than the events pass:
+# tech meetups and singles events are in, and the named sports get categories of their own.
+MEETUP_CAP, MEETUP_PER_CAT, MEETUP_PER_GROUP = 40, 6, 2
+MEETUP_RULES = [
+    ('Speed dating', 1, r'\b(speed[- ]?dating|matchmak\w*)\b'),
+    ('Singles mixer', 1, r'\b(singles?|dating)\b'),
+    ('Tech meetup', 1, r'\b(tech|technology|technologists?|ai|a\.i\.|artificial intelligence|machine learning|ml|llms?|gen ?ai|generative|agentic|data science|data engineer\w*|analytics|software|developers?|devs|engineers?|engineering|coding|coders?|programming|python|javascript|typescript|react|rust|golang|java|cloud|aws|azure|kubernetes|devops|cyber ?security|infosec|hackathon|hack night|startups?|founders|product managers?|product management|ux|ui/ux|web3|open source|robotics)\b'),
+    ('Pickup sports', 1, r'\b(table tennis|ping ?pong)\b'),
+    ('Pickleball', 1, r'\bpickle ?ball\b'),
+    ('Tennis', 1, r'\btennis\b'),
+    ('Mountain biking', 1, r'\b(mtb|mountain bik\w*|singletrack|single track)\b'),
+    ('Hiking club', 1, r'\b(hike|hikes|hiking|hikers?|trail walk|backpack\w*)\b'),
+    ('Social sports', 2, r'\b(bowling|dodgeball|kickball|cornhole|skee ?ball|bocce)\b'),
+    ('Pickup sports', 1, r'\b(pick[- ]?up|basketball|hoops|soccer|footy|futsal|volleyball|badminton|ultimate frisbee|frisbee|softball|flag football|ice hockey|rec league|squash|racquetball|padel)\b'),
+    ('Group ride', 1, r'\b(bike|biking|bicycl\w*|cycling|cyclists?|gravel ride|group ride)\b'),
+    ('Run club', 1, r'\b(run club|running club|runners?|group run|\d+k run|5k|10k|jog\w*|fun run|trail run\w*)\b'),
+    ('Climbing meetup', 1, r'\b(climbing|rock climb\w*|boulder\w*)\b'),
+    ('Skate meetup', 1, r'\b(rollerblad\w*|inline skat\w*|roller ?skat\w*|ice skat\w*|skate night|skating|roller disco)\b'),
+    ('Ski club', 1, r'\b(ski|skiing|snowboard\w*)\b'),
+    ('Paddling', 2, r'\b(kayak\w*|paddl\w*|canoe\w*|rowing|dragon boat)\b'),
+    ('Salsa social', 1, r'\b(salsa|bachata|kizomba|zouk|merengue|latin danc\w*|latin night|rueda)\b'),
+    ('Dance party', 1, r'\b(hip[- ]?hop|r&b|afro ?beats?|dancehall|amapiano|reggaeton|club night|dance party|silent disco)\b'),
+    ('Swing dance', 2, r'\b(swing|lindy|west coast swing|two[- ]step)\b'),
+    ('Dance class', 2, r'\b(tango|ballroom|line danc\w*|country line|dance (class|lessons?))\b'),
+    ('Chinese culture', 1, r'(中文|华|\b(mandarin|chinese|cantonese|sichuan|szechuan|dim sum|dumplings?|hot ?pot|lunar new year)\b)'),
+    ('Language exchange', 2, r'\b(language exchange|conversation (club|exchange|group|table)|polyglot|let.?s speak|parlons|habla|english and (japanese|spanish|korean|french))\b'),
+    ('Food meetup', 2, r'\b(sushi|omakase|ramen|izakaya|japanese|korean bbq|foodies?|food crawl|food tour|dinner club|supper club)\b'),
+    ('Social mixer', 2, r'\b(happy hour|mixer|make (new )?friends|new (to|in) (town|the city|\w+)|meet new people|social night|skip the small talk|bar crawl|pub crawl|rooftop)\b'),
+    ('Social mixer', 2, r'\b(young professionals|social|socials)\b'),
+    ('Trivia night', 3, r'\b(trivia|quiz)\b'),
+    ('Karaoke night', 3, r'\bkaraoke\b'),
+    ('Board games', 3, r'\b(board ?games?|game night)\b'),
+]
+MEETUP_RULES = [(c, t, re.compile(rx, re.I)) for c, t, rx in MEETUP_RULES]
+# the events-pass exclusions, minus the tech words this tab wants
+MEETUP_EXCLUDE = re.compile(EXCLUDE.pattern.replace('business|networking|startup|founders?|investors?|', 'business networking|investors?|')
+                            .replace('coding|python|javascript|developers?|AI|LLM|crypto|bitcoin|', 'crypto|bitcoin|blockchain|nft|')
+                            .replace('game dev|', '').replace('|career|', '|'), re.I)
+MEETUP_GROUP_OK = {'Pickup sports', 'Pickleball', 'Tennis', 'Mountain biking', 'Hiking club', 'Group ride', 'Run club',
+                   'Climbing meetup', 'Skate meetup', 'Ski club', 'Paddling', 'Tech meetup', 'Singles mixer'}
+
+
+def classify_meetup(e):
+    title, group = e['t'], e['g'] or ''
+    if MEETUP_EXCLUDE.search(f"{title} {group}"):
+        return None
+    for cat, tier, rx in MEETUP_RULES:
+        if rx.search(title):
+            return refine(cat, tier, title)
+    for cat, tier, rx in MEETUP_RULES:
+        if cat in MEETUP_GROUP_OK and rx.search(group):
+            if re.search(r'\b(beer|happy hour|drinks|party|dinner|brunch|bar|pub|mixer)\b', title, re.I) and cat != 'Tech meetup':
+                return ('Social mixer', 2)
+            return cat, tier
+    return None
+
+
+def meetup_summary(e, cat):
+    v = e.get('v') or {}
+    lead = first_sentences(clean_desc(e.get('d')), 150)
+    if len(lead) < 40 or re.search(r'\b(waitlist\w*|regulars)\b', lead, re.I):
+        lead = ''
+    where = (v.get('name') or '').strip(' ,.-')
+    if v.get('city') and v['city'].lower() not in where.lower():
+        where = f"{where}, {v['city']}" if where else v['city']
+    fee = e.get('fee')
+    cost = f"${fee:g} on Meetup" if fee else 'free to RSVP'
+    group = clean_name(e['g'] or 'a local group')
+    tail = f"Hosted by {group}" + (f" at {where}" if where else '') + f" · {cost}."
+    s = f"{lead} {tail}".strip() if lead else f"{cat} meetup. {tail}"
+    return s if len(s) <= 300 else s[:299].rsplit(' ', 1)[0] + '…'
+
+
+def curate_meetup(RAW, outdir, only=None):
+    CENTERS = centers()
+    data_file = {c['id']: c['file'] for c in CENTERS.values()}
+    other_names = {}
+    for cid, f in data_file.items():
+        D = json.load(open(os.path.join(REPO, f)))
+        other_names[cid] = {r['n'].lower() for t, rows in D.items() if t not in ('meetup', 'social') for r in rows}
+    picked = collections.defaultdict(dict)
+    seen, xpost = set(), {}
+    for cid, evs in RAW.items():
+        for e in sorted(evs, key=lambda e: e['dt']):
+            if e['id'] in seen:
+                continue
+            v = e.get('v') or {}
+            if v.get('lat') is None or v.get('lon') is None or not e.get('u', '').startswith('https://www.meetup.com/'):
+                continue
+            cl = classify_meetup(e)
+            if not cl:
+                continue
+            ll = [round(v['lat'], 4), round(v['lon'], 4)]
+            if not (24 < ll[0] < 50 and -130 < ll[1] < -60) or (abs(ll[0]) < 1 and abs(ll[1]) < 1):
+                continue
+            if cid == 'stamford' and ll[0] < 40.93:
+                continue                                         # Long Island's north shore: close as the crow flies, not by road
+            home = home_city(cid, ll, CENTERS)
+            C = CENTERS[home]
+            if hav(ll, (C['lat'], C['lon'])) > {'verona': 45, 'philly': 25, 'stamford': 27, 'ac': 30, 'ithaca': 27, 'buffalo': 27, 'cleveland': 27}.get(home, 22):
+                continue
+            seen.add(e['id'])
+            cat, tier = cl
+            name = clean_name(e['t'])
+            if len(name) < 4 or name.lower() in other_names[home] or name.lower() in cat.lower():
+                continue
+            start, tstr = times(e)
+            slot = (e['dt'], round(ll[0], 3), round(ll[1], 3))
+            if slot in xpost.setdefault(home, {}):
+                k0 = xpost[home][slot]                           # cross-posted by several groups: keep the busiest
+                if (e.get('rs') or 0) > (picked[home][k0]['e'].get('rs') or 0):
+                    picked[home][k0].update(e=e, name=name)
+                continue
+            key = (re.sub(r'[^a-z0-9]', '', name.lower())[:28], round(ll[0], 3), round(ll[1], 3))
+            c = picked[home].get(key)
+            if c:
+                c['dates'].append(start)                         # the same meetup again later in the window
+                xpost[home][slot] = key
+                continue
+            xpost[home][slot] = key
+            picked[home][key] = dict(e=e, name=name, cat=cat, tier=tier, ll=ll, dates=[start], tstr=tstr)
+
+    os.makedirs(outdir, exist_ok=True)
+    for f in glob.glob(os.path.join(outdir, '*.meetup.json')):
+        os.remove(f)
+    for cid, cands in sorted(picked.items()):
+        if only and cid not in only:
+            continue
+        L = sorted(cands.values(), key=lambda c: (c['tier'], -min(c['e'].get('rs') or 0, 60)))
+        per, pergroup, keep = collections.Counter(), collections.Counter(), []
+        for c in L:
+            gu = c['e']['gu']
+            if per[c['cat']] >= MEETUP_PER_CAT or pergroup[gu] >= MEETUP_PER_GROUP:
+                continue
+            if c['tier'] == 3 and (c['e'].get('rs') or 0) < 5:
+                continue
+            per[c['cat']] += 1
+            pergroup[gu] += 1
+            keep.append(c)
+            if len(keep) >= MEETUP_CAP:
+                break
+        rows, used, sums = [], set(), set()
+        for c in keep:
+            e = c['e']
+            n = c['name']
+            if n in used:
+                n = f"{n} ({clean_name(e['g'])})"[:90]
+            used.add(n)
+            s = meetup_summary(e, c['cat'])
+            if s in sums:
+                s = s[:-1] + f" ({c['dates'][0].strftime('%b')} {c['dates'][0].day})."
+            sums.add(s)
+            ds = sorted(set(c['dates']))
+            w = ' & '.join(f"{DOW[d.weekday()]} {d.month}/{d.day}" for d in ds[:3]) + f" · {c['tstr']}"
+            row = dict(n=n, c=c['cat'], s=s, u=e['u'], ll=c['ll'], w=w, g=int(e.get('rs') or 0))
+            if e.get('mx') and e['mx'] >= row['g']:
+                row['gm'] = int(e['mx'])
+            rows.append(row)
+        stem = data_file[cid][:-5]
+        json.dump(rows, open(os.path.join(outdir, f'{stem}.meetup.json'), 'w'), ensure_ascii=False, indent=1)
+        cats = collections.Counter(r['c'] for r in rows)
+        print(f"{cid:12} meetup {len(rows):3}  going {sum(r['g'] for r in rows):5}  {dict(cats.most_common(8))}")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest='cmd', required=True)
     s = sub.add_parser('snippet', help='print the Chrome JavaScript that pulls the events')
     s.add_argument('--start', default=date.today().isoformat())
     s.add_argument('--days', type=int, default=7)
+    s.add_argument('--cities', help='comma-separated city ids (default: every guide)')
     c = sub.add_parser('curate', help='turn a raw pull into importable rows')
     c.add_argument('raw', nargs='+', help='raw pull(s); later files add to earlier ones')
     c.add_argument('outdir')
+    c.add_argument('--tab', choices=['events', 'meetup'], default='events',
+                   help='events: the Nov 2026 events/social pass; meetup: the dedicated Meetup tab')
+    c.add_argument('--cities', help='comma-separated city ids to write (default: all in the pull)')
     a = ap.parse_args(argv)
     if a.cmd == 'snippet':
-        print(snippet(a.start, a.days))
+        print(snippet(a.start, a.days, a.cities and a.cities.split(',')))
         return 0
     raw = {}
     for f in a.raw:
         for k, v in json.load(open(f)).items():
             ids = {e['id'] for e in raw.get(k, [])}
             raw.setdefault(k, []).extend(e for e in v if e['id'] not in ids)
-    curate(raw, a.outdir)
+    if a.tab == 'meetup':
+        curate_meetup(raw, a.outdir, a.cities and a.cities.split(','))
+    else:
+        curate(raw, a.outdir)
     return 0
 
 

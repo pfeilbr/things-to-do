@@ -87,7 +87,8 @@ test('no unvetted duplicate rows across tabs of one city', () => {
   for (const f of files) {
     const d = load(f);
     const where = new Map();
-    for (const [tab, rows] of Object.entries(d))
+    // the Meetup tab is a dated snapshot of meetup.com: it may repeat a weekly series from Social
+    for (const [tab, rows] of Object.entries(d)) if (tab !== 'meetup')
       for (const r of rows) where.set(r.n, [...(where.get(r.n) || []), tab]);
     for (const [name, tabs] of where) {
       if (tabs.length < 2) continue;

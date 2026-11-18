@@ -120,23 +120,29 @@ def cmd_prune(root, today, dry):
     total = 0
     for p in event_files(root):
         data, pretty = load(p)
-        gone = [r['n'] for r in data['events'] if (l := last_explicit_date(r['w'], today)) and l < today]
-        if not gone:
-            continue
-        total += len(gone)
-        print(f'{p.name}: pruning {len(gone)}: ' + '; '.join(gone))
-        if not dry:
-            data['events'] = [r for r in data['events'] if r['n'] not in set(gone)]
+        changed = False
+        for tab in PRUNE_TABS:
+            if tab not in data:
+                continue
+            gone = [r['n'] for r in data[tab] if (l := last_explicit_date(r['w'], today)) and l < today]
+            if not gone:
+                continue
+            total += len(gone)
+            print(f'{p.name}{"" if tab == "events" else " " + tab}: pruning {len(gone)}: ' + '; '.join(gone))
+            data[tab] = [r for r in data[tab] if r['n'] not in set(gone)]
+            changed = True
+        if changed and not dry:
             save(p, data, pretty)
     print(f'{total} past event(s) {"would be " if dry else ""}removed')
 
 
 REQUIRED = ('n', 'c', 's', 'u', 'll')
-WHEN_TABS = ('events', 'social')        # tabs with a When column: rows need a `w` string
+WHEN_TABS = ('events', 'social', 'meetup')  # tabs with a When column: rows need a `w` string
+PRUNE_TABS = ('events', 'meetup')       # dated one-offs: dropped once their last date passes
 COST_TABS = ('remote',)                 # Remote work: rows need a `p` cost string and a `b` crowd line
 
 
-def cmd_add(root, file, src, dry, tab='events', new_tab=False):
+def cmd_add(root, file, src, dry, tab='events', new_tab=False, replace=False):
     path = root / file
     data, pretty = load(path)
     if tab not in data:
@@ -144,9 +150,12 @@ def cmd_add(root, file, src, dry, tab='events', new_tab=False):
         if not new_tab:
             raise SystemExit(f'{file} has no {tab} tab (pass --new-tab to start one)')
         data[tab] = []
+    if replace:                                 # a fresh snapshot (the Meetup tab): drop the old rows first
+        data[tab] = []
     required = REQUIRED + (('w',) if tab in WHEN_TABS else ()) + (('p', 'b') if tab in COST_TABS else ())
     existing = [r for rows in data.values() for r in rows]
-    names = {r['n'] for r in existing}
+    # the Meetup tab is a dated meetup.com snapshot: it may repeat a weekly series from Social
+    names = {r['n'] for t, rows in data.items() if not (tab == 'meetup' and t == 'social') for r in rows}
     origin, rms = fit_origin(existing)
     if rms > 0.5:
         raise SystemExit(f'{file}: origin fit is poor (rms {rms:.2f} mi) — check the baked distances')
@@ -165,6 +174,10 @@ def cmd_add(root, file, src, dry, tab='events', new_tab=False):
             new['w'] = r['w']
         if tab in COST_TABS:
             new['p'], new['b'] = r['p'], r['b']
+        if tab == 'meetup':                     # Going column: RSVPs, and the cap when there is one
+            new['g'] = int(r.get('g') or 0)
+            if r.get('gm'):
+                new['gm'] = int(r['gm'])
         data[tab].append(new)
         names.add(r['n']); added += 1
     if not dry:
@@ -175,7 +188,7 @@ def cmd_add(root, file, src, dry, tab='events', new_tab=False):
 IMPORT_NAME = re.compile(r'(data(?:-[a-z0-9]+)?)\.([a-z]+)\.json')
 
 
-def cmd_import(root, src_dir, dry, new_tab):
+def cmd_import(root, src_dir, dry, new_tab, replace=False):
     files = sorted(pathlib.Path(src_dir).glob('*.json'))
     if not files:
         raise SystemExit(f'{src_dir}: no row files')
@@ -186,7 +199,7 @@ def cmd_import(root, src_dir, dry, new_tab):
         target = m.group(1) + '.json'
         if not (root / target).exists():
             raise SystemExit(f'{f.name}: no {target} in {root}')
-        cmd_add(root, target, f, dry, m.group(2), new_tab)
+        cmd_add(root, target, f, dry, m.group(2), new_tab, replace)
 
 
 def cmd_coverage(root, tabs, minimum):
@@ -212,8 +225,10 @@ def main(argv=None):
     ad = sub.add_parser('add'); ad.add_argument('file'); ad.add_argument('rows'); ad.add_argument('--dry-run', action='store_true')
     ad.add_argument('--tab', default='events', help='tab to append to (default: events)')
     ad.add_argument('--new-tab', action='store_true', help='create --tab if the file lacks it')
+    ad.add_argument('--replace', action='store_true', help='drop the tab\'s rows first (a fresh Meetup snapshot)')
     im = sub.add_parser('import'); im.add_argument('dir'); im.add_argument('--dry-run', action='store_true')
     im.add_argument('--new-tab', action='store_true', help='create each file\'s tab if missing')
+    im.add_argument('--replace', action='store_true', help='drop each tab\'s rows first (a fresh Meetup snapshot)')
     co = sub.add_parser('coverage'); co.add_argument('--tab', action='append', required=True)
     co.add_argument('--min', type=int, default=1, help='fewest rows a tab may have (default 1)')
     a = ap.parse_args(argv)
@@ -222,11 +237,11 @@ def main(argv=None):
     elif a.cmd == 'prune':
         cmd_prune(a.root, a.today, a.dry_run)
     elif a.cmd == 'import':
-        cmd_import(a.root, a.dir, a.dry_run, a.new_tab)
+        cmd_import(a.root, a.dir, a.dry_run, a.new_tab, a.replace)
     elif a.cmd == 'coverage':
         return cmd_coverage(a.root, a.tab, a.min)
     else:
-        cmd_add(a.root, a.file, a.rows, a.dry_run, a.tab, a.new_tab)
+        cmd_add(a.root, a.file, a.rows, a.dry_run, a.tab, a.new_tab, a.replace)
 
 
 if __name__ == '__main__':
