@@ -625,7 +625,7 @@ footer a{color:var(--accent-soft)}
 <script src="today.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-18T12:03Z";
+const BUILD = "2026-11-19T12:00Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -750,7 +750,7 @@ const CONFIG = {
       ns:"wg", data:"data.json",
       blurb:"Attractions within a ~3\u00bd-hr drive / events (Oct 12 \u2013 Dec 22 2026, holiday runs into Jan) / nightlife &amp; dance floors / sushi / MTB / fishing / Chinese guide \u4e2d\u534e",
       note:"Fishing requires a PA license (+ trout stamp on stocked water).",
-      sources:"Data gathered Sep 2026 (events refreshed Oct 2026) from Google Places, VisitPhilly, Visit Bucks County, LevittownNow, FestivalsInPA, CarCruiseFinder, NPS, PA DCNR, NJ/NY/MD/DE state parks, PFBC stream guides &amp; local calendars; Chinese guide via Yelp, Philly Mag, The Infatuation &amp; PCDC.",
+      sources:"Data gathered Sep 2026 (events refreshed Nov 2026) from Google Places, VisitPhilly, Visit Bucks County, LevittownNow, FestivalsInPA, CarCruiseFinder, NPS, PA DCNR, NJ/NY/MD/DE state parks, PFBC stream guides &amp; local calendars; Chinese guide via Yelp, Philly Mag, The Infatuation &amp; PCDC.",
       tabs:[
         {key:"attractions", label:"Attractions", sort:["d",1], cols:C_STD},
         {key:"events",      label:"Events",      sort:["d",1], cols:C_WHEN}, T_MEET,
