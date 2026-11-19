@@ -386,7 +386,7 @@ def curate(RAW, outdir):
                 row['w'] = f"{dd} · {c['tstr']}"
                 so.append(row)
             else:
-                ds = sorted(set(c['dates']))
+                ds = sorted({getattr(d, 'date', lambda: d)() for d in c['dates']})   # one entry per calendar day
                 row['w'] = ' & '.join(f"{DOW[d.weekday()]} {d.month}/{d.day}" for d in ds[:3]) + f" · {c['tstr']}"
                 ev.append(row)
         out[cid] = (ev, so)
@@ -644,7 +644,7 @@ def curate_meetup(RAW, outdir, only=None):
             if s in sums:
                 s = s[:-1] + f" ({c['dates'][0].strftime('%b')} {c['dates'][0].day})."
             sums.add(s)
-            ds = sorted(set(c['dates']))
+            ds = sorted({getattr(d, 'date', lambda: d)() for d in c['dates']})   # one entry per calendar day
             w = ' & '.join(f"{DOW[d.weekday()]} {d.month}/{d.day}" for d in ds[:3]) + f" · {c['tstr']}"
             row = dict(n=safe(n), c=c['cat'], s=s, u=e['u'], ll=c['ll'], w=w, g=int(e.get('rs') or 0))
             if e.get('mx') and e['mx'] >= row['g']:
