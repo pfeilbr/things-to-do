@@ -625,7 +625,7 @@ footer a{color:var(--accent-soft)}
 <script src="today.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-20T09:49Z";
+const BUILD = "2026-11-20T09:57Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -718,8 +718,8 @@ const T_SKI     = {key:"skiing",    label:"Skiing",       sort:["t",1],    cols:
 // rinks; ice is public-skate rinks. Researched per scripts/research/skating-iceskating.md.
 const T_SKATE   = {key:"skating",   label:"Rollerblading",sort:["d",1],    cols:C_STD};
 const T_ICE     = {key:"iceskating",label:"Ice skating",  sort:["d",1],    cols:C_STD};
-// Pickleball (scripts/research/pickleball.md): courts, indoor clubs, open play; shown once a city has rows.
-const T_PICKLE  = {key:"pickleball",label:"Pickleball",   sort:["d",1],    cols:C_STD, opt:1};
+// Pickleball, on every city (scripts/research/pickleball.md): courts, indoor clubs, open play.
+const T_PICKLE  = {key:"pickleball",label:"Pickleball",   sort:["d",1],    cols:C_STD};
 // Coffee, on every city: popular cafés with Wi-Fi you can work from (Wi-Fi, seats, noise,
 // laptop policy and hours in each summary), per scripts/research/coffee.md. Ithaca's is the
 // campus-café guide instead, and sits third in CAMPUS_TABS.

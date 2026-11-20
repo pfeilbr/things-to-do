@@ -8,10 +8,10 @@ const path = require('node:path');
 const ROOT = path.join(__dirname, '..', '..');
 const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w', 'p', 'b', 'g', 'gm']);
 // The Meetup tab (scripts/meetup.py) rolls out city by city: any guide may carry it.
-const OPTIONAL_TABS = ['meetup', 'pickleball'];
+const OPTIONAL_TABS = ['meetup'];
 // Every city carries the two skating tabs (scripts/research/skating-iceskating.md) and Coffee
-// (scripts/research/coffee.md).
-const EVERY_CITY = ['skating', 'iceskating', 'coffee'];
+// (scripts/research/coffee.md) and Pickleball (scripts/research/pickleball.md).
+const EVERY_CITY = ['skating', 'iceskating', 'coffee', 'pickleball'];
 const PHILLY_TABS = ['attractions', 'events', 'nightlife', 'eats', 'biking', 'social', 'fishing', 'chinese', 'remote', ...EVERY_CITY];
 const CITY_TABS = ['spots', 'nightlife', 'eats', 'chinese', 'fishing', 'biking', 'remote', 'social', ...EVERY_CITY];
 // The NYC-area guides carry the everyday-life tabs on top of the interest tabs (see
