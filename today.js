@@ -84,6 +84,7 @@ function fetchWeather(c, ll){
 const MOVES = [
   {tab:"biking",     icon:"🚲", label:"Ride",        out:true, indoor:/indoor|velodrome/i},
   {tab:"skating",    icon:"🛼", label:"Rollerblade", out:true, indoor:/indoor/i},
+  {tab:"pickleball", icon:"🏓", label:"Pickleball",  out:true, indoor:/indoor|bar/i},
   {tab:"iceskating", icon:"⛸️", label:"Ice skate",   indoor:/indoor/i},
   {tab:"skiing",     icon:"⛷️", label:"Ski",         months:[12,1,2,3]},
   {tab:"walks",      icon:"🚶", label:"Walk",        out:true},
@@ -93,6 +94,7 @@ const MOVES = [
 const SEASON = {
   biking:    [1,1,2,3,3,3,3,3,3,3,2,1], skating:[1,1,2,3,3,3,3,3,3,3,2,1],
   iceskating:[3,3,2,1,1,1,1,1,1,1,3,3], skiing: [3,3,2,0,0,0,0,0,0,0,1,3],
+  pickleball:[1,1,2,3,3,3,3,3,3,2,2,1],
   walks:     [1,1,2,2,2,2,2,2,2,3,2,1], fishing:[0,0,1,2,3,3,2,2,3,3,1,0]
 };
 const ACTIVE = /pickup|sport|ride|run|skate|skating|climb|hik|paddl|fish|ski|league|volleyball|fitness|bike|cycl|walk|soccer|basketball|tennis|pickleball|kayak|row|rink/i;

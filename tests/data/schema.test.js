@@ -8,7 +8,7 @@ const path = require('node:path');
 const ROOT = path.join(__dirname, '..', '..');
 const ALLOWED = new Set(['n', 'c', 's', 'd', 't', 'u', 'r', 'rc', 'll', 'w', 'p', 'b', 'g', 'gm']);
 // The Meetup tab (scripts/meetup.py) rolls out city by city: any guide may carry it.
-const OPTIONAL_TABS = ['meetup'];
+const OPTIONAL_TABS = ['meetup', 'pickleball'];
 // Every city carries the two skating tabs (scripts/research/skating-iceskating.md) and Coffee
 // (scripts/research/coffee.md).
 const EVERY_CITY = ['skating', 'iceskating', 'coffee'];
