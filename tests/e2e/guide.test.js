@@ -13,6 +13,13 @@ const visible = (page, sel) => page.$eval(sel, e => !e.hidden && e.offsetHeight 
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
+  // The guided city (Stamford) also has a live train board that polls the MTA feed, and the
+  // page fetches fonts and weather. Left to the real network, a slow host from a CI runner
+  // keeps `networkidle` from ever settling and the goto times out — so answer them locally.
+  await page.route(/api-endpoint\.mta\.info/, r => r.abort());          // board falls back to the timetable
+  await page.route('https://api.open-meteo.com/**', r => r.abort());
+  await page.route('https://fonts.googleapis.com/**', r => r.fulfill({ status: 200, contentType: 'text/css', body: '' }));
+  await page.route('https://fonts.gstatic.com/**', r => r.abort());
 
   await page.goto(URL, { waitUntil: 'networkidle' });
   await page.evaluate(() => { localStorage.clear(); localStorage.setItem('open-on', 'lists'); });
