@@ -29,7 +29,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CAP = 40
 # search radius in miles: neighbourhood guides tight, metro guides wide
 RADIUS = {'foresthills': 4, 'flushing': 4, 'queens': 7, 'brooklyn': 6, 'nyc': 5, 'philly': 20, 'ithaca': 25,
-          'verona': 45, 'stamford': 25, 'boston': 10, 'la': 20, 'ac': 30, 'vb': 20, 'buffalo': 25, 'cleveland': 25}
+          'verona': 45, 'stamford': 25, 'greenwich': 15, 'boston': 10, 'la': 20, 'ac': 30, 'vb': 20, 'buffalo': 25, 'cleveland': 25}
 UTC_OFFSET = {'chicago': '-06:00', 'nashville': '-06:00', 'la': '-08:00', 'sf': '-08:00', 'seattle': '-08:00', 'sandiego': '-08:00'}
 
 
@@ -308,11 +308,11 @@ def curate(RAW, outdir):
             ll = [round(v['lat'], 4), round(v['lon'], 4)]
             if not (24 < ll[0] < 50 and -130 < ll[1] < -60):
                 continue
-            if cid == 'stamford' and ll[0] < 40.93:
+            if cid in ('stamford', 'greenwich') and ll[0] < 40.93:
                 continue                                         # Long Island's north shore: close as the crow flies, not by road
             home = home_city(cid, ll, CENTERS)
             C = CENTERS[home]
-            if hav(ll, (C['lat'], C['lon'])) > {'verona': 45, 'philly': 25, 'stamford': 27, 'ac': 30, 'ithaca': 27, 'buffalo': 27, 'cleveland': 27}.get(home, 22):
+            if hav(ll, (C['lat'], C['lon'])) > {'verona': 45, 'philly': 25, 'stamford': 27, 'greenwich': 16, 'ac': 30, 'ithaca': 27, 'buffalo': 27, 'cleveland': 27}.get(home, 22):
                 continue
             names, urls = existing[home]
             if e['gu'] and f"meetup.com/{e['gu']}" in urls:
@@ -504,7 +504,8 @@ def safe(t):
 
 
 # the neighbourhood guides share events with the Queens guide; their summaries are written from the neighbourhood
-NEAR = {'flushing': 'Close to Flushing', 'foresthills': 'Close to Forest Hills'}
+NEAR = {'flushing': 'Close to Flushing', 'foresthills': 'Close to Forest Hills',
+        'greenwich': 'Close to Greenwich'}   # its events are Stamford's too
 WEIGHT = {'Tech meetup': 3, 'Singles mixer': 2, 'Hiking club': 2, 'Pickleball': 2, 'Tennis': 2, 'Mountain biking': 2}
 
 
@@ -597,12 +598,12 @@ def curate_meetup(RAW, outdir, only=None):
             ll = [round(v['lat'], 4), round(v['lon'], 4)]
             if not (24 < ll[0] < 50 and -130 < ll[1] < -60) or (abs(ll[0]) < 1 and abs(ll[1]) < 1):
                 continue
-            if cid == 'stamford' and ll[0] < 40.93:
+            if cid in ('stamford', 'greenwich') and ll[0] < 40.93:
                 continue                                         # Long Island's north shore: close as the crow flies, not by road
             seen.add(e['id'])
             for home in meetup_homes(cid, ll, v, CENTERS):
                 C = CENTERS[home]
-                if hav(ll, (C['lat'], C['lon'])) > {'verona': 45, 'philly': 25, 'stamford': 27, 'ac': 30, 'ithaca': 27, 'buffalo': 27, 'cleveland': 27}.get(home, 22):
+                if hav(ll, (C['lat'], C['lon'])) > {'verona': 45, 'philly': 25, 'stamford': 27, 'greenwich': 16, 'ac': 30, 'ithaca': 27, 'buffalo': 27, 'cleveland': 27}.get(home, 22):
                     continue
                 add_candidate(home, e, cl, ll)
 

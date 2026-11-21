@@ -32,6 +32,8 @@ const LAYOUTS = {
   'data-ithaca.json': [...CITY_TABS, ...NYC_EXTRA],
   // Stamford is a visitor guide with the first Skiing tab.
   'data-stamford.json': [...CITY_TABS, 'events', 'skiing'],
+  // Greenwich: the home-city layout plus Stamford's Skiing tab.
+  'data-greenwich.json': [...CITY_TABS, ...NYC_EXTRA, 'skiing'],
 };
 
 const dataFiles = fs.readdirSync(ROOT).filter(f => /^data.*\.json$/.test(f)).sort();
