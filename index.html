@@ -589,7 +589,7 @@ footer a{color:var(--accent-soft)}
   </select>
   <select id="sortSelect" class="mobile-sort" aria-label="Sort by"></select>
   <button id="tonightBtn" class="ctlbtn" aria-pressed="false" title="Everything happening today in this city, across all tabs">☀ Tonight <span id="tonightCnt" class="cnt">0</span></button>
-  <button id="todayBtn" class="ctlbtn" aria-pressed="false" title="Events happening today first, nearest first" hidden>☀ Today</button>
+  <button id="todayBtn" class="ctlbtn" aria-pressed="false" title="Only what is on today, incl. runs that span today" hidden>☀ On today <span id="todayCnt" class="cnt">0</span></button>
   <button id="favToggle" class="ctlbtn" aria-pressed="false" title="Show favorites only">★ Favs</button>
   <button id="geoToggle" class="ctlbtn" aria-pressed="false" title="Recompute distances from your current location (stays on your device)">📍 Near me</button>
   <button id="mapToggle" class="ctlbtn" aria-pressed="false" title="Map view">🗺 Map</button>
@@ -625,7 +625,7 @@ footer a{color:var(--accent-soft)}
 <script src="today.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-21T11:49Z";
+const BUILD = "2026-11-22T01:31Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -989,7 +989,7 @@ const skey     = n => CITY.ns+"-"+n;                            // per-city stor
 let DATA = {};          // active city's dataset — see CONFIG above
 const DATACACHE = {};   // cityId -> dataset, so switching back is instant
 
-let state = { tab:null, q:"", cat:"", maxT:"", maxD:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false, allCities:false, guide:false, fromGuide:false, transit:false };
+let state = { tab:null, q:"", cat:"", maxT:"", maxD:"", sortKey:"d", sortDir:1, fav:false, view:"list", item:null, tonight:false, now:false, allCities:false, guide:false, fromGuide:false, transit:false };
 let favs = new Set();   // per-city; loaded in activateCity()
 let userLoc = null;
 
@@ -1064,8 +1064,7 @@ function detailHTML(r){
   </div>`;
 }
 
-// The rows the current tab/mode draws from, before any filter is applied. Split out of
-// rows() so the category chips can count against it.
+// The current tab/mode's rows before any filter, so the category chips count against them.
 const going = r => r.g==null ? "—" : r.g+(r.gm?"/"+r.gm:"")+" going";
 function rowsUnfiltered(){
   if(state.allCities) return ALLROWS.slice();
@@ -1083,6 +1082,7 @@ function rows(){
   const q = state.q.trim().toLowerCase();
   if(q) list = list.filter(r => (r.n+" "+(r.c||"")+" "+(r.s||"")+" "+(r.w||"")+" "+(r.p||"")+" "+(r.b||"")).toLowerCase().includes(q));
   if(state.cat) list = list.filter(r => r.c === state.cat);
+  if(state.now && hasWhen() && !state.tonight) list = list.filter(r => happensToday(r.w)); // "On today"
   if(state.maxT) list = list.filter(r => { const t = eff(r).t; return t != null && t <= +state.maxT; });
   if(state.maxD) list = list.filter(r => { const d = eff(r).d; return d != null && d <= +state.maxD; });
   if(state.fav) list = list.filter(r => favs.has(rkey(r)));
@@ -1272,7 +1272,8 @@ function render(){
   if(mapMode) renderMap(list);
   $("empty").hidden = list.length>0 || mapMode;
   $("todayBtn").hidden = state.tonight || !hasWhen();
-  $("todayBtn").setAttribute("aria-pressed", state.sortKey==="today");
+  $("todayBtn").setAttribute("aria-pressed", state.now);
+  $("todayCnt").textContent = (DATA[state.tab]||[]).filter(r=>happensToday(r.w)).length;
   $("tonightCnt").textContent = Object.values(DATA).flat().filter(r=>r.w && happensToday(r.w)).length;
   renderXfind();
   renderGlobalFavs();
@@ -1591,10 +1592,9 @@ $("catChips").addEventListener("click", e => {
   render();
 });
 
-// tabs whose rows carry a When string (`w` column) get the "today first" sort
+// tabs with a When (`w`) column get the "today first" sort and the On today filter
 const hasWhen = () => COLS[state.tab].some(c=>c.k==="w");
-// One escape hatch for every filter at once — with a chip bar, a search box, a distance
-// band and a favourites toggle in play it is easy to end up staring at an empty table.
+// One escape hatch for every filter at once, so an over-filtered empty table is one tap from full.
 function activeFilters(){
   const on = [];
   if(state.q.trim()) on.push(`“${state.q.trim()}”`);
@@ -1602,6 +1602,7 @@ function activeFilters(){
   if(state.maxD) on.push(`≤ ${state.maxD} mi`);
   if(state.maxT) on.push(`≤ ${state.maxT} min`);
   if(state.fav) on.push("favorites");
+  if(state.now && hasWhen()) on.push("on today");
   return on;
 }
 function drawClear(){
@@ -1618,7 +1619,7 @@ function drawClear(){
   btn.textContent = `clear: ${on.join(" · ")} ✕`;
 }
 function clearFilters(){
-  state.q = ""; state.cat = ""; state.maxT = ""; state.maxD = ""; state.fav = false;
+  state.q = ""; state.cat = ""; state.maxT = ""; state.maxD = ""; state.fav = false; state.now = false;
   $("q").value = ""; $("distFilter").value = "";
   $("favToggle").setAttribute("aria-pressed","false");
   if(state.allCities) exitAllCities(); else render();
@@ -1637,11 +1638,7 @@ $("sortSelect").addEventListener("change",e=>{
   state.sortKey = k; state.sortDir = +d;
   render();
 });
-$("todayBtn").addEventListener("click",()=>{
-  if(state.sortKey==="today"){ const [k,d]=defSort(state.tab); state.sortKey=k; state.sortDir=d; }
-  else { state.sortKey="today"; state.sortDir=1; }
-  syncSort(); render();
-});
+$("todayBtn").addEventListener("click",()=>{ state.now = !state.now; render(); });
 
 // ---- cross-tab search hints: "also N matches in <tab>" -------------------------------
 function renderXfind(){
@@ -2033,6 +2030,7 @@ function syncHash(){
   if(!(state.sortKey==="d"&&state.sortDir===1)) p.set("s",state.sortKey+":"+state.sortDir);
   if(state.fav) p.set("fav","1");
   if(state.tonight) p.set("tonight","1");
+  if(state.now) p.set("now","1");
   if(state.view==="map") p.set("view","map");
   if(state.item) p.set("item", slugify(keyParts(state.item)[1]));
   if(state.guide && !state.item && !state.transit) p.set("guide","1");
@@ -2048,6 +2046,7 @@ function readHash(){
   if(p.get("mi")) state.maxD = p.get("mi");
   if(p.get("s")){ const [k,d]=p.get("s").split(":"); state.sortKey=k; state.sortDir=+d||1; }
   if(p.get("fav")) state.fav = true;
+  if(p.get("now")) state.now = true;
   if(p.get("tonight")){ state.tonight = true; state.sortKey="d"; state.sortDir=1; }
   if(p.get("view")==="map") state.view = "map";
   if(p.get("guide") && CITY.guide) state.guide = true;
@@ -2126,11 +2125,11 @@ async function applyHash(){
     if(!await loadCity(cityById(cid))) return;
   }
   const [hk,hd]=defSort(HOME);
-  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", maxD:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false, guide:false, fromGuide:false, transit:false, today:false});
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", maxD:"", sortKey:hk, sortDir:hd, fav:false, view:"list", item:null, tonight:false, now:false, guide:false, fromGuide:false, transit:false, today:false});
   const cat = readHash();
   // first time in a city that has a guide: open on it, unless the link asked for something specific
   const hp = new URLSearchParams(location.hash.slice(1));
-  if(!["tab","item","q","tonight","fav","view","cat","train","guide","t","mi","s"].some(k=>hp.has(k))){
+  if(!["tab","item","q","tonight","now","fav","view","cat","train","guide","t","mi","s"].some(k=>hp.has(k))){
     if(wantsToday()) state.today = true; else if(wantsGuide()) state.guide = true;
   }
   if(cat){ state.cat = cat; }
@@ -2184,7 +2183,7 @@ async function switchCity(id, opts={}){
   if(!await loadCity(c)) return;
   const [sk,sd] = defSort(HOME);
   // keepFav: jumping from the global favorites list should land with ★ still on
-  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:!!opts.keepFav, item:null, tonight:false,
+  Object.assign(state, {tab:HOME, q:"", cat:"", maxT:"", sortKey:sk, sortDir:sd, fav:!!opts.keepFav, item:null, tonight:false, now:false,
                         today:!opts.keepFav && wantsToday(), guide:!opts.keepFav && !wantsToday() && wantsGuide(), fromGuide:false, transit:false});
   $("q").value=""; $("distFilter").value="";
   $("favToggle").setAttribute("aria-pressed", state.fav);
