@@ -9,7 +9,7 @@ const ROOT = path.join(__dirname, '..', '..');
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
 
 test('every target="_blank" link carries rel="noopener" (no window.opener handoff)', () => {
-  for (const f of ['index.html', 'transit.js']) {
+  for (const f of ['index.html', 'transit.js', 'cal.js']) {
     const bad = [...read(f).matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)]
       .map(m => m[0]).filter(tag => !/\brel="[^"]*\bnoopener\b/.test(tag));
     assert.deepEqual(bad, [], `${f}: _blank links without rel="noopener"`);
