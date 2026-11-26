@@ -128,7 +128,7 @@ EXCLUDE = re.compile(r'''\b(poker|holdem|hold'?em|plo|omaha|bible|church|worship
 def classify(e):
     title, group = e['t'], e['g'] or ''
     full = f"{title} {group} {e.get('d') or ''}"
-    if EXCLUDE.search(f"{title} {group}"):
+    if EXCLUDE.search(f"{title} {group}") or ZOOM_DATING.search(full):
         return None
     # the title decides; the group name only breaks a tie (a ski club's beer night is a social)
     GROUP_OK = ('Pickup sports', 'Run club', 'Group ride', 'Skate meetup', 'Climbing meetup', 'Hiking club',
@@ -442,7 +442,9 @@ MEETUP_RULES = [
 ]
 MEETUP_RULES = [(c, t, re.compile(rx, re.I)) for c, t, rx in MEETUP_RULES]
 # the events-pass exclusions, minus the tech words this tab wants
-MEETUP_EXCLUDE_EXTRA = re.compile(r"\b(cancell?ed|postponed|sale on|promo code|one night|overnight|walkthrough|open house|blerds?|\d0 ?(plus|\+)|active adults|social anxiety|\w+-?somethings|with pride|pride (center|night|social)|(latino|latina|latinx|black|hispanic|south asian|desi|indian) (professionals?|networking|singles)|therapists?|psychotherap\w*|ceus?|continuing education|ketamine|neurodivergent|adhd|autis\w*|chronic illness|disab\w*|social skills|alpha phi|sorority|fraternity|frat|asian (meetup|professionals?|background|singles|socials?)|invite[- ]only|invitation only|members only|b-?day|birthday|cougars?|cubs|asian background|\w+ background|lady|lady'?s|men'?s|mens|dem|dems|democrats?|republicans?|conservatives?|liberals?|maga|trip|\d+d|\d+[- ]days?|weekend getaway|singles speed social|youth|teens?|college students|christians?|east ?& ?west|celiac|gluten[- ]free|ladies|women'?s?|holistic|millennials?|xennials?|gen z|\d0'?s ?- ?\d0'?s|speed dating for (introverts|shy)|shy singles|ivy league|graduate (or professional )?degrees?|young (professionals|& successful)|queers?|gays?|persians?|african[- ]american|black (adventure|collective)|psychedelic|intuitives?|covid|secular|textquilting)\b|ᗯᗩᑎ|\(\d+d\)", re.I)
+MEETUP_EXCLUDE_EXTRA = re.compile(r"\b(cancell?ed|postponed|sale on|promo code|one night|overnight|walkthrough|open house|blerds?|\d0 ?(plus|\+)|active adults|social anxiety|\w+-?somethings|with pride|pride (center|night|social)|(latino|latina|latinx|black|hispanic|south asian|desi|indian) (professionals?|networking|singles)|therapists?|psychotherap\w*|ceus?|continuing education|ketamine|neurodivergent|adhd|autis\w*|chronic illness|disab\w*|social skills|alpha phi|sorority|fraternity|frat|asian (meetup|professionals?|background|singles|socials?)|invite[- ]only|invitation only|members only|b-?day|birthday|cougars?|cubs|asian background|\w+ background|lady|lady'?s|men'?s|mens|dem|dems|democrats?|republicans?|conservatives?|liberals?|maga|trip|\d+d|\d+[- ]days?|weekend getaway|singles speed social|youth|teens?|college students|christians?|east ?& ?west|celiac|gluten[- ]free|ladies|women'?s?|holistic|millennials?|xennials?|gen z|\d0['’]?s ?[-–] ?\d0['’]?s|\d0 and over|swipe-free|speed dating for (introverts|shy)|shy singles|ivy league|graduate (or professional )?degrees?|young (professionals|& successful)|queers?|gays?|persians?|african[- ]american|black (adventure|collective)|psychedelic|intuitives?|covid|secular|textquilting)\b|ᗯᗩᑎ|Ⓒ|\(\d+d\)", re.I)
+# Zoom speed-dating promos cross-posted by unrelated groups at a bare street address (Nov 2026)
+ZOOM_DATING = re.compile(r"\b(on zoom|via zoom|from (your )?home|from your (couch|living room)|your living room|couch[- ]friendly|cozy couch|virtual speed dating|online speed dating|faceless speed dating)\b", re.I)
 MEETUP_EXCLUDE = re.compile(EXCLUDE.pattern.replace('business|networking|startup|founders?|investors?|', 'business networking|investors?|')
                             .replace('coding|python|javascript|developers?|AI|LLM|crypto|bitcoin|', 'crypto|bitcoin|blockchain|nft|')
                             .replace('game dev|', '').replace('|career|', '|'), re.I)
@@ -452,7 +454,8 @@ MEETUP_GROUP_OK = {'Pickup sports', 'Pickleball', 'Tennis', 'Mountain biking', '
 
 def classify_meetup(e):
     title, group = e['t'], e['g'] or ''
-    if MEETUP_EXCLUDE.search(f"{title} {group}") or MEETUP_EXCLUDE_EXTRA.search(f"{title} {group}"):
+    if (MEETUP_EXCLUDE.search(f"{title} {group}") or MEETUP_EXCLUDE_EXTRA.search(f"{title} {group}")
+            or ZOOM_DATING.search(f"{title} {e.get('d') or ''}")):
         return None
     for cat, tier, rx in MEETUP_RULES:
         if rx.search(title):
