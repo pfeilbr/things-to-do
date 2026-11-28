@@ -626,7 +626,7 @@ footer a{color:var(--accent-soft)}
 <script src="cal.js"></script>
 <script>
 // bump on every deploy; the check below auto-reloads visitors on stale copies
-const BUILD = "2026-11-28T08:35Z";
+const BUILD = "2026-11-28T08:38Z";
 // (after the page has loaded, so it never competes with the city data for bandwidth)
 if(location.protocol !== "file:") addEventListener("load", () => setTimeout(() => {
   fetch(location.pathname, {cache:"no-store"}).then(r=>r.text()).then(html=>{
@@ -1275,7 +1275,7 @@ function render(){
   $("todayBtn").hidden = state.tonight || !hasWhen();
   $("todayBtn").setAttribute("aria-pressed", state.now);
   $("todayCnt").textContent = (DATA[state.tab]||[]).filter(r=>happensToday(r.w)).length;
-  $("tonightCnt").textContent = Object.values(DATA).flat().filter(r=>r.w && happensToday(r.w)).length;
+  $("tonightCnt").textContent = new Set(Object.values(DATA).flat().filter(r=>r.w && happensToday(r.w)).map(r=>r.n)).size; // one per name, like the Tonight list
   renderXfind();
   renderGlobalFavs();
   $("showing").textContent = state.allCities

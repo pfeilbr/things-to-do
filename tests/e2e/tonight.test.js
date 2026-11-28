@@ -4,7 +4,7 @@ const PORT = 8932, URL = `http://localhost:${PORT}/`;
 
 async function assertTonight(page, label) {
   const expected = await page.evaluate(() =>
-    Object.values(DATA).flat().filter(r => r.w && happensToday(r.w)).length);
+    new Set(Object.values(DATA).flat().filter(r => r.w && happensToday(r.w)).map(r => r.n)).size); // the list shows one row per name
   const shown = await page.$$eval('#tbody tr.rowmain', els => els.length);
   check(shown === expected, `${label}: renders ${shown} rows == expected happensToday count ${expected}`);
   const showing = await page.$eval('#showing', e => e.textContent);

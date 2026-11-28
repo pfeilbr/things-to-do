@@ -5,7 +5,7 @@ const PORT = 8936, URL = `http://localhost:${PORT}/`;
 // In-page expected count: rows across the ACTIVE city's tabs with w && happensToday(w).
 function expectedCount(page) {
   return page.evaluate(() =>
-    Object.values(DATA).flat().filter(r => r.w && happensToday(r.w)).length);
+    new Set(Object.values(DATA).flat().filter(r => r.w && happensToday(r.w)).map(r => r.n)).size); // the list shows one row per name
 }
 
 async function badgeText(page) {
